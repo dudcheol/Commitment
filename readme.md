@@ -1,4 +1,4 @@
-# A308 한디니 Project
+# Commit your moment, Commitment
 
 ## :globe_with_meridians:Subpjt02 :globe_with_meridians:
 
