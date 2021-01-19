@@ -1,4 +1,4 @@
-package com.web.commitmemt.config;
+package com.web.commitment.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
