@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,6 +49,13 @@ public class UserController {
 
 		return user;
 	}
+	
+	@GetMapping("/account/info")
+	@ApiOperation(value = "회원정보불러오기")
+	public Object user(@RequestParam(required = true) final String email) {
+		User user = userDao.getUserByEmail(email);
+		return user;
+	}
 
 	@DeleteMapping("/account/delete")
 	@ApiOperation(value = "회원탈퇴")
@@ -62,4 +70,5 @@ public class UserController {
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
 }
