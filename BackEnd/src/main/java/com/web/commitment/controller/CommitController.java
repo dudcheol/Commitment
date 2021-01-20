@@ -39,8 +39,6 @@ public class CommitController {
     public String commit(@Valid @RequestBody User user, @PathVariable int open) {
         
     	// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
-		final BasicResponse result = new BasicResponse();
-		
 		try {
 			Commit commit = new Commit();
 			commit.setEmail(user.getEmail());
@@ -49,11 +47,13 @@ public class CommitController {
 			commit.setOpen(open);
 			 
 	        int emailResult = userDao.countByEmail(user.getEmail());
-	        Optional<User> getUser = userDao.findByLatAndLng(user.getLat(), user.getLng());
-	        System.out.println(getUser);
+	        
+	        // 현재 위치에 이미 커밋한 정보가 있으면 넣지 않는다.
+	        Optional<Commit> getCommit = commitDao.findByLatAndLng(user.getLat(), user.getLng());
+	        System.out.println(getCommit);
 	        
 	        // 해당 lat, lng 값을 가진 user가 있으면 X
-	        if(emailResult != 0 && getUser.isPresent()) { 
+	        if(emailResult != 0 && !getCommit.isPresent()) { 
 	        	System.out.println(user);
 	        	commitDao.save(commit);
 	        	return "success";
