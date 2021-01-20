@@ -130,21 +130,7 @@ public class UserController {
 		Optional<User> user = userDao.findUserByNickname(nickname);
 		Map<String, String> hm = new HashMap<>();
 
-		if (user.isPresent()) {//중복되면 fail
-			hm.put("data", "fail");
-			return hm;
-		}
-		hm.put("data", "success");
-		return hm;
-	}
-	
-	@GetMapping("/account/emailCheck")
-	@ApiOperation(value = "이메일 중복체크")
-	public Map<String, String> emailCheck(@RequestParam(required = true) final String email) throws IOException {
-		User user = userDao.findUserByEmail(email);
-		Map<String, String> hm = new HashMap<>();
-		
-		if (user!=null) {//중복되면 fail
+		if (user.isPresent()) {
 			hm.put("data", "fail");
 			return hm;
 		}
