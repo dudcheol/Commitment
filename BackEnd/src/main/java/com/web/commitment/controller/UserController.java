@@ -137,8 +137,8 @@ public class UserController {
 		hm.put("data", "success");
 		return hm;
 	}
-	
-	//네이버 메일 사용
+
+	// 네이버 메일 사용
 	@GetMapping("/account/smtp")
 	@ApiOperation(value = "smtp")
 	@Transactional
@@ -149,7 +149,7 @@ public class UserController {
 		String host = "smtp.naver.com";
 		String id = "1693013"; // 자신의 네이버 계정
 		String password = "best81264";// 자신의 네이버 패스워드
-		
+
 		// 메일 받을 주소
 		String to_email = email;
 
@@ -180,7 +180,7 @@ public class UserController {
 			}
 		}
 		String AuthenticationKey = temp.toString();
-		user.setAuthkey(AuthenticationKey);//인증키 저장
+		user.setAuthkey(AuthenticationKey);// 인증키 저장
 		userDao.save(user);
 		System.out.println(AuthenticationKey);
 		userDao.AuthkeyUpdate(to_email, AuthenticationKey);// 테이블에 KEY 저장
@@ -214,19 +214,34 @@ public class UserController {
 		}
 		return AuthenticationKey;
 	}
-	
+
 	@GetMapping("/user/signUpConfirm")
 	@ApiOperation(value = "메일 인증 확인")
-	@Transactional
 	public void signUpConfirm(@RequestParam(required = true) final String email,
 			@RequestParam(required = true) final String authKey, HttpServletResponse response) throws IOException {
 		// 해당 이메일 권한 허용 authStatus 업데이트
-		Optional<User> userOpt = userDao.findUserByEmailAndAuthkey(email, authKey);//인증키 일치하는지 확인
-		if(userOpt.isPresent()) {
-			userDao.AuthUpdate(email);//인증 했다고 체크
-			response.sendRedirect("http://localhost:8082/#/user/mailCheck");//회원가입이 완료되었습니다 페이지로 이동
-		}else
+		Optional<User> userOpt = userDao.findUserByEmailAndAuthkey(email, authKey);// 인증키 일치하는지 확인
+		if (userOpt.isPresent()) {
+			userDao.AuthUpdate(email);// 인증 했다고 체크
+			response.sendRedirect("http://localhost:8082/#/user/mailCheck");// 회원가입이 완료되었습니다 페이지로 이동
+		} else
 			response.sendRedirect("http://localhost:8082/#/404");
+	}
+
+	@GetMapping("/user/loaction")
+	@ApiOperation(value = "현재위치설정")
+	public Object loaction(@RequestParam(required = true) final String email, @RequestParam(required = true) final String lat,
+			@RequestParam(required = true) final String lng) throws IOException {
+		User user = userDao.getUserByEmail(email);
+		user.setLat(lat);
+		user.setLng(lng);
+		userDao.save(user);
+
+		final BasicResponse result = new BasicResponse();
+		result.status = true;
+		result.data = "success";
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 }
