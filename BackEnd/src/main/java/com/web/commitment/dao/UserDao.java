@@ -13,5 +13,7 @@ public interface UserDao extends JpaRepository<User, String> {
 	Optional<User> findUserByEmail(String email);
 
 	int countByEmail(String email);
+
+	Optional<User> findByLatAndLng(String lat, String lng);
 	
 }

@@ -38,7 +38,7 @@ public class CommitController {
 	// CRUD 중 C만
     @PostMapping("/commit/{open}")
     @ApiOperation(value = "커밋하기")
-    public Object commit(@Valid @RequestBody User user, @PathVariable int open) {
+    public int commit(@Valid @RequestBody User user, @PathVariable int open) {
         
     	// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		final BasicResponse result = new BasicResponse();
@@ -51,25 +51,25 @@ public class CommitController {
 			commit.setOpen(open);
 			 
 	        int emailResult = userDao.countByEmail(user.getEmail());
-	
-	        if(emailResult != 0) {
+	        Optional<User> getUser = userDao.findByLatAndLng(user.getLat(), user.getLng());
+	        System.out.println(getUser);
+	        
+	        if(emailResult != 0 && getUser.isPresent()) {
 	        	System.out.println(user);
 	        	commitDao.save(commit);
-	        	result.status = true;
-	        	result.data = "success";	
+	        	return 1;
 	        } else {
 	        	result.status = true;
 	        	result.data = "fail";
+	        	return 0;
 	        }
 		} catch(Exception e) {
 			e.printStackTrace();
-			result.status = false;
-			result.data = "fail";
+			return 0;
 		}
-        
-    	return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
     }
-    
+
+	// 커밋 불러오는 방법
 //	@GetMapping("/commit")
 //    @ApiOperation(value = "유저의 커밋 정보 불러오기")
 //    public List<Commit> commit(@RequestParam(required = true) final String email) {
