@@ -115,7 +115,7 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@GetMapping("/account/uidCheck")
+	@GetMapping("/account/nickCheck")
 	@ApiOperation(value = "닉네임 중복체크")
 	public Map<String, String> uidCheck(@RequestParam(required = true) final String nickname) throws IOException {
 		Optional<User> user = userDao.findUserByNickname(nickname);
