@@ -2,11 +2,15 @@ package com.web.commitment.dao;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.User;
-
 
 @Repository
 public interface UserDao extends JpaRepository<User, String> {
@@ -18,6 +22,17 @@ public interface UserDao extends JpaRepository<User, String> {
 	Optional<User> findUserByEmailAndPass(String email, String pass);
 
 	Optional<User> findUserByNickname(String nickname);
+
 	
-	
+	Optional<User> findUserByEmailAndAuthkey(String email, String authKey);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update user u set u.auth=1 where u.email=:email", nativeQuery = true)
+	void AuthUpdate(@Param("email") String email);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update user u set u.authkey=:authkey where u.email=:email", nativeQuery = true)
+	void AuthkeyUpdate(@Param("email") String email, @Param("authkey") String authkey);
 }

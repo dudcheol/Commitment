@@ -4,13 +4,22 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.Random;
 
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,6 +136,97 @@ public class UserController {
 		}
 		hm.put("data", "success");
 		return hm;
+	}
+	
+	//네이버 메일 사용
+	@GetMapping("/account/smtp")
+	@ApiOperation(value = "smtp")
+	@Transactional
+	protected String smtp(@Valid @RequestParam(required = true) final String email) {
+		User user = userDao.getUserByEmail(email);
+		// 먼저 아이디로 회원정보를 받아오고 가져온 데이터에서 email값을 비교하여 존재하지 않으면 인증메일 보내지 못함
+		// mail server 설정
+		String host = "smtp.naver.com";
+		String id = "1693013"; // 자신의 네이버 계정
+		String password = "best81264";// 자신의 네이버 패스워드
+		
+		// 메일 받을 주소
+		String to_email = email;
+
+		// SMTP 서버 정보를 설정한다.
+		Properties props = new Properties();
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", 465);
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.ssl.enable", "true");
+		// 인증 번호 생성기
+		StringBuffer temp = new StringBuffer();
+		Random rnd = new Random();
+		for (int i = 0; i < 10; i++) {
+			int rIndex = rnd.nextInt(3);
+			switch (rIndex) {
+			case 0:
+				// a-z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+				break;
+			case 1:
+				// A-Z
+				temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+				break;
+			case 2:
+				// 0-9
+				temp.append((rnd.nextInt(10)));
+				break;
+			}
+		}
+		String AuthenticationKey = temp.toString();
+		user.setAuthkey(AuthenticationKey);//인증키 저장
+		userDao.save(user);
+		System.out.println(AuthenticationKey);
+		userDao.AuthkeyUpdate(to_email, AuthenticationKey);// 테이블에 KEY 저장
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(id, password);
+			}
+		});
+		session.setDebug(true);
+		// email 전송
+		try {
+			MimeMessage msg = new MimeMessage(session);
+			MimeMessageHelper messageHelper = new MimeMessageHelper(msg, true, "UTF-8");
+			messageHelper.setFrom(new InternetAddress("1693013@naver.com"));
+			messageHelper.setTo(email);
+			// 메일 제목
+			messageHelper.setSubject("안녕하세요 ss blog 인증 메일입니다.");
+			// 메일 내용
+			messageHelper.setText(new StringBuffer().append("<h1>[ss blog 이메일 인증]</h1>")
+					.append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+					.append("<a href='http://localhost:8080/user/signUpConfirm?email=").append(user.getEmail())
+					.append("&authKey=").append(AuthenticationKey).append("' target='_blenk'>이메일 인증 확인</a>").toString(),
+					true);// true를 해야 html형식으로 됨
+
+			Transport.send(msg);
+			System.out.println("이메일 전송");
+
+		} catch (Exception e) {
+			e.printStackTrace();// TODO: handle exception
+		}
+		return AuthenticationKey;
+	}
+	
+	@GetMapping("/user/signUpConfirm")
+	@ApiOperation(value = "메일 인증 확인")
+	@Transactional
+	public void signUpConfirm(@RequestParam(required = true) final String email,
+			@RequestParam(required = true) final String authKey, HttpServletResponse response) throws IOException {
+		// 해당 이메일 권한 허용 authStatus 업데이트
+		Optional<User> userOpt = userDao.findUserByEmailAndAuthkey(email, authKey);//인증키 일치하는지 확인
+		if(userOpt.isPresent()) {
+			userDao.AuthUpdate(email);//인증 했다고 체크
+			response.sendRedirect("http://localhost:8082/#/user/mailCheck");//회원가입이 완료되었습니다 페이지로 이동
+		}else
+			response.sendRedirect("http://localhost:8082/#/404");
 	}
 
 }
