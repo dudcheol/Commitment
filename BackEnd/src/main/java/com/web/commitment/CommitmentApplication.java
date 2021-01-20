@@ -8,6 +8,6 @@ public class CommitmentApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CommitmentApplication.class, args);
+		System.out.println("test");
 	}
-
 }
