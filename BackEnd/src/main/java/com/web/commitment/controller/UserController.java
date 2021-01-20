@@ -1,5 +1,9 @@
 package com.web.commitment.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
+import com.web.commitment.service.JwtService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -25,6 +30,44 @@ import io.swagger.annotations.ApiOperation;
 public class UserController {
 	@Autowired
 	UserDao userDao;
+
+	@Autowired
+	private JwtService jwtService;
+
+	@GetMapping("/account/login")
+	@ApiOperation(value = "로그인")
+	public Object login(@RequestParam(required = true) final String email,
+			@RequestParam(required = true) final String pass) {
+		Optional<User> userOpt = userDao.findUserByEmailAndPass(email, pass);
+		ResponseEntity response = null;
+		Map<String, Object> resultMap = new HashMap<>();
+
+		if (userOpt.isPresent()) {
+//        	jwt.io에서 확인
+//			로그인 성공했다면 토큰을 생성한다.
+			User user = userOpt.get();
+			String token = jwtService.create(user);
+//			logger.trace("로그인 토큰정보 : {}", token);
+
+			resultMap.put("auth-token", token);
+			resultMap.put("data", "success");
+			resultMap.put("email", user.getEmail());
+			resultMap.put("pass", user.getPass());
+			resultMap.put("nickname", user.getNickname());
+			resultMap.put("tel", user.getTel());
+			resultMap.put("age", user.getAge());
+			resultMap.put("gender", user.getGender());
+			resultMap.put("mystory", user.getMystory());
+			System.out.println("su");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		} else {
+			resultMap.put("data", "fail");
+			System.out.println("f");
+			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+		}
+
+		return response;
+	}
 
 	@PostMapping("/account/signup")
 	@ApiOperation(value = "회원가입수정")
@@ -49,7 +92,7 @@ public class UserController {
 
 		return user;
 	}
-	
+
 	@GetMapping("/account/info")
 	@ApiOperation(value = "회원정보불러오기")
 	public Object user(@RequestParam(required = true) final String email) {
@@ -70,5 +113,5 @@ public class UserController {
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-	
+
 }
