@@ -7,8 +7,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +36,7 @@ public class CommitController {
 	// CRUD 중 C만
     @PostMapping("/commit/{open}")
     @ApiOperation(value = "커밋하기")
-    public int commit(@Valid @RequestBody User user, @PathVariable int open) {
+    public String commit(@Valid @RequestBody User user, @PathVariable int open) {
         
     	// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		final BasicResponse result = new BasicResponse();
@@ -54,18 +52,18 @@ public class CommitController {
 	        Optional<User> getUser = userDao.findByLatAndLng(user.getLat(), user.getLng());
 	        System.out.println(getUser);
 	        
-	        if(emailResult != 0 && getUser.isPresent()) {
+	        // 해당 lat, lng 값을 가진 user가 있으면 X
+	        if(emailResult != 0 && getUser.isPresent()) { 
 	        	System.out.println(user);
 	        	commitDao.save(commit);
-	        	return 1;
+	        	return "success";
 	        } else {
-	        	result.status = true;
-	        	result.data = "fail";
-	        	return 0;
+	        	//commit overlap is not allowed
+	        	return "fail";
 	        }
 		} catch(Exception e) {
 			e.printStackTrace();
-			return 0;
+			return "error";
 		}
     }
 

@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @Data
-@Getter
 @Setter
 @ToString
 @NoArgsConstructor
