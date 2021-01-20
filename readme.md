@@ -72,6 +72,17 @@
 
 ### 5. :running:진행 과정 및 느낀점 
 
+<details>
+    <summary>1주차</summary>
+    <ul>
+        <a href="Document/Dev_summary/20210121_summary.md"><li>1/21(목) - 스크럼, 그리드개발, DB 설계</li></a>
+    </ul>
+</details>
+
+
+
+
+
 #### :writing_hand:1일차 - 2020. 01. 18 (수)
 
 ##### 스크럼
