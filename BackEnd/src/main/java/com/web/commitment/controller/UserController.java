@@ -1,5 +1,6 @@
 package com.web.commitment.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -112,6 +113,20 @@ public class UserController {
 		result.data = "success";
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+	@GetMapping("/account/uidCheck")
+	@ApiOperation(value = "닉네임 중복체크")
+	public Map<String, String> uidCheck(@RequestParam(required = true) final String nickname) throws IOException {
+		Optional<User> user = userDao.findUserByNickname(nickname);
+		Map<String, String> hm = new HashMap<>();
+
+		if (user.isPresent()) {
+			hm.put("data", "fail");
+			return hm;
+		}
+		hm.put("data", "success");
+		return hm;
 	}
 
 }
