@@ -1,5 +1,7 @@
 package com.web.commitment.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -36,7 +38,7 @@ public class CommitController {
 	// CRUD 중 C만
     @PostMapping("/commit/{open}")
     @ApiOperation(value = "커밋하기")
-    public Object signup(@Valid @RequestBody User user, @PathVariable int open) {
+    public Object commit(@Valid @RequestBody User user, @PathVariable int open) {
         
     	// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		final BasicResponse result = new BasicResponse();
@@ -68,18 +70,39 @@ public class CommitController {
     	return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
     }
     
+//	@GetMapping("/commit")
+//    @ApiOperation(value = "유저의 커밋 정보 불러오기")
+//    public List<Commit> commit(@RequestParam(required = true) final String email) {
+//		
+//		if(userDao.countByEmail(email) != 0) {
+//			return commitDao.findAllByEmail(email);
+//		}
+//		return null;
+//    }
+    
+//	@GetMapping("/commit")
+//    @ApiOperation(value = "유저의 커밋 정보 불러오기")
+//    public Map<String, String> commit(@RequestParam(required = true) final String email) {
+//		
+//    	Map<String, String> map = new HashMap<>();
+//		if(userDao.countByEmail(email) != 0) {
+//			commitDao.findAllByEmail(email)
+//				.forEach(commit -> {
+//					map.put("lat", commit.getLat());
+//					map.put("lng", commit.getLng());
+//				});
+//		}
+//		return map;
+//    }
+	
 	@GetMapping("/commit")
-    @ApiOperation(value = "커밋 정보 불러오기")
-    public Object login(@RequestParam(required = true) final String email) {
-    	
-		final BasicResponse result = new BasicResponse();
+    @ApiOperation(value = "유저의 커밋 정보 불러오기")
+    public List<String[]> commit(@RequestParam(required = true) final String email) {
 		
-        Optional<User> userOpt = userDao.findUserByEmail(email);
-        System.out.println(email);
-        ResponseEntity response = null;
-        
-        
-
-        return response;
+    	List<String[]> list = new ArrayList<>();
+		if(userDao.countByEmail(email) != 0) {
+			commitDao.findAllByEmail(email).forEach(commit -> list.add(new String[] {commit.getLat(), commit.getLng()}));
+		}
+		return list;
     }
 }
