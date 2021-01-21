@@ -1,7 +1,9 @@
 package com.web.commitment.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -19,10 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.web.commitment.dao.ProfileDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.S3Dao;
+import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.Follow;
 import com.web.commitment.dto.FollowId;
 import com.web.commitment.dto.Profile;
+import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -33,6 +37,8 @@ public class ProfileController {
 	private ProfileDao profileDao;
 	@Autowired
 	private FollowDao followDao;
+	@Autowired
+	private UserDao userDao;
 //	@Autowired
 //	private AWSService awsService;
 	@Autowired
@@ -57,12 +63,17 @@ public class ProfileController {
 	@GetMapping("/profile/follower")
 	@ApiOperation(value = "팔로워 리스트")
 	public Object follow(@RequestParam(required = true) final String email) {
+		List<Follow> list=followDao.FindFollowByEmail(email);
+		List<User> user=new ArrayList<User>();
+		
+		for(Follow f:list) {
+			user.add(userDao.getUserByEmail(f.getFollowid().getTo()));
+		}
+//		final BasicResponse result = new BasicResponse();
+//		result.status = true;
+//		result.data = "success";
 
-		final BasicResponse result = new BasicResponse();
-		result.status = true;
-		result.data = "success";
-
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return user;
 	}
 
 	@PostMapping(path = "/profile/upload")

@@ -15,10 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FollowId implements Serializable{
-	@Column(name = "from")
+	@Column(name = "follow_from")
 	private String from;
-	@Column(name = "to")
+	@Column(name = "follow_to")
 	private String to;
-	
-	
 }
