@@ -91,7 +91,7 @@ public class ProfileController {
 	}
 	
 	@ApiOperation(value = "프로필 사진 불러오기")
-	public Object image(String email) {
+	public String image(String email) {
 		Profile profile=profileDao.findProfileByEmail(email);
 		return profile.getFile_path();
 	}

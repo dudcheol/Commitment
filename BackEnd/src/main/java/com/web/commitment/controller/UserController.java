@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.commitment.dao.ProfileDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
@@ -40,7 +41,8 @@ import io.swagger.annotations.ApiOperation;
 public class UserController {
 	@Autowired
 	UserDao userDao;
-
+	@Autowired
+	ProfileController profilecontroller;
 	@Autowired
 	private JwtService jwtService;
 
@@ -107,7 +109,16 @@ public class UserController {
 	@ApiOperation(value = "회원정보불러오기")
 	public Object user(@RequestParam(required = true) final String email) {
 		User user = userDao.getUserByEmail(email);
-		return user;
+		Map<String,String> map=new HashMap<String, String>();
+		map.put("email",email);
+		map.put("pass",user.getPass());
+		map.put("nickname",user.getNickname());
+		map.put("tel",user.getTel());
+		map.put("age",user.getAge());
+		map.put("gender",user.getGender());
+		map.put("badge",user.getBadge());
+		map.put("image",profilecontroller.image(email));
+		return map;
 	}
 
 	@DeleteMapping("/account/delete")
