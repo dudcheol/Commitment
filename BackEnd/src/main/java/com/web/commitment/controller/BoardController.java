@@ -74,61 +74,42 @@ public class BoardController {
         return postList;
     }
     
-//    @DeleteMapping("/account/delete")
-//    @ApiOperation(value = "탈퇴하기")
-//    public Object delete(@RequestParam String email) {
-//    	
-//    	final BasicResponse result = new BasicResponse();
-//    	ResponseEntity response = null;
-//    	
-//    	Optional<User> user = userDao.findByEmail(email);
-//    	System.out.println(user);
-//    	
-//    	try {	
-//    		userDao.delete(user.get());
-//    		
-//            result.status = true;
-//            result.data = "success";
-//            response = new ResponseEntity<>(result, HttpStatus.OK);
-//
-//    	} catch (Exception e) {
-//    		result.status = false;
-//    		result.data = "fail";
-//    		response = new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-//    	}
-//
-//        return response;
-//    }
-//    
-//    @PutMapping("/account/update")
-//    @ApiOperation(value = "수정하기")
-//    public Object update(@RequestParam String email, @Valid @RequestBody User request) {
-//    	
-//    	final BasicResponse result = new BasicResponse();
-//    	ResponseEntity response = null;
-//    	
-//    	Optional<User> user = userDao.findByEmail(email);
-//    	System.out.println(user);
-//    	
-//    	User upUser = new User();
-//    	upUser.setEmail(request.getEmail());
-//    	upUser.setPassword(request.getPassword());
-//    	upUser.setCreateDate(request.getCreateDate());
-//    	upUser.setUid(request.getUid());
-//    	
-//    	System.out.println(user);
-//    	
-//    	try {	    		
-//    		userDao.save(upUser);
-//    		
-//    		result.status = true;
-//    		result.data = "success";
-//    		response = new ResponseEntity<>(result, HttpStatus.OK);
-//    		
-//    	} catch (Exception e) {
-//    		result.status = false;
-//    		result.data = "fail";
-//    		response = new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-//    	}
-//    }
+    
+    @PutMapping("/account/update")
+    @ApiOperation(value = "게시글 수정")
+    public Object update(@RequestBody Board sns) {
+    	
+    	// 여기서는 id 받아와야 함
+    	// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
+    	try { 
+    		int emailResult = userDao.countByEmail(sns.getEmail());
+    		
+    		if(emailResult != 0) { 
+    			boardDao.save(sns);
+    			return "success";
+    		} else {
+    			// email이 없음
+    			return "fail";
+    		}
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    		return "error";
+    	}
+    }
+
+    @DeleteMapping("/sns")
+    @ApiOperation(value = "게시글 삭제")
+    public int delete(@RequestParam String sns_id) {
+    	
+    	Optional<Board> sns = boardDao.findById(sns_id);
+    	System.out.println(sns);
+    	
+    	try {	
+    		boardDao.delete(sns.get());
+    		return 0;
+
+    	} catch (Exception e) {
+    		return 1;
+    	}
+    }
 }
