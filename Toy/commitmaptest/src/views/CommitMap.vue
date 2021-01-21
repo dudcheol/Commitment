@@ -7,11 +7,21 @@
       :center="center"
       :zoom="zoom"
       :options="mapStyle"
-      style="width: 300px; height: 300px;"
+      style="width: 400px; height: 400px;"
     >
       <gmap-polyline
         v-bind:path.sync="path"
-        v-bind:options="{ strokeColor: '#000000' }"
+        v-bind:options="{ strokeColor: '#000' }"
+      >
+      </gmap-polyline>
+      <gmap-polyline
+        v-bind:path.sync="pathGaro"
+        v-bind:options="{ strokeColor: '#000' }"
+      >
+      </gmap-polyline>
+      <gmap-polyline
+        v-bind:path.sync="pathSero"
+        v-bind:options="{ strokeColor: '#000' }"
       >
       </gmap-polyline>
     </gmap-map>
@@ -81,14 +91,14 @@ function createTiles(LatLngs, zoom) {
 }
 
 function convertLatlngToTileCoord(latLng, zoom) {
-  console.log('%cCommitMap.vue line:132 zoom', 'color: #007acc;', zoom);
+  // console.log('%cCommitMap.vue line:132 zoom', 'color: #007acc;', zoom);
   const scale = 1 << (zoom + (TILE_STANDARD - TILE_ZOOM)); // 타일사이즈 2^8 기준
-  console.log('%cCommitMap.vue line:133 scale', 'color: #007acc;', scale);
-  console.log(
-    '%cCommitMap.vue line:90 TILE_SIZE',
-    'color: #007acc;',
-    TILE_SIZE
-  );
+  // console.log('%cCommitMap.vue line:133 scale', 'color: #007acc;', scale);
+  // console.log(
+  //   '%cCommitMap.vue line:90 TILE_SIZE',
+  //   'color: #007acc;',
+  //   TILE_SIZE
+  // );
   const worldCoordinate = project(latLng);
   const tileCoordinate = new window.google.maps.Point(
     Math.floor((worldCoordinate.x * scale) / TILE_SIZE),
@@ -112,23 +122,38 @@ export default {
   name: 'CommitMap',
   data() {
     return {
-      zoom: 5,
+      zoom: 7,
       mapStyle: {
-        draggable: false,
-        // zoomControl: false,
-        // mapTypeControl: true,
-        // scaleControl: false,
-        // streetViewControl: false,
-        // rotateControl: false,
-        // fullscreenControl: false,
-        // disableDefaultUi: false,
+        draggable: true,
+        zoomControl: false,
+        mapTypeControl: true,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+        disableDefaultUi: false,
         // mapId: MAP_APP_ID,
-        styles: [{ stylers: [{ visibility: 'off' }] }],
-        backgroundColor: 'hsla(0, 0%, 0%, 0)',
+        // styles: [{ stylers: [{ visibility: 'off' }] }],
+        // backgroundColor: 'hsla(0, 0%, 0%, 0)',
       },
       center: { lat: 35.95, lng: 128.25 },
       // 상하좌우
       path: [
+        { lat: 38.9, lng: 132.0 },
+        { lat: 38.9, lng: 124.5 },
+
+        { lat: 38.9, lng: 124.5 },
+        { lat: 33.0, lng: 124.5 },
+
+        { lat: 33.0, lng: 124.5 },
+        { lat: 33.0, lng: 132.0 },
+
+        { lat: 38.9, lng: 132.0 },
+        { lat: 33.0, lng: 132.0 },
+      ],
+      pathGaro: [],
+      pathSero: [],
+      tileData: [
         { lat: 38.9, lng: 132.0 },
         { lat: 38.9, lng: 124.5 },
 
@@ -146,11 +171,49 @@ export default {
   },
   computed: {},
   watch: {
-    zoom: function(val) {
-      console.log('%cCommitMap.vue line:147 val', 'color: #007acc;', val);
-    },
+    // zoom: function(val) {
+    //   console.log('%cCommitMap.vue line:147 val', 'color: #007acc;', val);
+    // },
   },
-  created() {},
+  created() {
+    const divideCnt = 16; // 지도가 몇개의 칸으로 나뉘어져 있는지
+
+    const garoTop = 38.9;
+    const garoBottom = 33.0;
+    const garoSpace = (garoTop - garoBottom) / divideCnt;
+    console.log(
+      '%cCommitMap.vue line:159 garoSpace',
+      'color: #007acc;',
+      garoSpace
+    );
+
+    const seroLeft = 124.5;
+    const seroRight = 132.0;
+    const seroSpace = (seroRight - seroLeft) / divideCnt;
+
+    // 가로줄 top->bottom 선긋기
+    let topLine_LeftDot = { lat: 38.9, lng: 124.5 };
+    let topLine_RightDot = { lat: 38.9, lng: 132.0 };
+    let leftLine_TopDot = { lat: 38.9, lng: 124.5 };
+    let leftLine_BottomDot = { lat: 33.0, lng: 124.5 };
+    for (let i = 0; i < divideCnt; i++) {
+      topLine_LeftDot.lat -= garoSpace;
+      topLine_RightDot.lat -= garoSpace;
+      leftLine_TopDot.lng += seroSpace;
+      leftLine_BottomDot.lng += seroSpace;
+      if (i % 2 == 0) {
+        this.pathGaro.push(Object.assign({}, topLine_LeftDot));
+        this.pathGaro.push(Object.assign({}, topLine_RightDot));
+        this.pathSero.push(Object.assign({}, leftLine_TopDot));
+        this.pathSero.push(Object.assign({}, leftLine_BottomDot));
+      } else {
+        this.pathGaro.push(Object.assign({}, topLine_RightDot));
+        this.pathGaro.push(Object.assign({}, topLine_LeftDot));
+        this.pathSero.push(Object.assign({}, leftLine_BottomDot));
+        this.pathSero.push(Object.assign({}, leftLine_TopDot));
+      }
+    }
+  },
   mounted() {
     // map보다 먼저 실행되서 오류발생
     // this.mapStyle['mapTypeControlOptions'] = {
@@ -167,7 +230,7 @@ export default {
       });
 
       map.addListener('bounds_changed', () => {
-        var tiles = createTiles(this.path, map.getZoom());
+        var tiles = createTiles(this.tileData, map.getZoom());
 
         map.mapTypes.set(
           'coordinate',
@@ -176,11 +239,6 @@ export default {
             tiles
           )
         );
-        // console.log(
-        //   '%cCommitMap.vue line:169 map.getZoom()',
-        //   'color: #007acc;',
-        //   map.getZoom()
-        // );
       });
     });
   },
