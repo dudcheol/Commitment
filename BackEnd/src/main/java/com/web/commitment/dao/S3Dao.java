@@ -38,10 +38,14 @@ public class S3Dao {
 	} 
 	
 	// MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-	public String uploadImages(MultipartFile multipartFile, String dirName, String saveFileName) throws IOException {
-		File uploadFile = convert(multipartFile) 
-				.orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-		return uploadImages(uploadFile, dirName, saveFileName); 
+	public String uploadImages(MultipartFile[] multipartFile, String dirName) throws IOException {
+		File[] uploadFile = new File[multipartFile.length];
+		
+		for (int i = 0; i < multipartFile.length; i++) {
+			uploadFile[i] = convert(multipartFile[i]) 
+				.orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다.")); 
+		}
+		return uploadImages(uploadFile, dirName);
 	} 
 	
 	private String upload(File uploadFile, String dirName) { 
@@ -52,9 +56,16 @@ public class S3Dao {
 		
 	} 
 	
-	private String uploadImages(File uploadFile, String dirName, String saveFileName) {
-		String uploadImageUrl = putS3(uploadFile, saveFileName); 
-		removeNewFile(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+	private String uploadImages(File[] uploadFile, String dirName) {
+		String uploadImageUrl = null;
+		
+		for (int i = 0; i < uploadFile.length; i++) {
+			
+			// 여기서 이름 중복되는 사진 처리하면 될 걸 같음
+			String fileName = dirName + "/" + uploadFile[i].getName(); 
+			uploadImageUrl = putS3(uploadFile[i], fileName); 
+			removeNewFiles(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+		}
 
 		return uploadImageUrl;  // 업로드된 파일의 S3 URL 주소 반환
 	} 
