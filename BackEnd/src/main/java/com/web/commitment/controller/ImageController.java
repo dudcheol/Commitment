@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,32 +39,31 @@ public class ImageController {
 	@Autowired
 	private S3Dao s3Uploader;
 
+	// s3 -> sns/{sns_id}/ : 각 게시글 번호 폴더 안에 저장
     @PostMapping(path = "/image/{sns_id}")
     @ApiOperation(value = "이미지 업로드")
     public Map<String,String> uploadImage(@PathVariable String sns_id, @RequestParam(value = "file",required = false) MultipartFile[] files) throws IOException {
     	Map<String,String> result = new HashMap<>();
     	
+    	String[] saveFileName = new String[files.length];
     	for (int i = 0; i < files.length; i++) {
-			System.out.println(files[i].getOriginalFilename());    	
 			
-			String s3Path = "sns/" + sns_id + "/";
+			String originalFilename = files[i].getOriginalFilename();
+//			파일 이름이 중복될 경우 처리해주기 위함		
+//			String saveFileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf('.'));
+			saveFileName[i] = UUID.randomUUID().toString() + "_" + originalFilename;
+			System.out.println(saveFileName[i]);
+
+			String s3Path = "sns/" + sns_id + "/";			
+			Image image = new Image();
+			image.setSnsId(sns_id);
+			image.setFilePath(s3Path);
+			image.setFileName(saveFileName[i]);
 			
-			// 같은 이름의 사진이 들어오면 overwrite 되는 것을 방지하기 위해
-//			files[i].		
-//			String today = new SimpleDateFormat("yyMMdd").format(new Date()); // 오늘 날짜
-//			Image image = new Image();
-//			String saveFileName = UUID.randomUUID().toString() + fileName.substring(fileName.lastIndexOf('.'));
+			imageDao.save(image);
 			
-//			Image image = new Image();
-//			image.setSnsId(sns_id);
-//			image.setFilePath(s3Path);
-//			image.setFileName(files[i].getOriginalFilename());
-//			
-//			imageDao.save(image);
-			s3Dao.upload(files[i], s3Path);
-			
-			result.put("key" + i, files[i].getOriginalFilename());
-			
+			s3Dao.uploadImages(files[i], s3Path, saveFileName[i]);
+			result.put("url" + i, files[i].getOriginalFilename());
 		}
     	return result;
     }
