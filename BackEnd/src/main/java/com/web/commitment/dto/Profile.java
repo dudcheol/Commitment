@@ -2,9 +2,12 @@ package com.web.commitment.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -20,11 +23,8 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class Profile {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-	private int id;
-
 	@Column(name = "user_email")
 	private String email;
 
@@ -33,5 +33,6 @@ public class Profile {
 
 	@Column(name = "file_name")
 	private String file_name;
+	
 
 }

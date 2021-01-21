@@ -109,16 +109,17 @@ public class UserController {
 	@ApiOperation(value = "회원정보불러오기")
 	public Object user(@RequestParam(required = true) final String email) {
 		User user = userDao.getUserByEmail(email);
-		Map<String,String> map=new HashMap<String, String>();
-		map.put("email",email);
-		map.put("pass",user.getPass());
-		map.put("nickname",user.getNickname());
-		map.put("tel",user.getTel());
-		map.put("age",user.getAge());
-		map.put("gender",user.getGender());
-		map.put("badge",user.getBadge());
-		map.put("image",profilecontroller.image(email));
-		return map;
+		System.out.println(user);
+//		Map<String,String> map=new HashMap<String, String>();
+//		map.put("email",email);
+//		map.put("pass",user.getPass());
+//		map.put("nickname",user.getNickname());
+//		map.put("tel",user.getTel());
+//		map.put("age",user.getAge());
+//		map.put("gender",user.getGender());
+//		map.put("badge",user.getBadge());
+//		map.put("image",profilecontroller.image(email));
+		return user;
 	}
 
 	@DeleteMapping("/account/delete")
