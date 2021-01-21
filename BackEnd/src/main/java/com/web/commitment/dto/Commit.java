@@ -20,7 +20,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name="commit")
 @NoArgsConstructor
 @AllArgsConstructor

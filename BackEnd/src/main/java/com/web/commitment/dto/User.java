@@ -4,21 +4,20 @@ package com.web.commitment.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 @Entity
 @Data
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -64,6 +63,10 @@ public class User {
 
 	@Column(name = "auth")
 	private String auth;
+	
+	///
+//	@OneToMany(mappedBy = "sns")
+//	private User user;
 
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {
