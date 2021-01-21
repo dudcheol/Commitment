@@ -76,9 +76,8 @@ public class User {
 		this.mystory = mystory;
 	}
 
-//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	 @OneToOne
-	 @JoinColumn(name="email" , referencedColumnName = "user_email")
+	@OneToOne
+	@JoinColumn(name = "email", referencedColumnName = "user_email")
 	private Profile profile;
 
 }

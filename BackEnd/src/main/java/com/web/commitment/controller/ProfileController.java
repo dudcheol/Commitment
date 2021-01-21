@@ -65,9 +65,10 @@ public class ProfileController {
 	public Object follow(@RequestParam(required = true) final String email) {
 		List<Follow> list=followDao.FindFollowByEmail(email);
 		List<User> user=new ArrayList<User>();
-		
+		int index=0;
 		for(Follow f:list) {
 			user.add(userDao.getUserByEmail(f.getFollowid().getTo()));
+			System.out.println(user.get(index++));
 		}
 //		final BasicResponse result = new BasicResponse();
 //		result.status = true;
