@@ -19,7 +19,9 @@
 </template>
 
 <script>
-const TILE_SIZE = 1 << 5;
+const TILE_ZOOM = 6; // 타일의 크기는 TILE_ZOOM으로 컨트롤할 것
+const TILE_STANDARD = 8;
+const TILE_SIZE = 1 << TILE_ZOOM;
 // var google = window.google;
 
 class CoordMapType {
@@ -31,24 +33,20 @@ class CoordMapType {
     this.commitTiles = commitTiles;
   }
   getTile(coord, zoom, ownerDocument) {
-    const div = ownerDocument.createElement('div');
-    // div.innerHTML = String(coord);
-
-    div.style.width = this.tileSize.width - 5 + 'px';
-    div.style.height = this.tileSize.height - 5 + 'px';
-    div.style.fontSize = '10';
-    // div.style.borderStyle = 'solid';
-    // div.style.borderWidth = '1px';
-    // div.style.borderColor = '#dcdcdc';
-    div.style.borderRadius = '5px';
-    // div.style.margin = '5px';
-
     if (this.commitTiles[String(coord)]) {
+      const div = ownerDocument.createElement('div');
+      div.innerHTML = String(coord);
+      div.style.width = this.tileSize.width - 5 + 'px';
+      div.style.height = this.tileSize.height - 5 + 'px';
+      div.style.fontSize = '10';
+      div.style.borderRadius = '5px';
       div.style.backgroundColor = '#f00';
-    } else {
-      div.style.backgroundColor = '#dcdcdc';
+      div.addEventListener('click', function() {
+        alert('click');
+      });
+      return div;
     }
-    return div;
+    return null;
   }
   // zoom 변경될때 타일이 바뀌면 바뀌는 타일들 릴리즈
   // releaseTile(tile, a) {
@@ -84,13 +82,14 @@ function createTiles(LatLngs, zoom) {
 
 function convertLatlngToTileCoord(latLng, zoom) {
   console.log('%cCommitMap.vue line:132 zoom', 'color: #007acc;', zoom);
-  const scale = 1 << (zoom + 2);
+  const scale = 1 << (zoom + (TILE_STANDARD - TILE_ZOOM)); // 타일사이즈 2^8 기준
   console.log('%cCommitMap.vue line:133 scale', 'color: #007acc;', scale);
+  console.log(
+    '%cCommitMap.vue line:90 TILE_SIZE',
+    'color: #007acc;',
+    TILE_SIZE
+  );
   const worldCoordinate = project(latLng);
-  // const pixelCoordinate = new window.google.maps.Point(
-  //   Math.floor(worldCoordinate.x * scale),
-  //   Math.floor(worldCoordinate.y * scale)
-  // );
   const tileCoordinate = new window.google.maps.Point(
     Math.floor((worldCoordinate.x * scale) / TILE_SIZE),
     Math.floor((worldCoordinate.y * scale) / TILE_SIZE)
@@ -113,16 +112,16 @@ export default {
   name: 'CommitMap',
   data() {
     return {
-      zoom: 7,
+      zoom: 5,
       mapStyle: {
-        // draggable: false,
-        zoomControl: false,
-        mapTypeControl: true,
-        scaleControl: false,
-        streetViewControl: false,
-        rotateControl: false,
-        fullscreenControl: false,
-        disableDefaultUi: false,
+        draggable: false,
+        // zoomControl: false,
+        // mapTypeControl: true,
+        // scaleControl: false,
+        // streetViewControl: false,
+        // rotateControl: false,
+        // fullscreenControl: false,
+        // disableDefaultUi: false,
         // mapId: MAP_APP_ID,
         styles: [{ stylers: [{ visibility: 'off' }] }],
         backgroundColor: 'hsla(0, 0%, 0%, 0)',
@@ -146,7 +145,11 @@ export default {
     };
   },
   computed: {},
-  watch: {},
+  watch: {
+    zoom: function(val) {
+      console.log('%cCommitMap.vue line:147 val', 'color: #007acc;', val);
+    },
+  },
   created() {},
   mounted() {
     // map보다 먼저 실행되서 오류발생
@@ -156,8 +159,6 @@ export default {
     // };
     console.log('%cCommitMap.vue line:159 mountedzz', 'color: #007acc;');
     this.$refs.mapRef.$mapPromise.then((map) => {
-      var tiles = createTiles(this.path, this.zoom + 1);
-
       map.addListener('maptypeid_changed', () => {
         const showStreetViewControl = map.getMapTypeId() !== 'coordinate';
         map.setOptions({
@@ -165,13 +166,22 @@ export default {
         });
       });
 
-      map.mapTypes.set(
-        'coordinate',
-        new CoordMapType(
-          new window.google.maps.Size(TILE_SIZE, TILE_SIZE),
-          tiles
-        )
-      );
+      map.addListener('bounds_changed', () => {
+        var tiles = createTiles(this.path, map.getZoom());
+
+        map.mapTypes.set(
+          'coordinate',
+          new CoordMapType(
+            new window.google.maps.Size(TILE_SIZE, TILE_SIZE),
+            tiles
+          )
+        );
+        // console.log(
+        //   '%cCommitMap.vue line:169 map.getZoom()',
+        //   'color: #007acc;',
+        //   map.getZoom()
+        // );
+      });
     });
   },
   methods: {},
