@@ -55,11 +55,9 @@ public class S3Dao {
 	
 	private void removeNewFile(File targetFile) { 
 		if (targetFile.delete()) { 
-//			log.info("파일이 삭제되었습니다."); 
-			
+
 			System.out.println("파일이 삭제되었습니다.");
 		} else { 
-//			log.info("파일이 삭제되지 못했습니다."); 
 			System.out.println("파일이 삭제되지 못했습니다.");
 		} 
 		

@@ -10,17 +10,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.RequiredArgsConstructor; 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import org.springframework.stereotype.Controller; 
-import org.springframework.web.bind.annotation.GetMapping; 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping; 
 import org.springframework.web.bind.annotation.RequestParam; 
 import org.springframework.web.bind.annotation.ResponseBody; 
 import org.springframework.web.multipart.MultipartFile; 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
+import com.web.commitment.dao.BoardDao;
+import com.web.commitment.dao.CommitDao;
+import com.web.commitment.dao.UserDao;
+import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.User;
 
@@ -30,39 +40,74 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class BoardController {
 
-    @PostMapping("/sns")
-    @ApiOperation(value = "게시글 작성")
-    public String commit(@RequestParam(required = true) final String email, @RequestParam(required = true) final int commit_id) {
-		return email;
-        
-    	// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지)
-//		try {
-//			Commit commit = new Commit();
-//			commit.setEmail(user.getEmail());
-//			commit.setLat(user.getLat());
-//			commit.setLng(user.getLng());
-//			commit.setOpen(open);
-//			 
-//	        int emailResult = userDao.countByEmail(user.getEmail());
-//	        
-//	        // 현재 위치에 이미 커밋한 정보가 있으면 넣지 않는다.
-//	        Optional<Commit> getCommit = commitDao.findByLatAndLng(user.getLat(), user.getLng());
-//	        System.out.println(getCommit);
+	@Autowired
+	BoardDao boardDao;
+	
+	@Autowired
+	UserDao userDao;
+	
+//    @PostMapping("/sns")
+//    @ApiOperation(value = "게시글 작성")
+//    public String commit(@Valid @RequestBody Board sns) {
+//		
+//    	// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
+//		try { 
+//	        int emailResult = userDao.countByEmail(sns.getEmail());
 //	        
 //	        // 해당 lat, lng 값을 가진 user가 있으면 X
-//	        if(emailResult != 0 && !getCommit.isPresent()) { 
-//	        	System.out.println(user);
-//	        	commitDao.save(commit);
+//	        if(emailResult != 0) { 
+//	        	System.out.println(sns);
+//	        	boardDao.save(sns);
 //	        	return "success";
 //	        } else {
-//	        	//commit overlap is not allowed
+//	        	
+//	        	// email이 없음
 //	        	return "fail";
 //	        }
 //		} catch(Exception e) {
 //			e.printStackTrace();
 //			return "error";
 //		}
+//    }
+
+//	@Getter
+//	@Setter
+//	public class UploadBoardAndImages {
+//		private MultipartFile images;
+//		private Board board;
+//	}
+	
+	@PostMapping("/sns")
+    @ApiOperation(value = "게시글 작성")
+    public String commit(@RequestBody Board sns) {
+    	
+    	// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
+    	try { 
+    		int emailResult = userDao.countByEmail(sns.getEmail());
+    		
+    		// 해당 lat, lng 값을 가진 user가 있으면 X
+    		if(emailResult != 0) { 
+    			Board newSns = new Board();
+    			
+    			newSns.setCommitId(sns.getCommitId());
+    			newSns.setEmail(sns.getEmail());
+    			newSns.setTitle(sns.getTitle());
+    			newSns.setContent(sns.getContent());
+    			newSns.setLocation(sns.getLocation());
+    			boardDao.save(newSns);
+    			return "success";
+    		} else {
+    			
+    			// email이 없음
+    			return "fail";
+    		}
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    		return "error";
+    	}
     }
+    
+    
     
 //    // 불러오기 open이 1인 것만
 //    @GetMapping("/account/mypage")

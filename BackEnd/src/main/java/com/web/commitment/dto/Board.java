@@ -1,6 +1,6 @@
 package com.web.commitment.dto;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -19,10 +19,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name="sns")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,10 +49,10 @@ public class Board {
 	private String content;
 	
 	@Column(name="created_at")
-	private Date createdAt;
+	private LocalDateTime createdAt;
 	
 	@Column(name="location")
-	private String open;	
+	private String location;	
 	
 //	@ManyToOne
 //	@JoinColumn(name = "user_email")

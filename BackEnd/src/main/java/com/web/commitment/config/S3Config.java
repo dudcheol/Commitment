@@ -14,17 +14,6 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configuration
 public class S3Config {
-
-//    @Bean
-//    public AmazonS3 generateS3Client() {
-//        final BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials("AKIAJ4R5VZAHPO4WYRAA", "qEKQZL0GGrc1WRCsVCkxs5pKJSSvYZ+0ISkZFcr3");
-//        // Get AmazonS3 client and return the s3Client object.
-//        return AmazonS3ClientBuilder
-//                .standard()
-//                .withRegion(Regions.fromName("ap-northeast-2"))
-//                .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
-//                .build();
-//    }
     
     @Bean
     public AmazonS3Client generateS3Client() {
