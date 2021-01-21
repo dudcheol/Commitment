@@ -19,7 +19,6 @@ import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.User;
-import com.web.commitment.model.BasicResponse;
 
 import io.swagger.annotations.ApiOperation;
 
