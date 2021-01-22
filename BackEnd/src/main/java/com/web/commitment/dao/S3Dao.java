@@ -30,29 +30,13 @@ public class S3Dao {
 	private String bucket; 
 	
 	// MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-	public String upload(MultipartFile multipartFile, String dirName) throws IOException { 
+	public String upload(MultipartFile multipartFile, String dirName, String saveFileName) throws IOException {
 		File uploadFile = convert(multipartFile) 
 				.orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-		return upload(uploadFile, dirName); 
-		
+		return upload(uploadFile, dirName, saveFileName); 
 	} 
 	
-	// MultipartFile을 전달받아 File로 전환한 후 S3에 업로드
-	public String uploadImages(MultipartFile multipartFile, String dirName, String saveFileName) throws IOException {
-		File uploadFile = convert(multipartFile) 
-				.orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-		return uploadImages(uploadFile, dirName, saveFileName); 
-	} 
-	
-	private String upload(File uploadFile, String dirName) { 
-		String fileName = dirName + "/" + uploadFile.getName(); 
-		String uploadImageUrl = putS3(uploadFile, fileName); 
-		removeNewFile(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
-		return uploadImageUrl;  // 업로드된 파일의 S3 URL 주소 반환
-		
-	} 
-	
-	private String uploadImages(File uploadFile, String dirName, String saveFileName) {
+	private String upload(File uploadFile, String dirName, String saveFileName) {
 		String uploadImageUrl = putS3(uploadFile, saveFileName); 
 		removeNewFile(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
 
