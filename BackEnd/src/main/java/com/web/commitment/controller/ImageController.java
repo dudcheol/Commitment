@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class ImageController {
     
-//	private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
-	
 	@Autowired
 	ImageDao imageDao;
 	
@@ -49,12 +49,9 @@ public class ImageController {
     	
     	String[] saveFileName = new String[files.length];
     	for (int i = 0; i < files.length; i++) {
-			
-			String originalFilename = files[i].getOriginalFilename();
-			
+
 			// 파일 이름이 중복될 경우 처리해주기 위함		
-//			String saveFileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf('.'));
-			saveFileName[i] = UUID.randomUUID().toString() + "_" + originalFilename;
+			saveFileName[i] = UUID.randomUUID().toString();
 			System.out.println(saveFileName[i]);
 
 			String s3Path = "sns/" + sns_id + "/";			
@@ -66,7 +63,7 @@ public class ImageController {
 			imageDao.save(image);
 			
 			s3Dao.upload(files[i], s3Path, saveFileName[i]);
-			result.put("url" + i, files[i].getOriginalFilename());
+			result.put("url" + i, saveFileName[i]);
 		}
     	return result;
     }
@@ -87,19 +84,41 @@ public class ImageController {
     }
     
     // 여러 개 이미지 수정할 수 있기 때문에 image id 배열로
+    // 기존에 있던 사진 + 더 추가되거나
+    // 기존에 있던 사진 몇 개 없애거나
+    // 기존에 있던 사진을 몇 개 없애기 + 더 추가할 경우
+    
+    // name 배열을 받아서 만약 name이 비어있으면 upload로 보냄 // sns id로 파일 목록을 전부 다 불러오기 있으면 수정 없으면 삭제
+    // *****db에 없는 경우는 upload로 보냄 (프론트에서 name은 original 이름을 주면 됨)
     @PutMapping(path = "/image")
     @ApiOperation(value = "사진 수정하기")
-    public String updateImages(@RequestParam String[] image_id, @RequestParam(value = "file",required = false) MultipartFile[] files) throws IOException {
-    	
-    	for (int i = 0; i < image_id.length; i++) {
-			Optional<Image> image = imageDao.findById(image_id);
-		}	
+    @Transactional
+    public Map<String,String> updateImages(@RequestParam(value="id", required=false) String sns_id, @RequestParam(value = "file",required = false) MultipartFile[] files) throws IOException {
+    	//    public Map<String,String> updateImages(@RequestParam(value="name", required=false) String[] file_name, @RequestParam(value = "file",required = false) MultipartFile[] files) throws IOException {
+    	Map<String,String> result = new HashMap<>();
 
-//		
-//		List<String> file_name = new ArrayList<>();
-//		for (int j = 0; j < images.size(); j++) {
-//			file_name.add(images.get(j).getFileName());
-//		}
-    	return "success";
+    	System.out.println(files[0].getOriginalFilename());
+    	
+    	imageDao.deleteBySnsId(sns_id);
+    	
+    	String[] saveFileName = new String[files.length];
+    	for (int i = 0; i < files.length; i++) {
+
+			// 파일 이름이 중복될 경우 처리해주기 위함		
+			saveFileName[i] = UUID.randomUUID().toString();
+			System.out.println(saveFileName[i]);
+
+			String s3Path = "sns/" + sns_id + "/";			
+			Image image = new Image();
+			image.setSnsId(sns_id);
+			image.setFilePath(s3Path);
+			image.setFileName(saveFileName[i]);
+			
+			imageDao.save(image);
+			
+			s3Dao.upload(files[i], s3Path, saveFileName[i]);
+			result.put("url" + i, saveFileName[i]);
+		}
+    	return result;
     }
 }
