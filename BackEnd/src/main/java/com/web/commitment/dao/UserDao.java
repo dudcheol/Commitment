@@ -35,4 +35,6 @@ public interface UserDao extends JpaRepository<User, String> {
 	@Modifying
 	@Query(value = "update user u set u.authkey=:authkey where u.email=:email", nativeQuery = true)
 	void AuthkeyUpdate(@Param("email") String email, @Param("authkey") String authkey);
+	
+	int countByEmail(String email);
 }

@@ -16,6 +16,4 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 	@Modifying
 	@Query(value = "select * from follow f where f.follow_from=:email", nativeQuery = true)
 	List<Follow> FindFollowByEmail(@Param("email")String email);
-	
-
 }

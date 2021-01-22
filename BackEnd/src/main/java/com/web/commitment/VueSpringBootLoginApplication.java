@@ -13,9 +13,9 @@ import com.web.commitment.vue.JwtInterceptor;
 //@SpringBootApplication
 public class VueSpringBootLoginApplication implements WebMvcConfigurer {
 
-	public static void main(String[] args) {
-		SpringApplication.run(VueSpringBootLoginApplication.class, args);
-	}
+//	public static void main(String[] args) {
+//		SpringApplication.run(VueSpringBootLoginApplication.class, args);
+//	}
 
 	@Autowired
     private JwtInterceptor jwtInterceptor;
