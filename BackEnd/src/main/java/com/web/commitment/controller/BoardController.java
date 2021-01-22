@@ -1,6 +1,8 @@
 package com.web.commitment.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +48,7 @@ public class BoardController {
     		int emailResult = userDao.countByEmail(sns.getEmail());
 
     		if(emailResult != 0) { 
+    			sns.setCreatedAt(LocalDateTime.now());
     			boardDao.save(sns);
     			return "success";
     		} else {
@@ -111,5 +114,31 @@ public class BoardController {
     	} catch (Exception e) {
     		return 1;
     	}
+    }
+    
+    // 대소문자 구분 없이 검색! IgnoreCase
+    
+    /// 제목으로 검색
+    @GetMapping("/sns/title")
+    @ApiOperation(value = "제목으로 검색")
+    public List<Board> searchByTitle(@RequestParam String keyword) {
+    	
+    	return boardDao.findByTitleContainingIgnoreCase(keyword);
+    }
+   
+    /// 내용으로 검색
+    @GetMapping("/sns/content")
+    @ApiOperation(value = "제목 & 내용으로 검색")
+    public Collection<Board> searchByContent(@RequestParam String keyword) {
+    	
+    	return boardDao.findByContentContainingIgnoreCase(keyword);
+    }
+    
+    /// 제목 & 내용으로 검색
+    @GetMapping("/sns/tnc")
+    @ApiOperation(value = "제목 & 내용으로 검색")
+    public Collection<Board> searchByTandC(@RequestParam String keyword) {
+    	
+    	return boardDao.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword);
     }
 }

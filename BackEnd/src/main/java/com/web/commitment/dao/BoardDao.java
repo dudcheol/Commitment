@@ -1,5 +1,6 @@
 package com.web.commitment.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,11 @@ import com.web.commitment.dto.Board;
 public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findAllByCommitId(String id);
+
+	Collection<Board> findByContentContainingIgnoreCase(String keyword);
+
+	List<Board> findByTitleContainingIgnoreCase(String keyword);
+
+	Collection<Board> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String keyword, String keyword2);
 
 }

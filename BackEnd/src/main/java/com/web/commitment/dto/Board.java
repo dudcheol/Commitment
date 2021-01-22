@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,7 +46,7 @@ public class Board {
 	@Column(name="title")
 	private String title;
 	
-	@Column(name="content")
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String content;
 	
 	@Column(name="created_at")
@@ -54,6 +55,7 @@ public class Board {
 	@Column(name="location")
 	private String location;	
 	
+	 
 //	@ManyToOne
 //	@JoinColumn(name = "user_email")
 //	private Collection<User> user;
