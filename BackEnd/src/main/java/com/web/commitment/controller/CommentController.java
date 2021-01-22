@@ -1,7 +1,6 @@
 package com.web.commitment.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,20 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommentDao;
-import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
-import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Comment;
-import com.web.commitment.dto.Commit;
 
 import io.swagger.annotations.ApiOperation;
 
