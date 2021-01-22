@@ -75,7 +75,7 @@ public class BoardController {
     }
     
     
-    @PutMapping("/account/update")
+    @PutMapping("/sns")
     @ApiOperation(value = "게시글 수정")
     public Object update(@RequestBody Board sns) {
     	
