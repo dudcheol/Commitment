@@ -1,5 +1,6 @@
 package com.web.commitment.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,7 @@ public class BoardController {
     	
 		// 여기서는 id 필요 없음
     	// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
+//		System.out.println(LocalDateTime.now().toString().split("T")[0]);
     	try { 
     		int emailResult = userDao.countByEmail(sns.getEmail());
 

@@ -12,4 +12,6 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findAllByCommitId(String id);
 
+	List<Board> findBoardByEmail(String to);
+
 }
