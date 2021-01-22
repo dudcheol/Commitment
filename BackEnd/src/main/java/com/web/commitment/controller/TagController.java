@@ -1,5 +1,6 @@
 package com.web.commitment.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.web.commitment.dao.TagDao;
+import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Tag;
 
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +31,10 @@ public class TagController {
     public String tag(@PathVariable String id, @RequestBody Tag[] tag) {
 		
 		List<Tag> tags = tagDao.findAllBySnsId(id);
-		System.out.println(tags);
+		System.out.println(tags.size());
+		for (int i = 0; i < tags.size(); i++) {
+			System.out.println(tags.get(i).getContent());
+		}
 		tagDao.deleteAll(tags);
 		
 		try { 
@@ -51,5 +56,13 @@ public class TagController {
     public List<Tag> mypage(@PathVariable String id) {
 
         return tagDao.findBySnsId(id);
+    }
+    
+    /// 해시태그로 검색
+    @GetMapping("/search/tag")
+    @ApiOperation(value = "해시태그로 검색")
+    public Collection<Tag> searchByTag(@RequestParam String keyword) {
+    	
+    	return tagDao.findByContentContainingIgnoreCase(keyword);
     }
 }

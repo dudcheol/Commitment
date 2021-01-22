@@ -119,7 +119,7 @@ public class BoardController {
     // 대소문자 구분 없이 검색! IgnoreCase
     
     /// 제목으로 검색
-    @GetMapping("/sns/title")
+    @GetMapping("/search/title")
     @ApiOperation(value = "제목으로 검색")
     public List<Board> searchByTitle(@RequestParam String keyword) {
     	
@@ -127,7 +127,7 @@ public class BoardController {
     }
    
     /// 내용으로 검색
-    @GetMapping("/sns/content")
+    @GetMapping("/search/content")
     @ApiOperation(value = "제목 & 내용으로 검색")
     public Collection<Board> searchByContent(@RequestParam String keyword) {
     	
@@ -135,10 +135,10 @@ public class BoardController {
     }
     
     /// 제목 & 내용으로 검색
-    @GetMapping("/sns/tnc")
+    @GetMapping("/search/tnc")
     @ApiOperation(value = "제목 & 내용으로 검색")
     public Collection<Board> searchByTandC(@RequestParam String keyword) {
     	
     	return boardDao.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword);
-    }
+    } 
 }
