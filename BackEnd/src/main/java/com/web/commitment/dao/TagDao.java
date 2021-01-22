@@ -12,4 +12,6 @@ public interface TagDao extends JpaRepository<Tag, String> {
 
 	List<Tag> findBySnsId(String sns_id);
 
+	List<Tag> findAllBySnsId(String id);
+
 }
