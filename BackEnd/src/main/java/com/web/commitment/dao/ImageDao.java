@@ -13,8 +13,6 @@ public interface ImageDao extends JpaRepository<Image, String> {
 
 	List<Image> findAllBySnsId(String sns_id);
 
-	Optional<Image> findById(String[] image_id);
-
 	Optional<Image> findByFileName(String file_name);
 
 	void deleteBySnsId(String sns_id);

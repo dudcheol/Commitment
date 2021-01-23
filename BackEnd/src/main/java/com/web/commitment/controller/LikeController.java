@@ -39,6 +39,5 @@ public class LikeController {
 	    	e.printStackTrace();
 	    	return "error";
 	    }
-
     }
 }

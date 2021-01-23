@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.web.commitment.dao.TagDao;
-import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Tag;
 
 import io.swagger.annotations.ApiOperation;
