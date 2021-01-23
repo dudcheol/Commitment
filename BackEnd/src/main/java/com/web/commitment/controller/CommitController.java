@@ -99,6 +99,7 @@ public class CommitController {
 		}
 		return list;
     }
+  
     @GetMapping("/commit/commitrank")
     @ApiOperation(value = "랭킹")
     public List<Rank> commitRank() {

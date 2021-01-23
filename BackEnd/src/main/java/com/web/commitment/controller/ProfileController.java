@@ -108,10 +108,10 @@ public class ProfileController {
 		return result;
 	}
 
-	@ApiOperation(value = "프로필 사진 불러오기")
-	public String image(String email) {
-		Profile profile = profileDao.findProfileByEmail(email);
-		return profile.getFile_path();
-	}
+//	@ApiOperation(value = "프로필 사진 불러오기")
+//	public String image(String email) {
+//		Profile profile = profileDao.findProfileByEmail(email);
+//		return profile.getFile_path();
+//	}
 
 }

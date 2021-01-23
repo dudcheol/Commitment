@@ -1,14 +1,10 @@
 package com.web.commitment.dto;
 
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,43 +13,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@Table(name="commit")
+@Table(name="image")
 @NoArgsConstructor
-@ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Commit {
+public class Image {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private String id;
 	
-	@Column(name="user_email")
-	private String email;
+	@Column(name="sns_id")
+	private String snsId;
 	
-	@Column(name="lat")
-	private String lat;
-	
-	@Column(name="lng")
-	private String lng;
-	
-	@Column(name="created_at")
-	private Date createdAt;
-	
-	@Column(name="open")
-	private int open;
-	
-//	@OneToOne
-//	@JoinColumn(name = "id", referencedColumnName = "commit_id")
-	@OneToOne
-	@JoinColumn(name = "id", referencedColumnName = "commit_id")
-	private Board board;
+	@Column(name="file_name")
+	private String fileName;
+
+	@Column(name="file_path")
+	private String filePath;
 	
 	
+//	@ManyToOne
+//	@JoinColumn(name = "user_email")
+//	private Collection<User> user;
 }
