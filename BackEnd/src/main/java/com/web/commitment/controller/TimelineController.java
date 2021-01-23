@@ -25,6 +25,7 @@ public class TimelineController {
 	@ApiOperation(value = "타임라인정보 불러오기")
 	public Object timeline(@RequestParam(required = true) final String email) {
 		//commit table(커밋날짜 필요) 과 sns테이블(해당커밋에 쓴글의 sns_id필요)과 image테이블필요....(sns_id로 image조회)
+		//세개 테이블을 조인시켜서 내보내야한다.
 		List<Commit>li=commitDao.findAllByEmail(email);
 		for (Commit c:li) {
 			System.out.println(c);
