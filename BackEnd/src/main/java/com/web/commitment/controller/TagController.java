@@ -49,7 +49,7 @@ public class TagController {
 
     }
     
-    // 유저의 게시글 불러오기 open이 1인 것만
+    // 게시글의 태그로 검색
     @GetMapping("/tag/{id}")
     @ApiOperation(value = "해당 게시글의 tag 목록")
     public List<Tag> mypage(@PathVariable String id) {
