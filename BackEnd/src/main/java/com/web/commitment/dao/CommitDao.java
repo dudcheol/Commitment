@@ -15,9 +15,8 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	
 	Optional<Commit> findByLatAndLng(String lat, String lng);
 	
-//	List<Commit> findByEmail(String email);
-	
-	
+	List<Commit> findByEmail(String email);
+
 	//
 //    @Transactional
 //    @Modifying
@@ -26,5 +25,7 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
     @Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
     Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat,@Param("lng") String lng);
+
+	List<Commit> findAllByEmail(String email);
 
 }
