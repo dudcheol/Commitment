@@ -49,7 +49,13 @@ public class LikeController {
 	@ApiOperation(value = "게시글 좋아요 목록 불러오기")
 	public List<Like> likeList(@RequestParam String email){
 	
-		return likeDao.findAllByEmail(email); // snsId로 게시글 불러오는 것까지
+		return likeDao.findAllByEmail(email); // snsId로 게시글 불러오는 것까
 	}
 
+	@GetMapping("/like/count")
+	@ApiOperation(value = "좋아요 받은 개수") // like에 게시글 쓴 사람도 추가해야겠다
+	public int likeCount(@RequestParam String email){
+	
+		return likeDao.countByWriter(email);
+	}
 }

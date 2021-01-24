@@ -14,4 +14,6 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	Optional<Like> findByEmailAndSnsId(String email, int snsId);
 
 	List<Like> findAllByEmail(String email);
+
+	int countByWriter(String email);
 }
