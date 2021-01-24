@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.LikeDao;
-import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Like;
 
 import io.swagger.annotations.ApiOperation;
@@ -52,10 +51,17 @@ public class LikeController {
 		return likeDao.findAllByEmail(email); // snsId로 게시글 불러오는 것까
 	}
 
-	@GetMapping("/like/count")
-	@ApiOperation(value = "좋아요 받은 개수") // like에 게시글 쓴 사람도 추가해야겠다
+	@GetMapping("/like/received")
+	@ApiOperation(value = "좋아요 받은 개수")
 	public int likeCount(@RequestParam String email){
 	
 		return likeDao.countByWriter(email);
+	}
+	
+	@GetMapping("/like/give")
+	@ApiOperation(value = "좋아요 한 개수")
+	public int likeGive(@RequestParam String email){
+	
+		return likeDao.countByEmail(email);
 	}
 }

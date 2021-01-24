@@ -12,12 +12,12 @@ import com.web.commitment.dto.Commit;
 
 @Repository
 public interface CommitDao extends JpaRepository<Commit, String> {
-
-	List<Commit> findAllByEmail(String email);
 	
 	Optional<Commit> findByLatAndLng(String lat, String lng);
 	
-	List<Commit> findByEmail(String email);
+//	List<Commit> findByEmail(String email);
+	
+	
 	//
 //    @Transactional
 //    @Modifying

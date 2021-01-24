@@ -7,16 +7,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 @Entity
 @Data
-@ToString
+@ToString(exclude = {"commit"})
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -62,10 +66,10 @@ public class User {
 	@Column(name = "auth")
 	private String auth;
 	
-	///
-//	@OneToMany(mappedBy = "sns")
-//	private User user;
-
+	// User 1: N Commit
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Commit> commitList;
+	
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {
 		super();

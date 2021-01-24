@@ -61,21 +61,21 @@ public class BoardController {
     	}
     }
     
-    // 유저의 게시글 불러오기 open이 1인 것만
-    @GetMapping("/sns")
-    @ApiOperation(value = "로그인 한 유저의 게시글 목록")
-    public List<Board> mypage(@RequestParam String email) {
-    	
-        List<Commit> commitList = (List<Commit>) commitDao.findByEmail(email);
-        
-        List<Board> postList = new ArrayList<>();
-		for (Commit commit : commitList) {
-        	postList.addAll(boardDao.findAllByCommitId(commit.getId()));
-        	System.out.println(postList);
-		}
-
-        return postList;
-    }
+//    // 유저의 게시글 불러오기 open이 1인 것만
+//    @GetMapping("/sns")
+//    @ApiOperation(value = "로그인 한 유저의 게시글 목록")
+//    public List<Board> mypage(@RequestParam String email) {
+//    	
+//        List<Commit> commitList = (List<Commit>) commitDao.findByEmail(email);
+//        
+//        List<Board> postList = new ArrayList<>();
+//		for (Commit commit : commitList) {
+//        	postList.addAll(boardDao.findAllByCommitId(commit.getId()));
+//        	System.out.println(postList);
+//		}
+//
+//        return postList;
+//    }
     
     
     @PutMapping("/sns")
