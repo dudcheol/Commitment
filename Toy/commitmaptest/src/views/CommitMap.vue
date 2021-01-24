@@ -139,7 +139,7 @@ export default {
 
     //우리나라
     const divideGaro = 32; // 지도가 몇개의 칸으로 나뉘어져 있는지
-    const divideSero = 32;
+    const divideSero = 33;
     (this.center = { lat: 35.95, lng: 128.25 }), // 대한민국
       (this.zoom = 7);
     const garoTop = 38.9;
