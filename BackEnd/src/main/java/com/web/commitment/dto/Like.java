@@ -35,4 +35,7 @@ public class Like {
 
 	@Column(name="sns_id")
 	private int snsId;
+	
+	@Column(name="writer")
+	private String writer;
 }

@@ -47,8 +47,9 @@ public class LikeController {
 	
 	@GetMapping("/like")
 	@ApiOperation(value = "게시글 좋아요 목록 불러오기")
-	public List<Board> likeList(@RequestParam String email){
+	public List<Like> likeList(@RequestParam String email){
 	
-		return likeDao.findAllByEmail(email);
+		return likeDao.findAllByEmail(email); // snsId로 게시글 불러오는 것까지
 	}
+
 }
