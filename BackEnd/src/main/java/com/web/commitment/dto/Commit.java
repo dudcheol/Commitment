@@ -1,14 +1,12 @@
 package com.web.commitment.dto;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
@@ -25,7 +22,6 @@ import lombok.ToString;
 @Table(name="commit")
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"user"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Commit {
 	
@@ -34,13 +30,8 @@ public class Commit {
 	@Column(name="id")
 	private String id;
 	
-	// commit N : 1 User
-	@ManyToOne
-//	@Column(name="user_email")
-	private User user;
-	
-//	@Column(name="user_email")
-//	private String email;
+	@Column(name="user_email")
+	private String email;
 	
 	@Column(name="lat")
 	private String lat;
@@ -49,7 +40,7 @@ public class Commit {
 	private String lng;
 	
 	@Column(name="created_at")
-	private LocalDateTime createdAt;
+	private Date createdAt;
 	
 	@Column(name="open")
 	private int open;
