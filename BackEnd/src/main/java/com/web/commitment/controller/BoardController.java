@@ -1,7 +1,6 @@
 package com.web.commitment.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,6 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Commit;
 
 import io.swagger.annotations.ApiOperation;
 
