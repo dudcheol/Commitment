@@ -24,6 +24,8 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	List<Ranking> commitRank();
 	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit where created_at between DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW() group by commit.user_email", nativeQuery = true)
 	List<Ranking> commitWeekRank();
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit where created_at between DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() group by commit.user_email", nativeQuery = true)
+	List<Ranking> commitMonthRank();
 
 //	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
 //	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);

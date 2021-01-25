@@ -29,4 +29,10 @@ public class RankingController {
 		List<Ranking> list = commitDao.commitWeekRank();
 		return list;
 	}
+	@GetMapping("/rank/month")
+	@ApiOperation(value = "월간랭킹")
+	public List<Ranking> commitMonthRank() {
+		List<Ranking> list = commitDao.commitMonthRank();
+		return list;
+	}
 }
