@@ -1,7 +1,5 @@
 package com.web.commitment.dto;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,42 +13,31 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
-@ToString
-@Table(name="sns")
+@Table(name="image")
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Board {
+public class Image {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private String id;
 	
-	@Column(name="commit_id")
-	private String commitId;
+	@Column(name="sns_id")
+	private String snsId;
 	
-	@Column(name="user_email")
-	private String email;
+	@Column(name="file_name")
+	private String fileName;
 
-	@Column(name="title")
-	private String title;
+	@Column(name="file_path")
+	private String filePath;
 	
-	@Column(columnDefinition = "TEXT", nullable = false)
-	private String content;
 	
-	@Column(name="created_at")
-	private LocalDateTime createdAt;
-	
-	@Column(name="location")
-	private String location;	
-	
-	 
 //	@ManyToOne
 //	@JoinColumn(name = "user_email")
 //	private Collection<User> user;

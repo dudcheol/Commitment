@@ -1,7 +1,5 @@
 package com.web.commitment.dto;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,37 +19,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name="sns")
+@Table(name="save")
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Board {
+public class Like {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private String id;
-	
-	@Column(name="commit_id")
-	private String commitId;
-	
+
 	@Column(name="user_email")
 	private String email;
 
-	@Column(name="title")
-	private String title;
+	@Column(name="sns_id")
+	private int snsId;
 	
-	@Column(columnDefinition = "TEXT", nullable = false)
-	private String content;
-	
-	@Column(name="created_at")
-	private LocalDateTime createdAt;
-	
-	@Column(name="location")
-	private String location;	
-	
-	 
-//	@ManyToOne
-//	@JoinColumn(name = "user_email")
-//	private Collection<User> user;
+	@Column(name="writer")
+	private String writer;
 }
