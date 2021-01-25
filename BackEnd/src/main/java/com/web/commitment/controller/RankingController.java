@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.CommitDao;
@@ -33,6 +34,12 @@ public class RankingController {
 	@ApiOperation(value = "월간랭킹")
 	public List<Ranking> commitMonthRank() {
 		List<Ranking> list = commitDao.commitMonthRank();
+		return list;
+	}
+	@GetMapping("/rank/following")
+	@ApiOperation(value = "팔로잉한 사람들 커밋 랭킹")
+	public List<Ranking> followingRank(@RequestParam(required = true) String email) {
+		List<Ranking> list = commitDao.followingRank(email);
 		return list;
 	}
 }
