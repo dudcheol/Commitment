@@ -18,4 +18,6 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	int countByWriter(String email);
 
 	int countByEmail(String email);
+	
+	int countBySnsId(int id);
 }
