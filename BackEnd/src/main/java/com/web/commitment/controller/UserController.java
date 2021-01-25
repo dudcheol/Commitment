@@ -1,6 +1,7 @@
 package com.web.commitment.controller;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -256,8 +257,6 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@Autowired
-	UserDao userDao;
 	
     /// 해시태그로 검색
     @GetMapping("/search/nickname")

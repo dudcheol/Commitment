@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
-import com.web.commitment.dto.Rank;
 import com.web.commitment.dto.User;
+import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -37,7 +37,6 @@ public class CommitController {
     @PostMapping("/commit/{open}")
     @ApiOperation(value = "커밋하기")
     public String commit(@Valid @RequestBody User user, @PathVariable int open) {
-        
     	// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		try {
 			Commit commit = new Commit();
@@ -102,9 +101,9 @@ public class CommitController {
   
     @GetMapping("/commit/commitrank")
     @ApiOperation(value = "랭킹")
-    public List<Rank> commitRank() {
+    public List<Ranking> commitRank() {
     	
-    	List<Rank> list =commitDao.commitRank();
+    	List<Ranking> list =commitDao.commitRank();
     	return list;
     }
 }

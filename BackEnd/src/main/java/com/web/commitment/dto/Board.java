@@ -45,16 +45,6 @@ public class Board {
 	@Column(name="user_email")
 	private String email;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private String id;
-
-	@Column(name = "commit_id")
-	private String commitId;
-
-	@Column(name = "user_email")
-	private String email;
 
 	@Column(name = "title")
 	private String title;
