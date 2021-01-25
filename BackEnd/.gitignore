@@ -86,3 +86,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+## backend ##
+src/main/java/com/web/commitment/config/S3Config.java
