@@ -89,3 +89,4 @@ pnpm-debug.log*
 
 ## backend ##
 src/main/java/com/web/commitment/config/S3Config.java
+S3config.java
