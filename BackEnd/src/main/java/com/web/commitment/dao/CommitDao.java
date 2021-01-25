@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Commit;
-import com.web.commitment.dto.Rank;
+import com.web.commitment.dto.Ranking;
 
 @Repository
 public interface CommitDao extends JpaRepository<Commit, String> {
@@ -18,16 +18,11 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	Optional<Commit> findByLatAndLng(String lat, String lng);
 
-	List<Commit> findByEmail(String email);
-	
-	//에러남... 나중에 수정하기..	
-//	@Query(value="select new com.web.commitment.dto.Rank(c.user_email, rank() over (order by count(*) desc)) from commit c group by c.user_email", nativeQuery = true)
-//	List<Rank> commitRank();
-	
-	@Query(value="select new com.web.commitment.dto.Rank(c.user_email, rank() over (order by count(c.user_email) desc)) from commit c group by c.user_email", nativeQuery = true)
-	List<Rank> commitRank();
-	
+	// 에러남... 나중에 수정하기.. rank() over (order by count(*) desc) ranking
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking from commit  group by commit.user_email", nativeQuery = true)
+	List<Ranking> commitRank();
+
 	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
-	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat,@Param("lng") String lng);
-	
+	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
+
 }

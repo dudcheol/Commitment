@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
@@ -65,12 +66,18 @@ public class BoardController {
     // 유저의 게시글 불러오기 open이 1인 것만
     @GetMapping("/sns")
     @ApiOperation(value = "로그인 한 유저의 게시글 목록")
-    public List<Board> mypage(@RequestParam String email) {
+    public List<Board> loadSns(@RequestParam String email) {
     	
-        List<Commit> commitList = (List<Commit>) commitDao.findByEmail(email);
+        List<Commit> commitList = commitDao.findAllByEmail(email);
+        List<Commit> possibleCommit = new ArrayList<>();
+        for (Commit commit : commitList) {
+			if(commit.getOpen() == 1) {
+				possibleCommit.add(commit);
+			}
+		}
         
         List<Board> postList = new ArrayList<>();
-		for (Commit commit : commitList) {
+		for (Commit commit : possibleCommit) {
         	postList.addAll(boardDao.findAllByCommitId(commit.getId()));
         	System.out.println(postList);
 		}
@@ -116,8 +123,15 @@ public class BoardController {
     		return 1;
     	}
     }
-    // 대소문자 구분 없이 검색! IgnoreCase
     
+    @GetMapping("/sns/{id}")
+    @ApiOperation(value = "게시글 상세")
+    public Optional<Board> snsDetail(@PathVariable String id) {
+    	
+        return boardDao.findById(id);
+    }
+    
+    // 대소문자 구분 없이 검색! IgnoreCase
     
     /// 제목으로 검색
     @GetMapping("/search/title")
