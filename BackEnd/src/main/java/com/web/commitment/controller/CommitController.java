@@ -29,38 +29,30 @@ public class CommitController {
 
 	@Autowired
 	CommitDao commitDao;
-	
+
 	@Autowired
 	UserDao userDao;
-	
+
 	// CRUD 중 C만
-    @PostMapping("/commit/{open}")
-    @ApiOperation(value = "커밋하기")
-    public String commit(@Valid @RequestBody User user, @PathVariable int open) {
-    	// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
+	@PostMapping("/commit/{open}")
+	@ApiOperation(value = "커밋하기")
+	public String commit(@Valid @RequestBody User user, @PathVariable int open) {
+		// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		try {
 			Commit commit = new Commit();
 			commit.setEmail(user.getEmail());
 			commit.setLat(user.getLat());
 			commit.setLng(user.getLng());
+			commit.setRegion_name("seoul");
 			commit.setOpen(open);
-			
-			Optional<Commit> getCommit=commitDao.commitCheck(user.getEmail(),user.getLat() , user.getLng());
-			
-	        // 해당 lat, lng 값을 가진 user가 있으면 X
-	        if(!getCommit.isPresent()) { 
-	        	System.out.println(user);
-	        	commitDao.save(commit);
-	        	return "success";
-	        } else {
-	        	//commit overlap is not allowed
-	        	return "fail";
-	        }
-		} catch(Exception e) {
+
+			commitDao.save(commit);
+			return "success";
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
-    }
+	}
 
 	// 커밋 불러오는 방법
 //	@GetMapping("/commit")
@@ -72,7 +64,7 @@ public class CommitController {
 //		}
 //		return null;
 //    }
-    
+
 //	@GetMapping("/commit")
 //    @ApiOperation(value = "유저의 커밋 정보 불러오기")
 //    public Map<String, String> commit(@RequestParam(required = true) final String email) {
@@ -87,23 +79,17 @@ public class CommitController {
 //		}
 //		return map;
 //    }
-	
+
 	@GetMapping("/commit")
-    @ApiOperation(value = "유저의 커밋 정보 불러오기")
-    public List<String[]> commit(@RequestParam(required = true) final String email) {
-		
-    	List<String[]> list = new ArrayList<>();
-		if(userDao.countByEmail(email) != 0) {
-			commitDao.findAllByEmail(email).forEach(commit -> list.add(new String[] {commit.getLat(), commit.getLng()}));
+	@ApiOperation(value = "유저의 커밋 정보 불러오기")
+	public List<String[]> commit(@RequestParam(required = true) final String email) {
+
+		List<String[]> list = new ArrayList<>();
+		if (userDao.countByEmail(email) != 0) {
+			commitDao.findAllByEmail(email)
+					.forEach(commit -> list.add(new String[] { commit.getLat(), commit.getLng() }));
 		}
 		return list;
-    }
-  
-    @GetMapping("/commit/commitrank")
-    @ApiOperation(value = "랭킹")
-    public List<Ranking> commitRank() {
-    	
-    	List<Ranking> list =commitDao.commitRank();
-    	return list;
-    }
+	}
+
 }

@@ -48,6 +48,16 @@ public class Commit {
 	
 	@Column(name="open")
 	private int open;
+	@Column(name="region_name")
+	private String region_name;
+	@Column(name="national_x")
+	private String national_x;
+	@Column(name="national_y")
+	private String national_y;
+	@Column(name="local_x")
+	private String local_x;
+	@Column(name="local_y")
+	private String local_y;
 	
 //	@OneToOne
 //	@JoinColumn(name = "id", referencedColumnName = "commit_id")
