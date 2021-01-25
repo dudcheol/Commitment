@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +45,15 @@ public class BadgeController {
 	public Badge badgeList(@RequestParam String email) {
 		Badge b=badgedao.findBadgeByUserEmail(email);
 		return b;
+	}
+	
+	//뱃지달성을 어떻게 받아올건지는 프론트와 협의후 적절히 수정예정
+	//객체로받아올 것인가 아니면 뱃지별로 메소드를 제작할것인가...?
+	@PostMapping("/badge/list")
+	@ApiOperation(value = "뱃지")
+	public String badgeList(@RequestBody Badge b) {
+		badgedao.save(b);
+		return "success";
 	}
 	
 	
