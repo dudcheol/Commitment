@@ -63,6 +63,7 @@ public class User {
 
 	@Column(name = "auth")
 	private String auth;
+	
 
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {

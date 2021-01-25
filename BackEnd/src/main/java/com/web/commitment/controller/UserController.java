@@ -1,6 +1,7 @@
 package com.web.commitment.controller;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.commitment.dao.ProfileDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
@@ -256,9 +256,6 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@Autowired
-	UserDao userDao;
-	
     /// 해시태그로 검색
     @GetMapping("/search/nickname")
     @ApiOperation(value = "닉네임으로 검색")

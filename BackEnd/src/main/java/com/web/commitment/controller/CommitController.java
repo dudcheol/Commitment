@@ -105,6 +105,7 @@ public class CommitController {
     public List<Rank> commitRank() {
     	
     	List<Rank> list =commitDao.commitRank();
+    	System.out.println(list.get(0).getRank());
     	return list;
     }
 }
