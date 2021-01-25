@@ -1,7 +1,10 @@
 package com.web.commitment.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -72,24 +75,10 @@ public class CommitController {
 //		}
 //		return null;
 //    }
-    
-//	@GetMapping("/commit")
-//    @ApiOperation(value = "유저의 커밋 정보 불러오기")
-//    public Map<String, String> commit(@RequestParam(required = true) final String email) {
-//		
-//    	Map<String, String> map = new HashMap<>();
-//		if(userDao.countByEmail(email) != 0) {
-//			commitDao.findAllByEmail(email)
-//				.forEach(commit -> {
-//					map.put("lat", commit.getLat());
-//					map.put("lng", commit.getLng());
-//				});
-//		}
-//		return map;
-//    }
+
 	
 	@GetMapping("/commit")
-    @ApiOperation(value = "유저의 커밋 정보 불러오기")
+    @ApiOperation(value = "유저의 커밋 정보 불러오기")  // 위도, 경도 정보
     public List<String[]> commit(@RequestParam(required = true) final String email) {
 		
     	List<String[]> list = new ArrayList<>();
@@ -98,12 +87,62 @@ public class CommitController {
 		}
 		return list;
     }
-  
-    @GetMapping("/commit/commitrank")
+    
+	@GetMapping("/commit/count")
+    @ApiOperation(value = "인덱스 별 커밋 횟수 불러오기")
+    public List<int[]> commitCount(@RequestParam(required = true) final String email, @RequestParam(required = false) String name) {
+		
+    	Map<Position, Integer> map = new HashMap<>();
+    	
+    	if(name != null) {
+	    	List<Commit> commits = commitDao.findAllByEmailAndName(email, name);
+	    	for (Commit commit : commits) {
+				map.put(new Position(commit.getLocalX(), commit.getLocalY()), map.getOrDefault(new Position(commit.getLocalX(), commit.getLocalY()), 0) + 1);
+			}
+    	}
+    		
+    	List<int[]> positions = new ArrayList<>();
+        // Iterator 사용 1 - keySet()
+        Iterator<Position> keys = map.keySet().iterator();
+        while (keys.hasNext()){
+            Position key = keys.next();
+            positions.add(new int[] {key.x, key.y, map.get(new Position(key.x, key.y))});
+            System.out.println("KEY : " + key.x + " " + key.y); //
+        }
+
+    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count
+    }
+
+
+	@GetMapping("/commit/commitrank")
     @ApiOperation(value = "랭킹")
     public List<Ranking> commitRank() {
     	
     	List<Ranking> list =commitDao.commitRank();
     	return list;
+    }
+    
+    // 인덱스 정보
+    static public class Position {
+    	int x;
+    	int y;
+
+    	Position(int x, int y){
+    		this.x = x;
+    		this.y = y;
+    	}
+    	
+    	@Override
+        public boolean equals(Object obj)//비교 부분
+        {
+            return (y == ((Position)obj).y && x == ((Position)obj).x);
+        }
+
+        @Override
+        public int hashCode()//해쉬 코드 부분
+        {
+            return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
+        }
+    	
     }
 }

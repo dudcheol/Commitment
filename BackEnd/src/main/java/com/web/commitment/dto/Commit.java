@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -36,7 +37,7 @@ public class Commit {
 	
 	@Column(name="user_email")
 	private String email;
-	
+
 	@Column(name="lat")
 	private String lat;
 	
@@ -49,11 +50,26 @@ public class Commit {
 	@Column(name="open")
 	private int open;
 	
-//	@OneToOne
-//	@JoinColumn(name = "id", referencedColumnName = "commit_id")
+	@Column(name="region_name")
+	private String name;
+	
+	@Column(name="national_x")
+	private int nationalX;
+	
+	@Column(name="national_y")
+	private int nationalY;
+	
+	@Column(name="local_x")
+	private int localX;
+	
+	@Column(name="local_y")
+	private int localY;
+	
 	@OneToOne
 	@JoinColumn(name = "id", referencedColumnName = "commit_id")
 	private Board board;
 	
-	
+//	// commit N : 1 User
+//	@ManyToOne
+//	private User user;
 }
