@@ -64,31 +64,9 @@ public class CommitController {
 			return "error";
 		}
     }
-
-	// 커밋 불러오는 방법
-//	@GetMapping("/commit")
-//    @ApiOperation(value = "유저의 커밋 정보 불러오기")
-//    public List<Commit> commit(@RequestParam(required = true) final String email) {
-//		
-//		if(userDao.countByEmail(email) != 0) {
-//			return commitDao.findAllByEmail(email);
-//		}
-//		return null;
-//    }
-
-	
-	@GetMapping("/commit")
-    @ApiOperation(value = "유저의 커밋 정보 불러오기")  // 위도, 경도 정보
-    public List<String[]> commit(@RequestParam(required = true) final String email) {
-		
-    	List<String[]> list = new ArrayList<>();
-		if(userDao.countByEmail(email) != 0) {
-			commitDao.findAllByEmail(email).forEach(commit -> list.add(new String[] {commit.getLat(), commit.getLng()}));
-		}
-		return list;
-    }
     
-	@GetMapping("/commit/count")
+    // 커밋 행렬 좌표, 횟수 불러오기
+	@GetMapping("/commit")
     @ApiOperation(value = "인덱스 별 커밋 횟수 불러오기")
     public List<int[]> commitCount(@RequestParam(required = true) final String email, @RequestParam(required = false) String name) {
 		
@@ -98,6 +76,11 @@ public class CommitController {
 	    	List<Commit> commits = commitDao.findAllByEmailAndName(email, name);
 	    	for (Commit commit : commits) {
 				map.put(new Position(commit.getLocalX(), commit.getLocalY()), map.getOrDefault(new Position(commit.getLocalX(), commit.getLocalY()), 0) + 1);
+			}
+    	} else { // name이 null이라면 전국지도
+    		List<Commit> commits = commitDao.findAllByEmail(email);
+    		for (Commit commit : commits) {
+    			map.put(new Position(commit.getLocalX(), commit.getLocalY()), map.getOrDefault(new Position(commit.getLocalX(), commit.getLocalY()), 0) + 1);
 			}
     	}
     		
