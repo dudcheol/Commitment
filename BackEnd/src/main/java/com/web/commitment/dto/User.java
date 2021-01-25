@@ -11,12 +11,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 
 @Entity
 @Data
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -61,7 +62,7 @@ public class User {
 
 	@Column(name = "auth")
 	private String auth;
-	
+
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {
 		super();
@@ -73,4 +74,7 @@ public class User {
 		this.gender = gender;
 		this.mystory = mystory;
 	}
+	
+	
+
 }
