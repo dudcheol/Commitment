@@ -256,4 +256,22 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
+	@Autowired
+	UserDao userDao;
+	
+    /// 해시태그로 검색
+    @GetMapping("/search/nickname")
+    @ApiOperation(value = "닉네임으로 검색")
+    public Collection<User> searchByNickname(@RequestParam String keyword) {
+    	
+    	return userDao.findByNicknameContainingIgnoreCase(keyword);
+    }
+    
+    /// 이메일로 검색
+    @GetMapping("/search/email")
+    @ApiOperation(value = "이메일로 검색")
+    public Collection<User> searchByEmail(@RequestParam String keyword) {
+    	
+    	return userDao.findByEmailContainingIgnoreCase(keyword);
+    }
 }

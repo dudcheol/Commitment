@@ -1,5 +1,6 @@
 package com.web.commitment.dao;
 
+
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -8,12 +9,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Collection;
+
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.User;
 
 @Repository
 public interface UserDao extends JpaRepository<User, String> {
+
 
 	User getUserByEmail(String email);
 
@@ -37,4 +42,10 @@ public interface UserDao extends JpaRepository<User, String> {
 	void AuthkeyUpdate(@Param("email") String email, @Param("authkey") String authkey);
 	
 	int countByEmail(String email);
+
+
+	Collection<User> findByNicknameContainingIgnoreCase(String keyword);
+
+	Collection<User> findByEmailContainingIgnoreCase(String keyword);
+
 }

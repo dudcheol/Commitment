@@ -10,11 +10,8 @@ import org.springframework.web.multipart.MultipartResolver;
 
 @SpringBootApplication
 public class CommitmentApplication {
-
 	
-
 	public static void main(String[] args) {
 		SpringApplication.run(CommitmentApplication.class, args);
 	}
-
 }
