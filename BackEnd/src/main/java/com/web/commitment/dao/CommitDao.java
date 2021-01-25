@@ -21,8 +21,8 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking from commit  group by commit.user_email", nativeQuery = true)
 	List<Ranking> commitRank();
 
-	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
-	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
+//	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
+//	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
 
 	List<Commit> findAllByEmailAndName(String eamil, String name);
 

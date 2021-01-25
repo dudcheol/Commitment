@@ -50,15 +50,10 @@ public class CommitController {
 			
 			Optional<Commit> getCommit=commitDao.commitCheck(user.getEmail(),user.getLat() , user.getLng());
 			
-	        // 해당 lat, lng 값을 가진 user가 있으면 X
-	        if(!getCommit.isPresent()) { 
-	        	System.out.println(user);
-	        	commitDao.save(commit);
-	        	return "success";
-	        } else {
-	        	//commit overlap is not allowed
-	        	return "fail";
-	        }
+        	System.out.println(user);
+        	commitDao.save(commit);
+        	return "success";
+
 		} catch(Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -126,6 +121,6 @@ public class CommitController {
         {
             return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
         }
-    	
+
     }
 }

@@ -160,4 +160,27 @@ public class BoardController {
     	
     	return boardDao.findByEmailContainingIgnoreCase(keyword);
     } 
+    
+    
+    // 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
+    @GetMapping("/sns")
+    @ApiOperation(value = "로그인 한 유저의 게시글 목록")
+    public List<Board> loadSns(@RequestParam String email) {
+    	
+        List<Commit> commitList = commitDao.findAllByEmail(email);
+        List<Commit> possibleCommit = new ArrayList<>();
+        for (Commit commit : commitList) {
+			if(commit.getOpen() == 1) {
+				possibleCommit.add(commit);
+			}
+		}
+        
+        List<Board> postList = new ArrayList<>();
+		for (Commit commit : possibleCommit) {
+        	postList.addAll(boardDao.findAllByCommitId(commit.getId()));
+        	System.out.println(postList);
+		}
+
+        return postList;
+    }
 }
