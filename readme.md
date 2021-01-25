@@ -64,7 +64,7 @@
 
 ### 3. :link:데이터베이스 모델링(ERD) 
 
-![210119 DB 설계](/uploads/3956483e15fba94951e5661b1a9fcca4/210119.JPG)
+![210125_DB 설계](/uploads/a2710092abf421045fc2d252bf8208bd/210125_DB.png)
 
 ### 4. :speech_balloon:기능 명세 (결과물)  
 
