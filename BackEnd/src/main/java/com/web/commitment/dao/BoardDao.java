@@ -21,4 +21,6 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	Collection<Board> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String keyword, String keyword2);
 
+	Collection<Board> findByEmailContainingIgnoreCase(String keyword);
+
 }

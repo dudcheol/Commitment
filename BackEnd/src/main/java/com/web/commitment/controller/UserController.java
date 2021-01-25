@@ -258,7 +258,7 @@ public class UserController {
 
     /// 해시태그로 검색
     @GetMapping("/search/nickname")
-    @ApiOperation(value = "닉네임으로 검색")
+    @ApiOperation(value = "사용자 검색: 닉네임으로 검색")
     public Collection<User> searchByNickname(@RequestParam String keyword) {
     	
     	return userDao.findByNicknameContainingIgnoreCase(keyword);
@@ -266,7 +266,7 @@ public class UserController {
     
     /// 이메일로 검색
     @GetMapping("/search/email")
-    @ApiOperation(value = "이메일로 검색")
+    @ApiOperation(value = "사용자 검색: 이메일로 검색")
     public Collection<User> searchByEmail(@RequestParam String keyword) {
     	
     	return userDao.findByEmailContainingIgnoreCase(keyword);
