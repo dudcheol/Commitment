@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // 연결할 컴포넌트 import
-import Header from "./../components/layout/Header.vue"
-import Footer from "./../components/layout/Footer.vue"
+import Header from "./../components/common/Header.vue"
+import Footer from "./../components/common/Footer.vue"
 
 // 필수
 Vue.use(Router)
