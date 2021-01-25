@@ -1,6 +1,5 @@
 <template>
-<div class="grid-container">
-  <div class="signup">
+  <div class="login_input">
     <v-list-item>
       로그인
     </v-list-item>
@@ -30,47 +29,33 @@
       />
     </v-list-item>
     <v-list-item>
-      <vs-button type="flat">Login</vs-button>
+      <vs-button size="large" type="flat">Login</vs-button>
     </v-list-item>
   </div>
-</div>
+
 </template>
-
-
 
 <script>
 export default {
-  name: "Signup",
-  components: {},
-  data() {
-    return {
-    };
-  }
+
 }
 </script>
 
 <style>
-
-.vs-button__content {
-    width: 100vh;
+.v-main__wrap {
+  display: flex;
+  justify-content: center;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 6fr 6fr 1fr;
-  grid-template-rows: 1fr 6fr 6fr 1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    ". . . ."
-    ". signup signup ."
-    ". signup signup ."
-    ". . . .";
-}
-
-.signup { grid-area: signup; 
+.login_input {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+.v-list-item.theme--light {
+  display: flex;
+  justify-content: center;
+  max-height: 70px;
+}
 </style>
