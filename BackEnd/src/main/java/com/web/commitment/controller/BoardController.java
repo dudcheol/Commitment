@@ -83,7 +83,7 @@ public class BoardController {
 	
     // 다른 유저의 게시글 불러오기 open이 1인 것만
     @GetMapping("/sns")
-    @ApiOperation(value = "로그인 한 유저의 게시글 목록")
+    @ApiOperation(value = "다른 유저의 게시글 목록")
     public List<Board> loadSns(@RequestParam String email) {
     	
         List<Commit> commitList = commitDao.findAllByEmail(email);
@@ -191,18 +191,27 @@ public class BoardController {
     	String lat = user.getLat();
     	String lng = user.getLng();
     	
-    	// 유저의 lat, lng 를 기준으로 반경 ?km 이내 commit id List
-    	List<String[]> commitIds = commitDao.radiusCommitId(lat, lng, radius);        
-    	for (int i = 0; i < commitIds.size(); i++) {
-			System.out.println(commitIds.get(i)[0]);
-		}
-    	
-    	// commit id로 board 찾기
     	List<Board> boards = new ArrayList<>();
-    	for (int i = 0; i < commitIds.size(); i++) {
-			boards.addAll(boardDao.findAllByCommitId(commitIds.get(i)[0]));
-		}
+    	// 유저의 lat, lng 를 기준으로 반경 ?km 이내 commit id List
+    	if(radius == 0) {
+    		List<Commit> commits = commitDao.findAll();
+    		for (int i = 0; i < commits.size(); i++) {
+				boards.addAll(boardDao.findAllByCommitId(commits.get(i).getId()));
+			}
+
+    	} else {
+	    	List<String[]> commitIds = commitDao.radiusCommitId(lat, lng, radius);        
+	    	for (int i = 0; i < commitIds.size(); i++) {
+				System.out.println(commitIds.get(i)[0]);
+			}
+	    	
+	    	// commit id로 board 찾기
+	    	
+	    	for (int i = 0; i < commitIds.size(); i++) {
+				boards.addAll(boardDao.findAllByCommitId(commitIds.get(i)[0]));
+			}
+    	}
     	
-        return boards;
+    	return boards;
     }
 }
