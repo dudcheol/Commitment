@@ -1,110 +1,98 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
-      <v-spacer></v-spacer>
+    <v-app-bar
+      app
+      color="white"
+      flat
+    >
+      <v-avatar
+        :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
+        size="32"
+      ></v-avatar>
 
-      <v-icon>mdi-alarm</v-icon>
+      <!-- tab 바뀌는부분 -->
+    <vs-tabs alignment="center">
+      <vs-tab label="Home">
+        <div>
 
-      <v-icon>mdi-wifi-strength-4</v-icon>
+        </div>
+      </vs-tab>
+      <vs-tab label="Documents">
+        <div>
 
-      <v-icon>mdi-battery</v-icon>
-    </v-system-bar>
+        </div>
+      </vs-tab>
+      <vs-tab label="Contributors">
+        <div>
 
-    <v-app-bar app clipped-right flat>
-      <div class="tabs">
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-checkerboard</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-crosshairs-gps</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-send</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-medal-outline</v-icon>
-        </v-btn>
-      </div>
+        </div>
+      </vs-tab>
+      <vs-tab label="Ecosystem">
+        <div>
+        </div>
+      </vs-tab>
+    </vs-tabs>
+
+      <v-avatar
+        class="hidden-sm-and-down"
+        color="grey darken-1 shrink"
+        size="32"
+      ></v-avatar>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app width="300">
-      <v-navigation-drawer v-model="drawer" absolute color="grey lighten-3" mini-variant>
-        <v-avatar
-          class="d-block text-center mx-auto mt-4"
-          color="grey darken-1"
-          size="36"
-        ></v-avatar>
+    <v-main class="grey lighten-3">
+      <v-container>
+        <v-row>
+          <v-col
+            cols="12"
+            sm="2"
+          >
+            <v-sheet
+              rounded="lg"
+              min-height="268"
+            >
+              <!--  -->
+            </v-sheet>
+          </v-col>
 
-        <v-divider class="mx-3 my-5"></v-divider>
+          <v-col
+            cols="12"
+            sm="8"
+          >
+            <v-sheet
+              min-height="70vh"
+              rounded="lg"
+            >
+              <!--  -->
+            </v-sheet>
+          </v-col>
 
-        <v-avatar
-          v-for="n in 6"
-          :key="n"
-          class="d-block text-center mx-auto mb-9"
-          color="grey lighten-1"
-          size="28"
-        ></v-avatar>
-      </v-navigation-drawer>
-
-      <v-sheet color="grey lighten-5" height="128" width="100%"></v-sheet>
-
-      <v-list class="pl-14" shaped>
-        <v-list-item v-for="n in 5" :key="n" link>
-          <v-list-item-content>
-            <v-list-item-title>Item {{ n }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-navigation-drawer app clipped right>
-      <v-list>
-        <v-list-item v-for="n in 5" :key="n" link>
-          <v-list-item-content>
-            <v-list-item-title>Item {{ n }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-main>
-      <span id="develop-navigation"
-        ><router-link to="/home">home</router-link> /
-        <router-link to="/sns">sns</router-link> /</span
-      >
-      <router-view></router-view>
+          <v-col
+            cols="12"
+            sm="2"
+          >
+            <v-sheet
+              rounded="lg"
+              min-height="268"
+            >
+              <!--  -->
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
-
-    <v-footer app color="transparent" height="72" inset>
-      <v-text-field
-        background-color="grey lighten-1"
-        dense
-        flat
-        hide-details
-        rounded
-        solo
-      ></v-text-field>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
-export default {
-  name: 'Main',
-  data: () => ({ drawer: null }),
-};
+  export default {
+    data: () => ({
+      links: [
+        'Dashboard',
+        'Messages',
+        'Profile',
+        'Updates',
+      ],
+    }),
+  }
 </script>
-
-<style>
-#navigation {
-  position: fixed;
-  z-index: 9999;
-}
-.v-toolbar__content {
-  display: flex;
-  justify-content: center;
-}
-</style>
