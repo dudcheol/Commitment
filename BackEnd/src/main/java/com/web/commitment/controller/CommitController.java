@@ -161,8 +161,6 @@ public class CommitController {
 				JSONObject obj2=(JSONObject) results.get(0);				
 				JSONObject results2 = (JSONObject) obj2.get("region");
 				JSONObject  results3= (JSONObject) results2.get("area1");
-//				JSONObject obj3=(JSONObject) results2.get(0);
-//				JSONArray results3 = (JSONArray) obj2.get("area1");
 				return results3.get("alias").toString();
 						
 			}
