@@ -32,4 +32,8 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	List<Commit> findAllByOpen(int i);
 
+	List<Commit> findAllByEmailAndNationalXAndNationalY(String email, int x, int y);
+
+	List<Commit> findAllByEmailAndLocalXAndLocalYAndName(String email, int x, int y, String region);
+
 }

@@ -90,7 +90,21 @@ public class CommitController {
 
     	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count
     }
-
+    
+    // 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
+    @GetMapping("/commit/square")
+    @ApiOperation(value = "네모칸 안의 커밋 정보 list")
+    public List<Commit> commitSquare(@RequestParam String email, @RequestParam int x, @RequestParam int y, @RequestParam String region) {
+		// region : 지역지도인지 국내지도인지/ 0: 국내지도, 1: 지역지도
+    	
+    	List<Commit> commits = new ArrayList<>();
+    	if(region.equals("national")) {
+    		commits = commitDao.findAllByEmailAndNationalXAndNationalY(email, x, y);
+    	} else
+    		commits = commitDao.findAllByEmailAndLocalXAndLocalYAndName(email, x, y, region);
+    	
+    	return commits;
+    }
 
 	@GetMapping("/commit/commitrank")
     @ApiOperation(value = "랭킹")
@@ -123,7 +137,6 @@ public class CommitController {
         }
 
     }
-    
     // 커밋 불러오기 -> open 1인 것만
     
 }
