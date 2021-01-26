@@ -23,7 +23,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	Collection<Board> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String keyword, String keyword2);
 
 	// 랭킹관련
-	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from board "
-			+ "group by board.user_email", nativeQuery = true)
+	@Query(value = "select sns.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from sns "
+			+ "group by sns.user_email", nativeQuery = true)
 	List<Ranking> boardRanking();
 }

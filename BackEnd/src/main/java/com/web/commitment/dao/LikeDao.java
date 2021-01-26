@@ -22,8 +22,8 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	int countByEmail(String email);
 	
 	//랭킹 관련
-	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from like "
-			+ "group by like.user_email", nativeQuery = true)
+	@Query(value = "select save.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from save "
+			+ "group by save.user_email", nativeQuery = true)
 	List<Ranking> likeRanking();
 
 	
