@@ -41,7 +41,16 @@ public class Comment {
 	
 	@Column(name="content")
 	private String content;
+	
+	@Column(name="depth")
+	private int depth;
 
+	@Column(name="seq")
+	private int seq;
+
+	@Column(name="parent")
+	private int parent;
+	
 	@Column(name="created_at")
 	private LocalDateTime createdAt;
 }
