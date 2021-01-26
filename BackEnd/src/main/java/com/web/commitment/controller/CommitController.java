@@ -46,6 +46,7 @@ public class CommitController {
 			commit.setLng(user.getLng());
 			commit.setRegion_name("seoul");
 			commit.setOpen(open);
+			//여기에 인덱스 변환 넣기
 
 			commitDao.save(commit);
 			return "success";
@@ -55,7 +56,7 @@ public class CommitController {
 		}
 	}
 	@PostMapping("/commit/copy/{open}")
-	@ApiOperation(value = "커밋하기")
+	@ApiOperation(value = "커밋하기")//테스트 용
 	public String commit2(@Valid @RequestBody Commit commit, @PathVariable int open) {
 		// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		try {

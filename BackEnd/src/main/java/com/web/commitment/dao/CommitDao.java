@@ -42,11 +42,42 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 			+ "group by commit.user_email;", nativeQuery = true)
 	List<Ranking> followingRank(@Param("email") String email);
 
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=seoul"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> seoulRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=gyeonggi"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> gyeonggiRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=gangwon"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> gangwonRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=gwangju"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> gwangjuRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=ulsan"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> ulsanRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=busan"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> busanRank();
 	
 	//커밋 시간제한
 	@Query(value = "select * from commit "
 			+ "where commit.user_email=:email and commit.region_name=:region and commit.local_x=:x and commit.local_y=:y"
 			+ " AND created_at between DATE_ADD(NOW(),INTERVAL -1 HOUR ) AND NOW()", nativeQuery = true)
 	List<Commit> timeCheck(@Param("email") String email,@Param("x") int x,@Param("y") int y,@Param("region") String region);
+
+	
 
 }

@@ -72,4 +72,43 @@ public class RankingController {
 		List<Ranking> list = followDao.followerRank();
 		return list;
 	}
+	
+	//지역별 커밋 랭킹
+	@GetMapping("/rank/seoul")
+	@ApiOperation(value = "서울 커밋 랭킹")
+	public List<Ranking> seoulRank() {
+		List<Ranking> list = commitDao.seoulRank();
+		return list;
+	}
+	@GetMapping("/rank/gyeonggi")
+	@ApiOperation(value = "경기 커밋 랭킹")
+	public List<Ranking> gyeonggiRank() {
+		List<Ranking> list = commitDao.gyeonggiRank();
+		return list;
+	}
+	@GetMapping("/rank/gangwon")
+	@ApiOperation(value = "강원 커밋 랭킹")
+	public List<Ranking> gangwonRank() {
+		List<Ranking> list = commitDao.gangwonRank();
+		return list;
+	}
+	@GetMapping("/rank/gwangju")
+	@ApiOperation(value = "광주 커밋 랭킹")
+	public List<Ranking> gwangjuRank() {
+		List<Ranking> list = commitDao.gwangjuRank();
+		return list;
+	}
+	@GetMapping("/rank/ulsan")
+	@ApiOperation(value = "울산 커밋 랭킹")
+	public List<Ranking> ulsanRank() {
+		List<Ranking> list = commitDao.ulsanRank();
+		return list;
+	}
+	@GetMapping("/rank/busan")
+	@ApiOperation(value = "부산 커밋 랭킹")
+	public List<Ranking> busanRank() {
+		List<Ranking> list = commitDao.busanRank();
+		return list;
+	}
+	
 }
