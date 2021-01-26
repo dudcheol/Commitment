@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <CommitMap></CommitMap>
-    <commit-map-2></commit-map-2>
+    <commit-map-test></commit-map-test>
+    <CommitMap v-if="false"></CommitMap>
+    <commit-map-2 v-if="false"></commit-map-2>
   </div>
 </template>
 
 <script>
 import CommitMap from './views/CommitMap.vue';
 import CommitMap2 from './views/CommitMap2.vue';
+import CommitMapTest from './views/CommitMapTest.vue';
 
 export default {
   name: 'App',
   components: {
     CommitMap,
     CommitMap2,
+    CommitMapTest,
   },
 };
 </script>

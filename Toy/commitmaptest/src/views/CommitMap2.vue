@@ -1,12 +1,12 @@
 <template>
   <div>
-    <!-- <div class="line" v-for="(line, i) in korea" :key="i">
+    <!-- <div class="line" v-for="(line, i) in NATIONAL" :key="i">
       <div :class="[cellStyle, drawCellColor(cell)]" v-for="(cell, j) in line" :key="j">{{ i }}, {{ j }}</div>
     </div> -->
     <!-- <div class="line" v-for="(line, i) in seoul" :key="i">
       <div :class="[cellStyle, drawCellColor(cell)]" v-for="(cell, j) in line" :key="j">{{ i }}, {{ j }}</div>
     </div> -->
-    <div class="line" v-for="(line, i) in KOREA" :key="i">
+    <div class="line" v-for="(line, i) in NATIONAL" :key="i">
       <div :class="[cellStyle, drawCellColor(cell)]" v-for="(cell, j) in line" :key="j">
         <!-- {{ i }}, {{ j }} -->
       </div>
@@ -102,7 +102,7 @@ export default {
       //   [-1, -1, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       //   [-1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
       // ],
-      KOREA: [
+      NATIONAL: [
         [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -423,12 +423,12 @@ export default {
         console.log('%cCommitMap2.vue line:423 C', 'color: #007acc;', C);
         console.log('%cCommitMap2.vue line:424 R', 'color: #007acc;', R);
 
-        this.KOREA[this.convertLatToC(37.546709)][this.convertLngToR(127.097568)] = 1;
-        this.KOREA[this.convertLatToC(35.53793)][this.convertLngToR(129.318464)] = 1;
-        this.KOREA[this.convertLatToC(35.15608)][this.convertLngToR(126.834821)] = 1;
-        this.KOREA[this.convertLatToC(38.194007)][this.convertLngToR(128.559279)] = 1;
-        this.KOREA[this.convertLatToC(35.130476)][this.convertLngToR(129.08857)] = 1;
-        this.KOREA[this.convertLatToC(37.27718)][this.convertLngToR(127.004333)] = 1;
+        this.NATIONAL[this.convertLatToC(37.546709)][this.convertLngToR(127.097568)] = 1;
+        this.NATIONAL[this.convertLatToC(35.53793)][this.convertLngToR(129.318464)] = 1;
+        this.NATIONAL[this.convertLatToC(35.15608)][this.convertLngToR(126.834821)] = 1;
+        this.NATIONAL[this.convertLatToC(38.194007)][this.convertLngToR(128.559279)] = 1;
+        this.NATIONAL[this.convertLatToC(35.130476)][this.convertLngToR(129.08857)] = 1;
+        this.NATIONAL[this.convertLatToC(37.27718)][this.convertLngToR(127.004333)] = 1;
       }
 
       {
