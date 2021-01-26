@@ -30,11 +30,13 @@
       </v-tabs>
     </div>
     <!-- 아바타 바뀌는 지역 -->
-      <v-avatar
-        class="hidden-sm-and-down"
-        color="grey darken-1 shrink"
-        size="32"
-      ></v-avatar>
+    <div>
+      <!-- 일단 정렬을 위한 div -->
+    </div>
+    <div class="navbar_right">
+      <vs-avatar color="danger" icon="photo_camera" />
+      <vs-avatar color="warning" icon="filter_vintage" />
+    </div>
     </v-app-bar>
 
     <v-main class="grey lighten-3">
@@ -47,8 +49,14 @@
             <v-sheet
               rounded="lg"
               min-height="300"
+              class="mb-3"
             >
               <!-- 첫번째 넣어야할거 -->
+            </v-sheet>
+            <v-sheet
+              rounded="lg"
+              min-height="300">
+
             </v-sheet>
           </v-col>
 
@@ -68,11 +76,17 @@
             cols="12"
             sm="2"
           >
+          <div class="radar mt-4 mb-3">
+            <v-slider
+             v-model="slider"
+            :thumb-size="15"
+            thumb-label="always"
+            ></v-slider>
+          </div>
             <v-sheet
               rounded="lg"
               min-height="268"
             >
-              <!--  -->
             </v-sheet>
           </v-col>
         </v-row>
@@ -85,13 +99,18 @@
   export default {
     data: () => ({
       items: [
-          'mdi-home', 'mdi-web', 'mdi-airplane', 'mdi-apple-keyboard-control', 'mdi-account',
-        ],  
+          'mdi-home', 'mdi-web', 'mdi-apple-keyboard-control', 'mdi-account',
+        ], 
+      value1: 1, 
     }),
   }
 </script>
 
 <style >
+.navbar_right {
+  display: flex;
+  width: min-content
+}
 .search {
   display: flex;
   width: min-content;
