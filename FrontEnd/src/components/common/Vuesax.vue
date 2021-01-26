@@ -1,18 +1,26 @@
 <template lang="html">
-
   <div ref="parentSidebar" id="parentx">
-
-    <vs-button @click="active=!active" color="primary" type="filled">Open Sidebar</vs-button>
-    <vs-sidebar :parent="$refs.parentSidebar" default-index="1"  color="primary" class="sidebarx" spacer v-model="active">
-
+    <vs-button @click="active = !active" color="primary" type="filled"
+      >Open Sidebar</vs-button
+    >
+    <vs-sidebar
+      :parent="$refs.parentSidebar"
+      default-index="1"
+      color="primary"
+      class="sidebarx"
+      spacer
+      v-model="active"
+    >
       <div class="header-sidebar" slot="header">
-        <vs-avatar  size="70px" src="https://randomuser.me/api/portraits/men/85.jpg"/>
+        <vs-avatar
+          size="70px"
+          src="https://randomuser.me/api/portraits/men/85.jpg"
+        />
 
         <h4>
           My Name
           <vs-button color="primary" icon="more_horiz" type="flat"></vs-button>
         </h4>
-
       </div>
 
       <vs-sidebar-item index="1" icon="question_answer">
@@ -33,7 +41,7 @@
       <vs-sidebar-item index="4" icon="account_box">
         Profile
       </vs-sidebar-item>
-      <vs-sidebar-item index="5" >
+      <vs-sidebar-item index="5">
         Card
       </vs-sidebar-item>
 
@@ -41,18 +49,16 @@
         <vs-button icon="reply" color="danger" type="flat">log out</vs-button>
         <vs-button icon="settings" color="primary" type="border"></vs-button>
       </div>
-
     </vs-sidebar>
   </div>
-
 </template>
 
 <script>
 export default {
-  data:()=>({
-    active:false,
-  })
-}
+  data: () => ({
+    active: false,
+  }),
+};
 </script>
 
 <style lang="stylus">

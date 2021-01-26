@@ -1,9 +1,7 @@
 <template>
-  
   <v-app>
     <router-view></router-view>
   </v-app>
-
 </template>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -23,6 +21,5 @@ export default {
   data: () => ({
     //
   }),
-  
 };
 </script>
