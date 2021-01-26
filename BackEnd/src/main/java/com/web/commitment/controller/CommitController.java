@@ -2,6 +2,8 @@ package com.web.commitment.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,6 +45,28 @@ public class CommitController {
 	@Autowired
 	UserDao userDao;
 
+	static final double METER_PER_LAT = 88740; // 경도 1도당 미터
+	static final double METER_PER_LNG = 110000; // 위도 1도당 미터
+	HashMap<String, double[]> hm = new HashMap<>();
+
+	{
+		// tile 사이즈,latmin,latmax,lngmin,mngmax
+		double[] national = { 20000, 33.0, 38.9, 124.5, 132.0 };
+		double[] seoul = { 1000, 37.413294, 37.715133, 126.734086, 127.269311 };
+		double[] gyenggi = { 3000, 36.87226, 38.300603, 126.262021, 127.830532 };
+		double[] busan = { 1200, 34.8799083, 35.3959361, 128.7384361, 129.3728194 };
+		double[] gangwon = { 4000, 37.018205, 38.642618, 127.080231, 129.37191 };
+		double[] gwangju = { 800, 35.0, 35.2, 126.6, 127 };
+		double[] ulsan = { 1000, 35.3130416, 35.7376583, 128.9607861, 129.4840972 };
+		hm.put("전국", national);
+		hm.put("서울", seoul);
+		hm.put("경기", gyenggi);
+		hm.put("부산", busan);
+		hm.put("강원", gangwon);
+		hm.put("광주", gwangju);
+		hm.put("울산", ulsan);
+	}
+
 	// CRUD 중 C만
 	@PostMapping("/commit/{open}")
 	@ApiOperation(value = "커밋하기")
@@ -55,31 +79,68 @@ public class CommitController {
 			commit.setLng(user.getLng());
 			commit.setOpen(open);
 			// 여기에 인덱스 변환 넣기
-			String region=reverseGeo(user.getLat(),user.getLng());
+			String region = reverseGeo(user.getLat(), user.getLng());
 			System.out.println(region);
-			if(region.equals("서울")) {
+			if (region.equals("서울")) {
 				commit.setRegion_name("seoul");
-			}else if(region.equals("경기")) {
+			} else if (region.equals("경기")) {
 				commit.setRegion_name("gyenggi");
-			}else if(region.equals("강원")) {
+			} else if (region.equals("강원")) {
 				commit.setRegion_name("gangwon");
-			}else if(region.equals("광주")) {
+			} else if (region.equals("광주")) {
 				commit.setRegion_name("gwangju");
-			}else if(region.equals("울산")) {
+			} else if (region.equals("울산")) {
 				commit.setRegion_name("ulsan");
-			}else if(region.equals("부산")) {
+			} else if (region.equals("부산")) {
 				commit.setRegion_name("busan");
-			}else if(region.equals("fail")) {
+			} else if (region.equals("fail")) {
 				return "error";
-			}else {
+			} else {
 				commit.setRegion_name("national");
+				region = "전국";
 			}
+			double[] arr = hm.get("전국");
+			int[] dot = mapIndex(arr, user.getLat(), user.getLng());// 전국
+			double[] local = hm.get(region);
+			int[] dot2 = mapIndex(local, user.getLat(), user.getLng());
+
+			commit.setNational_x(String.valueOf(dot[0]));
+			commit.setNational_y(String.valueOf(dot[1]));
+			commit.setLocal_x(String.valueOf(dot2[0]));
+			commit.setLocal_y(String.valueOf(dot2[1]));
+
 			commitDao.save(commit);
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
+	}
+
+	private int[] mapIndex(double[] arr, String lat, String lng) {
+		double tileSize = arr[0];
+		double latmin = arr[1];
+		double latmax = arr[2];
+		double lngmin = arr[3];
+		double lngmax = arr[4];
+//		System.out.println(Arrays.toString(arr));
+
+		double spacingR = tileSize * (1 / METER_PER_LAT);
+		double spacingC = tileSize * (1 / METER_PER_LNG);
+//		System.out.println("spacingC:"+spacingC+" spacingR:"+spacingR);
+		int C = (int) ((latmax - latmin) / spacingC); // 위도 셀 개수 (세로)
+		int R = (int) ((lngmax - lngmin) / spacingR); // 경도 셀 개수 (가로)
+		System.out.println("C: " + C + " R: " + R);
+
+		double targetLat = Double.parseDouble(lat);
+		double targetLng = Double.parseDouble(lng);
+
+		int x = (int) ((targetLat - latmin) / spacingC);
+		int y = (int) ((targetLng - lngmin) / spacingR);
+		x = (C - x >= C) ? C - 1 : C - x;
+		y = (y >= R) ? R - 1 : y;
+		System.out.println("X: " + x + " Y: " + y);
+		return new int[] { x, y };
 	}
 
 	@PostMapping("/commit/copy/{open}")
@@ -144,23 +205,21 @@ public class CommitController {
 			return "false";
 		return "success";
 	}
+
 	@GetMapping("/test")
-	//위도경도-> 지역 이름 (서울,광주,경기....)
+	// 위도경도-> 지역 이름 (서울,광주,경기....)
 	public String reverseGeo(@RequestParam(required = true) String lat, @RequestParam(required = true) String lng)
 			throws ParseException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet getRequest = new HttpGet(
 				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
-						+ lat + "," + lng);
-		System.out.println(
-				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
-						+ lat + "," + lng);
+						+ lng + "," + lat);
+
 		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
 		getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
 
 		try {
 			HttpResponse response = client.execute(getRequest);
-			System.out.println(response.getStatusLine().getStatusCode());
 			if (response.getStatusLine().getStatusCode() == 200) {
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				String body = handler.handleResponse(response);
@@ -169,12 +228,12 @@ public class CommitController {
 				JSONObject obj = (JSONObject) parser.parse(body);
 
 				JSONArray results = (JSONArray) obj.get("results");
-				
-				JSONObject obj2=(JSONObject) results.get(0);				
+
+				JSONObject obj2 = (JSONObject) results.get(0);
 				JSONObject results2 = (JSONObject) obj2.get("region");
-				JSONObject  results3= (JSONObject) results2.get("area1");
+				JSONObject results3 = (JSONObject) results2.get("area1");
 				return results3.get("alias").toString();
-						
+
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
