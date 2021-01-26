@@ -5,11 +5,13 @@
       color="white"
       flat
     >
-    <div>
+    <div class="search">
       <!-- <v-avatar
         :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
         size="32"
       ></v-avatar> -->
+      <vs-avatar text="Logo"/>
+      <vs-avatar color="primary" text="primary"/>
       <vs-input placeholder="Search">
       </vs-input>
     </div>
@@ -90,6 +92,10 @@
 </script>
 
 <style >
+.search {
+  display: flex;
+  width: min-content;
+}
 .v-toolbar__content {
   display: flex;
   justify-content: space-between;
