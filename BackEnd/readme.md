@@ -1,3 +1,0 @@
-# Backend
-
-- DB설계
