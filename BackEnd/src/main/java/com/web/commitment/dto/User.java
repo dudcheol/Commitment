@@ -1,20 +1,21 @@
 package com.web.commitment.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 
 @Entity
 @Data
@@ -74,7 +75,9 @@ public class User {
 		this.gender = gender;
 		this.mystory = mystory;
 	}
-	
-	
+
+	@OneToOne
+	@JoinColumn(name = "email", referencedColumnName = "user_email")
+	private Profile profile;
 
 }
