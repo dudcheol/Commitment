@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
@@ -20,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
+@DynamicInsert
+@DynamicUpdate
 public class User {
 
 	@Id
@@ -61,6 +67,9 @@ public class User {
 
 	@Column(name = "auth")
 	private String auth;
+	
+	@Column(name = "region_name")
+	private String region_name;
 
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {

@@ -60,7 +60,7 @@ public class RankingController {
 		List<Ranking> list = boardDao.boardRanking();
 		return list;
 	}
-	@GetMapping("/rank/board")
+	@GetMapping("/rank/like")
 	@ApiOperation(value = "좋아요 랭킹")
 	public List<Ranking> likeRank() {
 		List<Ranking> list = likeDao.likeRanking();

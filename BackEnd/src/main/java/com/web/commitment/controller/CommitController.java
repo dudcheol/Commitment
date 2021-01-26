@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
+import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Ranking;
 
@@ -46,6 +47,18 @@ public class CommitController {
 			commit.setRegion_name("seoul");
 			commit.setOpen(open);
 
+			commitDao.save(commit);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+	@PostMapping("/commit/copy/{open}")
+	@ApiOperation(value = "커밋하기")
+	public String commit2(@Valid @RequestBody Commit commit, @PathVariable int open) {
+		// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
+		try {
 			commitDao.save(commit);
 			return "success";
 		} catch (Exception e) {
@@ -90,6 +103,18 @@ public class CommitController {
 					.forEach(commit -> list.add(new String[] { commit.getLat(), commit.getLng() }));
 		}
 		return list;
+	}
+
+	@GetMapping("/commit/timeCheck")
+	@ApiOperation(value = "커밋 시간제한 확인")
+	public String timeCheck(@RequestParam(required = true) final String email, @RequestParam(required = true) int x,
+			@RequestParam(required = true) int y, @RequestParam(required = true) String region) {
+		// x,y는 위도 경도 변환된 인덱스
+		List<Commit> li = commitDao.timeCheck(email, x, y, region);
+
+		if (li.size() != 0)
+			return "false";
+		return "success";
 	}
 
 }
