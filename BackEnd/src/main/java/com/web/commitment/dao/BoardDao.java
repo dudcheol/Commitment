@@ -24,6 +24,6 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	// 랭킹관련
 	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from board "
-			+ "group by commit.user_email", nativeQuery = true)
+			+ "group by board.user_email", nativeQuery = true)
 	List<Ranking> boardRanking();
 }

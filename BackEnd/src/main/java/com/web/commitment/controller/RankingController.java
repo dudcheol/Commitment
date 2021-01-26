@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
+import com.web.commitment.dao.LikeDao;
 import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +22,9 @@ public class RankingController {
 	
 	@Autowired
 	CommitDao commitDao;
+	
+	@Autowired
+	LikeDao likeDao;
 	
 	@GetMapping("/rank/total")
 	@ApiOperation(value = "랭킹")
@@ -50,6 +54,12 @@ public class RankingController {
 	@ApiOperation(value = "게시글 수 랭킹")
 	public List<Ranking> boardRank() {
 		List<Ranking> list = boardDao.boardRanking();
+		return list;
+	}
+	@GetMapping("/rank/board")
+	@ApiOperation(value = "좋아요 랭킹")
+	public List<Ranking> likeRank() {
+		List<Ranking> list = likeDao.likeRanking();
 		return list;
 	}
 }
