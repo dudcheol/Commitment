@@ -1,11 +1,19 @@
 package com.web.commitment.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
@@ -23,6 +33,10 @@ import com.web.commitment.dto.User;
 import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 @CrossOrigin
 @RestController
@@ -46,7 +60,7 @@ public class CommitController {
 			commit.setLng(user.getLng());
 			commit.setRegion_name("seoul");
 			commit.setOpen(open);
-			//여기에 인덱스 변환 넣기
+			// 여기에 인덱스 변환 넣기
 
 			commitDao.save(commit);
 			return "success";
@@ -55,8 +69,9 @@ public class CommitController {
 			return "error";
 		}
 	}
+
 	@PostMapping("/commit/copy/{open}")
-	@ApiOperation(value = "커밋하기")//테스트 용
+	@ApiOperation(value = "커밋하기") // 테스트 용
 	public String commit2(@Valid @RequestBody Commit commit, @PathVariable int open) {
 		// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
 		try {
@@ -117,5 +132,47 @@ public class CommitController {
 			return "false";
 		return "success";
 	}
+	@GetMapping("/test")
+	//위도경도-> 지역 이름 (서울,광주,경기....)
+	public String reverseGeo(@RequestParam(required = true) String lat, @RequestParam(required = true) String lng)
+			throws ParseException {
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpGet getRequest = new HttpGet(
+				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
+						+ lat + "," + lng);
+		System.out.println(
+				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
+						+ lat + "," + lng);
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
 
+		try {
+			HttpResponse response = client.execute(getRequest);
+			System.out.println(response.getStatusLine().getStatusCode());
+			if (response.getStatusLine().getStatusCode() == 200) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+
+				JSONParser parser = new JSONParser();
+				JSONObject obj = (JSONObject) parser.parse(body);
+
+				JSONArray results = (JSONArray) obj.get("results");
+				
+				JSONObject obj2=(JSONObject) results.get(0);				
+				JSONObject results2 = (JSONObject) obj2.get("region");
+				JSONObject  results3= (JSONObject) results2.get("area1");
+//				JSONObject obj3=(JSONObject) results2.get(0);
+//				JSONArray results3 = (JSONArray) obj2.get("area1");
+				return results3.get("alias").toString();
+						
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "fail";
+
+	}
 }
