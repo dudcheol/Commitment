@@ -164,7 +164,7 @@ public class NotificationController {
     // 토큰 얻기 (임시)
     @PostMapping("/token")
 	private String getAccessToken() throws IOException {
-		String firebaseConfigPath = "firebase/commitment-c494c-firebase-adminsdk-785tn-080eb0c9db.json";
+		String firebaseConfigPath = "firebase/asder36-firebase-adminsdk-ltf6t-8243fcaebf.json";
 		
 		GoogleCredentials googleCredentials = GoogleCredentials
 				.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
