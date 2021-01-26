@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Commit;
 
 @Repository
 public interface BoardDao extends JpaRepository<Board, String> {
@@ -22,5 +23,4 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	Collection<Board> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String keyword, String keyword2);
 
 	Collection<Board> findByEmailContainingIgnoreCase(String keyword);
-
 }

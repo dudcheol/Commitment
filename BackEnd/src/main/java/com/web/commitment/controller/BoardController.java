@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Commit;
+import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -63,7 +65,23 @@ public class BoardController {
     	}
     }
     
-    // 유저의 게시글 불러오기 open이 1인 것만
+	// 로그인한 유저의 게시글 불러오기
+    @GetMapping("/mysns")
+    @ApiOperation(value = "로그인 한 유저의 게시글 목록")
+    public List<Board> mySns(@RequestParam String email) {
+    	
+        List<Commit> commitList = commitDao.findAllByEmail(email);
+
+        List<Board> postList = new ArrayList<>();
+		for (Commit commit : commitList) {
+        	postList.addAll(boardDao.findAllByCommitId(commit.getId()));
+        	System.out.println(postList);
+		}
+
+        return postList;
+    }
+	
+    // 다른 유저의 게시글 불러오기 open이 1인 것만
     @GetMapping("/sns")
     @ApiOperation(value = "로그인 한 유저의 게시글 목록")
     public List<Board> loadSns(@RequestParam String email) {
@@ -163,24 +181,28 @@ public class BoardController {
     
     
     // 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
-    @GetMapping("/sns")
-    @ApiOperation(value = "로그인 한 유저의 게시글 목록")
-    public List<Board> loadSns(@RequestParam String email) {
+    @GetMapping("/sns/radius")
+    @ApiOperation(value = "설정한 반경 내 모든 유저의 게시글(open 1인 것만)")
+    public List<Board> loadRadiusSns(@RequestParam(required = true) String email, @RequestParam(required = false) Integer radius) {
     	
-        List<Commit> commitList = commitDao.findAllByEmail(email);
-        List<Commit> possibleCommit = new ArrayList<>();
-        for (Commit commit : commitList) {
-			if(commit.getOpen() == 1) {
-				possibleCommit.add(commit);
-			}
+    	// 유저의 현재 위치 구하기
+    	User user = userDao.getUserByEmail(email);
+    	
+    	String lat = user.getLat();
+    	String lng = user.getLng();
+    	
+    	// 유저의 lat, lng 를 기준으로 반경 ?km 이내 commit id List
+    	List<String[]> commitIds = commitDao.radiusCommitId(lat, lng, radius);        
+    	for (int i = 0; i < commitIds.size(); i++) {
+			System.out.println(commitIds.get(i)[0]);
 		}
-        
-        List<Board> postList = new ArrayList<>();
-		for (Commit commit : possibleCommit) {
-        	postList.addAll(boardDao.findAllByCommitId(commit.getId()));
-        	System.out.println(postList);
+    	
+    	// commit id로 board 찾기
+    	List<Board> boards = new ArrayList<>();
+    	for (int i = 0; i < commitIds.size(); i++) {
+			boards.addAll(boardDao.findAllByCommitId(commitIds.get(i)[0]));
 		}
-
-        return postList;
+    	
+        return boards;
     }
 }

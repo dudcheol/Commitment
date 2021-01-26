@@ -24,6 +24,12 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 //	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
 //	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
 
+	@Query(value = "SELECT id,( 6371 * acos( cos( radians(:curlat) ) * cos( radians( `lat` ) ) * cos( radians( `lng` ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( `lat` ) ) ) ) AS distance "
+		 + "FROM `commit` HAVING distance <= :radius ORDER BY distance ASC", nativeQuery = true)
+	List<String[]> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng, @Param("radius") Integer radius);
+	
 	List<Commit> findAllByEmailAndName(String eamil, String name);
+
+	List<Commit> findAllByOpen(int i);
 
 }

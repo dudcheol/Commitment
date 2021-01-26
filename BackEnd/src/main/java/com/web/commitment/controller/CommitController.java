@@ -48,7 +48,7 @@ public class CommitController {
 			commit.setLng(user.getLng());
 			commit.setOpen(open);
 			
-			Optional<Commit> getCommit=commitDao.commitCheck(user.getEmail(),user.getLat() , user.getLng());
+//			Optional<Commit> getCommit=commitDao.commitCheck(user.getEmail(),user.getLat() , user.getLng());
 			
         	System.out.println(user);
         	commitDao.save(commit);
@@ -123,4 +123,7 @@ public class CommitController {
         }
 
     }
+    
+    // 커밋 불러오기 -> open 1인 것만
+    
 }
