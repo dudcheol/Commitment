@@ -3,7 +3,6 @@ package com.web.commitment.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -23,14 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
-import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
 import net.minidev.json.JSONArray;
@@ -58,10 +53,27 @@ public class CommitController {
 			commit.setEmail(user.getEmail());
 			commit.setLat(user.getLat());
 			commit.setLng(user.getLng());
-			commit.setRegion_name("seoul");
 			commit.setOpen(open);
 			// 여기에 인덱스 변환 넣기
-
+			String region=reverseGeo(user.getLat(),user.getLng());
+			System.out.println(region);
+			if(region.equals("서울")) {
+				commit.setRegion_name("seoul");
+			}else if(region.equals("경기")) {
+				commit.setRegion_name("gyenggi");
+			}else if(region.equals("강원")) {
+				commit.setRegion_name("gangwon");
+			}else if(region.equals("광주")) {
+				commit.setRegion_name("gwangju");
+			}else if(region.equals("울산")) {
+				commit.setRegion_name("ulsan");
+			}else if(region.equals("부산")) {
+				commit.setRegion_name("busan");
+			}else if(region.equals("fail")) {
+				return "error";
+			}else {
+				commit.setRegion_name("national");
+			}
 			commitDao.save(commit);
 			return "success";
 		} catch (Exception e) {

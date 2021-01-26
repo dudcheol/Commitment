@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@DynamicInsert
+@DynamicUpdate
 public class Commit {
 	
 	@Id
