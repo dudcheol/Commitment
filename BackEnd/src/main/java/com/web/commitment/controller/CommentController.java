@@ -32,12 +32,17 @@ public class CommentController {
 	
 	@PostMapping("/comment")
     @ApiOperation(value = "댓글 작성 & 수정")
-    public String commit(@RequestBody Comment comment) {
+    public String writeComment(@RequestBody Comment comment) {
 
 		// id가 있으면 
 		// 댓글은 여러 개 작성 가능
     	try { 
-    		comment.setCreatedAt(LocalDateTime.now());
+    		if(!comment.getParent().equals("0")) { // 부모 댓글이 있으면
+    			Optional<Comment> parent = commentDao.findById(comment.getParent());
+    			System.out.println(parent.get().getDepth());
+    			comment.setDepth(parent.get().getDepth() + 1);
+    			comment.setSeq(parent.get().getSeq() + 1);
+    		}
 			commentDao.save(comment);
 			return "success";
 			
