@@ -264,4 +264,17 @@ public class UserController {
     	
     	return userDao.findByEmailContainingIgnoreCase(keyword);
     }
+    @GetMapping("/user/map")
+    @ApiOperation(value = "대표지도 설정")
+    public String mapSelect(@RequestParam String email,@RequestParam String region) {
+    	User user=userDao.getUserByEmail(email);
+    	try {
+    		user.setRegion_name(region);
+    		userDao.save(user);
+		} catch (Exception e) {
+			return "지역이름이나 이메일 오류";
+		}
+    	
+    	return "success";
+    }
 }
