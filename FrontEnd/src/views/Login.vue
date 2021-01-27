@@ -56,6 +56,6 @@ export default {
 .v-list-item.theme--light {
   display: flex;
   justify-content: center;
-  max-height: 70px;
+  min-height: 60px;
 }
 </style>
