@@ -1,110 +1,200 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
-      <v-spacer></v-spacer>
+    <v-app-bar
+      app
+      color="white"
+      flat
+    >
+    <div class="search">
+      <!-- <v-avatar
+        :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
+        size="32"
+      ></v-avatar> -->
+      <vs-button circle icon flat >
+         <i class="bx bx-tag"></i>
+      </vs-button>
+      <vs-button circle icon flat >
+         <i class="bx bx-search"></i>
+      </vs-button>
+      <vs-input placeholder="Search">
+      </vs-input>
+    </div>
 
-      <v-icon>mdi-alarm</v-icon>
-
-      <v-icon>mdi-wifi-strength-4</v-icon>
-
-      <v-icon>mdi-battery</v-icon>
-    </v-system-bar>
-
-    <v-app-bar app clipped-right flat>
-      <div class="tabs">
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-checkerboard</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-crosshairs-gps</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-send</v-icon>
-        </v-btn>
-        <v-btn class="ml-2" min-width="0" text>
-          <v-icon>mdi-medal-outline</v-icon>
-        </v-btn>
-      </div>
-    </v-app-bar>
-
-    <v-navigation-drawer v-model="drawer" app width="300">
-      <v-navigation-drawer v-model="drawer" absolute color="grey lighten-3" mini-variant>
-        <v-avatar
-          class="d-block text-center mx-auto mt-4"
-          color="grey darken-1"
-          size="36"
-        ></v-avatar>
-
-        <v-divider class="mx-3 my-5"></v-divider>
-
-        <v-avatar
-          v-for="n in 6"
-          :key="n"
-          class="d-block text-center mx-auto mb-9"
-          color="grey lighten-1"
-          size="28"
-        ></v-avatar>
-      </v-navigation-drawer>
-
-      <v-sheet color="grey lighten-5" height="128" width="100%"></v-sheet>
-
-      <v-list class="pl-14" shaped>
-        <v-list-item v-for="n in 5" :key="n" link>
-          <v-list-item-content>
-            <v-list-item-title>Item {{ n }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-navigation-drawer app clipped right>
-      <v-list>
-        <v-list-item v-for="n in 5" :key="n" link>
-          <v-list-item-content>
-            <v-list-item-title>Item {{ n }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-main>
-      <span id="develop-navigation"
-        ><router-link to="/home">home</router-link> /
-        <router-link to="/sns">sns</router-link> /</span
+      <!-- tab 바뀌는부분 -->
+    <div>
+      <v-tabs
+      background-color="transparent"
+      
       >
-      <router-view></router-view>
-    </v-main>
-
-    <v-footer app color="transparent" height="72" inset>
-      <v-text-field
-        background-color="grey lighten-1"
-        dense
+        <v-tab
+          v-for="item in items"
+          :key="item"
+        >
+        <v-icon>
+          {{ item }}
+        </v-icon>
+        </v-tab>
+      </v-tabs>
+    </div>
+    <!-- 아바타 바뀌는 지역 -->
+    <div>
+      <!-- 일단 정렬을 위한 div -->
+    </div>
+    <div class="navbar_right">
+      <vs-button
+        circle
+        icon
         flat
-        hide-details
-        rounded
-        solo
-      ></v-text-field>
-    </v-footer>
+      >
+        <i class='bx bx-plus' ></i>
+      </vs-button>
+
+      <vs-button
+        
+        circle
+        icon
+        flat
+      >
+        <i class='bx bxl-whatsapp' ></i>
+      </vs-button>
+
+      <vs-button
+       
+        circle
+        icon
+        flat
+      >
+        <i class='bx bx-up-arrow-alt' ></i>
+      </vs-button>
+    </div>
+    </v-app-bar>
+    <!-- 메인페이지파트 -->
+    <v-main class="grey lighten-3">
+      <v-container>
+        <v-row>
+          <v-col
+            class="sidebar_left"
+            cols="12"
+            sm="2"
+          >
+          <div class="d-flex justify-center">
+            <ProfileSummary />
+          </div>
+              <!-- 첫번째 넣어야할거 -->
+
+            <NotYetAddArticle />
+
+          </v-col>
+
+          <v-col
+            class="mainslot"
+            cols="12"
+            sm="8"
+          >
+            <v-sheet
+              min-height="70vh"
+              rounded="lg"
+            >
+              <div class="mainpage">
+                <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
+                <FollowerMap />
+                <MyState />
+                <AllArticle />
+              </div>
+            </v-sheet>
+          </v-col>
+
+          <v-col
+            cols="12"
+            sm="2"
+          >
+          <div class="radar mt-4 mb-3">
+            <v-slider
+            :thumb-size="15"
+            thumb-label="always"
+            ></v-slider>
+          </div>
+            <v-sheet
+              rounded="lg"
+              min-height="200"
+            >
+            <CommitNow />
+            </v-sheet>
+              
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-export default {
-  name: 'Main',
-  data: () => ({ drawer: null }),
-};
+  import AllArticle from './components/mainpage/AllArticle'
+  import FollowerMap from './components/mainpage/FollowerMap'
+  import MyState from './components/mainpage/MyState'
+  import CommitNow from './components/mainpage/CommitNow'
+  import NotYetAddArticle from './components/mainpage/NotYetAddArticle'
+  import ProfileSummary from './components/mainpage/ProfileSummary'
+
+  export default {
+    name: "MainPage",
+
+    components: {
+      AllArticle,
+      FollowerMap,
+      MyState,
+      CommitNow,
+      NotYetAddArticle,
+      ProfileSummary,
+
+    },
+
+    data: () => ({
+      items: [
+          'mdi-home', 'mdi-web', 'mdi-apple-keyboard-control', 'mdi-account',
+        ],  
+    }),
+  }
 </script>
 
-<style>
-#navigation {
-  position: fixed;
-  z-index: 9999;
+<style >
+.container {
+  max-width: 1200px;
+}
+.navbar_right {
+  display: flex;
+  width: min-content
+}
+.search {
+  display: flex;
+  width: min-content;
 }
 .v-toolbar__content {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
+
+/* .sidebar_left {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 4px;
+}
+
+.mainslot {
+  overflow: auto;
+
+} */
+
+@media (max-width: 450px) {
+
+.search {
+  display: none;
+}
+
+.navbar_right {
+  display: none;
+}
+
+}
+
 </style>

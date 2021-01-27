@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <div id="develop-navigation">
+    <!-- <div id="develop-navigation">
       <router-link to="/">main</router-link> / <router-link to="/signup">signup</router-link> /
       <router-link to="/login">login</router-link>
-    </div>
+    </div> -->
     <router-view></router-view>
   </v-app>
 </template>
@@ -23,8 +23,8 @@ export default {
 </script>
 
 <style scoped>
-#develop-navigation {
+/* #develop-navigation {
   position: fixed;
   z-index: 9999;
-}
+} */
 </style>
