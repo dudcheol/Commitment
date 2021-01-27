@@ -29,6 +29,9 @@ export default {
 </script>
 
 <style>
+
+
+
 .my_location {
     display: flex;
   align-items: center;
@@ -51,6 +54,11 @@ export default {
   width: 50vh ;
 }
 
+@media (max-width: 450px){
+  .commit_input .vs-input {
+  width: 25vh ;
+  }
+}
 
 
 </style>

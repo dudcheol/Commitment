@@ -68,6 +68,10 @@ export default {
     width: min-content;
 }
 
+.vs-avatar-content {
+    width: 30px;
+    height: 30px;
+}
 /* .v-list-item__title {
     font-size: 30px;
 } */

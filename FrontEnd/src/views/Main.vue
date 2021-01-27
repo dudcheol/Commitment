@@ -77,8 +77,9 @@
             cols="12"
             sm="2"
           >
-
+          <div class="d-flex justify-center">
             <ProfileSummary />
+          </div>
               <!-- 첫번째 넣어야할거 -->
 
             <NotYetAddArticle />
@@ -157,7 +158,9 @@
 </script>
 
 <style >
-
+.container {
+  max-width: 1200px;
+}
 .navbar_right {
   display: flex;
   width: min-content
