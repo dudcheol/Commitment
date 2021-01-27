@@ -8,7 +8,15 @@
         </vs-button>
         </div>
         <div class="my_location">
-            이것은 나의 위치
+            서울특별시 강남구 역삼동 테헤란로 212
+            <!-- <v-alert
+            border="left"
+            colored-border
+            color="deep-purple accent-4"
+            elevation="2"
+            >
+            서울특별시 강남구 역삼동 테헤란로 212
+            </v-alert> -->
         </div>
         <v-img
          max-height="300"
@@ -18,15 +26,20 @@
     </div>
 
     <div class="article">
-        
+        <ArticleDetail />
     </div>
 
     </div>
 </template>
 
 <script>
+
+import ArticleDetail from './../components/detailpage/ArticleDetail'
 export default {
     name: "Detail",
+    components: {
+        ArticleDetail
+    }
 }
 </script>
 
@@ -56,7 +69,8 @@ export default {
 }
 
 .my_location {
-    background: green;
+    font-size: 25px;
+    background: rgba(220, 220, 220, 0.5);
     position: absolute;
     z-index: 1;
     top: 50%;
