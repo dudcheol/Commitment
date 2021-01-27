@@ -2,7 +2,7 @@
   <v-app>
     <div id="develop-navigation">
       <router-link to="/">main</router-link> / <router-link to="/signup">signup</router-link> /
-      <router-link to="/login">login</router-link>
+      <router-link to="/login">login</router-link> / <router-link to="/mypage">mypage</router-link>
     </div>
     <router-view></router-view>
   </v-app>

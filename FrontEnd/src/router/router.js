@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Main from '../views/Main.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
-
+import Mypage from '../views/Mypage.vue'
 // 필수
 Vue.use(Router)
 export default new Router({
@@ -25,6 +25,7 @@ export default new Router({
                     name: 'SNS',
                     component:()=>import('../views/main/SNS.vue'),
                 },
+
             ],
         },
         {
@@ -36,6 +37,11 @@ export default new Router({
             path: "/login",
             name: "Login",
             component: Login,
+        },
+        {
+            path: "/mypage",
+            name: "Mypage",
+            component:Mypage,
         }
     ]
 })
