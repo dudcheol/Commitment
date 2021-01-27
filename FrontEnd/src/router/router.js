@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // 연결할 컴포넌트 import
-import Main from '../views/Main.vue'
+import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 
@@ -12,13 +12,13 @@ export default new Router({
     routes: [
         {
             path: "/", // 경로
-            name: "Main", // 해당 경로의 이름 
-            component: Main, // 이동할 컴포넌트
+            name: "Index", // 해당 경로의 이름 
+            component: Index, // 이동할 컴포넌트
             children: [
                 {
                     path: '',
-                    name: 'Index',
-                    component:()=>import('../views/main/Index.vue'),
+                    name: 'Main',
+                    component:()=>import('../views/main/Main.vue'),
                 },
                 {
                     path: 'sns',
