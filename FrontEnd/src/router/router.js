@@ -16,14 +16,29 @@ export default new Router({
             component: Main, // 이동할 컴포넌트
             children: [
                 {
-                    path: 'home',
-                    name: 'Home',
-                    component:()=>import('../views/main/Home.vue'),
+                    path: '',
+                    name: 'Index',
+                    component:()=>import('../views/main/Index.vue'),
                 },
-                { // 예시임
+                {
                     path: 'sns',
                     name: 'SNS',
                     component:()=>import('../views/main/SNS.vue'),
+                },
+                {
+                    path: 'rank',
+                    name: 'Rank',
+                    component:()=>import('../views/main/Rank.vue'),
+                },
+                {
+                    path: 'likes',
+                    name: 'Likes',
+                    component:()=>import('../views/main/Likes.vue'),
+                },
+                {
+                    path: 'mypage',
+                    name: 'MyPage',
+                    component:()=>import('../views/main/MyPage.vue'),
                 },
             ],
         },
