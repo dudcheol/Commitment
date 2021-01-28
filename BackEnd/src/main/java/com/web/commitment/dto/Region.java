@@ -1,8 +1,10 @@
 package com.web.commitment.dto;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -13,21 +15,14 @@ import lombok.ToString;
 
 @Entity
 @Data
+@Table(name="region")
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ToString
-public class Profile {
-	
+public class Region {
 	@Id
-	@Column(name = "user_email")
-	private String email;
-
-	@Column(name = "file_path")
-	private String file_path;
-
-	@Column(name = "file_name")
-	private String file_name;
-	
+	@Column(name="name")
+	String name;
 
 }

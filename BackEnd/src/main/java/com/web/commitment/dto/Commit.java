@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@DynamicInsert
+@DynamicUpdate
 public class Commit {
 	
 	@Id
@@ -48,6 +53,16 @@ public class Commit {
 	
 	@Column(name="open")
 	private int open;
+	@Column(name="region_name")
+	private String region_name;
+	@Column(name="national_x")
+	private String national_x;
+	@Column(name="national_y")
+	private String national_y;
+	@Column(name="local_x")
+	private String local_x;
+	@Column(name="local_y")
+	private String local_y;
 	
 //	@OneToOne
 //	@JoinColumn(name = "id", referencedColumnName = "commit_id")

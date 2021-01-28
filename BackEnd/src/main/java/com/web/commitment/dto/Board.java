@@ -2,7 +2,6 @@ package com.web.commitment.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,9 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -45,16 +42,6 @@ public class Board {
 	@Column(name="user_email")
 	private String email;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private String id;
-
-	@Column(name = "commit_id")
-	private String commitId;
-
-	@Column(name = "user_email")
-	private String email;
 
 	@Column(name = "title")
 	private String title;
