@@ -23,9 +23,13 @@ export default {
 };
 </script>
 
-<style scoped>
-#develop-navigation {
+<style>
+/* #develop-navigation {
   position: fixed;
   z-index: 9999;
+} */
+.mid-size {
+  max-width: 680px;
+  width: 100%;
 }
 </style>

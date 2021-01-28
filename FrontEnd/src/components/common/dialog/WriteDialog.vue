@@ -50,7 +50,7 @@
               solo
               flat
               name="input-7-4"
-              :label="username + '님, 지금 이곳은 어떤가요?'"
+              :label="username + '님, 여기는 어떤 곳인가요?'"
               auto-grow
             ></v-textarea>
           </v-row>

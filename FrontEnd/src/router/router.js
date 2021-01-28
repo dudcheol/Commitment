@@ -4,7 +4,8 @@ import Router from 'vue-router'
 import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
-// import Mypage from '../views/Mypage.vue'
+import Detail from '@/views/main/DetailPage.vue'
+
 // 필수
 Vue.use(Router)
 export default new Router({
@@ -56,6 +57,11 @@ export default new Router({
             path: "/login",
             name: "Login",
             component: Login,
+        },
+        {
+            path: '/detail',
+            name: 'Detail',
+            component: Detail,
         },
     ]
 })

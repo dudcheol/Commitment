@@ -1,64 +1,80 @@
 <template>
-  <div class="mt-6">
-    <div class="my_location">
-        <v-icon class="ml-4 mr-2">mdi-pin</v-icon>
-        서울특별시 강남구 역삼동 701
-    </div>
-
-    <div class="commit_input mt-4 mb-10 ml-4 mr-4" height="10vh">
-
-        <div class="d-flex">
-            <vs-avatar>
-              <img src="https://picsum.photos/200/300" alt="">
-            </vs-avatar>
-            <vs-input class="ml-2" placeholder="게시글을 작성해주세요">
-            </vs-input>
-        </div>
-        <div class="buttons"> 
-            <vs-button color="#6690FF">이미지</vs-button>
-            <vs-button color="#254EDB">등록</vs-button>
-        </div>
-    </div>
+  <div class="d-flex justify-center">
+    <v-sheet rounded="xl" class="mid-size px-3">
+      <v-container class="my-2">
+        <v-row>
+          <v-col>
+            <h5>
+              <i class="bx bxs-map" style="vertical-align:middle"></i>
+              서울특별시 강남구 역삼동 701
+            </h5>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <div class="d-flex flex-row">
+              <div class="flex-grow-0">
+                <vs-avatar circle size="40">
+                  <img src="https://picsum.photos/200/300" alt="" />
+                </vs-avatar>
+              </div>
+              <div class="flex-grow-1 ml-2">
+                <v-chip
+                  large
+                  style="height:40px; width:100%; cursor:pointer"
+                  @click="write = true"
+                  color="#f5f5f5"
+                  text-color="#808080"
+                >
+                  username님, 여기는 어떤 곳인가요?
+                </v-chip>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+      <write-dialog :web="write" @close="write = !write"></write-dialog>
+    </v-sheet>
   </div>
 </template>
 
 <script>
+import WriteDialog from '../../common/dialog/WriteDialog.vue';
 export default {
-
-}
+  data() {
+    return {
+      write: false,
+    };
+  },
+  components: { WriteDialog },
+};
 </script>
 
 <style>
-
-
-
 .my_location {
-    display: flex;
+  display: flex;
   align-items: center;
-
 }
 .commit_input {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    align-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
 
 .buttons {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .commit_input .vs-input {
-  width: 50vh ;
+  width: 50vh;
 }
 
-@media (max-width: 450px){
+@media (max-width: 450px) {
   .commit_input .vs-input {
-  width: 25vh ;
+    width: 25vh;
   }
 }
-
-
 </style>
