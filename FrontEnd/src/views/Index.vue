@@ -1,11 +1,23 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app color="white" flat>
-      <div class="search">
-        <!-- <v-avatar
+    <!-- <v-app-bar app color="white" flat hide-on-scroll>
+      <v-avatar
         :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
         size="32"
-      ></v-avatar> -->
+      ></v-avatar>
+
+      <v-tabs centered class="ml-n9" color="grey darken-1">
+        <v-tab v-for="item in items" :key="item" :to="item.route">
+          <v-icon>
+            {{ item.icon }}
+          </v-icon>
+        </v-tab>
+      </v-tabs>
+
+      <v-avatar class="hidden-sm-and-down" color="grey darken-1 shrink" size="32"></v-avatar>
+    </v-app-bar> -->
+    <v-app-bar app color="white" flat>
+      <div class="d-flex flex-row">
         <vs-button circle icon flat>
           <i class="bx bx-tag"></i>
         </vs-button>
@@ -15,8 +27,7 @@
         <vs-input placeholder="Search"> </vs-input>
       </div>
 
-      <!-- tab 바뀌는부분 -->
-      <div>
+      <div class="mx-auto">
         <v-tabs background-color="transparent">
           <v-tab v-for="item in items" :key="item" :to="item.route">
             <v-icon>
@@ -25,11 +36,8 @@
           </v-tab>
         </v-tabs>
       </div>
-      <!-- 아바타 바뀌는 지역 -->
-      <div>
-        <!-- 일단 정렬을 위한 div -->
-      </div>
-      <div class="navbar_right">
+
+      <div class="d-flex flex-row ml-auto">
         <vs-button circle icon flat>
           <i class="bx bx-plus"></i>
         </vs-button>
@@ -43,7 +51,7 @@
         </vs-button>
       </div>
     </v-app-bar>
-    <!-- 메인페이지파트 -->
+
     <v-main class="grey lighten-3">
       <router-view></router-view>
     </v-main>
@@ -65,23 +73,7 @@ export default {
 };
 </script>
 
-<style>
-.container {
-  max-width: 1200px;
-}
-.navbar_right {
-  display: flex;
-  width: min-content;
-}
-.search {
-  display: flex;
-  width: min-content;
-}
-.v-toolbar__content {
-  display: flex;
-  justify-content: space-between;
-}
-
+<style scoped>
 /* .sidebar_left {
   position: -webkit-sticky;
   position: sticky;
