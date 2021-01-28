@@ -8,7 +8,7 @@ import 'vuesax/dist/vuesax.css' //Vuesax styles
 import 'boxicons/css/boxicons.min.css'
 import VueHorizontalTimeline from "vue-horizontal-timeline";//타임라인
 import VueRouter from 'vue-router'
-
+import ScrollBar from '@morioh/v-perfect-scrollbar'
 
 Vue.config.productionTip = false
 
@@ -22,3 +22,4 @@ Vue.use(Vuesax, {
 })
 Vue.use(VueRouter)
 Vue.use(VueHorizontalTimeline);
+Vue.use(ScrollBar);

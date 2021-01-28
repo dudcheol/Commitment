@@ -97,7 +97,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .three{
   display:grid;
 }
@@ -106,23 +106,5 @@ export default {
   text-align: center;
   height: 50%;
   background-color: white;
-}
-.second{
-  margin-top: 18%;
-  background-color: white;
-}
-.first{
-  margin-left:5%;
-  margin-right:5%;
-  background-color: white;
-}
-.third{
-
-  margin-top: 18%;
-  background-color: white;
-}
-.images{
-  text-align: center;
-  margin-top:-70px;
 }
 </style>

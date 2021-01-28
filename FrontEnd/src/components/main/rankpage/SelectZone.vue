@@ -117,16 +117,6 @@ export default {
 .filters{
   margin-bottom: 15px;
 }
-.vs-card__title {
-    display: flex;
-    justify-content: center;
-}
-.profile {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .big_button {
     width: 95%;
     display: flex;

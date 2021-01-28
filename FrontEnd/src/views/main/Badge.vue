@@ -9,10 +9,9 @@
             cols="12"
             sm="2"
           >
-          <div class="d-flex justify-center">
-            <SelectZone />
-          </div>
-<!--             <NotYetAddArticle /> -->
+            <div class="d-flex justify-center">
+              <SelectZone />
+            </div>
           </v-col>
 
           <v-col
@@ -27,31 +26,22 @@
               <div class="mainpage">
                 <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
                 <br>
-                <Top3 />
-                <After4 />
+                <MainBadge />
+                <EtcBadge />
                 <br>
               </div>
             </v-sheet>
           </v-col>
 
-          <v-col
-            cols="12"
-            sm="2"
-          >
-          <div class="radar mt-4 mb-3">
-            <v-slider
-            :thumb-size="15"
-            thumb-label="always"
-            ></v-slider>
-          </div>
-            <v-sheet
-              rounded="lg"
-              min-height="200"
-            >
-<!--             오른쪽 빈공간 -->
+          <v-col cols="12" sm="2">
+            <div class="radar mt-4 mb-3">
+              <v-slider :thumb-size="15" thumb-label="always"></v-slider>
+            </div>
+            <v-sheet rounded="lg" min-height="200">
+              <BadgeTotalProcess />
             </v-sheet>
-              
           </v-col>
+
         </v-row>
       </v-container>
     </v-main>
@@ -59,18 +49,20 @@
 </template>
 
 <script>
-  import SelectZone from '../../components/main/rankpage/SelectZone'
-  import Top3 from '../../components/main/rankpage/Top3'
-  import After4 from '../../components/main/rankpage/After4'
+  import SelectZone from '../../components/main/home/ProfileSummary'
+  import MainBadge from '../../components/main/badge/MainBadge'
+  import EtcBadge from '../../components/main/badge/EtcBadge'
+  import BadgeTotalProcess from '../../components/main/badge/BadgeTotalProcess'
   export default {
-    name: "Rank",
+    name: "Badge",
 
     components: {
       // CommitNow,
       // NotYetAddArticle,
       SelectZone,
-      Top3,
-      After4,
+      MainBadge,
+      EtcBadge,
+      BadgeTotalProcess,
     },
 
     data: () => ({
@@ -97,17 +89,6 @@
   display: flex;
   justify-content: space-between;
 }
-
-/* .sidebar_left {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 4px;
-}
-
-.mainslot {
-  overflow: auto;
-
-} */
 
 @media (max-width: 450px) {
 

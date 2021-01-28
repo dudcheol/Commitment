@@ -4,8 +4,7 @@ import Router from 'vue-router'
 import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
-import Mypage from '../views/Mypage.vue'
-import Ranking from '../views/Ranking.vue'
+// import Mypage from '../views/Mypage.vue'
 // 필수
 Vue.use(Router)
 export default new Router({
@@ -26,9 +25,6 @@ export default new Router({
                     name: 'SNS',
                     component:()=>import('../views/main/SNS.vue'),
                 },
-<<<<<<< HEAD
-
-=======
                 {
                     path: 'rank',
                     name: 'Rank',
@@ -44,7 +40,11 @@ export default new Router({
                     name: 'MyPage',
                     component:()=>import('../views/main/MyPage.vue'),
                 },
->>>>>>> 63430c29b613c730bf0eeb69e6af4aa0a69aaed1
+                {
+                    path: 'badge',
+                    name: 'Badge',
+                    component:()=>import('../views/main/Badge.vue'),
+                },
             ],
         },
         {
@@ -57,15 +57,5 @@ export default new Router({
             name: "Login",
             component: Login,
         },
-        {
-            path: "/mypage",
-            name: "Mypage",
-            component:Mypage,
-        },
-        {
-            path: "/ranking",
-            name: "Ranking",
-            component:Ranking,
-        }
     ]
 })

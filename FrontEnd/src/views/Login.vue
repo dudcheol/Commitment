@@ -1,28 +1,61 @@
 <template>
-  <vue-horizontal-timeline :items="times" />
+  <div class="login_input">
+    <v-list-item>
+      로그인
+    </v-list-item>
+    <v-list-item>
+        <vs-input
+        label="Email"
+        v-model="email"
+        placeholder="이메일형식에 맞게 만들어주세요"
+      />
+    </v-list-item>
+
+    <v-list-item>
+        <vs-input
+        label="Password"
+        type="password"
+        v-model="value"
+        placeholder="숫자영문혼용 8글자 이상"
+      />
+    </v-list-item>
+
+    <v-list-item>
+        <vs-input
+        label="PasswordConfirm"
+        v-model="value"
+        type="password"
+        placeholder="숫자 영문 혼용 8글자 이상"
+      />
+    </v-list-item>
+    <v-list-item>
+      <vs-button size="large" type="flat">Login</vs-button>
+    </v-list-item>
+  </div>
+
 </template>
 
 <script>
-  export default {
-    data() {
-      const example1 = {
-        title: "Title example 1",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ex dolor, malesuada luctus scelerisque ac, auctor vitae risus. Vivamus risus dolor, faucibus a bibendum quis, facilisis eget odio.",
-      };
-      const example2 = {
-        title: "Title example 2",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ex dolor, malesuada luctus scelerisque ac, auctor vitae risus. Vivamus risus dolor, faucibus a bibendum quis, facilisis eget odio.",
-      };
-      const example3 = {
-        title: "Title example 3",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ex dolor, malesuada luctus scelerisque ac, auctor vitae risus. Vivamus risus dolor, faucibus a bibendum quis, facilisis eget odio.",
-      };
-      const times = [example1, example2, example3];
+export default {
 
-      return { times };
-    },
-  };
+}
 </script>
+
+<style scoped>
+.v-main__wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.login_input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.v-list-item.theme--light {
+  display: flex;
+  justify-content: center;
+  max-height: 70px;
+}
+</style>
