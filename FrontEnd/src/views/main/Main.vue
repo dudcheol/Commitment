@@ -32,12 +32,12 @@
 </template>
 
 <script>
-import AllArticle from '../../components/main/home/AllArticle';
-import FollowerMap from '../../components/main/home/FollowerMap';
-import MyState from '../../components/main/home/MyState';
-import CommitNow from '../../components/main/home/CommitNow';
-import NotYetAddArticle from '../../components/main/home/NotYetAddArticle';
-import ProfileSummary from '../../components/main/home/ProfileSummary';
+import AllArticle from '../../components/index/main/AllArticle';
+import FollowerMap from '../../components/index/main/FollowerMap';
+import MyState from '../../components/index/main/MyState';
+import CommitNow from '../../components/index/main/CommitNow';
+import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
+import ProfileSummary from '../../components/index/main/ProfileSummary';
 
 export default {
   components: {
