@@ -4,17 +4,13 @@ import router from "./router/router";
 import Vuesax from 'vuesax'
 import vuetify from './plugins/vuetify';
 import 'vuesax/dist/vuesax.css' //Vuesax styles
+// import 'material-icons/iconfont/material-icons.css';
 import 'boxicons/css/boxicons.min.css'
-import 'material-icons/iconfont/material-icons.css';
-
+import VueHorizontalTimeline from "vue-horizontal-timeline";//타임라인
 import VueRouter from 'vue-router'
-
+import ScrollBar from '@morioh/v-perfect-scrollbar'
 
 Vue.config.productionTip = false
-
-Vue.use(Vuesax, {
-})
-Vue.use(VueRouter)
 
 new Vue({
   vuetify,
@@ -22,3 +18,8 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
+Vue.use(Vuesax, {
+})
+Vue.use(VueRouter)
+Vue.use(VueHorizontalTimeline);
+Vue.use(ScrollBar);

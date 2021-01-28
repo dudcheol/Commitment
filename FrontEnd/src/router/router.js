@@ -41,6 +41,11 @@ export default new Router({
                     name: 'MyPage',
                     component:()=>import('../views/main/MyPage.vue'),
                 },
+                {
+                    path: 'badge',
+                    name: 'Badge',
+                    component:()=>import('../views/main/Badge.vue'),
+                },
             ],
         },
         {

@@ -6,7 +6,7 @@
       <h3>헬로우</h3>
     </template>
     <template #img>
-      <img src="https://cdn.fastly.picmonkey.com/contentful/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=800&q=70" alt="">
+      <img src="https://post-phinf.pstatic.net/MjAxOTA2MDdfMjc1/MDAxNTU5ODg3NDE5ODg1.KvvxxigkXBP7Pj0bC954MZYWUsFio34hEK6junONCm0g.05M1GyB0htqPHRrPLqLusp4fCdh0ACQwGTN5IuMfgpMg.JPEG/g2.jpg?type=w1200" alt="">
     </template>
     <template #text>
         <div class="d-flex justify-center">
