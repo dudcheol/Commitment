@@ -36,12 +36,25 @@ public class Comment {
 	@Column(name="user_email")
 	private String email;
 	
+	// 원글 번호, 답변을 단 원래 글(부모글)의 번호
 	@Column(name="sns_id")
 	private String snsId;
 	
 	@Column(name="content")
 	private String content;
+	
+	// 댓글의 깊이
+	@Column(name="depth")
+	private int depth;
 
+//	// 그룹 내 순서
+//	@Column(name="seq")
+//	private int seq;
+	
+	// 원글에 대한 답글인지, 답글에 대한 답글인지 구분
+	@Column(name="parent")
+	private String parent;
+	
 	@Column(name="created_at")
 	private LocalDateTime createdAt;
 	

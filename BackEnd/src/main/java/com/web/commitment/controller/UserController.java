@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.commitment.dao.ProfileDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;

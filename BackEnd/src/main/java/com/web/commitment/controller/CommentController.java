@@ -32,12 +32,16 @@ public class CommentController {
 	
 	@PostMapping("/comment")
     @ApiOperation(value = "댓글 작성 & 수정")
-    public String commit(@RequestBody Comment comment) {
+    public String writeComment(@RequestBody Comment comment) {
 
 		// id가 있으면 
 		// 댓글은 여러 개 작성 가능
     	try { 
-    		comment.setCreatedAt(LocalDateTime.now());
+    		if(!comment.getParent().equals("0")) { // 부모 댓글이 있으면
+    			Optional<Comment> parent = commentDao.findById(comment.getParent());
+    			System.out.println(parent.get().getDepth());
+    			comment.setDepth(parent.get().getDepth() + 1);
+    		}
 			commentDao.save(comment);
 			return "success";
 			
@@ -47,12 +51,20 @@ public class CommentController {
     	}
     }
     
-    // 유저의 게시글 불러오기 open이 1인 것만
     @GetMapping("/comment")
     @ApiOperation(value = "해당 게시글의 댓글 목록")
     public List<Comment> mypage(@RequestParam String sns_id) {
-
-        return commentDao.findBySnsId(sns_id);
+    	
+    	List<Comment> commentList = commentDao.findBySnsId(sns_id);
+    	for (Comment comment : commentList) {
+			// 만약 부모 댓글이 db에 없다면 삭제하기
+    		Optional<Comment> parent = commentDao.findById(comment.getParent());
+    		if(!parent.isPresent())
+    			commentDao.delete(comment);
+		}
+    	
+    	List<Comment> finalComments = commentDao.findBySnsId(sns_id);
+        return finalComments;
     }
 
     @DeleteMapping("/comment")

@@ -18,6 +18,21 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	Optional<Commit> findByLatAndLng(String lat, String lng);
 
+//	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
+//	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
+
+	@Query(value = "SELECT id,( 6371 * acos( cos( radians(:curlat) ) * cos( radians( `lat` ) ) * cos( radians( `lng` ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( `lat` ) ) ) ) AS distance "
+		 + "FROM `commit` HAVING distance <= :radius ORDER BY distance ASC", nativeQuery = true)
+	List<String[]> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng, @Param("radius") Integer radius);
+	
+	List<Commit> findAllByEmailAndName(String eamil, String name);
+
+	List<Commit> findAllByOpen(int i);
+
+	List<Commit> findAllByEmailAndNationalXAndNationalY(String email, int x, int y);
+
+	List<Commit> findAllByEmailAndLocalXAndLocalYAndName(String email, int x, int y, String region);
+
 	List<Commit> findByEmail(String email);
 	
 	
@@ -78,6 +93,5 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 			+ " AND created_at between DATE_ADD(NOW(),INTERVAL -1 HOUR ) AND NOW()", nativeQuery = true)
 	List<Commit> timeCheck(@Param("email") String email,@Param("x") int x,@Param("y") int y,@Param("region") String region);
 
-	
 
 }

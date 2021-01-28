@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +17,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+
+@DynamicInsert
+@DynamicUpdate
 @Entity
 @Data
 @NoArgsConstructor
@@ -86,5 +88,9 @@ public class User {
 	@OneToOne
 	@JoinColumn(name = "email", referencedColumnName = "user_email")
 	private Profile profile;
+
+//	// User 1: N Commit
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//	private List<Commit> commitList;
 
 }

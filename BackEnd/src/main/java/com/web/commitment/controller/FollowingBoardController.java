@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.Follow;
 
 import io.swagger.annotations.ApiOperation;
