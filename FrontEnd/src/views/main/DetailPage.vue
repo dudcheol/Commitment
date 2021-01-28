@@ -8,7 +8,14 @@
         </vs-button>
         </div>
         <div class="my_location">
-            서울특별시 강남구 역삼동 테헤란로 212
+            <!-- <vs-button circle icon disabled floating>
+                <i class='bx bxs-chat' ></i>
+            </vs-button> -->
+             <!-- <vs-button disabled dark shadow flat>
+             서울특별시 종로구 세종로 사직로 161
+            </vs-button> -->
+            <!-- 서울특별시 종로구 세종로 사직로 161 -->
+            
             <!-- <v-alert
             border="left"
             colored-border
@@ -20,7 +27,7 @@
         </div>
         <v-img
          max-height="300"
-         src="https://docs.microsoft.com/ko-kr/azure/azure-maps/media/migrate-google-maps-web-app/google-maps-marker.png">
+         src="https://www.archives.go.kr/next/images/site3/map_seoul.png">
            
         </v-img>
     </div>
@@ -34,7 +41,7 @@
 
 <script>
 
-import ArticleDetail from './../components/detailpage/ArticleDetail'
+import ArticleDetail from './../../components/detail/ArticleDetail'
 export default {
     name: "Detail",
     components: {
@@ -47,8 +54,8 @@ export default {
 
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 300px 1fr;
+  grid-template-columns: 2fr 1fr 1fr 2fr;
+  grid-template-rows: 300px 100%;
   gap: 5px 0px;
   grid-template-areas:
     "map map map map"
@@ -69,7 +76,7 @@ export default {
 }
 
 .my_location {
-    font-size: 25px;
+    font-size: 15px;
     background: rgba(220, 220, 220, 0.5);
     position: absolute;
     z-index: 1;
