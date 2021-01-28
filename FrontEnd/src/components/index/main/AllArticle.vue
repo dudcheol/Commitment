@@ -19,17 +19,13 @@
       </v-sheet> -->
     </div>
 
-    <div class="my-4" v-for="content in contents" :key="content">
-      <main-card></main-card>
-      <!-- <vs-card>
+    <div class="mt-4 d-flex justify-center" v-for="content in contents" :key="content">
+      <vs-card>
         <template #title>
           <h3>Pot with a plant</h3>
         </template>
         <template #img>
-          <img
-            src="https://t1.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/22QT/image/EW3X6DmVUUWRGYtbepS674avKcM.jpg"
-            alt=""
-          />
+          <img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" alt="" />
         </template>
         <template #text>
           <p>
@@ -43,26 +39,25 @@
           <vs-button class="btn-chat" shadow primary>
             <i class="bx bx-chat"></i>
             <span class="span">
-              54
+              {{ content }}
             </span>
           </vs-button>
         </template>
-      </vs-card> -->
+      </vs-card>
     </div>
   </div>
 </template>
 
 <script>
-import MainCard from '../../common/card/MainCard.vue';
 export default {
-  components: { MainCard },
+  components: {},
   data: () => ({
     contents: ['1', '2', '3', '4', '5'],
   }),
 };
 </script>
 
-<style>
+<style scoped>
 .vs-card {
   max-width: 50vh !important;
   max-height: 50vh !important;

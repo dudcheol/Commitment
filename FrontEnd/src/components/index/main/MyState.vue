@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .my_location {
   display: flex;
   align-items: center;

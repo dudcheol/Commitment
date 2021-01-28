@@ -1,13 +1,11 @@
 <template>
-   <div class="login_form">
+  <div class="login_form">
     <vs-card>
-        <template #title>
-          <h4 class="not-margin">
-            <b>Commmitment</b> 오신것을 환영합니다 
-          </h4>
-        </template>
+      <template #title>
+        <h4 class="not-margin"><b>Commmitment</b> 오신것을 환영합니다</h4>
+      </template>
 
-     <template #text>
+      <template #text>
         <div class="con-form">
           <vs-input v-model="email" placeholder="Email">
             <template #icon>
@@ -16,7 +14,7 @@
           </vs-input>
           <vs-input type="password" v-model="password" placeholder="영문, 숫자 혼용 8글자이상">
             <template #icon>
-              <i class='bx bxs-lock'></i>
+              <i class="bx bxs-lock"></i>
             </template>
           </vs-input>
           <div class="flex">
@@ -25,41 +23,37 @@
           </div>
         </div>
 
+        <div class="footer-dialog">
+          <vs-button block>
+            로그인
+          </vs-button>
 
-          <div class="footer-dialog">
-            <vs-button block>
-              로그인
-            </vs-button>
-
-            <div class="new">
-              아직 처음이신가요? <a href="#">회원가입</a>
-            </div>
-          </div>
-        </template>
-      </vs-card>
-    </div>
+          <div class="new">아직 처음이신가요? <a href="#">회원가입</a></div>
+        </div>
+      </template>
+    </vs-card>
+  </div>
 </template>
 
 <script>
 export default {
-    data:() => ({
+  data: () => ({
     active: true,
     email: '',
     password: '',
-    remember: false
-    })
-}
-
+    remember: false,
+  }),
+};
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   getColor(vsColor, alpha = 1)
       unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
   getVar(var)
       unquote("var(--vs-"+var+")")
   .login_form
     display flex
-    justify-content center 
+    justify-content center
     position: absolute;
     left: 50%
     top: 50%
@@ -68,7 +62,7 @@ export default {
     width 40vmax
     @media screen and (min-width: 600px)
         width 30vmax
-    
+
   .not-margin
     margin 0px
     font-weight normal

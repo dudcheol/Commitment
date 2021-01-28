@@ -1,98 +1,93 @@
 <template>
-   <div class="login_form">
+  <div class="login_form">
     <vs-card>
-        <template #title>
-          <h4 class="not-margin">
-            <b>Commmitment</b> 회원가입
-          </h4>
-        </template>
+      <template #title>
+        <h4 class="not-margin"><b>Commmitment</b> 회원가입</h4>
+      </template>
 
-     <template #text>
+      <template #text>
         <div class="con-form">
-        이메일
+          이메일
           <vs-input icon-after v-model="email" placeholder="Email">
             <template #icon>
               @
             </template>
           </vs-input>
-        비밀번호
-        <vs-input type="password" icon-after placeholder="Password">
-          <template #icon>
-            <i class='bx bx-lock-open-alt'></i>
-          </template>
-        </vs-input>
-        비밀번호 확인
-      <vs-input type="password" icon-after placeholder="Password">
-        <template #icon>
-          <i class='bx bx-lock-open-alt'></i>
-        </template>
-      </vs-input>
-        닉네임
-      <vs-input icon-after placeholder="3글자이상">
-        <template #icon>
-          <i class='bx bx-user'></i>
-        </template>
-      </vs-input>  
-        한줄소개
-      <vs-input icon-after placeholder="한줄소개">
-        <template #icon>
-          <i class='bx bx-comment-detail'></i>
-        </template>
-      </vs-input>  
-        성별
-      <div>
-      <vs-select placeholder="Select" v-model="value">
-        <vs-option label="Vuesax" value="1">
-          Man
-        </vs-option>
-        <vs-option label="Vue" value="2">
-          Woman
-        </vs-option>  
-      </vs-select> 
-      </div>
-        생일
-      <vs-input type="date" icon-after>
-      </vs-input>  
+          비밀번호
+          <vs-input type="password" icon-after placeholder="Password">
+            <template #icon>
+              <i class="bx bx-lock-open-alt"></i>
+            </template>
+          </vs-input>
+          비밀번호 확인
+          <vs-input type="password" icon-after placeholder="Password">
+            <template #icon>
+              <i class="bx bx-lock-open-alt"></i>
+            </template>
+          </vs-input>
+          닉네임
+          <vs-input icon-after placeholder="3글자이상">
+            <template #icon>
+              <i class="bx bx-user"></i>
+            </template>
+          </vs-input>
+          한줄소개
+          <vs-input icon-after placeholder="한줄소개">
+            <template #icon>
+              <i class="bx bx-comment-detail"></i>
+            </template>
+          </vs-input>
+          성별
+          <div>
+            <vs-select placeholder="Select" v-model="value">
+              <vs-option label="Vuesax" value="1">
+                Man
+              </vs-option>
+              <vs-option label="Vue" value="2">
+                Woman
+              </vs-option>
+            </vs-select>
+          </div>
+          생일
+          <vs-input type="date" icon-after> </vs-input>
         </div>
 
-
-          <div class="footer-dialog">
-            <vs-button block>
-              회원가입
-            </vs-button>
-          </div>          
-        </template>
-      </vs-card>
-    </div>
+        <div class="footer-dialog">
+          <vs-button block>
+            회원가입
+          </vs-button>
+        </div>
+      </template>
+    </vs-card>
+  </div>
 </template>
 
 <script>
 export default {
-    data:() => ({
+  data: () => ({
     active: true,
     value: '',
     email: '',
     password: '',
     value2: '',
-    remember: false
-    })
-}
-
+    remember: false,
+  }),
+};
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   getColor(vsColor, alpha = 1)
       unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
   getVar(var)
       unquote("var(--vs-"+var+")")
   .login_form
     display flex
-    justify-content center 
+    justify-content center
     position: absolute;
     left: 50%
     top: 50%
     transform: translate( -50%, -50% )
-.vs-card__title 
+.vs-card__title
     margin-top 10px
     margin-bottom 20px
 .vs-card-content
@@ -101,7 +96,7 @@ export default {
     width 40vmax
     @media screen and (min-width: 600px)
         width 30vmax
-    
+
   .not-margin
     margin 0px
     font-weight normal

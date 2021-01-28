@@ -1,5 +1,5 @@
 <template>
-<div class="mt-4">
+  <div class="mt-4">
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-header>
@@ -11,7 +11,7 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          Lorem ipsum dolor sit amet, 
+          Lorem ipsum dolor sit amet,
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -25,7 +25,7 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          Lorem ipsum dolor sit amet, 
+          Lorem ipsum dolor sit amet,
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -39,19 +39,15 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          Lorem ipsum dolor 
+          Lorem ipsum dolor
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-</div>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style scoped></style>

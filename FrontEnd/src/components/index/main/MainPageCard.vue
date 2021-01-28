@@ -4,7 +4,7 @@
       <h3>Pot with a plant</h3>
     </template>
     <template #img>
-      <img src="/foto5.png" alt="" />
+      <img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" alt="" />
     </template>
     <template #text>
       <p>
@@ -31,4 +31,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
