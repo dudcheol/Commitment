@@ -11,14 +11,12 @@
       </v-col>
 
       <v-col class="mainslot" cols="12" sm="8">
-        <v-sheet min-height="70vh" rounded="lg">
-          <div class="mainpage">
-            <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
-            <FollowerMap />
-            <MyState />
-            <AllArticle />
-          </div>
-        </v-sheet>
+        <div class="mainpage">
+          <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
+          <FollowerMap class="mb-6 mt-3" />
+          <MyState />
+          <AllArticle class="my-4" />
+        </div>
       </v-col>
 
       <v-col cols="12" sm="2">

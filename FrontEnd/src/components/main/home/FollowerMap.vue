@@ -1,46 +1,37 @@
 <template>
-  <v-carousel 
-  hide-delimiters
-  show-arrows-on-hover
-  v-model="model" height="40vh">
-    <v-carousel-item
-      v-for="(color, i) in colors"
-      :key="color"
-    >
-      <v-sheet
-        :color="color"
-        height="100%"
-        tile
-      >
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
+  <v-sheet class="mx-auto" max-width="800" color="transparent">
+    <v-slide-group v-model="model" class="" active-class="success" show-arrows>
+      <v-slide-item v-for="n in 15" :key="n" v-slot="{ active, toggle }">
+        <v-card
+          :color="active ? undefined : 'grey lighten-1'"
+          class="ma-2"
+          height="200"
+          width="100"
+          @click="toggle"
         >
-          <div class="display-3">
-            Slide {{ i + 1 }}
-          </div>
-        </v-row>
-      </v-sheet>
-    </v-carousel-item>
-  </v-carousel>
+          <v-row class="fill-height" align="center" justify="center">
+            <v-scale-transition>
+              <v-icon
+                v-if="active"
+                color="white"
+                size="48"
+                v-text="'mdi-close-circle-outline'"
+              ></v-icon>
+            </v-scale-transition>
+          </v-row>
+        </v-card>
+      </v-slide-item>
+    </v-slide-group>
+  </v-sheet>
 </template>
 
 <script>
 export default {
-    data: () => ({
-      model: 0,
-      colors: [
-        'grey',
-        'orange',
-        'yellow darken-2',
-        'green',
-        'blue ligthen-2',
-      ],
-    }),
-}
+  data: () => ({
+    model: 0,
+    colors: ['grey', 'orange', 'yellow darken-2', 'green', 'blue ligthen-2'],
+  }),
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
