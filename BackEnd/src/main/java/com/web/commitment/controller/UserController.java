@@ -110,15 +110,6 @@ public class UserController {
 	public Object user(@RequestParam(required = true) final String email) {
 		User user = userDao.getUserByEmail(email);
 		System.out.println(user);
-//		Map<String,String> map=new HashMap<String, String>();
-//		map.put("email",email);
-//		map.put("pass",user.getPass());
-//		map.put("nickname",user.getNickname());
-//		map.put("tel",user.getTel());
-//		map.put("age",user.getAge());
-//		map.put("gender",user.getGender());
-//		map.put("badge",user.getBadge());
-//		map.put("image",profilecontroller.image(email));
 		return user;
 	}
 
@@ -210,13 +201,17 @@ public class UserController {
 			messageHelper.setFrom(new InternetAddress("1693013@naver.com"));
 			messageHelper.setTo(email);
 			// 메일 제목
-			messageHelper.setSubject("안녕하세요 ss blog 인증 메일입니다.");
+			messageHelper.setSubject("안녕하세요 Commitment 인증 메일입니다.");
 			// 메일 내용
-			messageHelper.setText(new StringBuffer().append("<h1>[ss blog 이메일 인증]</h1>")
-					.append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-					.append("<a href='http://localhost:8080/user/signUpConfirm?email=").append(user.getEmail())
-					.append("&authKey=").append(AuthenticationKey).append("' target='_blenk'>이메일 인증 확인</a>").toString(),
-					true);// true를 해야 html형식으로 됨
+			messageHelper.setText(new StringBuffer().append("<center>").append("<div height=\"1000\">").append(
+					"<img src=\"https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%EB%A9%94%EC%9D%BC+%EC%9D%B8%EC%A6%9D.PNG\" width=\"550\" >")
+					.append("<br>").append("<a  href='http://localhost:8080/user/signUpConfirm?email=")
+					.append(user.getEmail()).append("&authKey=").append(AuthenticationKey)
+					.append("' target='_blenk'><font size=\"5px\"  color=\"black\">[메일 인증]</a></font>")
+					.append("</div>").append("</center>").toString(), true);// true를 해야 html형식으로 됨
+			
+			
+
 
 			Transport.send(msg);
 			System.out.println("이메일 전송");
@@ -235,15 +230,16 @@ public class UserController {
 		Optional<User> userOpt = userDao.findUserByEmailAndAuthkey(email, authKey);// 인증키 일치하는지 확인
 		if (userOpt.isPresent()) {
 			userDao.AuthUpdate(email);// 인증 했다고 체크
-			response.sendRedirect("http://localhost:8082/#/user/mailCheck");// 회원가입이 완료되었습니다 페이지로 이동
+			response.sendRedirect("http://localhost:8082/#/user/mailCheck");// 회원가입이 완료되었습니다 페이지로 이동(프론트 주소)
 		} else
 			response.sendRedirect("http://localhost:8082/#/404");
 	}
 
 	@GetMapping("/user/loaction")
 	@ApiOperation(value = "현재위치설정")
-	public Object loaction(@RequestParam(required = true) final String email, @RequestParam(required = true) final String lat,
-			@RequestParam(required = true) final String lng) throws IOException {
+	public Object loaction(@RequestParam(required = true) final String email,
+			@RequestParam(required = true) final String lat, @RequestParam(required = true) final String lng)
+			throws IOException {
 		User user = userDao.getUserByEmail(email);
 		user.setLat(lat);
 		user.setLng(lng);
@@ -256,19 +252,33 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-    /// 해시태그로 검색
-    @GetMapping("/search/nickname")
-    @ApiOperation(value = "사용자 검색: 닉네임으로 검색")
-    public Collection<User> searchByNickname(@RequestParam String keyword) {
-    	
-    	return userDao.findByNicknameContainingIgnoreCase(keyword);
-    }
-    
-    /// 이메일로 검색
-    @GetMapping("/search/email")
-    @ApiOperation(value = "사용자 검색: 이메일로 검색")
-    public Collection<User> searchByEmail(@RequestParam String keyword) {
-    	
-    	return userDao.findByEmailContainingIgnoreCase(keyword);
-    }
+	/// 해시태그로 검색
+	@GetMapping("/search/nickname")
+	@ApiOperation(value = "닉네임으로 검색")
+	public Collection<User> searchByNickname(@RequestParam String keyword) {
+
+		return userDao.findByNicknameContainingIgnoreCase(keyword);
+	}
+
+	/// 이메일로 검색
+	@GetMapping("/search/email")
+	@ApiOperation(value = "이메일로 검색")
+	public Collection<User> searchByEmail(@RequestParam String keyword) {
+
+		return userDao.findByEmailContainingIgnoreCase(keyword);
+	}
+
+	@GetMapping("/user/map")
+	@ApiOperation(value = "대표지도 설정")
+	public String mapSelect(@RequestParam String email, @RequestParam String region) {
+		User user = userDao.getUserByEmail(email);
+		try {
+			user.setRegion_name(region);
+			userDao.save(user);
+		} catch (Exception e) {
+			return "지역이름이나 이메일 오류";
+		}
+
+		return "success";
+	}
 }

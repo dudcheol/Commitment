@@ -18,9 +18,6 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	Optional<Commit> findByLatAndLng(String lat, String lng);
 
-	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking from commit  group by commit.user_email", nativeQuery = true)
-	List<Ranking> commitRank();
-
 //	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
 //	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
 
@@ -35,5 +32,66 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	List<Commit> findAllByEmailAndNationalXAndNationalY(String email, int x, int y);
 
 	List<Commit> findAllByEmailAndLocalXAndLocalYAndName(String email, int x, int y, String region);
+
+	List<Commit> findByEmail(String email);
+	
+	
+	//랭킹관련
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> commitRank();
+
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where created_at between DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW() "
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> commitWeekRank();
+
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where created_at between DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> commitMonthRank();
+
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt \r\n"
+			+ "from commit \r\n" + "where commit.user_email in (\r\n"
+			+ "select follow.follow_to from follow where follow_from=:email) "
+			+ "group by commit.user_email;", nativeQuery = true)
+	List<Ranking> followingRank(@Param("email") String email);
+
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=seoul"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> seoulRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=gyeonggi"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> gyeonggiRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=gangwon"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> gangwonRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=gwangju"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> gwangjuRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=ulsan"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> ulsanRank();
+	
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
+			+ "where commit.region=busan"
+			+ "group by commit.user_email", nativeQuery = true)
+	List<Ranking> busanRank();
+	
+	//커밋 시간제한
+	@Query(value = "select * from commit "
+			+ "where commit.user_email=:email and commit.region_name=:region and commit.local_x=:x and commit.local_y=:y"
+			+ " AND created_at between DATE_ADD(NOW(),INTERVAL -1 HOUR ) AND NOW()", nativeQuery = true)
+	List<Commit> timeCheck(@Param("email") String email,@Param("x") int x,@Param("y") int y,@Param("region") String region);
+
 
 }

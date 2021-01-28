@@ -1,0 +1,9 @@
+diff a/FrontEnd/src/App.vue b/FrontEnd/src/App.vue	(rejected hunks)
+@@ -2,6 +2,7 @@
+   <v-app>
+     <div id="develop-navigation">
+       <router-link to="/">main</router-link> / <router-link to="/signup">signup</router-link> /
++      <router-link to="/login">login</router-link> / <router-link to="/mypage">mypage</router-link> /
+       <router-link to="/ranking">ranking</router-link>
+     </div>
+     <router-view></router-view>
