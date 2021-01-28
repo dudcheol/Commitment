@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // 연결할 컴포넌트 import
-import Main from '../views/Main.vue'
+import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Mypage from '../views/Mypage.vue'
@@ -13,20 +13,38 @@ export default new Router({
     routes: [
         {
             path: "/", // 경로
-            name: "Main", // 해당 경로의 이름 
-            component: Main, // 이동할 컴포넌트
+            name: "Index", // 해당 경로의 이름 
+            component: Index, // 이동할 컴포넌트
             children: [
                 {
-                    path: 'home',
-                    name: 'Home',
-                    component:()=>import('../views/main/Home.vue'),
+                    path: '',
+                    name: 'Main',
+                    component:()=>import('../views/main/Main.vue'),
                 },
-                { // 예시임
+                {
                     path: 'sns',
                     name: 'SNS',
                     component:()=>import('../views/main/SNS.vue'),
                 },
+<<<<<<< HEAD
 
+=======
+                {
+                    path: 'rank',
+                    name: 'Rank',
+                    component:()=>import('../views/main/Rank.vue'),
+                },
+                {
+                    path: 'likes',
+                    name: 'Likes',
+                    component:()=>import('../views/main/Likes.vue'),
+                },
+                {
+                    path: 'mypage',
+                    name: 'MyPage',
+                    component:()=>import('../views/main/MyPage.vue'),
+                },
+>>>>>>> 63430c29b613c730bf0eeb69e6af4aa0a69aaed1
             ],
         },
         {
