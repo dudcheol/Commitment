@@ -5,6 +5,7 @@ import Main from '../views/Main.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Mypage from '../views/Mypage.vue'
+import Ranking from '../views/Ranking.vue'
 // 필수
 Vue.use(Router)
 export default new Router({
@@ -42,6 +43,11 @@ export default new Router({
             path: "/mypage",
             name: "Mypage",
             component:Mypage,
+        },
+        {
+            path: "/ranking",
+            name: "Ranking",
+            component:Ranking,
         }
     ]
 })
