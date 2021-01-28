@@ -16,7 +16,7 @@
     </div>
     <div class="username ml-4 mt-4" v-bind="introduction">
       <div v-bind="username">
-        {{ username }}
+        <b> {{ username }}</b>
       </div>
       {{ introduction }}
       </div>

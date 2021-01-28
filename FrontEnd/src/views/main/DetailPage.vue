@@ -8,22 +8,6 @@
         </vs-button>
         </div>
         <div class="my_location">
-            <!-- <vs-button circle icon disabled floating>
-                <i class='bx bxs-chat' ></i>
-            </vs-button> -->
-             <!-- <vs-button disabled dark shadow flat>
-             서울특별시 종로구 세종로 사직로 161
-            </vs-button> -->
-            <!-- 서울특별시 종로구 세종로 사직로 161 -->
-            
-            <!-- <v-alert
-            border="left"
-            colored-border
-            color="deep-purple accent-4"
-            elevation="2"
-            >
-            서울특별시 강남구 역삼동 테헤란로 212
-            </v-alert> -->
         </div>
         <v-img
          max-height="300"
