@@ -6,7 +6,7 @@
         :class="[cellStyle, drawCellColor(cell)]"
         v-for="(cell, j) in line"
         :key="j"
-        @click="squareClick(i, j)"
+        @click="squareClick(i, j, cell)"
       ></div>
     </div>
   </div>
