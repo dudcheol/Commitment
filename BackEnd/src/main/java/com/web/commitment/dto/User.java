@@ -1,26 +1,31 @@
 package com.web.commitment.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 
+@DynamicInsert
+@DynamicUpdate
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class User {
 
 	@Id
@@ -62,6 +67,9 @@ public class User {
 
 	@Column(name = "auth")
 	private String auth;
+	
+	@Column(name = "region_name")
+	private String region_name;
 
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {
@@ -74,7 +82,13 @@ public class User {
 		this.gender = gender;
 		this.mystory = mystory;
 	}
-	
-	
+
+	@OneToOne
+	@JoinColumn(name = "email", referencedColumnName = "user_email")
+	private Profile profile;
+
+//	// User 1: N Commit
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+//	private List<Commit> commitList;
 
 }

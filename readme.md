@@ -1,94 +1,66 @@
-# Commit your moment, Commitment
+# Commitment
 
-## :globe_with_meridians:Subpjt02 :globe_with_meridians:
+## Commit your moment :globe_with_meridians:
 
-[TOC]
+### 팀원 정보 및 업무 분담 내역 :family:
 
-### 1. :family_woman_woman_girl_boy: 팀원 정보 및 업무 분담 내역  
+| 팀장 및 팀원 | 분담 내용                                                    |
+| ------------ | ------------------------------------------------------------ |
+| 박영철       | 커밋지도, 메인, 재사용 컴포넌트(커밋지도,다이얼로그,글작성,카드 등) 전체페이지 디자인 관리, 데이터 관리 |
+| 박유정       | DB설계 커밋 지도 작성, 위치기반 SNS CRUD, 위도경도 값으로 반경 구하기 <br />계층형 댓글 AWS S3를 사용한 SNS 사진 업로드 제목/내용, <br />제목과 내용으로 검색, 계정, 글쓴이, 해시태그로 검색 해시태그 CRUD, 좋아요 CRUD |
+| 김청화       | DB설계 커밋 지도 작성, 인덱스 별 횟수 구하기 위치기반 SNS CRUD, <br />위도경도 값으로 반경 구하기, 계층형 댓글 AWS S3 이용 SNS 사진 업로드 제목/내용 <br />제목과 내용으로 검색, 계정, 글쓴이, 해시태그로 검색 해시태그 CRUD, 좋아요 CRUD |
+| 박소현       | 마이페이지, 획득 뱃지 확인페이지, 랭킹조회 페이지의 레이아웃 및 UXUI작업 |
+| 강해성       | 메인페이지, 로그인회원가입 등 레이아웃 및 UXUI 작업          |
 
-| 팀장 및 팀원 | 업무 분담 내용 |
-| ------------ | -------------- |
-| 박영철(팀장) |                |
-| 박유정(팀원) |                |
-| 김청화(팀원) |                |
-| 박소현(팀원) |                |
-| 강해성(팀원) |                |
+### 목표 :notebook_with_decorative_cover: 
 
+#### 명세서 목표 :book:
 
+Vue-router, Vuex, Database, Backend, RestAPI 에 대한 이해
 
-### 2. :notebook_with_decorative_cover: Subpjt02 목표 
-
-#### :bookmark_tabs:명세서 목표  
-
- Vue-router 에 대한 이해
-
- Vuex에 대한 이해
-
- Database 설계 및 구조 이해
-
- Backend의 구조 이해
-
- RestAPI의 이해
-
-#### :books: 개인목표
+#### 개인목표 :books:
 
 영철
 
 ```
-
+vuex와 같은 상태관리 라이브러리를 효율적으로 사용하여 프로젝트 구현
+읽기쉬운 코드
+실시간 서비스 구현
+한눈에 알아볼 수 있는 깔끔한 UX/UI
 ```
 
 유정
 
 ```
-
+실시간 알림까지 모두 구현하여 EC2에 배포하기
+프론트랑 모두 연결시켜서 에러없이 구현하기
 ```
 
 청화
 
 ```
-
+프론트랑 연결하기 전 부족한 부분있는지 꼼꼼하게 체크하기
+파이어베이스와 연동하여 실시간 알림 구현
+AWS EC2를 사용한 배포
 ```
 
 소현
 
 ```
-
+vue용으로 만들어지지 않은 코드들을 vue에 적용할수 있도록 바꾸기,
+수평타임라인을 적용하고 디자인적으로도 예쁘게 만들어서 내 게시글 조회 대신 사용할수 있게 하기,
+반응형으로 만들어서 사이즈 줄였을때 서로 겹치지 않고 미관을 해치지 않게 배치하기
+백엔드와 연결할수 있는건지 확인하고 만들기
 ```
 
 해성
 
 ```
-
+Vuejs에 Component 재사용성높은 코드를 만드는 것
+CSS Style적용에 익숙해지는것
+Interactive Design을 추가해보는것
 ```
 
-### 3. :link:데이터베이스 모델링(ERD) 
+### 데이터베이스 모델링(ERD) :link:
 
 ![210125_DB 설계](/uploads/a2710092abf421045fc2d252bf8208bd/210125_DB.png)
-
-### 4. :speech_balloon:기능 명세 (결과물)  
-
-![]()
-
-### 5. :running:진행 과정 및 느낀점 
-
-<details>
-    <summary>1주차</summary>
-    <ul>
-        <a href="Document/Dev_summary/20210121_summary.md"><li>1/21(목) - 스크럼, 그리드개발, DB 설계</li></a>
-    </ul>
-</details>
-
-
-##### 진행과정
-
-```markdown
-
-```
-
-##### 다음과제
-
-```markdown
-
-```
-
