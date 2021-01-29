@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Follow;
-import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.Ranking;
 
 @Repository

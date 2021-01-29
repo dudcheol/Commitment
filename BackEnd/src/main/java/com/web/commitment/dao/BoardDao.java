@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.Ranking;
 
 @Repository

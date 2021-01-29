@@ -40,8 +40,7 @@ public class ProfileController {
 	private FollowDao followDao;
 	@Autowired
 	private UserDao userDao;
-//	@Autowired
-//	private AWSService awsService;
+	
 	@Autowired
 	private S3Dao s3Uploader;
 
@@ -71,9 +70,6 @@ public class ProfileController {
 			user.add(userDao.getUserByEmail(f.getFollowid().getTo()));
 			System.out.println(user.get(index++));
 		}
-//		final BasicResponse result = new BasicResponse();
-//		result.status = true;
-//		result.data = "success";
 
 		return user;
 	}
