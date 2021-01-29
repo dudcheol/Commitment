@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="images">
-        <img src="../../../img/rank.png" width="70%" alt="John" />
+        <img src="../../../assets/img/rank/rank.png" width="70%" alt="John" />
       </div>
     </div>
 

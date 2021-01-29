@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
-import Detail from '@/views/main/DetailPage.vue'
+import Detail from '@/views/index/Detail.vue'
 
 // 필수
 Vue.use(Router)
@@ -19,32 +19,32 @@ export default new Router({
                 {
                     path: '',
                     name: 'Main',
-                    component:()=>import('../views/main/Main.vue'),
+                    component:()=>import('../views/index/Main.vue'),
                 },
                 {
                     path: 'sns',
                     name: 'SNS',
-                    component:()=>import('../views/main/SNS.vue'),
+                    component:()=>import('../views/index/SNS.vue'),
                 },
                 {
                     path: 'rank',
                     name: 'Rank',
-                    component:()=>import('../views/main/Rank.vue'),
+                    component:()=>import('../views/index/Rank.vue'),
                 },
                 {
                     path: 'likes',
                     name: 'Likes',
-                    component:()=>import('../views/main/Likes.vue'),
+                    component:()=>import('../views/index/Likes.vue'),
                 },
                 {
                     path: 'mypage',
                     name: 'MyPage',
-                    component:()=>import('../views/main/MyPage.vue'),
+                    component:()=>import('../views/index/MyPage.vue'),
                 },
                 {
                     path: 'badge',
                     name: 'Badge',
-                    component:()=>import('../views/main/Badge.vue'),
+                    component:()=>import('../views/index/Badge.vue'),
                 },
             ],
         },

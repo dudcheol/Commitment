@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import SelectZone from '../../components/index/rankpage/SelectZone';
-import Top3 from '../../components/index/rankpage/Top3';
-import After4 from '../../components/index/rankpage/After4';
+import SelectZone from '../../components/index/rank/SelectZone';
+import Top3 from '../../components/index/rank/Top3';
+import After4 from '../../components/index/rank/After4';
 export default {
   name: 'Rank',
 

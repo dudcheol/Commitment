@@ -5,7 +5,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/badge1.png" alt="John" />
+              <img src="../../../assets/img/badge/badge1.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -37,7 +37,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock2.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -67,7 +67,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock2.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -99,7 +99,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock2.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -129,7 +129,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/badge5.png" alt="John" />
+              <img src="../../../assets/img/badge/badge5.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -161,7 +161,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock2.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -193,7 +193,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/badge7.png" alt="John" />
+              <img src="../../../assets/img/badge/badge7.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -225,7 +225,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock2.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -255,7 +255,7 @@
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../img/badge9.png" alt="John" />
+              <img src="../../../assets/img/badge/badge9.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
