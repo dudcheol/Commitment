@@ -25,13 +25,13 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 		 + "FROM `commit` HAVING distance <= :radius ORDER BY distance ASC", nativeQuery = true)
 	List<String[]> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng, @Param("radius") Integer radius);
 	
-	List<Commit> findAllByEmailAndName(String eamil, String name);
+	List<Commit> findAllByEmailAndRegion(String eamil, String name);
 
 	List<Commit> findAllByOpen(int i);
 
-	List<Commit> findAllByEmailAndNationalXAndNationalY(String email, int x, int y);
+	List<Commit> findAllByEmailAndNationalXAndNationalY(String email, String x, String y);
 
-	List<Commit> findAllByEmailAndLocalXAndLocalYAndName(String email, int x, int y, String region);
+	List<Commit> findAllByEmailAndLocalXAndLocalYAndRegion(String email, String x, String y, String region);
 
 	List<Commit> findByEmail(String email);
 	

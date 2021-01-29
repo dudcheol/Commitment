@@ -54,32 +54,22 @@ public class Commit {
 	
 	@Column(name="open")
 	private int open;
-	@Column(name="region_name")
-	private String region_name;
-	@Column(name="national_x")
-	private String national_x;
-	@Column(name="national_y")
-	private String national_y;
-	@Column(name="local_x")
-	private String local_x;
-	@Column(name="local_y")
-	private String local_y;
 	
 	@Column(name="region_name")
-	private String name;
+	private String region;
 	
 	@Column(name="national_x")
-	private int nationalX;
+	private String nationalX;
 	
 	@Column(name="national_y")
-	private int nationalY;
+	private String nationalY;
 	
 	@Column(name="local_x")
-	private int localX;
+	private String localX;
 	
 	@Column(name="local_y")
-	private int localY;
-	
+	private String localY;
+
 	@OneToOne
 	@JoinColumn(name = "id", referencedColumnName = "commit_id")
 	private Board board;

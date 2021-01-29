@@ -58,12 +58,6 @@ public class Comment {
 	@Column(name="created_at")
 	private LocalDateTime createdAt;
 	
-	@Column(name="parent")
-	private int parent;
-	
-	@Column(name="depth")
-	private int depth;
-	
 	@Column(name="seq")
 	private int seq;
 }
