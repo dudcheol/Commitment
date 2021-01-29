@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -126,29 +125,7 @@ public class CommitController {
     	return list;
     }
     
-    // 인덱스 정보
-    static public class Position {
-    	int x;
-    	int y;
 
-    	Position(int x, int y){
-    		this.x = x;
-    		this.y = y;
-    	}
-    	
-    	@Override
-        public boolean equals(Object obj)//비교 부분
-        {
-            return (y == ((Position)obj).y && x == ((Position)obj).x);
-        }
-
-        @Override
-        public int hashCode()//해쉬 코드 부분
-        {
-            return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
-        }
-
-    }
     // 커밋 불러오기 -> open 1인 것만
     
 	// CRUD 중 C만
@@ -241,32 +218,6 @@ public class CommitController {
 		}
 	}
 
-	// 커밋 불러오는 방법
-//	@GetMapping("/commit")
-//    @ApiOperation(value = "유저의 커밋 정보 불러오기")
-//    public List<Commit> commit(@RequestParam(required = true) final String email) {
-//		
-//		if(userDao.countByEmail(email) != 0) {
-//			return commitDao.findAllByEmail(email);
-//		}
-//		return null;
-//    }
-
-//	@GetMapping("/commit")
-//    @ApiOperation(value = "유저의 커밋 정보 불러오기")
-//    public Map<String, String> commit(@RequestParam(required = true) final String email) {
-//		
-//    	Map<String, String> map = new HashMap<>();
-//		if(userDao.countByEmail(email) != 0) {
-//			commitDao.findAllByEmail(email)
-//				.forEach(commit -> {
-//					map.put("lat", commit.getLat());
-//					map.put("lng", commit.getLng());
-//				});
-//		}
-//		return map;
-//    }
-
 	@GetMapping("/commit/user")
 	@ApiOperation(value = "유저의 커밋 정보 불러오기")
 	public List<String[]> commit(@RequestParam(required = true) final String email) {
@@ -300,8 +251,8 @@ public class CommitController {
 				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
 						+ lng + "," + lat);
 
-		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
-		getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "fffff");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY", "ffffffffffffffffffffff");
 
 		try {
 			HttpResponse response = client.execute(getRequest);
@@ -328,5 +279,29 @@ public class CommitController {
 
 		return "fail";
 
-	}
+	}   
+	
+	// 인덱스 정보
+    static public class Position {
+    	int x;
+    	int y;
+
+    	Position(int x, int y){
+    		this.x = x;
+    		this.y = y;
+    	}
+    	
+    	@Override
+        public boolean equals(Object obj)//비교 부분
+        {
+            return (y == ((Position)obj).y && x == ((Position)obj).x);
+        }
+
+        @Override
+        public int hashCode()//해쉬 코드 부분
+        {
+            return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
+        }
+
+    }
 }
