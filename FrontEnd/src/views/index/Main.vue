@@ -1,31 +1,29 @@
 <template>
-  <v-container>
+  <v-container fluid class="">
     <v-row>
-      <v-col class="sidebar_left" cols="12" sm="2">
-        <div class="d-flex justify-center" @click="clickProfile">
-          <ProfileSummary />
-        </div>
-        <!-- 첫번째 넣어야할거 -->
-
-        <NotYetAddArticle />
+      <v-col class="sidebar_left pr-md-16" cols="12" md="3">
+        <v-row>
+          <v-col>
+            <ProfileSummary />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <NotYetAddArticle />
+          </v-col>
+        </v-row>
       </v-col>
 
-      <v-col class="mainslot" cols="12" sm="8">
+      <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
-          <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
           <FollowerMap class="mb-6 mt-3" />
           <MyState />
           <AllArticle class="my-4" />
         </div>
       </v-col>
 
-      <v-col cols="12" sm="2">
-        <div class="radar mt-4 mb-3">
-          <v-slider :thumb-size="15" thumb-label="always"></v-slider>
-        </div>
-        <v-sheet rounded="lg" min-height="200">
-          <CommitNow />
-        </v-sheet>
+      <v-col cols="12" md="3">
+        <CommitNow />
       </v-col>
     </v-row>
   </v-container>

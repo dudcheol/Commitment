@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex justify-center">
     <vs-card>
       <template #title>
         <h3>헬로우</h3>
