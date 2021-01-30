@@ -81,12 +81,4 @@ public class ImageController {
     	List<Image> images = imageDao.findAllBySnsId(sns_id);
     	return images;
     }
-    
-    // 여러 개 이미지 수정할 수 있기 때문에 image id 배열로
-    // 기존에 있던 사진 + 더 추가되거나
-    // 기존에 있던 사진 몇 개 없애거나
-    // 기존에 있던 사진을 몇 개 없애기 + 더 추가할 경우
-    
-    // name 배열을 받아서 만약 name이 비어있으면 upload로 보냄 // sns id로 파일 목록을 전부 다 불러오기 있으면 수정 없으면 삭제
-    // *****db에 없는 경우는 upload로 보냄 (프론트에서 name은 original 이름을 주면 됨)
 }

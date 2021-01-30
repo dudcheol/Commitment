@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class User {
 
 	@Id
@@ -66,6 +68,8 @@ public class User {
 	@Column(name = "auth")
 	private String auth;
 	
+	@Column(name = "region_name")
+	private String region_name;
 
 	@Builder
 	public User(String email, String pass, String nickname, String tel, String age, String gender, String mystory) {

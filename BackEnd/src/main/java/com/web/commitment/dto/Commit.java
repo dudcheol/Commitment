@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -28,6 +30,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@DynamicInsert
+@DynamicUpdate
 public class Commit {
 	
 	@Id
@@ -51,20 +55,20 @@ public class Commit {
 	private int open;
 	
 	@Column(name="region_name")
-	private String name;
+	private String region;
 	
 	@Column(name="national_x")
-	private int nationalX;
+	private String nationalX;
 	
 	@Column(name="national_y")
-	private int nationalY;
+	private String nationalY;
 	
 	@Column(name="local_x")
-	private int localX;
+	private String localX;
 	
 	@Column(name="local_y")
-	private int localY;
-	
+	private String localY;
+
 	@OneToOne
 	@JoinColumn(name = "id", referencedColumnName = "commit_id")
 	private Board board;

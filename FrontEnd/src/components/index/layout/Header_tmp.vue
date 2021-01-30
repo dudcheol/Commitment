@@ -74,7 +74,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 :root {
   --main-radius: 5px;
   --main-padding: 5px;

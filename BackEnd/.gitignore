@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+## backend ##
+src/main/java/com/web/commitment/config/S3Config.java
+
 ### STS ###
 .apt_generated
 .classpath
