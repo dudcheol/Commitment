@@ -1,72 +1,104 @@
 <template>
-  <v-list>
-    <v-list-item>
-      <v-list-item-avatar width="5px">
-        <vs-avatar>
-          <i class="bx bxs-backpack"></i>
-        </vs-avatar>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title>
-          오늘의 하루
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          마라탕존맛
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item>
-      <v-list-item-avatar width="5px">
-        <vs-avatar>
-          <i class="bx bxs-hot"></i>
-        </vs-avatar>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title>
-          우왕 여기는
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          매우핫한장소네
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-
-    <v-list-item>
-      <v-list-item-avatar width="5px">
-        <vs-avatar>
-          <i class="bx bxs-wine"></i>
-        </vs-avatar>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title>
-          꺄르륵
-        </v-list-item-title>
-        <v-list-item-subtitle>
-          뀨?꺄?
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-  </v-list>
+  <div class="d-flex flex-column ml-lg-16">
+    <v-expansion-panels accordion flat class="mb-2">
+      <v-expansion-panel size="x-small">
+        <v-expansion-panel-header>
+          <div class="d-flex align-center">
+            <span class="font-weight-black mr-2">
+              반경
+            </span>
+            <v-chip small>
+              <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
+                >{{ commitMinRange }} km 이내</span
+              >
+              <span v-else-if="commitRange[0] > commitMinRange || commitRange[1] < commitMaxRange">
+                {{ commitRange[0] }} ~ {{ commitRange[1] }} km
+              </span>
+              <span v-else>
+                전체
+              </span>
+            </v-chip>
+          </div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-range-slider
+            v-model="commitRange"
+            step="0.5"
+            :min="commitMinRange"
+            :max="commitMaxRange"
+          ></v-range-slider>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    <commit-card
+      v-for="(item, index) in nowCommits"
+      :key="index"
+      :info="item"
+      class="mb-2"
+    ></commit-card>
+  </div>
+  <!-- <div class="d-flex flex-column ml-lg-16">
+    <div class="d-flex align-center ml-auto px-2">
+      <span class="font-weight-black mr-2">
+        반경
+      </span>
+      <v-chip small>
+        <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
+          >{{ commitMinRange }} km 이내</span
+        >
+        <span v-else-if="commitRange[0] > commitMinRange || commitRange[1] < commitMaxRange">
+          {{ commitRange[0] }} ~ {{ commitRange[1] }} km 이내
+        </span>
+        <span v-else>
+          전체
+        </span>
+      </v-chip>
+    </div>
+    <v-range-slider
+      v-model="commitRange"
+      step="0.5"
+      :min="commitMinRange"
+      :max="commitMaxRange"
+    ></v-range-slider>
+    <commit-card
+      v-for="(item, index) in nowCommits"
+      :key="index"
+      :info="item"
+      class="mb-2"
+    ></commit-card>
+  </div> -->
 </template>
 
 <script>
+import CommitCard from '../../common/card/CommitCard.vue';
 export default {
+  components: { CommitCard },
   name: 'CommitNow',
-  data: () => ({}),
+  data() {
+    return {
+      nowCommits: [
+        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
+        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
+        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
+        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
+      ],
+      commitRange: [0.5, 10],
+      commitMinRange: 0.5,
+      commitMaxRange: 10,
+    };
+  },
+  methods: {},
 };
 </script>
 
-<style scoped>
-.message {
-  display: flex;
-  width: min-content;
+<style>
+.v-slider__track-container {
+  height: 12px !important;
 }
-
-.vs-avatar-content {
-  width: 30px;
-  height: 30px;
+.v-slider__track-background {
+  border-radius: 6px;
 }
-/* .v-list-item__title {
-    font-size: 30px;
-} */
+.v-messages {
+  min-height: 0px;
+}
 </style>
