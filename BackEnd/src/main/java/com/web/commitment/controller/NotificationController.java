@@ -37,7 +37,7 @@ public class NotificationController {
 	
 	
     @PostMapping("/test")
-    public void Test(@RequestBody Token dataa) throws IOException {
+    public JSONObject Test(@RequestBody Token dataa) throws IOException {
     	// 푸시보내기 TEST
 
 		String FCM_URL = "https://fcm.googleapis.com/fcm/send";
@@ -109,6 +109,7 @@ public class NotificationController {
 		}
 
 		System.out.println("FCM Notification is sent successfully : " + result);
+		return json;
     }
 
 //    
