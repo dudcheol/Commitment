@@ -6,8 +6,11 @@
       </div>
     </div>
     <div class="category">
-      <v-card>
-        <div class="date_selector mt-3 ml-3 mb-3 mr-3">
+      <v-card class="mt-3">
+        <div class="date_selector d-flex justify-center mt-3 ml-3 mb-3 mr-3">
+          <div class="d-flex align-center justify-center mr-4">
+            <i class="bx bxs-calendar-alt"></i>
+          </div>
             <vs-select
           color="primary"
           placeholder="날짜"
@@ -31,9 +34,15 @@
         <vs-option label="1년" value="6">
           1년
         </vs-option>
+        <vs-option label="전체" value="7">
+          전체
+        </vs-option>
       </vs-select>
         </div>
-        <div class="domian_selector mt-3 ml-3 mb-3 mr-3">
+        <div class="domian_selector d-flex justify-center mt-2 ml-3 mb-3 mr-3">
+          <div class="d-flex align-center justify-center mr-4">
+            <i class="bx bxs-landscape"></i>
+          </div>
             <vs-select
           filter
           multiple
@@ -78,8 +87,8 @@ export default {
   },
   data: () => ({
     items: [1,2,3,4],
-    date: '',
-    options: '',
+    date: '7',
+    options: '1',
   }),
 };
 </script>
@@ -87,7 +96,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 1.2fr 4fr 1.2fr;
+  grid-template-columns: 1.5fr 3fr 1.5fr;
   grid-template-rows: 1fr 1fr;
   gap: 0px 0px;
   grid-template-areas:
@@ -119,6 +128,39 @@ export default {
   height: min-content;
 
   
+}
+
+@media (max-width: 450px) {
+
+  .grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "category"
+    "card";
+  };
+
+  .card_list { 
+    grid-area: card; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+
+  .card_list .card {
+    width: 100%
+  }
+
+  .category { grid-area: category; 
+    display: grid;
+    justify-items: center;
+    height: min-content
+  }
+
+
 }
 
 </style>
