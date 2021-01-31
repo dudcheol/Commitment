@@ -48,7 +48,7 @@ export default {
   components: { CommitCard },
   data() {
     return {
-      panel: [0],
+      panel: [],
       empCommits: [
         '서울특별시 강남구 테헤란로 123-1',
         '서울특별시 강남구 테헤란로 123-1',

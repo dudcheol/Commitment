@@ -1,29 +1,29 @@
 <template>
-  <v-container fluid class="blue-grey lighten-5">
-    <v-row>
-      <v-col class="sidebar_left pr-md-16" cols="12" md="3">
-        <v-row>
-          <v-col>
-            <ProfileSummary />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <NotYetAddArticle />
-          </v-col>
-        </v-row>
-      </v-col>
+  <v-container fluid class="blue-grey lighten-5 pa-0">
+    <v-col class="sidebar_left mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
+      <v-row>
+        <v-col>
+          <ProfileSummary />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <NotYetAddArticle />
+        </v-col>
+      </v-row>
+    </v-col>
 
+    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-4">
+      <CommitNow />
+    </v-col>
+
+    <v-row :justify="dynamicJustify" class="px-3 px-lg-16 px-md-8 px-xl-16">
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
           <FollowerMap class="mb-6 mt-3" />
           <MyState />
           <AllArticle class="my-4" />
         </div>
-      </v-col>
-
-      <v-col cols="12" md="3">
-        <CommitNow />
       </v-col>
     </v-row>
   </v-container>
@@ -46,8 +46,49 @@ export default {
     NotYetAddArticle,
     ProfileSummary,
   },
+  data() {
+    return {};
+  },
+  computed: {
+    dynamicPosition() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '';
+        case 'sm':
+          return '';
+        case 'md':
+          return 'overflow-style';
+        case 'lg':
+          return 'overflow-style';
+        case 'xl':
+          return 'overflow-style';
+      }
+      return '';
+    },
+    dynamicJustify() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '';
+        case 'sm':
+          return '';
+        case 'md':
+          return 'center';
+        case 'lg':
+          return 'center';
+        case 'xl':
+          return 'center';
+      }
+      return '';
+    },
+  },
   methods: {},
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.overflow-style {
+  position: fixed;
+  overflow-y: scroll;
+  max-height: calc(100vh - 64px);
+}
+</style>
