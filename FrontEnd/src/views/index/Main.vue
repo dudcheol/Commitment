@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="">
+  <v-container fluid class="blue-grey lighten-5">
     <v-row>
       <v-col class="sidebar_left pr-md-16" cols="12" md="3">
         <v-row>
@@ -46,12 +46,7 @@ export default {
     NotYetAddArticle,
     ProfileSummary,
   },
-  methods: {
-    clickProfile() {
-      console.log('%cIndex.vue line:5', 'color: #007acc;');
-      this.$router.push({ name: 'MyPage' });
-    },
-  },
+  methods: {},
 };
 </script>
 

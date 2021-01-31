@@ -1,6 +1,10 @@
 <template>
   <div class="d-flex flex-column ml-lg-16">
-    <v-expansion-panels accordion flat class="mb-2">
+    <div class="d-flex align-center mb-2">
+      <img src="../../../assets/img/commitnow/LiveMonitoring.gif" style="max-width:16px;" />
+      <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
+    </div>
+    <v-expansion-panels accordion flat class="mb-2 rounded-lg">
       <v-expansion-panel size="x-small">
         <v-expansion-panel-header>
           <div class="d-flex align-center">
@@ -27,13 +31,16 @@
             :min="commitMinRange"
             :max="commitMaxRange"
           ></v-range-slider>
+          <span class="text-caption">슬라이더로 반경을 조절할 수 있어요</span>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
     <commit-card
       v-for="(item, index) in nowCommits"
       :key="index"
-      :info="item"
+      :img="'https://picsum.photos/200/300'"
+      :username="item.username"
+      :address="item.address"
       class="mb-2"
     ></commit-card>
   </div>
@@ -82,7 +89,7 @@ export default {
         { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
         { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
       ],
-      commitRange: [0.5, 10],
+      commitRange: [0, 10],
       commitMinRange: 0.5,
       commitMaxRange: 10,
     };

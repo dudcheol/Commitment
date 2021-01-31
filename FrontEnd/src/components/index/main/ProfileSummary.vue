@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex justify-center">
+  <div class="d-flex justify-center" @click="goToMyPage">
     <vs-card>
       <template #title>
-        <h3>헬로우</h3>
+        <h3 class="text-center">헬로우</h3>
       </template>
       <template #img>
         <img
@@ -34,6 +34,12 @@
 <script>
 export default {
   data: () => ({}),
+  methods: {
+    goToMyPage() {
+      console.log('%cIndex.vue line:5', 'color: #007acc;');
+      this.$router.push({ name: 'MyPage' });
+    },
+  },
 };
 </script>
 
