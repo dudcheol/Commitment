@@ -2,27 +2,53 @@
   <div class="d-flex justify-center" @click="goToMyPage">
     <vs-card>
       <template #title>
-        <h3 class="text-center">헬로우</h3>
-      </template>
-      <template #img>
-        <img
-          src="https://post-phinf.pstatic.net/MjAxOTA2MDdfMjc1/MDAxNTU5ODg3NDE5ODg1.KvvxxigkXBP7Pj0bC954MZYWUsFio34hEK6junONCm0g.05M1GyB0htqPHRrPLqLusp4fCdh0ACQwGTN5IuMfgpMg.JPEG/g2.jpg?type=w1200"
-          alt=""
-        />
-      </template>
-      <template #text>
-        <div class="d-flex justify-center">
-          잋츠미
+        <div>
+          <map-national :size="5" :borderRadius="5" :spacing="1"></map-national>
         </div>
-        <div class="profile_buttons">
-          <vs-button circle relief>
-            <i class="bx bx-user"></i>
+      </template>
+      <!-- <template #img>
+        <div>
+          <map-national :size="5" :borderRadius="5"></map-national>
+        </div>
+      </template> -->
+      <template #text>
+        <h2 class="text-center">{{ username }}</h2>
+        <div class="text-center">
+          {{ intro }}
+        </div>
+        <div class="d-flex flex-row justify-center">
+          <vs-button
+            size="l"
+            circle
+            icon
+            color="success"
+            flat
+            :active="active == 5"
+            @click="active = 5"
+          >
+            <i class="bx bxs-check-square"></i>{{ commitCnt }}
           </vs-button>
-          <vs-button relief>
-            <i class="bx bx-stats"></i>
+          <vs-button
+            size="l"
+            circle
+            icon
+            color="danger"
+            flat
+            :active="active == 5"
+            @click="active = 5"
+          >
+            <i class="bx bxs-heart"></i>{{ followerCnt }}
           </vs-button>
-          <vs-button relief>
-            <i class="bx bx-badge"></i>
+          <vs-button
+            size="l"
+            circle
+            icon
+            color="warning"
+            flat
+            :active="active == 5"
+            @click="active = 5"
+          >
+            <i class="bx bxs-medal"></i>{{ badgeCnt }}
           </vs-button>
         </div>
       </template>
@@ -32,8 +58,16 @@
 </template>
 
 <script>
+import MapNational from '../../common/map/MapNational.vue';
 export default {
-  data: () => ({}),
+  components: { MapNational },
+  data: () => ({
+    username: 'username',
+    intro: '자기 소개가 있는 란입니다',
+    commitCnt: 12,
+    badgeCnt: 7,
+    followerCnt: 210,
+  }),
   methods: {
     goToMyPage() {
       console.log('%cIndex.vue line:5', 'color: #007acc;');
