@@ -22,8 +22,8 @@ public class NotificationController {
 	static String FCM_URL = "https://fcm.googleapis.com/fcm/send";
 	static String server_key = "AAAAFYsURMs:APA91bFIYjEBRGo9ZaveARADG5vTW62OWaHI_5hZbo0tgxynNioco3qgP_ZyUNCWUS60SpIup-kRrYoUUAZ-10EU_r1codVtadp0rrjjVRHvptVmt77ogLEw9c8U_lABTacuDdqyXun8";	
 	
-    @PostMapping("/test")
-    public JSONObject Test(@RequestBody Token dataa, int type) throws IOException {
+//    @PostMapping("/test")
+    public static JSONObject Push(@RequestBody Token dataa, int type) throws IOException {
 
 		String tokenId = dataa.getToken();
 		System.out.println(dataa.getToken());
@@ -55,8 +55,8 @@ public class NotificationController {
 			
 			JSONObject info = new JSONObject();
 			if(type == 0) {
-				info.put("title", "좋아요 알림"); 
-				info.put("body", "누군가가 당신에게 좋아요를 눌렀습니다.");
+				info.put("title", "댓글 알림"); 
+				info.put("body", "누군가가 당신에게 댓글을 달았습니다.");
 				json.put("notification", info);
 			}
 		} catch (JSONException e1) {
