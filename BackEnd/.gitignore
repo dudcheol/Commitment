@@ -6,6 +6,7 @@ target/
 
 ## backend ##
 src/main/java/com/web/commitment/config/S3Config.java
+WebContent/
 
 ### STS ###
 .apt_generated
