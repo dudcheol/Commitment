@@ -14,6 +14,7 @@
     "material-icons": "^0.5.2",
     "vue": "^2.6.11",
     "vue-horizontal-timeline": "^0.7.0",
+    "vue-infinite-loading": "^2.4.5",
     "vue-router": "^3.4.9",
     "vuesax": "^4.0.1-alpha.25",
     "vuetify": "^2.2.11",
