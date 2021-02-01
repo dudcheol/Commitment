@@ -7,7 +7,7 @@
       ></v-avatar> -->
       <v-btn elevation="" fab small>
         <v-icon >
-          mdi-pencil
+          mdi-magnify
         </v-icon>
       </v-btn>
       <!-- <vs-button circle icon flat>
@@ -23,6 +23,7 @@
       </v-tabs>
 
     <v-speed-dial 
+      v-model="fab"
       direction="bottom"
       transition="slide-x-reverse-transition"
     >
@@ -37,7 +38,7 @@
             mdi-close
           </v-icon>
           <v-icon v-else>
-            mdi-account-circle
+            mdi-chevron-down
           </v-icon>
         </v-btn>
       </template>
@@ -47,7 +48,7 @@
         small
         color="green"
       >
-        <v-icon>mdi-pencil</v-icon>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
       <v-btn
         fab
@@ -55,7 +56,7 @@
         small
         color="indigo"
       >
-        <v-icon>mdi-plus</v-icon>
+        <v-icon>mdi-cog</v-icon>
       </v-btn>
       <v-btn
         fab
@@ -63,7 +64,7 @@
         small
         color="red"
       >
-        <v-icon>mdi-delete</v-icon>
+        <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-speed-dial> 
 
@@ -119,6 +120,7 @@
 export default {
   name: 'MainPage',
   data: () => ({
+    fab: false,
     items: [
       { icon: 'mdi-home', route: '/' },
       { icon: 'mdi-map-marker', route: '/sns' },
