@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@morioh/v-perfect-scrollbar": "^1.0.1",
+    "axios": "^0.21.1",
     "boxicons": "^2.0.7",
     "core-js": "^3.6.5",
     "material-icons": "^0.5.2",
