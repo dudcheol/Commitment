@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
-import com.web.commitment.vue.JwtInterceptor;
+import com.web.commitment.intercepter.JwtInterceptor;
 @Configuration
 //@SpringBootApplication
 public class VueSpringBootLoginApplication implements WebMvcConfigurer {
