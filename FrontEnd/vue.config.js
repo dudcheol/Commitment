@@ -8,6 +8,8 @@ module.exports = {
         }
     }
   },
+  publicPath: "./",
+  outputDir: "../FrontEnd/public",
   "transpileDependencies": [
     "vuetify"
   ]
