@@ -9,7 +9,6 @@ export default {
   },
   LOGOUT(state) {
     state.authToken = null;
-    state.userId = '';
-    state.userName = '';
+    state.userInfo = '';
   },
 };

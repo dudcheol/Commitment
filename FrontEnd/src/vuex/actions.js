@@ -1,4 +1,4 @@
-import { findByToken, login, setAuthTokenToHeader } from '../api/account';
+import { findByToken, login, setAuthTokenToHeader, logout } from '../api/account';
 
 export default {
   async LOGIN(context, user) {
@@ -30,8 +30,9 @@ export default {
       }
     );
   },
-  //   LOGOUT(context) {
-  //     context.commit('LOGOUT');
-  //     axios.defaults.headers.common['auth-token'] = undefined;
-  //   },
+  LOGOUT(context) {
+    context.commit('LOGOUT');
+    localStorage.removeItem('auth-token');
+    logout();
+  },
 };

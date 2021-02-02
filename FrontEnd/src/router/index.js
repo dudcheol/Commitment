@@ -77,7 +77,7 @@ const routes = [
   {
     path: '/detail',
     name: 'Detail',
-    beforeEnter: requireAuth,
+    beforeEnter: requireAuth(),
     component: Detail,
   },
 ];

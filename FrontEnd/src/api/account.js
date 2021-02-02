@@ -27,4 +27,8 @@ async function findByToken(token, success, fail) {
     .catch(fail);
 }
 
-export { login, findByToken, setAuthTokenToHeader };
+function logout() {
+  instance.defaults.headers['auth-token'] = undefined;
+}
+
+export { login, findByToken, setAuthTokenToHeader, logout };

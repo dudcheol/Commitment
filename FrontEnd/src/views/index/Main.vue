@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="blue-grey lighten-5 pa-0">
+    <v-btn @click="logout">logout</v-btn>
     <v-col class="sidebar_left mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
       <v-row>
         <v-col>
@@ -36,6 +37,7 @@ import MyState from '../../components/index/main/MyState';
 import CommitNow from '../../components/index/main/CommitNow';
 import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
 import ProfileSummary from '../../components/index/main/ProfileSummary';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -81,7 +83,13 @@ export default {
       return '';
     },
   },
-  methods: {},
+  methods: {
+    ...mapActions(['LOGOUT']),
+    logout() {
+      this.LOGOUT();
+      this.$router.replace('/login');
+    },
+  },
 };
 </script>
 
