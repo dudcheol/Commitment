@@ -47,15 +47,15 @@ export default {
 
   methods: {
   initMap() {
-    var mapContainer = document.getElementById('map'); // 지도를 표시할 div
-    var mapOption = {
-          center: new kakao.maps.LatLng(37.564343, 126.947613), // 지도의 중심좌표
+    let mapContainer = document.getElementById('map'); // 지도를 표시할 div
+    let mapOption = {
+          center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
           draggable: false, // 지도 드래그
           setZoomable: false,
           level: 3,
         };
 
-    var map = new kakao.maps.Map(mapContainer, mapOption); 
+    let map = new kakao.maps.Map(mapContainer, mapOption); 
 
     return map
     
@@ -68,7 +68,7 @@ export default {
 <style scoped>
 .grid-container {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 2fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
   grid-template-rows: min-content min-content;
   gap: 5px 0px;
   grid-template-areas:
@@ -104,5 +104,30 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 450px) {
+    .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content min-content;
+    gap: 5px 0px;
+    grid-template-areas:
+      'map '
+      'article';
+  }
+
+  .map {
+    grid-area: map;
+    position: relative;
+  }
+
+  .kakao_map {
+    height: 30vh;
+  }
+
+  .article {
+    grid-area: article;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container-article-detail">
-    <div class="picture">
+    <div class="picture mt-4">
       <v-img
         max-height="300"
         src="https://cdn.crowdpic.net/detail-thumb/thumb_d_897F820200BBD76525D17D2830783B8D.jpg"
@@ -100,7 +100,7 @@ export default {
 .grid-container-article-detail {
   display: grid;
   grid-template-columns: max-content max-content 1fr max-content;
-  grid-template-rows: 300px max-content max-content max-content max-content max-content max-content;
+  grid-template-rows: 35vh max-content max-content max-content max-content max-content max-content;
   gap: 5px 0px;
   grid-template-areas:
     'picture picture picture picture'
@@ -166,5 +166,63 @@ export default {
 
 .span.v-chip.v-chip--no-color.theme--light.v-size--default {
   margin: 4px;
+}
+
+@media (max-width: 450px) {
+  .grid-container-article-detail {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 1fr 1fr;
+  grid-template-rows: 35vh max-content max-content max-content max-content max-content max-content;
+  gap: 5px 0px;
+  grid-template-areas:
+    'picture '
+    'avatar username . follow_btn'
+    'avatar username . follow_btn'
+    'buttons buttons buttons buttons'
+    'article article article article'
+    'hashtag hashtag hashtag hashtag'
+    'created_at created_at created_at created_at';
+}
+
+.picture {
+  display: flex;
+  justify-content: center;
+  grid-area: picture;
+}
+
+.avatar {
+  grid-area: avatar;
+  align-self: center;
+  justify-self: start;
+}
+
+.username {
+  grid-area: username;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-self: start;
+}
+
+.created_at {
+  grid-area: created_at;
+}
+
+.buttons {
+  grid-area: buttons;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.article {
+  grid-area: article;
+  display: flex;
+  flex-direction: column;
+}
+
+.hashtag {
+  grid-area: hashtag;
+}
+
 }
 </style>
