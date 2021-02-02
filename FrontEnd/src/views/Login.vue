@@ -63,14 +63,16 @@ export default {
     ...mapActions(['LOGIN']),
     async confirm() {
       this.loading = true;
-      if (
-        !(await this.LOGIN({
-          email: this.email,
-          pass: this.pass,
-        }))
-      ) {
+
+      const result = await this.LOGIN({
+        email: this.email,
+        pass: this.pass,
+      });
+      this.loading = false;
+      if (!result) {
         this.alert = true;
-        this.loading = false;
+      } else {
+        this.$router.push({ name: 'Main' });
       }
     },
   },

@@ -20,7 +20,7 @@ function login(user, success, fail) {
 }
 
 async function findByToken(token, success, fail) {
-  instance.defaults.headers['access-token'] = token;
+  instance.defaults.headers['auth-token'] = token;
   await instance
     .get('account/info')
     .then(success)

@@ -11,7 +11,6 @@ import Detail from '@/views/index/Detail.vue';
 Vue.use(Router);
 
 const requireAuth = () => async (to, from, next) => {
-  //   const nextRoute = to.path;
   let token = localStorage.getItem('auth-token');
   if (store.state.authToken == null && token) {
     await store.dispatch('GET_MEMBER_INFO', token);
