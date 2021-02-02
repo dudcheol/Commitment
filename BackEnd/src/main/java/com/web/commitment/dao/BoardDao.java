@@ -1,6 +1,5 @@
 package com.web.commitment.dao;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -11,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.Ranking;
 
 @Repository
