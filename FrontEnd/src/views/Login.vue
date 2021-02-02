@@ -12,7 +12,7 @@
               @
             </template>
           </vs-input>
-          <vs-input type="password" v-model="password" placeholder="영문, 숫자 혼용 8글자이상">
+          <vs-input type="password" v-model="pass" placeholder="영문, 숫자 혼용 8글자이상">
             <template #icon>
               <i class="bx bxs-lock"></i>
             </template>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="footer-dialog">
-          <vs-button block>
+          <vs-button block @click="confirm" :loading="loading">
             로그인
           </vs-button>
 
@@ -32,17 +32,50 @@
         </div>
       </template>
     </vs-card>
+    <DialogVue
+      :alert="alert"
+      :alertTitle="title"
+      :alertContent="content"
+      @close="alert = !alert"
+    ></DialogVue>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import DialogVue from '../components/common/dialog/Dialog.vue';
+
 export default {
+  components: {
+    DialogVue,
+  },
   data: () => ({
     active: true,
     email: '',
-    password: '',
+    pass: '',
     remember: false,
+    alert: false,
+    title: '오류',
+    content: '로그인에 실패했습니다',
+    loading: false,
   }),
+  methods: {
+    ...mapActions(['LOGIN']),
+    async confirm() {
+      this.loading = true;
+
+      const result = await this.LOGIN({
+        email: this.email,
+        pass: this.pass,
+      });
+      this.loading = false;
+      if (!result) {
+        this.alert = true;
+      } else {
+        this.$router.push({ name: 'Main' });
+      }
+    },
+  },
 };
 </script>
 

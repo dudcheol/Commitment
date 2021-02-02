@@ -4,10 +4,12 @@
       <v-container class="my-2">
         <v-row>
           <v-col>
-            <h5>
-              <i class="bx bxs-map" style="vertical-align:middle"></i>
-              서울특별시 강남구 역삼동 701
-            </h5>
+            <h4>
+              <!-- <i class="bx bxs-map" style="vertical-align:middle"></i>
+              서울특별시 강남구 역삼동 701 -->
+              <v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon>서울특별시 강남구
+              역삼동 701
+            </h4>
           </v-col>
         </v-row>
         <v-row>
@@ -23,8 +25,10 @@
                   large
                   style="height:40px; width:100%; cursor:pointer"
                   @click="write = true"
-                  color="#f5f5f5"
-                  text-color="#808080"
+                  color="blue-grey lighten-5"
+                  text-color="blue-grey darken-2"
+                  :ripple="false"
+                  depressed
                 >
                   username님, 여기는 어떤 곳인가요?
                 </v-chip>
