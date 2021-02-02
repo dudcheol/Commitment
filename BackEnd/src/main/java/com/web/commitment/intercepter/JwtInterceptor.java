@@ -1,4 +1,4 @@
-package com.web.commitment.vue;
+package com.web.commitment.intercepter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
