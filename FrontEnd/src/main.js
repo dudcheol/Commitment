@@ -12,14 +12,15 @@ import ScrollBar from '@morioh/v-perfect-scrollbar'
 
 Vue.config.productionTip = false
 
+Vue.use(Vuesax, {
+})
+Vue.use(VueRouter)
+Vue.use(VueHorizontalTimeline);
+Vue.use(ScrollBar);
+
 new Vue({
   vuetify,
   router,
   render: h => h(App)
 }).$mount('#app')
 
-Vue.use(Vuesax, {
-})
-Vue.use(VueRouter)
-Vue.use(VueHorizontalTimeline);
-Vue.use(ScrollBar);

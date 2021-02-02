@@ -17,8 +17,8 @@
         />
       </vs-avatar>
     </div>
-    <div class="username ml-4 mt-4" v-bind="introduction">
-      <div v-bind="username">
+    <div class="username ml-4 mt-4" :introduction="introduction">
+      <div :username="username">
         <b> {{ username }}</b>
       </div>
       {{ introduction }}
@@ -38,11 +38,11 @@
       </vs-button>
     </div>
     <div class="article ml-4 mt-4">
-      <div class="mb-3" v-bind="title">
+      <div class="mb-3" :title="title">
         {{ title }}
       </div>
       <v-divider></v-divider>
-      <div class="mt-3" v-bind="content">
+      <div class="mt-3" :content="content">
         {{ content }}
       </div>
     </div>
@@ -92,7 +92,6 @@ export default {
     title: 'Gwanghwa..moon.. always 짜릿',
     content:
       '열기구타고 두둥실? 택도없는소리~ 광화문에서 한복입고 사진찍어주는건 언제나 짜릿하다뀨..',
-    hashtags: [],
   }),
 };
 </script>
