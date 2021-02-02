@@ -26,7 +26,6 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
@@ -72,16 +71,16 @@ public class BoardController {
 	@GetMapping("/mysns")
 	@ApiOperation(value = "로그인 한 유저의 게시글 목록")
 	public Page<Board> mySns(@RequestParam final String email, final Pageable pageable) {
-		//페이지 index는 0부터 
-		return boardDao.findByEmail(email,pageable);
+		// 페이지 index는 0부터
+		return boardDao.findByEmail(email, pageable);
 	}
 
 	// 다른 유저의 게시글 불러오기 open이 1인 것만
 	@GetMapping("/sns")
 	@ApiOperation(value = "다른 유저의 게시글 목록")
 	public Page<Board> loadSns(@RequestParam String email, final Pageable pageable) {
-		//페이지 index는 0부터
-		return boardDao.findAllByEmail(email,pageable);		
+		// 페이지 index는 0부터
+		return boardDao.findAllByEmail(email, pageable);
 	}
 
 	@PutMapping("/account/update")
@@ -133,37 +132,37 @@ public class BoardController {
 
 	@GetMapping("/search/title")
 	@ApiOperation(value = "제목으로 검색")
-	public List<Board> searchByTitle(@RequestParam String keyword) {
+	public Page<Board> searchByTitle(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByTitleContainingIgnoreCase(keyword);
+		return boardDao.findByTitleContainingIgnoreCase(keyword, pageable);
 	}
 
 	@GetMapping("/search/content")
 	@ApiOperation(value = "내용으로 검색")
-	public Collection<Board> searchByContent(@RequestParam String keyword) {
+	public Page<Board> searchByContent(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByContentContainingIgnoreCase(keyword);
+		return boardDao.findByContentContainingIgnoreCase(keyword, pageable);
 	}
 
 	@GetMapping("/search/tnc")
 	@ApiOperation(value = "제목 & 내용으로 검색")
-	public Collection<Board> searchByTandC(@RequestParam String keyword) {
+	public Page<Board> searchByTandC(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword, keyword);
+		return boardDao.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword,keyword, pageable);
 	}
 
 	@GetMapping("/search/writer")
 	@ApiOperation(value = "글쓴이로 검색")
-	public Collection<Board> searchByWriter(@RequestParam String keyword) {
+	public Page<Board> searchByWriter(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByEmailContainingIgnoreCase(keyword);
+		return boardDao.findByEmailContainingIgnoreCase(keyword, pageable);
 	}
 
 	// 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
 	@GetMapping("/sns/radius")
 	@ApiOperation(value = "설정한 반경 내 모든 유저의 게시글(open 1인 것만)")
-	public List<Board> loadRadiusSns(@RequestParam(required = true) String email,
-			@RequestParam(required = false) Integer radius) {
+	public Page<Board> loadRadiusSns(@RequestParam(required = true) String email,
+			@RequestParam(required = false) Integer radius, final Pageable pageable) {
 
 		// 유저의 현재 위치 구하기
 		User user = userDao.getUserByEmail(email);
@@ -171,29 +170,10 @@ public class BoardController {
 		String lat = user.getLat();
 		String lng = user.getLng();
 
-		List<Board> boards = new ArrayList<>();
-		// 유저의 lat, lng 를 기준으로 반경 ?km 이내 commit id List
 		if (radius == 0) {
-			List<Commit> commits = commitDao.findAll();
-			for (int i = 0; i < commits.size(); i++) {
-				boards.addAll(boardDao.findAllByCommitId(commits.get(i).getId()));
-			}
-
-		} else {
-			List<String[]> commitIds = commitDao.radiusCommitId(lat, lng, radius);
-			for (int i = 0; i < commitIds.size(); i++) {
-				System.out.println(commitIds.get(i)[0]);
-			}
-
-			// commit id로 board 찾기
-
-			for (int i = 0; i < commitIds.size(); i++) {
-				boards.addAll(boardDao.findAllByCommitId(commitIds.get(i)[0]));
-			}
+			// 모든 게시물(open1인 것만)
+			return boardDao.findAll(pageable);
 		}
-
-		return boards;
+		return boardDao.radiusCommitId(lat, lng, radius, pageable);
 	}
-
-
 }

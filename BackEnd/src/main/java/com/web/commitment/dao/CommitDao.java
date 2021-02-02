@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.Ranking;
 
@@ -23,10 +24,6 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 //	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
 //	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
 
-	@Query(value = "SELECT id,( 6371 * acos( cos( radians(:curlat) ) * cos( radians( `lat` ) ) * cos( radians( `lng` ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( `lat` ) ) ) ) AS distance "
-			+ "FROM `commit` HAVING distance <= :radius ORDER BY distance ASC", nativeQuery = true)
-	List<String[]> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng,
-			@Param("radius") Integer radius);
 
 	List<Commit> findAllByEmailAndRegion(String eamil, String name);
 
@@ -92,5 +89,6 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	@Query(value = "select * from commit c,sns s where c.user_email=:email and c.open=1 order by", nativeQuery = true)
 	Page<Commit> findAllByEmail(@Param("email") String email, Pageable pageable);
+	
 
 }
