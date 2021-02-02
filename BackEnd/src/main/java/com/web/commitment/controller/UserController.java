@@ -18,6 +18,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -252,20 +254,20 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	/// 해시태그로 검색
+	/// 닉네임으로 검색
 	@GetMapping("/search/nickname")
 	@ApiOperation(value = "닉네임으로 검색")
-	public Collection<User> searchByNickname(@RequestParam String keyword) {
+	public Page<User> searchByNickname(@RequestParam String keyword, final Pageable pageable) {
 
-		return userDao.findByNicknameContainingIgnoreCase(keyword);
+		return userDao.findByNicknameContainingIgnoreCase(keyword, pageable);
 	}
 
 	/// 이메일로 검색
 	@GetMapping("/search/email")
 	@ApiOperation(value = "이메일로 검색")
-	public Collection<User> searchByEmail(@RequestParam String keyword) {
+	public Page<User> searchByEmail(@RequestParam String keyword, final Pageable pageable) {
 
-		return userDao.findByEmailContainingIgnoreCase(keyword);
+		return userDao.findByEmailContainingIgnoreCase(keyword, pageable);
 	}
 
 	@GetMapping("/user/map")
