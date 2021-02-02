@@ -1,12 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app color="white" flat hide-on-scroll>
-
-      <!-- <v-avatar
-        :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
-        size="32"
-      ></v-avatar> -->
-
+      
       <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white"
       >
         <v-avatar size="35">
@@ -14,16 +9,18 @@
         </v-avatar>
       </v-btn>
 
-      <v-btn elevation="" fab x-small class="ml-3"
-        v-on:click="SearchResult"
-      >
-        <v-icon >
-          mdi-magnify
-        </v-icon>
-      </v-btn>
+      <div class="search__container ml-3 mt-2 d-flex">
+        <div class="search">
+          <v-text-field 
+          class="search__input"></v-text-field>
+          <v-btn class="search__submit" fab elevation="" x-small dark color="blue darken-2">
+            <v-icon>mdi-magnify</v-icon></v-btn>
+        </div>
+      </div>
+
 
       <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
-      <v-tabs centered color="grey darken-1">
+      <v-tabs centered color="grey darken-1" class="tabs_list">
         <v-tab v-for="item in items" :key="item" :to="item.route">
           <v-icon>
             {{ item.icon }}
@@ -32,7 +29,7 @@
       </v-tabs>
 
 
-    <div class="d-none d-sm-flex flex-end">
+    <div class="d-none d-sm-flex ml-auto">
       <v-btn fab elevation="" x-small dark color="blue darken-2" class="mr-3"
         v-for="item in right_items" :key="item"
       >
@@ -42,7 +39,7 @@
     </div>
 
     <v-speed-dial 
-      class="d-flex d-sm-none"
+      class="d-flex d-sm-none ml-auto"
       v-model="fab"
       direction="bottom"
       transition="slide-x-reverse-transition"
@@ -69,44 +66,7 @@
       </v-btn>
     </v-speed-dial> 
 
-      <!-- <v-avatar class="hidden-sm-and-down" color="grey darken-1 shrink" size="32"></v-avatar> -->
     </v-app-bar>
-    <!-- <v-app-bar app color="white" flat>
-      <div class="d-flex flex-row">
-        <vs-button circle icon flat>
-          <i class="bx bx-tag"></i>
-        </vs-button>
-        <vs-button circle icon flat>
-          <i class="bx bx-search"></i>
-        </vs-button>
-        <vs-input placeholder="Search"> </vs-input>
-      </div>
-
-      <div class="mx-auto">
-        <v-tabs background-color="transparent">
-          <v-tab v-for="item in items" :key="item" :to="item.route">
-            <v-icon>
-              {{ item.icon }}
-            </v-icon>
-          </v-tab>
-        </v-tabs>
-      </div>
-
-      <div class="d-flex flex-row ml-auto">
-        <vs-button circle icon flat>
-          <i class="bx bx-plus"></i>
-        </vs-button>
-
-        <vs-button circle icon flat>
-          <i class="bx bxl-whatsapp"></i>
-        </vs-button>
-
-        <vs-button circle icon flat>
-          <i class="bx bx-up-arrow-alt"></i>
-        </vs-button>
-      </div>
-    </v-app-bar> -->
-
     <v-main class="grey lighten-3">
       <router-view></router-view>
     </v-main>
@@ -141,7 +101,79 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.tabs_list {
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
+}
+
+.search__container {
+  // background: rgb(143, 150, 143);
+  width: 20vw;  
+  height: calc(min-content + 5px);
+  position: relative;
+}
+
+.search {
+  --size: 28px;
+  // border: 1px solid blue;
+
+  display: flex;
+  overflow: hidden;
+  font-size: 1em;
+  position: relative;
+  width: calc(var(--size) + 10px);
+  height: calc(var(--size) + 10px);
+  // 늘어날때 효과 cubic-bezier 참고
+  transition: width 450ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+
+.search__input {
+  // padding: .25em 1em;
+  border: 0;
+  flex-grow: 1;
+  z-index: 1;
+  width: 100%;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.search__submit {
+  font-size: 1.5rem;
+  background: 0;
+  border: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 200ms ease-out;
+  // width: calc(var(--size) - 10px);
+  // height: calc(var(--size) - 10px);
+}
+
+.search:focus-within {
+  
+  width: 100%;
+  .search__input {
+    opacity: 1;
+    z-index: initial;
+    cursor: initial;
+    width: 100%;
+  }
+  
+  // .search__submit {
+  //   background: var(--clr-primary);
+  //   color: black;
+  //   box-shadow: 0 0 10px rgba(0,0,0,.15);
+  //   &:hover,
+  //   &:focus {
+  //     outline: 0;
+  //     // transform: rotate(1turn);
+  //   }
+  // }
+}
 
 v-speed-dial {
   z-index: 0 !important
@@ -152,6 +184,14 @@ v-speed-dial {
     min-width: 10vw !important
 
   }
+
+  .search__container {
+    z-index: 2px;
+    position: absolute;
+    width: 90vw;
+    background: grey;
+  }
+
 }
   
 
