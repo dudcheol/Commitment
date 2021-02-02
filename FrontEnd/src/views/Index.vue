@@ -1,21 +1,29 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app color="white" flat hide-on-scroll>
+
       <!-- <v-avatar
         :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
         size="32"
       ></v-avatar> -->
-      <v-btn elevation="" fab x-small class="ml-3">
+
+      <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white"
+      >
+        <v-avatar size="35">
+          <img src="../assets/img/main/commitment_logo.jpg" alt="logo">
+        </v-avatar>
+      </v-btn>
+
+      <v-btn elevation="" fab x-small class="ml-3"
+        v-on:click="SearchResult"
+      >
         <v-icon >
           mdi-magnify
         </v-icon>
       </v-btn>
-      <!-- <vs-button circle icon flat>
-        <i class="bx bx-search"></i>
-      </vs-button>   -->
 
       <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
-      <v-tabs grow centered color="grey darken-1" class="d-flex justify-center">
+      <v-tabs centered color="grey darken-1">
         <v-tab v-for="item in items" :key="item" :to="item.route">
           <v-icon>
             {{ item.icon }}
@@ -24,8 +32,8 @@
       </v-tabs>
 
 
-    <div class="d-none d-sm-flex">
-      <v-btn fab flat x-small dark color="blue darken-2" class="mr-3"
+    <div class="d-none d-sm-flex flex-end">
+      <v-btn fab elevation="" x-small dark color="blue darken-2" class="mr-3"
         v-for="item in right_items" :key="item"
       >
       <v-icon>{{ item.icon }}</v-icon>
@@ -106,6 +114,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'MainPage',
   data: () => ({
@@ -121,9 +130,14 @@ export default {
       { icon: 'mdi-bell', route: '/sns' },
       { icon: 'mdi-cog', route: '/rank' },
       { icon: 'mdi-logout', route: 'likes' },
-    ]
+    ],
+    alldatalist: [
+
+    ],
   }),
-  methods: {},
+  methods: {
+   
+    }
 };
 </script>
 
