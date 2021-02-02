@@ -13,6 +13,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -80,6 +81,23 @@ public class UserController {
 
 		return response;
 	}
+	@GetMapping("/account/info")
+	@ApiOperation(value = "로그인 회원정보 받아오기")
+	public ResponseEntity<Map<String, Object>> getInfo(HttpServletRequest req) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		System.out.println(">>>>>> " + jwtService.get(req.getHeader("auth-token")));
+		try {
+			// 사용자에게 전달할 정보이다.
+			resultMap.putAll(jwtService.get(req.getHeader("auth-token")));
+			status = HttpStatus.ACCEPTED;
+		} catch (RuntimeException e) {
+//			logger.error("정보조회 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.ACCEPTED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 
 	@PostMapping("/account/signup")
 	@ApiOperation(value = "회원가입수정")
@@ -104,14 +122,14 @@ public class UserController {
 
 		return user;
 	}
-
-	@GetMapping("/account/info")
-	@ApiOperation(value = "회원정보불러오기")
-	public Object user(@RequestParam(required = true) final String email) {
-		User user = userDao.getUserByEmail(email);
-		System.out.println(user);
-		return user;
-	}
+//
+//	@GetMapping("/account/email")
+//	@ApiOperation(value = "이메일로")
+//	public Object user(@RequestParam(required = true) final String email) {
+//		User user = userDao.getUserByEmail(email);
+//		System.out.println(user);
+//		return user;
+//	}
 
 	@DeleteMapping("/account/delete")
 	@ApiOperation(value = "회원탈퇴")
