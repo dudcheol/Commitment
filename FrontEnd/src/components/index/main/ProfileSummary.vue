@@ -12,9 +12,9 @@
         </div>
       </template> -->
       <template #text>
-        <h2 class="text-center">{{ username }}</h2>
+        <h2 class="text-center">{{ userInfo.nickname }}</h2>
         <div class="text-center">
-          {{ intro }}
+          {{ userInfo.mystory }}
         </div>
         <div class="d-flex flex-row justify-center">
           <vs-button
@@ -60,10 +60,9 @@
 <script>
 import MapNational from '../../common/map/MapNational.vue';
 export default {
+  props: ['userInfo'],
   components: { MapNational },
   data: () => ({
-    username: 'username',
-    intro: '자기 소개가 있는 란입니다',
     commitCnt: 12,
     badgeCnt: 7,
     followerCnt: 210,
