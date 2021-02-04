@@ -8,20 +8,76 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dto.Token;
+import com.web.commitment.dto.Notification.NotificationReqDto;
+import com.web.commitment.service.NotificationService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 
+@Slf4j
+@CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/api/noti")
+@RequiredArgsConstructor
 public class NotificationController {
+	
+    private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
     
 	static String FCM_URL = "https://fcm.googleapis.com/fcm/send";
 	static String server_key = "AAAAFYsURMs:APA91bFIYjEBRGo9ZaveARADG5vTW62OWaHI_5hZbo0tgxynNioco3qgP_ZyUNCWUS60SpIup-kRrYoUUAZ-10EU_r1codVtadp0rrjjVRHvptVmt77ogLEw9c8U_lABTacuDdqyXun8";	
 	
+    private final NotificationService notificationService;
+
+    @ApiOperation(value = "알람 저장하기")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PostMapping
+    public ResponseEntity<Void> saveNotification(@RequestParam String email, @RequestBody final NotificationReqDto requestDto) {
+    	
+    	notificationService.saveNoti(requestDto, email);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "알람 읽기")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @PutMapping("/{notiId}")
+    public ResponseEntity<Void> readNotification(@RequestParam String email, @PathVariable("notiId") final String notiId) {
+        notificationService.readNoti(notiId, email);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "알람 삭제")
+    @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
+    @DeleteMapping("/{notiId}")
+    public ResponseEntity<Void> deleteNotification(@RequestParam String email, @PathVariable("notiId") final String notiId) {
+        notificationService.deleteNoti(notiId, email);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "댓글 삭제 시, 알람 삭제")
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteCommentsNotification(@RequestParam String email, @PathVariable("commentId") final String commentId) {
+        notificationService.deleteCommentAlert(commentId, email);
+        return ResponseEntity.ok().build();
+    }
+
 //    @PostMapping("/test")
     public static JSONObject Push(@RequestBody Token dataa, int type) throws IOException {
 

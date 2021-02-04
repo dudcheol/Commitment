@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.web.commitment.dao.CommentDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Comment;
-import com.web.commitment.dto.Token;
+//import com.web.commitment.dto.Token;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -33,9 +33,10 @@ public class CommentController {
 	
 	@PostMapping("/comment")
     @ApiOperation(value = "댓글 작성 & 수정")
-    public String writeComment(@RequestBody Token data, @RequestBody Comment comment) throws IOException {
+    public String writeComment(@RequestBody Comment comment) throws IOException {
 		
-		NotificationController.Push(data, 0);
+//		NotificationController.Push(data, 0);
+		
 		// id가 있으면 
 		// 댓글은 여러 개 작성 가능
     	try { 

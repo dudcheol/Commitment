@@ -125,7 +125,12 @@ public class CommitController {
     	return list;
     }
     
-
+	@GetMapping("commit/total")
+	@ApiOperation(value = "user의 총 커밋수")
+	public int totalCommitNum(String email) {
+		
+		return commitDao.countByEmail(email);
+	}
     // 커밋 불러오기 -> open 1인 것만
     
 	// CRUD 중 C만
@@ -178,6 +183,8 @@ public class CommitController {
 			return "error";
 		}
 	}
+	
+	
 
 	private int[] mapIndex(double[] arr, String lat, String lng) {
 		double tileSize = arr[0];

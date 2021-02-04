@@ -16,6 +16,8 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Repository;
 
+import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.User;
 
 @Repository
@@ -49,5 +51,7 @@ public interface UserDao extends JpaRepository<User, String> {
 	Page<User> findByNicknameContainingIgnoreCase(String keyword, Pageable pageable);
 
 	Page<User> findByEmailContainingIgnoreCase(String keyword, Pageable pageable);
+
+	Optional<User> findByEmail(String email);
 
 }

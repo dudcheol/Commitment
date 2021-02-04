@@ -1,6 +1,7 @@
 package com.web.commitment.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Follow;
 import com.web.commitment.dto.Ranking;
+import com.web.commitment.dto.User;
 
 @Repository
 public interface FollowDao extends JpaRepository<Follow, String> {
@@ -22,4 +24,6 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 			+ "group by follow.follow_to", nativeQuery = true)
 	List<Ranking> followerRank();
 
+	@Query(value = "select * from follow where follow_to=:email and follow_from=:email2", nativeQuery = true) 
+	Optional<Follow> findByToUserAndFromUser(@Param("email") String email, @Param("email2") String email2);
 }

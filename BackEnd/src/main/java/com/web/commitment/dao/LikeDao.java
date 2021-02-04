@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Like;
 import com.web.commitment.dto.Ranking;
+import com.web.commitment.dto.User;
 
 @Repository
 public interface LikeDao extends JpaRepository<Like, String> {
@@ -28,5 +29,7 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	@Query(value = "select save.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from save "
 			+ "group by save.user_email", nativeQuery = true)
 	List<Ranking> likeRanking();
+
+	Optional<User> findByEmailAndSnsId(String fromUser, String id);
 
 }
