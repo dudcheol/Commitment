@@ -3,52 +3,23 @@
     <vs-card>
       <template #title>
         <div>
-          <map-national :size="5" :borderRadius="5" :spacing="1"></map-national>
+          <component :is="mapType" :size="5" :borderRadius="5" :spacing="1"></component>
         </div>
       </template>
-      <!-- <template #img>
-        <div>
-          <map-national :size="5" :borderRadius="5"></map-national>
-        </div>
-      </template> -->
       <template #text>
-        <h2 class="text-center">{{ username }}</h2>
+        <h2 class="text-center">{{ userInfo.nickname }}</h2>
         <div class="text-center">
-          {{ intro }}
+          {{ userInfo.mystory }}
         </div>
         <div class="d-flex flex-row justify-center">
-          <vs-button
-            size="l"
-            circle
-            icon
-            color="success"
-            flat
-            :active="active == 5"
-            @click="active = 5"
-          >
-            <i class="bx bxs-check-square"></i>{{ commitCnt }}
+          <vs-button size="l" circle icon color="success" flat>
+            <i class="bx bxs-check-square"></i>{{ userInfo.commitCnt }}
           </vs-button>
-          <vs-button
-            size="l"
-            circle
-            icon
-            color="danger"
-            flat
-            :active="active == 5"
-            @click="active = 5"
-          >
-            <i class="bx bxs-heart"></i>{{ followerCnt }}
+          <vs-button size="l" circle icon color="danger" flat>
+            <i class="bx bxs-heart"></i>{{ userInfo.followerCnt }}
           </vs-button>
-          <vs-button
-            size="l"
-            circle
-            icon
-            color="warning"
-            flat
-            :active="active == 5"
-            @click="active = 5"
-          >
-            <i class="bx bxs-medal"></i>{{ badgeCnt }}
+          <vs-button size="l" circle icon color="warning" flat>
+            <i class="bx bxs-medal"></i>{{ userInfo.badgeCnt }}
           </vs-button>
         </div>
       </template>
@@ -58,21 +29,42 @@
 </template>
 
 <script>
-import MapNational from '../../common/map/MapNational.vue';
 export default {
-  components: { MapNational },
+  props: ['userInfo'],
   data: () => ({
-    username: 'username',
-    intro: '자기 소개가 있는 란입니다',
     commitCnt: 12,
     badgeCnt: 7,
     followerCnt: 210,
+    mapType: null,
   }),
   methods: {
     goToMyPage() {
       console.log('%cIndex.vue line:5', 'color: #007acc;');
       this.$router.push({ name: 'MyPage' });
     },
+  },
+  computed: {
+    loader() {
+      if (!this.userInfo.region_name) {
+        return null;
+      }
+      return () =>
+        import(
+          `../../../components/common/map/Map${this.userInfo.region_name.replace(
+            /\b[a-z]/,
+            (letter) => letter.toUpperCase()
+          )}`
+        );
+    },
+  },
+  mounted() {
+    this.loader()
+      .then(() => {
+        this.mapType = () => this.loader();
+      })
+      .catch(() => {
+        console.log('%cProfileSummary.vue line:61 지도를 불러오는데 실패함', 'color: #007acc;');
+      });
   },
 };
 </script>
