@@ -163,8 +163,12 @@
 <details>
 <summary>Personal Goal and Summary</summary>
     <ul>
-        <a href="Document/Tech_Log/Personal_Goal/Personal_Goal.md"><li>개인목표</li></a>
-        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary.md"><li>개인개발일지</li></a>
+        <a href="Document/Tech_Log/Personal_Goal/Personal_Goal.md"><li>개인목표정리</li></a>
+        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_YoungChul.md"><li>박영철 개발일지</li></a>
+        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_HaeSung.md"><li>강해성 개발일지</li></a>
+        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_SoHyun.md"><li>박소현 개발일지</li></a>
+        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_ChungHwa.md"><li>김청화 개발일지</li></a>
+        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_YooJeong.md"><li>박유정 개발일지</li></a>
     </ul>
 </details>
 <details>
@@ -190,5 +194,6 @@
         <a href="Document/Tech_Log/Video/Video_Proposal.md"><li>영상기획안</li></a>
     </ul>
 </details>
+
 
 
