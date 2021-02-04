@@ -27,4 +27,6 @@ public class NotificationSaveDto {
     public void setCommentId(String commentId){
         this.commentId = commentId;
     }
+
 }
+

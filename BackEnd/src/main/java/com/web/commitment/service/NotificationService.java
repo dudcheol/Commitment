@@ -114,11 +114,11 @@ public class NotificationService {
 
 
         if (type.equals("follow")) { // 팔로우
-            if (followDao.findByToUserAndFromUser(fromUser.getEmail(), toUser.getEmail()).isPresent()) {
-                saveNotificationData(userId, notiRef, type);
-            } else {
+//            if (followDao.findByToUserAndFromUser(fromUser.getEmail(), toUser.getEmail()).isPresent()) {
+//                saveNotificationData(userId, notiRef, type);
+//            } else {
                 saveNoti.setValueAsync(notificationSaveDto);
-            }
+//            }
         } else if (type.equals("like")) { // 좋아요
             if (likeDao.findByEmailAndSnsId(fromUser.getEmail(), board.getId()).isPresent()) {
                 saveNotificationData(userId, notiRef, type);

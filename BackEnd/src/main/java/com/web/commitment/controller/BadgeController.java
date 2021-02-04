@@ -38,6 +38,7 @@ public class BadgeController {
 		badgedao.save(b);
 		return "success";
 	}
+	
 	@GetMapping("/badge/list")
 	@ApiOperation(value = "뱃지 리스트")
 	public Badge badgeList(@RequestParam String email) {

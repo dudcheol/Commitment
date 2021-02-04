@@ -99,8 +99,11 @@ public class CommitController {
             System.out.println("KEY : " + key.x + " " + key.y); //
         }
 
-    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count
+    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count list로
     }
+
+
+
     
     // 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
     @GetMapping("/commit/square")
@@ -117,13 +120,6 @@ public class CommitController {
     	return commits;
     }
 
-	@GetMapping("/commit/commitrank")
-    @ApiOperation(value = "랭킹")
-    public List<Ranking> commitRank() {
-    	
-    	List<Ranking> list =commitDao.commitRank();
-    	return list;
-    }
     
 	@GetMapping("commit/total")
 	@ApiOperation(value = "user의 총 커밋수")
@@ -131,6 +127,7 @@ public class CommitController {
 		
 		return commitDao.countByEmail(email);
 	}
+
     // 커밋 불러오기 -> open 1인 것만
     
 	// CRUD 중 C만

@@ -11,7 +11,13 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <vs-button icon color="danger" border :active="active == 2" @click="active = 2">
+                <vs-button
+                  icon
+                  color="danger"
+                  border
+                  :active="active == 2"
+                  @click="active = 2"
+                >
                   <i class="bx bxs-heart"></i>
                 </vs-button>
               </div>
@@ -43,7 +49,11 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <v-progress-circular :value="40" color="grey" size="20"></v-progress-circular>
+                <v-progress-circular
+                  :value="40"
+                  color="grey"
+                  size="20"
+                ></v-progress-circular>
               </div>
               <div class="bookmarkDescription">
                 <h4>발로 그린 지도!</h4>
@@ -73,7 +83,11 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <v-progress-circular :value="40" color="grey" size="20"></v-progress-circular>
+                <v-progress-circular
+                  :value="40"
+                  color="grey"
+                  size="20"
+                ></v-progress-circular>
               </div>
               <div class="bookmarkDescription">
                 <h4>발로 그린 지도!</h4>
@@ -105,7 +119,11 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <v-progress-circular :value="40" color="grey" size="20"></v-progress-circular>
+                <v-progress-circular
+                  :value="40"
+                  color="grey"
+                  size="20"
+                ></v-progress-circular>
               </div>
               <div class="bookmarkDescription">
                 <h4>발로 그린 지도!</h4>
@@ -135,7 +153,13 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <vs-button icon color="danger" border :active="active == 2" @click="active = 2">
+                <vs-button
+                  icon
+                  color="danger"
+                  border
+                  :active="active == 2"
+                  @click="active = 2"
+                >
                   <i class="bx bxs-heart"></i>
                 </vs-button>
               </div>
@@ -167,7 +191,11 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <v-progress-circular :value="40" color="grey" size="20"></v-progress-circular>
+                <v-progress-circular
+                  :value="40"
+                  color="grey"
+                  size="20"
+                ></v-progress-circular>
               </div>
               <div class="bookmarkDescription">
                 <h4>발로 그린 지도!</h4>
@@ -199,7 +227,13 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <vs-button icon color="danger" border :active="active == 2" @click="active = 2">
+                <vs-button
+                  icon
+                  color="danger"
+                  border
+                  :active="active == 2"
+                  @click="active = 2"
+                >
                   <i class="bx bxs-heart"></i>
                 </vs-button>
               </div>
@@ -231,7 +265,11 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <v-progress-circular :value="40" color="grey" size="20"></v-progress-circular>
+                <v-progress-circular
+                  :value="40"
+                  color="grey"
+                  size="20"
+                ></v-progress-circular>
               </div>
               <div class="bookmarkDescription">
                 <h4>발로 그린 지도!</h4>
@@ -261,7 +299,13 @@
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
-                <vs-button icon color="danger" border :active="active == 2" @click="active = 2">
+                <vs-button
+                  icon
+                  color="danger"
+                  border
+                  :active="active == 2"
+                  @click="active = 2"
+                >
                   <i class="bx bxs-heart"></i>
                 </vs-button>
               </div>

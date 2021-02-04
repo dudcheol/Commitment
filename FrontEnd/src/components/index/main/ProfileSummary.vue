@@ -1,28 +1,25 @@
 <template>
-  <div>
+  <div class="d-flex justify-center" @click="goToMyPage">
     <vs-card>
       <template #title>
-        <h3>헬로우</h3>
-      </template>
-      <template #img>
-        <img
-          src="https://post-phinf.pstatic.net/MjAxOTA2MDdfMjc1/MDAxNTU5ODg3NDE5ODg1.KvvxxigkXBP7Pj0bC954MZYWUsFio34hEK6junONCm0g.05M1GyB0htqPHRrPLqLusp4fCdh0ACQwGTN5IuMfgpMg.JPEG/g2.jpg?type=w1200"
-          alt=""
-        />
+        <div>
+          <component :is="mapType" :size="5" :borderRadius="5" :spacing="1"></component>
+        </div>
       </template>
       <template #text>
-        <div class="d-flex justify-center">
-          잋츠미
+        <h2 class="text-center">{{ userInfo.nickname }}</h2>
+        <div class="text-center">
+          {{ userInfo.mystory }}
         </div>
-        <div class="profile_buttons">
-          <vs-button circle relief>
-            <i class="bx bx-user"></i>
+        <div class="d-flex flex-row justify-center">
+          <vs-button size="l" circle icon color="success" flat>
+            <i class="bx bxs-check-square"></i>{{ userInfo.commitCnt }}
           </vs-button>
-          <vs-button relief>
-            <i class="bx bx-stats"></i>
+          <vs-button size="l" circle icon color="danger" flat>
+            <i class="bx bxs-heart"></i>{{ userInfo.followerCnt }}
           </vs-button>
-          <vs-button relief>
-            <i class="bx bx-badge"></i>
+          <vs-button size="l" circle icon color="warning" flat>
+            <i class="bx bxs-medal"></i>{{ userInfo.badgeCnt }}
           </vs-button>
         </div>
       </template>
@@ -33,7 +30,42 @@
 
 <script>
 export default {
-  data: () => ({}),
+  props: ['userInfo'],
+  data: () => ({
+    commitCnt: 12,
+    badgeCnt: 7,
+    followerCnt: 210,
+    mapType: null,
+  }),
+  methods: {
+    goToMyPage() {
+      console.log('%cIndex.vue line:5', 'color: #007acc;');
+      this.$router.push({ name: 'MyPage' });
+    },
+  },
+  computed: {
+    loader() {
+      if (!this.userInfo.region_name) {
+        return null;
+      }
+      return () =>
+        import(
+          `../../../components/common/map/Map${this.userInfo.region_name.replace(
+            /\b[a-z]/,
+            (letter) => letter.toUpperCase()
+          )}`
+        );
+    },
+  },
+  mounted() {
+    this.loader()
+      .then(() => {
+        this.mapType = () => this.loader();
+      })
+      .catch(() => {
+        console.log('%cProfileSummary.vue line:61 지도를 불러오는데 실패함', 'color: #007acc;');
+      });
+  },
 };
 </script>
 

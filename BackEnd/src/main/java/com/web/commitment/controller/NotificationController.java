@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/noti")
 @RequiredArgsConstructor
@@ -78,8 +78,8 @@ public class NotificationController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/test")
-    public static JSONObject Push(@RequestBody Token dataa, int type) throws IOException {
+    @PostMapping("/test")
+    public static JSONObject Push(@RequestBody Token dataa) throws IOException {
 
 		String tokenId = dataa.getToken();
 		System.out.println(dataa.getToken());
@@ -110,11 +110,11 @@ public class NotificationController {
 			
 			
 			JSONObject info = new JSONObject();
-			if(type == 0) {
+//			if(type == 0) {
 				info.put("title", "댓글 알림"); 
 				info.put("body", "누군가가 당신에게 댓글을 달았습니다.");
 				json.put("notification", info);
-			}
+//			}
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 

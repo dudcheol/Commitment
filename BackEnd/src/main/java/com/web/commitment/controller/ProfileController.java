@@ -73,6 +73,10 @@ public class ProfileController {
 
 		return user;
 	}
+	
+	public Object followCnt(String email) {
+		return followDao.followCnt(email);
+	}
 
 	@PostMapping(path = "/profile/upload")
 	@ApiOperation(value = "프로필 업로드 및 수정")
