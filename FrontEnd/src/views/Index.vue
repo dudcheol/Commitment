@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'MainPage',
   data: () => ({
@@ -84,7 +85,12 @@ export default {
     ],
     alldatalist: [],
   }),
-  methods: {},
+  methods: {
+    ...mapActions(['CURRENT_POSITION']),
+  },
+  created() {
+    this.CURRENT_POSITION();
+  },
 };
 </script>
 
