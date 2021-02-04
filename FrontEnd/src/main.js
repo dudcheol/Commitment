@@ -18,6 +18,12 @@ Vue.use(VueRouter);
 Vue.use(VueHorizontalTimeline);
 Vue.use(ScrollBar);
 
+Vue.use(Vuesax, {
+})
+Vue.use(VueRouter)
+Vue.use(VueHorizontalTimeline);
+Vue.use(ScrollBar);
+
 new Vue({
   vuetify,
   router,
