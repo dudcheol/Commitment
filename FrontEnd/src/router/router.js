@@ -5,7 +5,6 @@ import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Detail from '@/views/index/Detail.vue'
-
 // 필수
 Vue.use(Router)
 export default new Router({

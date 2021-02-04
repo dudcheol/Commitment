@@ -20,13 +20,28 @@
         <div class="detail">
           <div class="detail_left">
             <div class="commit">
-              <vs-button uploade color="#7d33ff" border :active="active == 2" @click="active = 2">
-                <i class="bx bxs-magic-wand"> 커밋수<span class="numbers">30</span></i>
+              <vs-button
+                uploade
+                color="#7d33ff"
+                border
+                :active="active == 2"
+                @click="active = 2"
+              >
+                <i class="bx bxs-magic-wand">
+                  커밋수<span class="numbers">30</span></i
+                >
               </vs-button>
             </div>
             <div class="follower">
-              <vs-button danger border :active="active == 2" @click="active = 2">
-                <i class="bx bxs-heart"> 팔로워<span class="numbers">30</span></i>
+              <vs-button
+                danger
+                border
+                :active="active == 2"
+                @click="active = 2"
+              >
+                <i class="bx bxs-heart">
+                  팔로워<span class="numbers">30</span></i
+                >
               </vs-button>
             </div>
           </div>
@@ -64,7 +79,12 @@
       <div class="middle2">
         <div class="scroll">
           <v-card max-width="400" class="mx-auto">
-            <v-virtual-scroll :bench="benched" :items="scrolls" height="500" item-height="64">
+            <v-virtual-scroll
+              :bench="benched"
+              :items="scrolls"
+              height="500"
+              item-height="64"
+            >
               <template v-slot:default="{ item }">
                 <v-list-item :key="item">
                   <v-list-item-action>
@@ -138,7 +158,13 @@ export default {
       'mmm',
       'nnn',
     ],
-    colors: ['indigo', 'warning', 'pink darken-2', 'red lighten-1', 'deep-purple accent-4'],
+    colors: [
+      'indigo',
+      'warning',
+      'pink darken-2',
+      'red lighten-1',
+      'deep-purple accent-4',
+    ],
     slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     value1: 1,
   }),

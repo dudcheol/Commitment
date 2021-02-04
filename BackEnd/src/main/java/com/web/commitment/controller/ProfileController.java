@@ -67,11 +67,15 @@ public class ProfileController {
 		List<User> user = new ArrayList<User>();
 		int index = 0;
 		for (Follow f : list) {
-			user.add(userDao.getUserByEmail(f.getFollowid().getTo()));
+			user.add(userDao.getUserByEmail(f.getFollowid().getToUser()));
 			System.out.println(user.get(index++));
 		}
 
 		return user;
+	}
+	
+	public Object followCnt(String email) {
+		return followDao.followCnt(email);
 	}
 
 	@PostMapping(path = "/profile/upload")
