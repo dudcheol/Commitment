@@ -1,12 +1,19 @@
 <template>
   <div>
-    <div class="mt-4 d-flex justify-center" v-for="content in contents" :key="content">
+    <div
+      class="mt-4 d-flex justify-center"
+      v-for="content in contents"
+      :key="content"
+    >
       <vs-card>
         <template #title>
           <h3>Pot with a plant</h3>
         </template>
         <template #img>
-          <img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" alt="" />
+          <img
+            src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+            alt=""
+          />
         </template>
         <template #text>
           <p>

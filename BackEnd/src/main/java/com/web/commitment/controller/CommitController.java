@@ -99,7 +99,7 @@ public class CommitController {
             System.out.println("KEY : " + key.x + " " + key.y); //
         }
 
-    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count
+    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count list로
     }
 
 	@GetMapping("commit/total")
@@ -124,6 +124,15 @@ public class CommitController {
     	
     	return commits;
     }
+
+    
+	@GetMapping("commit/total")
+	@ApiOperation(value = "user의 총 커밋수")
+	public int totalCommitNum(String email) {
+		
+		return commitDao.countByEmail(email);
+	}
+
 
     // 커밋 불러오기 -> open 1인 것만
     
