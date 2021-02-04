@@ -47,6 +47,8 @@ public class UserController {
 	@Autowired
 	ProfileController profileController;
 	@Autowired
+	CommitController commitController;
+	@Autowired
 	BadgeController badgeController;
 	@Autowired
 	private JwtService jwtService;
@@ -95,6 +97,11 @@ public class UserController {
 		try {
 			// 사용자에게 전달할 정보이다.
 			resultMap.putAll(jwtService.get(req.getHeader("auth-token")));
+			Map<String,String> s=(Map<String, String>) resultMap.get("user");
+			resultMap.put("commitCnt",commitController.totalCommitNum(s.get("email")));
+			resultMap.put("followerCnt",profileController.followCnt(s.get("email")));
+			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
+					
 			status = HttpStatus.ACCEPTED;
 		} catch (RuntimeException e) {
 //			logger.error("정보조회 실패 : {}", e);

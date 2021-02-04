@@ -22,4 +22,7 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 			+ "group by follow.follow_to", nativeQuery = true)
 	List<Ranking> followerRank();
 
+	@Query(value = "select count(*) cnt from follow f where f.follow_from=:email", nativeQuery = true)
+	int followCnt(String email);
+
 }

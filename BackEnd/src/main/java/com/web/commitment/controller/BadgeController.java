@@ -30,14 +30,15 @@ public class BadgeController {
 				
 		return count;
 	}
-//	@GetMapping("/badge/reset")
-//	@ApiOperation(value = "뱃지 초기화(회원 가입시)")
+	@GetMapping("/badge/reset")
+	@ApiOperation(value = "뱃지 초기화(회원 가입시)")
 	public String badgeReset(@RequestParam String email) {
 		Badge b=new Badge();
 		b.setUserEmail(email);
 		badgedao.save(b);
 		return "success";
 	}
+	
 	@GetMapping("/badge/list")
 	@ApiOperation(value = "뱃지 리스트")
 	public Badge badgeList(@RequestParam String email) {
