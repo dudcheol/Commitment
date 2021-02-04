@@ -93,5 +93,7 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 			+ " AND created_at between DATE_ADD(NOW(),INTERVAL -1 HOUR ) AND NOW()", nativeQuery = true)
 	List<Commit> timeCheck(@Param("email") String email,@Param("x") int x,@Param("y") int y,@Param("region") String region);
 
+	int countByEmail(String email);
+
 
 }
