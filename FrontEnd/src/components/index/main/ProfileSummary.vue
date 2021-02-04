@@ -1,0 +1,95 @@
+<template>
+  <div class="d-flex justify-center" @click="goToMyPage">
+    <vs-card>
+      <template #title>
+        <div>
+          <map-national :size="5" :borderRadius="5" :spacing="1"></map-national>
+        </div>
+      </template>
+      <!-- <template #img>
+        <div>
+          <map-national :size="5" :borderRadius="5"></map-national>
+        </div>
+      </template> -->
+      <template #text>
+        <h2 class="text-center">{{ username }}</h2>
+        <div class="text-center">
+          {{ intro }}
+        </div>
+        <div class="d-flex flex-row justify-center">
+          <vs-button
+            size="l"
+            circle
+            icon
+            color="success"
+            flat
+            :active="active == 5"
+            @click="active = 5"
+          >
+            <i class="bx bxs-check-square"></i>{{ commitCnt }}
+          </vs-button>
+          <vs-button
+            size="l"
+            circle
+            icon
+            color="danger"
+            flat
+            :active="active == 5"
+            @click="active = 5"
+          >
+            <i class="bx bxs-heart"></i>{{ followerCnt }}
+          </vs-button>
+          <vs-button
+            size="l"
+            circle
+            icon
+            color="warning"
+            flat
+            :active="active == 5"
+            @click="active = 5"
+          >
+            <i class="bx bxs-medal"></i>{{ badgeCnt }}
+          </vs-button>
+        </div>
+      </template>
+      <template #interactions> </template>
+    </vs-card>
+  </div>
+</template>
+
+<script>
+import MapNational from '../../common/map/MapNational.vue';
+export default {
+  components: { MapNational },
+  data: () => ({
+    username: 'username',
+    intro: '자기 소개가 있는 란입니다',
+    commitCnt: 12,
+    badgeCnt: 7,
+    followerCnt: 210,
+  }),
+  methods: {
+    goToMyPage() {
+      console.log('%cIndex.vue line:5', 'color: #007acc;');
+      this.$router.push({ name: 'MyPage' });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.vs-card__title {
+  display: flex;
+  justify-content: center;
+}
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile_buttons {
+  display: flex;
+  justify-content: center;
+}
+</style>
