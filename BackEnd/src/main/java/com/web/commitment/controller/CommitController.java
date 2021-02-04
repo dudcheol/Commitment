@@ -99,7 +99,7 @@ public class CommitController {
             System.out.println("KEY : " + key.x + " " + key.y); //
         }
 
-    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count
+    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count list로
     }
     
     // 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
