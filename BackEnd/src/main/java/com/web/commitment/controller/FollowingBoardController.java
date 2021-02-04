@@ -33,7 +33,7 @@ public class FollowingBoardController {
         List<Board> postList = new ArrayList<>();
         
 		for (Follow f:followList) {
-			List<Board> li=boardDao.findBoardByEmail(f.getFollowid().getTo());
+			List<Board> li=boardDao.findBoardByEmail(f.getFollowid().getToUser());
 			for (Board b: li) {
 				postList.add(b);
 			}
