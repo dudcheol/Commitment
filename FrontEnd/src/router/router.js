@@ -5,8 +5,6 @@ import Index from '../views/Index.vue'
 import Signup from '../views/Signup.vue'
 import Login from '../views/Login.vue'
 import Detail from '@/views/index/Detail.vue'
-import Test from '../views/Indextest.vue'
-
 // 필수
 Vue.use(Router)
 export default new Router({
@@ -63,11 +61,6 @@ export default new Router({
             path: '/detail',
             name: 'Detail',
             component: Detail,
-        },
-        {
-            path: '/test',
-            name: 'Test',
-            component: Test,
         },
     ]
 })

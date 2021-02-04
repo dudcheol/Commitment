@@ -18,43 +18,35 @@
         </div>
       </template>
       <div class="con-content dialog">
-        <v-container>
-          <v-row>
-            <v-col>
-              <div class="d-flex flex-row">
-                <div class="d-flex align-center">
-                  <vs-avatar circle>
-                    <img
-                      src="https://cdnweb01.wikitree.co.kr/webdata/editor/202009/16/img_20200916152758_395c9c8b.webp"
-                    />
-                  </vs-avatar>
-                </div>
-                <div class="flex-column pl-2">
-                  <h3>{{ username }}</h3>
-                  <div>
-                    <vs-select placeholder="공개설정" v-model="value" style="width:85px">
-                      <vs-option label="공개" value="1">
-                        공개
-                      </vs-option>
-                      <vs-option label="비공개" value="2">
-                        비공개
-                      </vs-option>
-                    </vs-select>
-                  </div>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-textarea
-              solo
-              flat
-              name="input-7-4"
-              :label="username + '님, 여기는 어떤 곳인가요?'"
-              auto-grow
-            ></v-textarea>
-          </v-row>
-        </v-container>
+        <div class="d-flex flex-row">
+          <div class="d-flex align-center">
+            <vs-avatar circle>
+              <img
+                src="https://cdnweb01.wikitree.co.kr/webdata/editor/202009/16/img_20200916152758_395c9c8b.webp"
+              />
+            </vs-avatar>
+          </div>
+          <div class="flex-column pl-2">
+            <h3>{{ username }}</h3>
+            <div>
+              <vs-select placeholder="공개설정" v-model="value" style="width:85px">
+                <vs-option label="공개" value="1">
+                  공개
+                </vs-option>
+                <vs-option label="비공개" value="2">
+                  비공개
+                </vs-option>
+              </vs-select>
+            </div>
+          </div>
+        </div>
+        <v-textarea
+          solo
+          flat
+          name="input-7-4"
+          :label="username + '님, 여기는 어떤 곳인가요?'"
+          auto-grow
+        ></v-textarea>
       </div>
       <template #footer>
         <div class="d-flex align-center">
@@ -121,6 +113,6 @@ export default {
 
 <style scoped>
 .dialog {
-  min-width: 500px;
+  width: calc(100vw - 56px);
 }
 </style>

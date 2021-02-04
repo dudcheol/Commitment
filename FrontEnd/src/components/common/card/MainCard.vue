@@ -12,7 +12,7 @@
           <p class="text-caption">{{ info.address }}</p>
         </div>
         <div class="flex-grow-0 align-center">
-          <v-btn outlined rounded color="primary">팔로우</v-btn>
+          <v-btn text rounded color="primary" :ripple="false"><strong>팔로우</strong></v-btn>
         </div>
       </div>
     </div>

@@ -1,31 +1,29 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col class="sidebar_left" cols="12" sm="2">
-        <div class="d-flex justify-center" @click="clickProfile">
+  <v-container fluid class="blue-grey lighten-5 pa-0">
+    <v-col class="sidebar_left mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
+      <v-row>
+        <v-col>
           <ProfileSummary />
-        </div>
-        <!-- 첫번째 넣어야할거 -->
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <NotYetAddArticle />
+        </v-col>
+      </v-row>
+    </v-col>
 
-        <NotYetAddArticle />
-      </v-col>
+    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-4">
+      <CommitNow />
+    </v-col>
 
-      <v-col class="mainslot" cols="12" sm="8">
+    <v-row :justify="dynamicJustify" class="px-3 px-lg-16 px-md-8 px-xl-16">
+      <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
-          <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
           <FollowerMap class="mb-6 mt-3" />
           <MyState />
           <AllArticle class="my-4" />
         </div>
-      </v-col>
-
-      <v-col cols="12" sm="2">
-        <div class="radar mt-4 mb-3">
-          <v-slider :thumb-size="15" thumb-label="always"></v-slider>
-        </div>
-        <v-sheet rounded="lg" min-height="200">
-          <CommitNow />
-        </v-sheet>
       </v-col>
     </v-row>
   </v-container>
@@ -48,13 +46,48 @@ export default {
     NotYetAddArticle,
     ProfileSummary,
   },
-  methods: {
-    clickProfile() {
-      console.log('%cIndex.vue line:5', 'color: #007acc;');
-      this.$router.push({ name: 'MyPage' });
+  data() {
+    return {};
+  },
+  computed: {
+    dynamicPosition() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '';
+        case 'sm':
+          return '';
+        case 'md':
+          return 'overflow-style';
+        case 'lg':
+          return 'overflow-style';
+        case 'xl':
+          return 'overflow-style';
+      }
+      return '';
+    },
+    dynamicJustify() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '';
+        case 'sm':
+          return '';
+        case 'md':
+          return 'center';
+        case 'lg':
+          return 'center';
+        case 'xl':
+          return 'center';
+      }
+      return '';
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.overflow-style {
+  position: fixed;
+  overflow-y: scroll;
+  max-height: calc(100vh - 64px);
+}
+</style>

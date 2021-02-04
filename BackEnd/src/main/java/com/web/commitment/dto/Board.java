@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -58,7 +59,8 @@ public class Board {
 	@OneToMany
 	@JoinColumn(name="sns_id")
 	private List<Image> image = new ArrayList<Image>();
-//	@ManyToOne
-//	@JoinColumn(name = "user_email")
-//	private Collection<User> user;
+	
+	@ManyToOne
+	@JoinColumn(name = "commit_id",insertable=false, updatable=false)
+	private Commit commit;
 }
