@@ -1,6 +1,6 @@
 # Commitment
 
-> Welcome to [Commit your moment]([http://i4a308.p.ssafy.io](http://i4a308.p.ssafy.io/)) :globe_with_meridians:
+> Welcome to [Commit your moment](http://i4a308.p.ssafy.io/) :globe_with_meridians:
 
 <br>
 
@@ -154,7 +154,7 @@
 
 > 각 페이지별 소개
 
-[Pages in Detail ]("Document/Page_Details/Page_Details.md")
+[Pages in Detail ](Document/Page_Details/Page_Details.md)
 
 <br>
 
