@@ -133,7 +133,6 @@ public class CommitController {
 		return commitDao.countByEmail(email);
 	}
 
-
     // 커밋 불러오기 -> open 1인 것만
     
 	// CRUD 중 C만
