@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+
     <v-app-bar app color="white" flat hide-on-scroll>
       
       <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white"
@@ -8,16 +9,6 @@
           <img src="../assets/img/main/commitment_logo.jpg" alt="logo">
         </v-avatar>
       </v-btn>
-
-      <div class="search__container ml-3 mt-2 d-flex">
-        <div class="search">
-          <v-text-field 
-          class="search__input"></v-text-field>
-          <v-btn class="search__submit" fab elevation="" x-small dark color="blue darken-2">
-            <v-icon>mdi-magnify</v-icon></v-btn>
-        </div>
-      </div>
-
 
       <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
       <v-tabs centered color="grey darken-1" class="tabs_list">
@@ -36,6 +27,13 @@
       <v-icon>{{ item.icon }}</v-icon>
       </v-btn>
 
+    </div>
+
+    <div class="search-box">
+      <input type="text" name="" class="search-txt" placeholder="Search">
+      <a class="search-btn" href="#">
+        <v-icon>mdi-magnify</v-icon>
+      </a>
     </div>
 
     <v-speed-dial 
@@ -101,7 +99,62 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
+
+.search-box {
+  position: absolute;
+  left: 6%;
+ background: #6a9ce2;
+ height: 40px;
+ border-radius: 40px;
+ z-index: 2px;
+ /* padding: 10px; */
+}
+
+.search-box:hover > .search-txt {
+ width: 100px;
+ padding: 0 6px;
+}
+
+.search-box:hover > .search-btn {
+ background: white;
+ color: black;
+}
+
+.search-box .search-btn {
+ color: #6ad42c;
+ float: right;
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ background: #006aff;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ transition: 0.4s;
+ color: white;
+ cursor: pointer;
+}
+
+.search-btn > v-icon {
+ font-size: 30px;
+}
+
+
+.search-txt {
+ border: none;
+ background: none;
+ outline: none;
+ float: left;
+ padding: 0;
+ color: white;
+ font-size: 16px;
+ transition: 0.4s;
+ width: 100px;
+ font-weight: bold;
+}
+
 
 .tabs_list {
   position: absolute; 
@@ -109,71 +162,6 @@ export default {
   transform: translateX(-50%); 
 }
 
-.search__container {
-  // background: rgb(143, 150, 143);
-  width: 20vw;  
-  height: calc(min-content + 5px);
-  position: relative;
-}
-
-.search {
-  --size: 28px;
-  // border: 1px solid blue;
-
-  display: flex;
-  overflow: hidden;
-  font-size: 1em;
-  position: relative;
-  width: calc(var(--size) + 10px);
-  height: calc(var(--size) + 10px);
-  // 늘어날때 효과 cubic-bezier 참고
-  transition: width 450ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-
-.search__input {
-  // padding: .25em 1em;
-  border: 0;
-  flex-grow: 1;
-  z-index: 1;
-  width: 100%;
-  background: transparent;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.search__submit {
-  font-size: 1.5rem;
-  background: 0;
-  border: 0;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background 200ms ease-out;
-  // width: calc(var(--size) - 10px);
-  // height: calc(var(--size) - 10px);
-}
-
-.search:focus-within {
-  
-  width: 100%;
-  .search__input {
-    opacity: 1;
-    z-index: initial;
-    cursor: initial;
-    width: 100%;
-  }
-  
-  // .search__submit {
-  //   background: var(--clr-primary);
-  //   color: black;
-  //   box-shadow: 0 0 10px rgba(0,0,0,.15);
-  //   &:hover,
-  //   &:focus {
-  //     outline: 0;
-  //     // transform: rotate(1turn);
-  //   }
-  // }
-}
 
 v-speed-dial {
   z-index: 0 !important
@@ -191,28 +179,61 @@ v-speed-dial {
     width: 90vw;
     background: grey;
   }
-
-}
-  
-
-/* .sidebar_left {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 4px;
-}
-
-.mainslot {
-  overflow: auto;
-
-}
-
-@media (max-width: 450px) {
-
-  .tabs__container {
-    max-width: 90vw;
+    .search-box {
+  position: absolute;
+  left: 6%;
+  background: #6a9ce2;
+  height: 40px;
+  border-radius: 40px;
+  z-index: 2px;
+  /* padding: 10px; */
   }
-} */
 
+  .search-box:hover > .search-txt {
+  width: 100px !important;
+  
+  }
+
+  .search-box:hover > .search-btn {
+  background: white;
+  color: black;
+  }
+
+  .search-box .search-btn {
+  color: #6ad42c;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #006aff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+  color: white;
+  cursor: pointer;
+  }
+
+  .search-btn > v-icon {
+  font-size: 30px;
+  }
+
+
+  .search-txt {
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  padding: 0;
+  color: white;
+  font-size: 16px;
+  transition: 0.4s;
+  width: 0px;
+  font-weight: bold;
+  }
+
+  }
+  
 
 
 </style>
