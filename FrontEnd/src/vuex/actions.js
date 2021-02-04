@@ -23,7 +23,11 @@ export default {
     await findByToken(
       token,
       (response) => {
-        context.commit('GET_MEMBER_INFO', { token, user: response.data.user });
+        let user = response.data.user;
+        user.badgeCnt = response.data.badgeCnt;
+        user.commitCnt = response.data.commitCnt;
+        user.followerCnt = response.data.followerCnt;
+        context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
         console.log('%cactions.js line:26 error', 'color: #007acc;', error);
