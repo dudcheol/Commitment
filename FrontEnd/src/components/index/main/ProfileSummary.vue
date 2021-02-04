@@ -3,7 +3,6 @@
     <vs-card>
       <template #title>
         <div>
-          <!-- <map-national :size="5" :borderRadius="5" :spacing="1"></map-national> -->
           <component :is="mapType" :size="5" :borderRadius="5" :spacing="1"></component>
         </div>
       </template>

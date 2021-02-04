@@ -44,36 +44,6 @@
       class="mb-2"
     ></commit-card>
   </div>
-  <!-- <div class="d-flex flex-column ml-lg-16">
-    <div class="d-flex align-center ml-auto px-2">
-      <span class="font-weight-black mr-2">
-        반경
-      </span>
-      <v-chip small>
-        <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
-          >{{ commitMinRange }} km 이내</span
-        >
-        <span v-else-if="commitRange[0] > commitMinRange || commitRange[1] < commitMaxRange">
-          {{ commitRange[0] }} ~ {{ commitRange[1] }} km 이내
-        </span>
-        <span v-else>
-          전체
-        </span>
-      </v-chip>
-    </div>
-    <v-range-slider
-      v-model="commitRange"
-      step="0.5"
-      :min="commitMinRange"
-      :max="commitMaxRange"
-    ></v-range-slider>
-    <commit-card
-      v-for="(item, index) in nowCommits"
-      :key="index"
-      :info="item"
-      class="mb-2"
-    ></commit-card>
-  </div> -->
 </template>
 
 <script>

@@ -64,12 +64,4 @@ export default {
   max-width: 50vh !important;
   max-height: 50vh !important;
 }
-
-/* .filtering {
-  display: flex;
-  justify-content: space-around;
-}
-.filtering .vs-button__content {
-  width: 20vh !important;
-} */
 </style>
