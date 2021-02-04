@@ -1,10 +1,10 @@
 package com.web.commitment.controller;
 
-
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,9 +46,9 @@ public class LikeController {
 	
 	@GetMapping("/like")
 	@ApiOperation(value = "게시글 좋아요 목록 불러오기")
-	public List<Like> likeList(@RequestParam String email){
+	public Page<Like> likeList(@RequestParam String email, final Pageable pageable){
 	
-		return likeDao.findAllByEmail(email); // snsId로 게시글 불러오는 것까
+		return likeDao.findAllByEmail(email, pageable); // snsId로 게시글 불러오는 것까
 	}
 
 	@GetMapping("/like/totalreceived")
