@@ -100,7 +100,7 @@
 
 - Maven
 
-- VS Code with Spring Boot Extension Pack 
+- STS 
 
 - Docker
 
