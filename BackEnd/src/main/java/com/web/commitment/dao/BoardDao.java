@@ -35,13 +35,13 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and s.user_email=:email order by s.created_at desc", nativeQuery = true)
 	Page<Board> findByEmail(String email, Pageable pageable);
 
-	@Query(value = "select * from sns s, commit c, tag t, user u where u.email=s.user_email and s.id=t.sns_id and c.id=s.commit_id and c.open=1 and s.user_email=:email order by s.created_at desc", nativeQuery = true)
+	@Query(value = "select * from sns s, commit c where c.id=s.commit_id and c.open=1 and s.user_email=:email order by s.created_at desc", nativeQuery = true)
 	Page<Board> findAllByEmail(@Param("email") String email, Pageable pageable);
 
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and c.open=1 order by s.created_at desc", nativeQuery = true)
 	Page<Board> findAllByCommitId(Pageable pageable);
 
-	@Query(value = "SELECT * FROM commit c, sns s, tag t where c.id=s.commit_id and c.open=1 and ( 6371 * acos( cos( radians(:curlat) ) * cos( radians( c.lat ) ) *"
+	@Query(value = "SELECT * FROM commit c, sns s where c.id=s.commit_id and c.open=1 and ( 6371 * acos( cos( radians(:curlat) ) * cos( radians( c.lat ) ) *"
 			+ " cos( radians( c.lng ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( c.lat ) ) ) )<=:radius order by s.created_at desc", nativeQuery = true)
 	Page<Board> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng,
 			@Param("radius") Integer radius, Pageable pageable);
@@ -66,9 +66,9 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	Page<Board> findByTitleandContent(@Param("keyword")String keyword, Pageable pageable);
 
 	
-	@Query(value = "select * from tag t, sns s, commit c, user u "
+	@Query(value = "select * from sns s, commit c "
 			+ "where (s.user_email in (select f.follow_to from follow f where f.follow_from=:email) or s.user_email=:email)"
-			+ "and  s.id=t.sns_id and c.id=s.commit_id and c.user_email=:email and c.open=1 "
+			+ "and c.id=s.commit_id c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email")String email, Pageable pageable);
 
