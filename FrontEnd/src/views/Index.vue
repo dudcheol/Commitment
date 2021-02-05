@@ -16,23 +16,7 @@
         </v-tab>
       </v-tabs>
 
-
-    <div class="d-none d-sm-flex ml-auto">
-      <v-btn fab elevation="" x-small dark color="blue darken-2" class="mr-3"
-        v-for="item in right_items" :key="item"
-      >
-      <v-icon>{{ item.icon }}</v-icon>
-      </v-btn>
-
-    </div>
-
-    <v-speed-dial 
-      class="d-flex d-sm-none ml-auto"
-      v-model="fab"
-      direction="bottom"
-      transition="slide-x-reverse-transition"
-    >
-      <template v-slot:activator>
+      <div class="d-none d-sm-flex ml-auto">
         <v-btn
           fab
           elevation=""
@@ -47,42 +31,44 @@
         </v-btn>
       </div>
 
-      <div class="search-box">
-        <input type="text" name="" class="search-txt" placeholder="Search" />
-        <a class="search-btn" href="#">
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </div>
-
       <v-speed-dial
         class="d-flex d-sm-none ml-auto"
         v-model="fab"
         direction="bottom"
         transition="slide-x-reverse-transition"
       >
-        <v-icon>{{ item.icon }}</v-icon>
-      </v-btn>
-    </v-speed-dial> 
+        <template v-slot:activator>
+          <v-btn x-small color="blue" dark fab>
+            <v-icon v-if="fab">
+              mdi-close
+            </v-icon>
+            <v-icon v-else>
+              mdi-chevron-down
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-btn fab dark x-small color="blue" v-for="item in right_items" :key="item">
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-btn>
+      </v-speed-dial>
 
-    <div class="search-box">
-
-      <div>
-      <input type="text" name="" class="search-txt" placeholder="Search">
-      <a class="search-btn" href="#">
-        <v-icon color="white">mdi-magnify</v-icon>
-      </a>
-      </div>
-      <div class="result-box">
-        <div class="result-list">
-          <li>hello</li>
-          <li>it's me</li>
-          <li>I've</li>
-          <li>been</li>
-          <li>wandering</li>
+      <div class="search-box">
+        <div>
+          <input type="text" name="" class="search-txt" placeholder="Search" />
+          <a class="search-btn" href="#">
+            <v-icon color="white">mdi-magnify</v-icon>
+          </a>
+        </div>
+        <div class="result-box">
+          <div class="result-list">
+            <li>hello</li>
+            <li>it's me</li>
+            <li>I've</li>
+            <li>been</li>
+            <li>wandering</li>
+          </div>
         </div>
       </div>
-    </div>
-
     </v-app-bar>
     <v-main class="blue-grey lighten-5">
       <router-view></router-view>
@@ -120,33 +106,23 @@ export default {
 </script>
 
 <style scoped>
-
 .search-box {
-position: absolute;
-left: 6%;
-background: #CFD8DC;
-height: 40px;
-border-radius: 40px;
-margin-top: 4px;
-z-index: 2px;
- /* padding: 10px; */
+  position: absolute;
+  left: 6%;
+  background: #cfd8dc;
+  height: 40px;
+  border-radius: 40px;
+  margin-top: 4px;
+  z-index: 2px;
 }
 
-/* .search-box.active .result-box{
-  padding: 10px 8px;
-  opacity: 1;
-  pointer-events: auto;
-} */
 .search-box .result-box {
   /* padding: 10px 0px; */
   font-size: 1em;
   border-radius: 20px;
-
-  
 }
 
-
-.result-box li{
+.result-box li {
   list-style: none;
   padding: 10px 15px;
   width: 100%;
@@ -156,52 +132,45 @@ z-index: 2px;
 }
 
 .result-list {
-  background-color:rgba(236, 239, 241);
+  background-color: rgba(236, 239, 241);
   margin-top: 40px;
   border-radius: 0px 0px 20px 20px;
 }
 
-/* .search-box.active .result-box li{
-  display: block;
-} */
-
-
-.search-box:hover > .result-box li{
+.search-box:hover > .result-box li {
   display: block;
 }
 
-.result-box li:hover{
+.result-box li:hover {
   background: white;
   border-radius: 20px;
 }
 
 .search-box:hover {
   border-radius: 20px 20px 0px 0px;
-  /* box-shadow: 0px 1px 5px rgba(0,0,0,0.1); */
 }
 
 .search-box:hover > .search-txt {
- width: 150px;
- padding: 0 6px;
-
+  width: 150px;
+  padding: 0 6px;
 }
 
 .search-box:hover > .search-btn {
- color: black;
+  color: black;
 }
 
 .search-box .search-btn {
- float: right;
- width: 40px;
- height: 40px;
- border-radius: 50%;
- background: #CFD8DC;
- display: flex;
- justify-content: center;
- align-items: center;
- transition: 0.4s;
- color: white;
- cursor: pointer;
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #cfd8dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+  color: white;
+  cursor: pointer;
 }
 
 .search-btn > v-icon {
@@ -209,18 +178,18 @@ z-index: 2px;
 }
 
 .search-txt {
- border: none;
- background: none;
- outline: none;
- float: left;
- margin-top: 9px;
- margin-left: 14px;
- padding: 0 ;
- color: black;
- font-size: 14px;
- transition: 0.4s;
- width: 150px;
- font-weight: bold;
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  margin-top: 9px;
+  margin-left: 14px;
+  padding: 0;
+  color: black;
+  font-size: 14px;
+  transition: 0.4s;
+  width: 150px;
+  font-weight: bold;
 }
 
 .tabs_list {
@@ -234,75 +203,66 @@ v-speed-dial {
 }
 
 @media (max-width: 1200px) {
-
   .search-box {
-  position: absolute;
-  left: 10px;
-  background: #CFD8DC;
-  border-radius: 40px;
-  background-color: white;
-  /* padding: 10px; */
+    position: absolute;
+    left: 10px;
+    background: #cfd8dc;
+    border-radius: 40px;
+    background-color: white;
   }
-  
+
   .search-box:hover {
     width: 25vw;
-    background-color: #CFD8DC;
+    background-color: #cfd8dc;
   }
 
   .search-box:hover > .search-txt {
-  width: 100vw;
-  padding: 0 6px;
-  margin-top: 8px;
+    width: 100vw;
+    padding: 0 6px;
+    margin-top: 8px;
   }
 
   .search-btn {
-  
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.4s;
-  color: white;
-  cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    color: white;
+    cursor: pointer;
   }
-
 
   .search-box:hover > .search-btn {
-  background: #CFD8DC;
+    background: #cfd8dc;
   }
-
-  
 
   .search-btn > v-icon {
     font-size: 30px;
   }
 
   .search-txt {
-  border: none;
-  background: none;
-  outline: none;
-  float: left;
-  padding: 0;
-  color:#263238;
-  font-size: 16px;
-  transition: 0.4s;
-  width: 0px;
-  font-weight: bold;
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: #263238;
+    font-size: 16px;
+    transition: 0.4s;
+    width: 0px;
+    font-weight: bold;
   }
-
-  }
+}
 
 @media (max-width: 450px) {
-
   .v-tab {
-    min-width: 10vw !important
-
+    min-width: 10vw !important;
   }
 
   .search-box:hover {
     width: 80vw;
-  } 
+  }
 }
 </style>
