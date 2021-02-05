@@ -3,7 +3,8 @@ package com.web.commitment.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import org.springframework.core.io.ClassPathResource;
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -15,9 +16,12 @@ import java.util.List;
 @Service
 public class FirebaseInitialize {
     @PostConstruct
-    public void initialize() throws IOException {
+    public void initialize() throws IOException {		
+    	String rootPath = System.getProperty("user.dir");
+        System.out.println("현재 프로젝트의 경로 : "+ rootPath);
+        
 		FileInputStream serviceAccount =
-		  new FileInputStream("C:\\Users\\multicampus\\Documents\\s04p13a308\\BackEnd\\src\\main\\resources\\serviceAccountKey2.json");
+		  new FileInputStream(rootPath + "\\src\\main\\resources\\serviceAccountKey.json");
 		
 		FirebaseApp firebaseApp = null;
 		List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
