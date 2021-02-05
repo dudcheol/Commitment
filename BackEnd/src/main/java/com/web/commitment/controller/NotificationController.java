@@ -50,7 +50,7 @@ public class NotificationController {
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PostMapping
     public ResponseEntity<Void> saveNotification(@RequestParam String email, @RequestBody final NotificationReqDto requestDto) {
-    	
+    	System.out.println(email);
     	notificationService.saveNoti(requestDto, email);
         return ResponseEntity.ok().build();
     }
