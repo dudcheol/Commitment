@@ -19,34 +19,21 @@ public class FirebaseInitialize {
 		FileInputStream serviceAccount =
 		  new FileInputStream("C:\\Users\\multicampus\\Documents\\s04p13a308\\BackEnd\\src\\main\\resources\\serviceAccountKey2.json");
 		
-		
-		
 		FirebaseApp firebaseApp = null;
 		List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
-		 
-		if(firebaseApps != null && !firebaseApps.isEmpty()){
-		             
-		    for(FirebaseApp app : firebaseApps){
-		        if(app.getName().equals(FirebaseApp.DEFAULT_APP_NAME)) {
-		            firebaseApp = app;
-		        }
-		    }
-		             
-		}else{
+		if(firebaseApps != null && !firebaseApps.isEmpty()) {
+			for(FirebaseApp app : firebaseApps) {
+				if(app.getName().equals(FirebaseApp.DEFAULT_APP_NAME))
+					firebaseApp = app;
+			}
+		} else {
+
 			FirebaseOptions options = new FirebaseOptions.Builder()
-					  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-					  .setDatabaseUrl("https://commitment-27df4-default-rtdb.firebaseio.com")
-					  .build();   
-			firebaseApp=FirebaseApp.initializeApp(options);
+			  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+			  .setDatabaseUrl("https://asder36-default-rtdb.firebaseio.com")
+			  .build();
+			
+			FirebaseApp.initializeApp(options);
 		}
-
-//
-//		FirebaseOptions options = new FirebaseOptions.Builder()
-//		  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//		  .setDatabaseUrl("https://commitment-27df4-default-rtdb.firebaseio.com")
-//		  .build();
-//		
-//		FirebaseApp.initializeApp(options);
-
     }
 }

@@ -1,13 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app color="white" flat hide-on-scroll>
-      <v-btn
-        elevation=""
-        fab
-        x-small
-        class="ml-3 d-none d-sm-flex"
-        color="white"
-      >
+      <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
         <v-avatar size="35">
           <img src="../assets/img/main/commitment_logo.jpg" alt="logo" />
         </v-avatar>
@@ -60,19 +54,12 @@
             </v-icon>
           </v-btn>
         </template>
-        <v-btn
-          fab
-          dark
-          x-small
-          color="blue"
-          v-for="item in right_items"
-          :key="item"
-        >
+        <v-btn fab dark x-small color="blue" v-for="item in right_items" :key="item">
           <v-icon>{{ item.icon }}</v-icon>
         </v-btn>
       </v-speed-dial>
     </v-app-bar>
-    <v-main class="grey lighten-3">
+    <v-main class="blue-grey lighten-5">
       <router-view></router-view>
     </v-main>
   </v-app>
