@@ -21,7 +21,7 @@ public class FirebaseInitialize {
         System.out.println("현재 프로젝트의 경로 : "+ rootPath);
         
 		FileInputStream serviceAccount =
-		  new FileInputStream(rootPath + "\\src\\main\\resources\\serviceAccountKey.json");
+		  new FileInputStream(rootPath + "/src/main/resources/serviceAccountKey.json");
 		
 		FirebaseApp firebaseApp = null;
 		List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
