@@ -35,7 +35,7 @@
           </v-col>
         </v-row>
       </v-container>
-      <write-dialog :web="write" @close="write = !write"></write-dialog>
+      <write-dialog :web="write" @close="closeWrite"></write-dialog>
     </v-sheet>
   </div>
 </template>
@@ -44,15 +44,30 @@
 import { mapGetters } from 'vuex';
 import WriteDialog from '../../common/dialog/WriteDialog.vue';
 export default {
+  props: ['openWriteDialog'],
+  watch: {
+    openWriteDialog: {
+      immediate: true,
+      handler(val) {
+        this.write = val;
+      },
+    },
+  },
   data() {
     return {
-      write: false,
+      write: this.openWriteDialog,
     };
   },
   computed: {
     ...mapGetters({ address: ['getCurrentAddress'], user: ['getUserInfo'] }),
   },
   components: { WriteDialog },
+  methods: {
+    closeWrite() {
+      this.write = false;
+      this.$emit('close-write');
+    },
+  },
 };
 </script>
 

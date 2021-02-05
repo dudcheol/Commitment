@@ -71,33 +71,114 @@
       </div>
     </v-app-bar>
     <v-main class="blue-grey lighten-5">
-      <router-view></router-view>
+      <router-view :openWriteDialog="openWriteDialog" @close-write="closeWrite"></router-view>
     </v-main>
+    <v-btn
+      fab
+      large
+      color="primary"
+      fixed
+      right
+      bottom
+      :ripple="false"
+      @click="commit"
+      :loading="commitLoading"
+      :disabled="commitLoading"
+      elevation="10"
+    >
+      <v-icon dark x-large>{{ commitBtnIcon }}</v-icon>
+    </v-btn>
+    <Dialog
+      :confirm="commitConfirm"
+      :confirmTitle="commitConfirmTitle"
+      :confirmContent="confirmContent"
+      @close="commitConfirm = !commitConfirm"
+      @confirm-ok="confirmOk"
+    ></Dialog>
   </v-app>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { addCommit } from '../api/commit';
+import { mapActions, mapGetters } from 'vuex';
+import Dialog from '../components/common/dialog/Dialog.vue';
 export default {
+  components: { Dialog },
   name: 'MainPage',
-  data: () => ({
-    fab: false,
-    items: [
-      { icon: 'mdi-home', route: '/' },
-      { icon: 'mdi-map-marker', route: '/sns' },
-      { icon: 'mdi-medal', route: '/rank' },
-      { icon: 'mdi-heart', route: 'likes' },
-    ],
-    right_items: [
-      { icon: 'mdi-account', route: '/' },
-      { icon: 'mdi-bell', route: '/sns' },
-      { icon: 'mdi-cog', route: '/rank' },
-      { icon: 'mdi-logout', route: 'likes' },
-    ],
-    alldatalist: [],
-  }),
+  computed: {
+    ...mapGetters({
+      latlng: ['getCurrentLatlng'],
+      user: ['getUserInfo'],
+      address: ['getCurrentAddress'],
+    }),
+  },
+  data() {
+    return {
+      fab: false,
+      items: [
+        { icon: 'mdi-home', route: '/' },
+        { icon: 'mdi-map-marker', route: '/sns' },
+        { icon: 'mdi-medal', route: '/rank' },
+        { icon: 'mdi-heart', route: 'likes' },
+      ],
+      right_items: [
+        { icon: 'mdi-account', route: '/' },
+        { icon: 'mdi-bell', route: '/sns' },
+        { icon: 'mdi-cog', route: '/rank' },
+        { icon: 'mdi-logout', route: 'likes' },
+      ],
+      alldatalist: [],
+      commitBtnIcon: 'mdi-map-marker-check',
+      commitLoading: false,
+      commitConfirm: false,
+      commitConfirmTitle: '커밋완료',
+      confirmContent: `현재 커밋에 글을 남기시겠습니까?`,
+      openWriteDialog: false,
+    };
+  },
   methods: {
     ...mapActions(['CURRENT_LATLNG']),
+    commit() {
+      console.log('%cIndex.vue line:119 commit', 'color: #007acc;', this.user);
+      this.commitLoading = true;
+      addCommit(
+        this.user.email,
+        this.latlng.lat,
+        this.latlng.lng,
+        1,
+        (response) => {
+          console.log('%cIndex.vue line:115 response', 'color: #007acc;', response);
+          this.commitLoading = false;
+          this.commitConfirm = true;
+          this.openNotification(4000);
+        },
+        (error) => {
+          console.log(
+            '%cerror Index.vue line:116 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+          this.commitLoading = false;
+        }
+      );
+    },
+    openNotification(duration) {
+      this.$vs.notification({
+        duration,
+        position: 'top-right',
+        color: 'primary',
+        flat: true,
+        progress: 'auto',
+        title: 'Commit!',
+        text: `<strong>${this.address}</strong>에서 커밋했습니다.`,
+      });
+    },
+    confirmOk() {
+      this.openWriteDialog = true;
+    },
+    closeWrite() {
+      this.openWriteDialog = false;
+    },
   },
   created() {
     this.CURRENT_LATLNG();

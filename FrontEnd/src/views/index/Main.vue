@@ -21,7 +21,7 @@
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
           <FollowerMap class="mb-6 mt-3" />
-          <MyState />
+          <MyState :openWriteDialog="openWriteDialog" @close-write="closeWrite" />
           <AllArticle class="my-4" />
         </div>
       </v-col>
@@ -39,6 +39,7 @@ import ProfileSummary from '../../components/index/main/ProfileSummary';
 import { mapGetters } from 'vuex';
 
 export default {
+  props: ['openWriteDialog'],
   components: {
     AllArticle,
     FollowerMap,
@@ -46,6 +47,14 @@ export default {
     CommitNow,
     NotYetAddArticle,
     ProfileSummary,
+  },
+  watch: {
+    openWriteDialog: {
+      immediate: true,
+      handler(val) {
+        this.openWriteDialog = val;
+      },
+    },
   },
   data() {
     return {};
@@ -81,6 +90,11 @@ export default {
           return 'center';
       }
       return '';
+    },
+  },
+  methods: {
+    closeWrite() {
+      this.$emit('close-write');
     },
   },
 };

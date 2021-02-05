@@ -9,4 +9,11 @@ function latlngToAddress(latlng, success, fail) {
     .catch(fail);
 }
 
-export { latlngToAddress };
+function addCommit(email, lat, lng, open, success, fail) {
+  instance
+    .get('commit', { params: { email, lat, lng, open } })
+    .then(success)
+    .catch(fail);
+}
+
+export { latlngToAddress, addCommit };
