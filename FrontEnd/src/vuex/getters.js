@@ -1,8 +1,9 @@
 export default {
-  getAuthToken(state) {
-    return state.authToken;
-  },
-  getUserInfo(state) {
-    return state.userInfo;
-  },
-};
+    getAuthToken(state) {
+      return state.authToken;
+    },
+    getUserInfo(state) {
+      return state.userInfo;
+    },
+  };
+  

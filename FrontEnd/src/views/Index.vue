@@ -1,12 +1,9 @@
 <template>
   <v-app id="inspire">
-
     <v-app-bar app color="white" flat hide-on-scroll>
-      
-      <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white"
-      >
+      <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
         <v-avatar size="35">
-          <img src="../assets/img/main/commitment_logo.jpg" alt="logo">
+          <img src="../assets/img/main/commitment_logo.jpg" alt="logo" />
         </v-avatar>
       </v-btn>
 
@@ -37,21 +34,31 @@
     >
       <template v-slot:activator>
         <v-btn
-          x-small
-          color="blue"
-          dark
           fab
+          elevation=""
+          x-small
+          dark
+          color="blue darken-2"
+          class="mr-3"
+          v-for="item in right_items"
+          :key="item"
         >
-          <v-icon v-if="fab">
-            mdi-close
-          </v-icon>
-          <v-icon v-else>
-            mdi-chevron-down
-          </v-icon>
+          <v-icon>{{ item.icon }}</v-icon>
         </v-btn>
-      </template>
-      <v-btn fab dark x-small color="blue"
-        v-for="item in right_items" :key="item"
+      </div>
+
+      <div class="search-box">
+        <input type="text" name="" class="search-txt" placeholder="Search" />
+        <a class="search-btn" href="#">
+          <v-icon>mdi-magnify</v-icon>
+        </a>
+      </div>
+
+      <v-speed-dial
+        class="d-flex d-sm-none ml-auto"
+        v-model="fab"
+        direction="bottom"
+        transition="slide-x-reverse-transition"
       >
         <v-icon>{{ item.icon }}</v-icon>
       </v-btn>
@@ -77,14 +84,13 @@
     </div>
 
     </v-app-bar>
-    <v-main class="grey lighten-3">
+    <v-main class="blue-grey lighten-5">
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-
 export default {
   name: 'MainPage',
   data: () => ({
@@ -101,13 +107,9 @@ export default {
       { icon: 'mdi-cog', route: '/rank' },
       { icon: 'mdi-logout', route: 'likes' },
     ],
-    alldatalist: [
-
-    ],
+    alldatalist: [],
   }),
-  methods: {
-   
-    }
+  methods: {},
 };
 </script>
 
@@ -197,9 +199,8 @@ z-index: 2px;
 }
 
 .search-btn > v-icon {
- font-size: 30px;
+  font-size: 30px;
 }
-
 
 .search-txt {
  border: none;
@@ -216,16 +217,14 @@ z-index: 2px;
  font-weight: bold;
 }
 
-
 .tabs_list {
-  position: absolute; 
-  left: 50%; 
-  transform: translateX(-50%); 
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-
 v-speed-dial {
-  z-index: 0 !important
+  z-index: 0 !important;
 }
 
 @media (max-width: 1200px) {
@@ -271,9 +270,8 @@ v-speed-dial {
   
 
   .search-btn > v-icon {
-  font-size: 30px;
+    font-size: 30px;
   }
-
 
   .search-txt {
   border: none;

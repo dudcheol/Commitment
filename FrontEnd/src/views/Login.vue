@@ -12,7 +12,11 @@
               @
             </template>
           </vs-input>
-          <vs-input type="password" v-model="pass" placeholder="영문, 숫자 혼용 8글자이상">
+          <vs-input
+            type="password"
+            v-model="pass"
+            placeholder="영문, 숫자 혼용 8글자이상"
+          >
             <template #icon>
               <i class="bx bxs-lock"></i>
             </template>

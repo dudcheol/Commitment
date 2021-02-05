@@ -19,6 +19,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -43,7 +45,11 @@ public class UserController {
 	@Autowired
 	UserDao userDao;
 	@Autowired
-	ProfileController profilecontroller;
+	ProfileController profileController;
+	@Autowired
+	CommitController commitController;
+	@Autowired
+	BadgeController badgeController;
 	@Autowired
 	private JwtService jwtService;
 
@@ -81,6 +87,7 @@ public class UserController {
 
 		return response;
 	}
+
 	@GetMapping("/account/info")
 	@ApiOperation(value = "로그인 회원정보 받아오기")
 	public ResponseEntity<Map<String, Object>> getInfo(HttpServletRequest req) {
@@ -90,6 +97,11 @@ public class UserController {
 		try {
 			// 사용자에게 전달할 정보이다.
 			resultMap.putAll(jwtService.get(req.getHeader("auth-token")));
+			Map<String,String> s=(Map<String, String>) resultMap.get("user");
+			resultMap.put("commitCnt",commitController.totalCommitNum(s.get("email")));
+			resultMap.put("followerCnt",profileController.followCnt(s.get("email")));
+			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
+					
 			status = HttpStatus.ACCEPTED;
 		} catch (RuntimeException e) {
 //			logger.error("정보조회 실패 : {}", e);
@@ -104,7 +116,8 @@ public class UserController {
 	@Transactional
 	public User signup(@Valid @RequestBody User request) {
 		User user = userDao.findUserByEmail(request.getEmail());// 수정
-
+		badgeController.badgeReset(request.getEmail());//뱃지 리셋
+		
 		if (user == null)// 가입
 			user = request;
 		else {
@@ -122,14 +135,7 @@ public class UserController {
 
 		return user;
 	}
-//
-//	@GetMapping("/account/email")
-//	@ApiOperation(value = "이메일로")
-//	public Object user(@RequestParam(required = true) final String email) {
-//		User user = userDao.getUserByEmail(email);
-//		System.out.println(user);
-//		return user;
-//	}
+
 
 	@DeleteMapping("/account/delete")
 	@ApiOperation(value = "회원탈퇴")
@@ -225,11 +231,8 @@ public class UserController {
 					"<img src=\"https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%EB%A9%94%EC%9D%BC+%EC%9D%B8%EC%A6%9D.PNG\" width=\"550\" >")
 					.append("<br>").append("<a  href='http://localhost:8080/user/signUpConfirm?email=")
 					.append(user.getEmail()).append("&authKey=").append(AuthenticationKey)
-					.append("' target='_blenk'><font size=\"5px\"  color=\"black\">[메일 인증]</a></font>")
-					.append("</div>").append("</center>").toString(), true);// true를 해야 html형식으로 됨
-			
-			
-
+					.append("' target='_blenk'><font size=\"5px\"  color=\"black\">[메일 인증]</a></font>").append("</div>")
+					.append("</center>").toString(), true);// true를 해야 html형식으로 됨
 
 			Transport.send(msg);
 			System.out.println("이메일 전송");
@@ -270,20 +273,20 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	/// 해시태그로 검색
+	/// 닉네임으로 검색
 	@GetMapping("/search/nickname")
 	@ApiOperation(value = "닉네임으로 검색")
-	public Collection<User> searchByNickname(@RequestParam String keyword) {
+	public Page<User> searchByNickname(@RequestParam String keyword, final Pageable pageable) {
 
-		return userDao.findByNicknameContainingIgnoreCase(keyword);
+		return userDao.findByNicknameContainingIgnoreCase(keyword, pageable);
 	}
 
 	/// 이메일로 검색
 	@GetMapping("/search/email")
 	@ApiOperation(value = "이메일로 검색")
-	public Collection<User> searchByEmail(@RequestParam String keyword) {
+	public Page<User> searchByEmail(@RequestParam String keyword, final Pageable pageable) {
 
-		return userDao.findByEmailContainingIgnoreCase(keyword);
+		return userDao.findByEmailContainingIgnoreCase(keyword, pageable);
 	}
 
 	@GetMapping("/user/map")

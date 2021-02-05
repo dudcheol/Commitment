@@ -4,7 +4,10 @@
       <h3>Pot with a plant</h3>
     </template>
     <template #img>
-      <img src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" alt="" />
+      <img
+        src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+        alt=""
+      />
     </template>
     <template #text>
       <p>

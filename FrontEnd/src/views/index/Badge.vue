@@ -1,6 +1,5 @@
 <template>
   <v-app id="inspire">
-    <!-- 메인페이지파트 -->
     <v-main class="grey lighten-3">
       <v-container>
         <v-row>
@@ -9,11 +8,9 @@
               <SelectZone />
             </div>
           </v-col>
-
           <v-col class="mainslot" cols="12" sm="8">
             <v-sheet min-height="70vh" rounded="lg">
               <div class="mainpage">
-                <!-- 일단 3개컴포넌트 넣어보고 길이 결정해보기 -->
                 <br />
                 <MainBadge />
                 <EtcBadge />
@@ -45,8 +42,6 @@ export default {
   name: 'Badge',
 
   components: {
-    // CommitNow,
-    // NotYetAddArticle,
     SelectZone,
     MainBadge,
     EtcBadge,

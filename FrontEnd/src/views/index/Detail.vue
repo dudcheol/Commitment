@@ -6,25 +6,19 @@
           <i class="bx bx-arrow-back"></i>
         </vs-button>
       </div>
-      <div id="map" class="kakao_map">
-      </div>
+      <div id="map" class="kakao_map"></div>
     </div>
 
     <div class="article">
       <ArticleDetail />
     </div>
   </div>
-  
 </template>
 
-
-
 <script>
-
 import ArticleDetail from './../../components/detail/ArticleDetail';
 
 export default {
-  
   // data: () => ({
   //   map: this.map,
   // }),
@@ -34,35 +28,33 @@ export default {
 
   mounted() {
     if (window.kakao && window.kakao.maps) {
-    this.initMap();
-  } else {
-    const script = document.createElement('script');
-    /* global kakao */
-    script.onload = () => kakao.maps.load(this.initMap);
-    script.src =
-      'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e520a5002a5c5b259e5fb6722912402d';
-    document.head.appendChild(script);
-  }
+      this.initMap();
+    } else {
+      const script = document.createElement('script');
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src =
+        'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=e520a5002a5c5b259e5fb6722912402d';
+      document.head.appendChild(script);
+    }
   },
 
   methods: {
-  initMap() {
-    let mapContainer = document.getElementById('map'); // 지도를 표시할 div
-    let mapOption = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-          draggable: false, // 지도 드래그
-          setZoomable: false,
-          level: 3,
-        };
+    initMap() {
+      let mapContainer = document.getElementById('map'); // 지도를 표시할 div
+      let mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        draggable: false, // 지도 드래그
+        setZoomable: false,
+        level: 3,
+      };
 
-    let map = new kakao.maps.Map(mapContainer, mapOption); 
+      let map = new kakao.maps.Map(mapContainer, mapOption);
 
-    return map
-    
+      return map;
     },
-
   },
-}
+};
 </script>
 
 <style scoped>
@@ -107,7 +99,7 @@ export default {
 }
 
 @media (max-width: 450px) {
-    .grid-container {
+  .grid-container {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: min-content min-content;

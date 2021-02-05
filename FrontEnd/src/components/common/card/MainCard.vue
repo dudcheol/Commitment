@@ -12,7 +12,9 @@
           <p class="text-caption">{{ info.address }}</p>
         </div>
         <div class="flex-grow-0 align-center">
-          <v-btn text rounded color="primary" :ripple="false"><strong>팔로우</strong></v-btn>
+          <v-btn text rounded color="primary" :ripple="false"
+            ><strong>팔로우</strong></v-btn
+          >
         </div>
       </div>
     </div>
@@ -21,7 +23,11 @@
       {{ info.content }}
     </div>
 
-    <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="auto" class="mt-2">
+    <v-img
+      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      height="auto"
+      class="mt-2"
+    >
     </v-img>
 
     <div class="px-4 pt-1 pb-3">
@@ -42,10 +48,22 @@
           </v-chip-group>
         </div>
         <div class="d-flex flex-row">
-          <vs-button icon color="danger" flat :active="active == 2" @click="active = 2">
+          <vs-button
+            icon
+            color="danger"
+            flat
+            :active="active == 2"
+            @click="active = 2"
+          >
             <i class="bx bxs-heart"></i>{{ info.like }}
           </vs-button>
-          <vs-button icon color="dark" flat :active="active == 2" @click="active = 2">
+          <vs-button
+            icon
+            color="dark"
+            flat
+            :active="active == 2"
+            @click="active = 2"
+          >
             <i class="bx bxs-message"></i>{{ info.comment }}
           </vs-button>
         </div>

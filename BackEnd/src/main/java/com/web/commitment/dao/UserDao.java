@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +16,8 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Repository;
 
+import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.User;
 
 @Repository
@@ -44,8 +48,10 @@ public interface UserDao extends JpaRepository<User, String> {
 	int countByEmail(String email);
 
 
-	Collection<User> findByNicknameContainingIgnoreCase(String keyword);
+	Page<User> findByNicknameContainingIgnoreCase(String keyword, Pageable pageable);
 
-	Collection<User> findByEmailContainingIgnoreCase(String keyword);
+	Page<User> findByEmailContainingIgnoreCase(String keyword, Pageable pageable);
+
+	Optional<User> findByEmail(String email);
 
 }

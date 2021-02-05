@@ -44,13 +44,19 @@ export default {
     infiniteHandler($state) {
       // const EACH_LEN = 5; // 5개씩 받아오기
 
-      console.log('%cAllArticle.vue line:48 인피티니 핸들러 작동!', 'color: #007acc;');
+      console.log(
+        '%cAllArticle.vue line:48 인피티니 핸들러 작동!',
+        'color: #007acc;'
+      );
 
       const tmpdata = [0, 0, 0, 0, 0];
       setTimeout(() => {
         this.feedDatas = this.feedDatas.concat(tmpdata);
         $state.loaded();
-        console.log('%cAllArticle.vue line:52 데이터추가됨!', 'color: #007acc;');
+        console.log(
+          '%cAllArticle.vue line:52 데이터추가됨!',
+          'color: #007acc;'
+        );
       }, 1000);
 
       console.log('%cAllArticle.vue line:55 $state', 'color: #007acc;', $state);
@@ -64,12 +70,4 @@ export default {
   max-width: 50vh !important;
   max-height: 50vh !important;
 }
-
-/* .filtering {
-  display: flex;
-  justify-content: space-around;
-}
-.filtering .vs-button__content {
-  width: 20vh !important;
-} */
 </style>

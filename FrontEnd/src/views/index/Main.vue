@@ -3,7 +3,7 @@
     <v-col class="sidebar_left mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
       <v-row>
         <v-col>
-          <ProfileSummary />
+          <ProfileSummary :userInfo="userInfo" />
         </v-col>
       </v-row>
       <v-row>
@@ -36,6 +36,7 @@ import MyState from '../../components/index/main/MyState';
 import CommitNow from '../../components/index/main/CommitNow';
 import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
 import ProfileSummary from '../../components/index/main/ProfileSummary';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -50,6 +51,7 @@ export default {
     return {};
   },
   computed: {
+    ...mapGetters({ userInfo: ['getUserInfo'] }),
     dynamicPosition() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':

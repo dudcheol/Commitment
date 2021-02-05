@@ -1,31 +1,15 @@
 <template>
 
-<div class="d-flex justify-center">
+<div class="frame">
   <div class="tables">
     <vs-table>
-      <template #thead>
-        <vs-tr>
-          <vs-th>
-            랭크
-          </vs-th>
-          <vs-th>
-            프로필
-          </vs-th>
-          <vs-th>
-            닉네임
-          </vs-th>
-          <vs-th>
-            수
-          </vs-th>
-        </vs-tr>
-      </template>
       <template #tbody>
         <vs-tr
           :key="i"
           v-for="(tr, i) in users"
           :data="tr"
         >
-          <vs-td>
+          <vs-td class="rankNum">
             {{ tr.id }}
             
           </vs-td>
@@ -34,7 +18,7 @@
             size="50"  
             >
               <img
-                src="https://cdn.vuetifyjs.com/images/john.jpg"
+                src="https://t1.daumcdn.net/cfile/tistory/251A1742591983A922"
                 alt="John"
               >
             </v-avatar>
@@ -42,8 +26,18 @@
           <vs-td>
           {{ tr.nickname }}
           </vs-td>
-                  <vs-td>
-          {{ tr.count }}
+          <vs-td class="percentage">
+          {{ tr.count }}%
+          </vs-td>
+          <vs-td class="percentage">
+            <vs-button
+              icon
+              border
+              :active="active == 2"
+              @click="active = 2"
+            >
+              <i class='bx bxs-heart' ></i>
+            </vs-button>
           </vs-td>
         </vs-tr>
       </template>
@@ -60,37 +54,37 @@ export default {
           {
             "id": 4,
             "nickname": "Leanne Graham",
-            "count": 11,
+            "count": 57.01,
           },
           {
             "id": 5,
             "nickname": "Ervin Howell",
-            "count": 11,
+            "count": 46.22,
           },
           {
             "id": 6,
             "nickname": "Clementine Bauch",
-            "count": 11,
+            "count": 43.55,
           },
           {
             "id": 7,
             "nickname": "Patricia Lebsack",
-            "count": 11,
+            "count": 36.95,
           },
           {
             "id": 8,
             "nickname": "Chelsey Dietrich",
-            "count": 11,
+            "count": 31.25,
           },
           {
             "id": 9,
             "nickname": "Mrs. Dennis Schulist",
-            "count": 11,
+            "count": 24.59,
           },
           {
             "id": 10,
             "nickname": "Kurtis Weissnat",
-            "count": 11,
+            "count": 22.14,
           },
         ],
     })
@@ -98,13 +92,23 @@ export default {
 </script>
 
 <style scoped>
-.three{
-  display:grid;
+.tables{
+  background-color: white;
+  
 }
 .profiles{
   display: flex;
   text-align: center;
   height: 50%;
   background-color: white;
+}
+.rankNum{
+  color:#2196F3;
+  /* font-weight: bold; */
+}
+.percentage{
+  color:#1976D2;
+  font-size:large;
+  /* font-weight: bold; */
 }
 </style>

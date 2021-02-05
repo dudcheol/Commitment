@@ -86,8 +86,9 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	List<Commit> timeCheck(@Param("email") String email, @Param("x") int x, @Param("y") int y,
 			@Param("region") String region);
 
+	int countByEmail(String email);
+
 	@Query(value = "select * from commit c,sns s where c.user_email=:email and c.open=1 order by", nativeQuery = true)
 	Page<Commit> findAllByEmail(@Param("email") String email, Pageable pageable);
-	
 
 }

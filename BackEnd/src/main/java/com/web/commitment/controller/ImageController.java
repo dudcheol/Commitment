@@ -40,7 +40,8 @@ public class ImageController {
     @PostMapping(path = "/image/{sns_id}")
     @ApiOperation(value = "사진 업로드 & 수정 & 삭제")
     @Transactional
-    public Map<String,String> uploadImage(@PathVariable String sns_id, @RequestParam(value = "file",required = false) MultipartFile[] files) throws IOException {
+    public Map<String,String> uploadImage(@PathVariable String sns_id, 
+    		@RequestParam(value = "file",required = false) MultipartFile[] files) throws IOException {
     	Map<String,String> result = new HashMap<>();
     	
     	List<Image> images =  imageDao.findAllBySnsId(sns_id);

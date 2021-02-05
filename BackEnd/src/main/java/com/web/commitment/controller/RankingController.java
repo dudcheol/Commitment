@@ -31,7 +31,7 @@ public class RankingController {
 	FollowDao followDao;
 	
 	@GetMapping("/rank/total")
-	@ApiOperation(value = "랭킹")
+	@ApiOperation(value = "커밋랭킹")
 	public List<Ranking> commitRank() {
 		List<Ranking> list = commitDao.commitRank();
 		return list;
