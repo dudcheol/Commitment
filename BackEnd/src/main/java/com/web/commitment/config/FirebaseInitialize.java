@@ -17,7 +17,7 @@ public class FirebaseInitialize {
     @PostConstruct
     public void initialize() throws IOException {
 		FileInputStream serviceAccount =
-		  new FileInputStream("C:\\Users\\0901B\\Downloads\\s04p13a308-master\\BackEnd\\src\\main\\resources\\serviceAccountKey.json");
+		  new FileInputStream("C:\\Users\\multicampus\\Documents\\s04p13a308\\BackEnd\\src\\main\\resources\\serviceAccountKey2.json");
 		
 		FirebaseApp firebaseApp = null;
 		List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
