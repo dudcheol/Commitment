@@ -18,6 +18,12 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	List<Board> findAllByCommitId(String id);
 
 	List<Board> findBoardByEmail(String to);
+	
+	@Query(value = "select distinct * from sns s, commit c where UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
+	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
+
+	@Query(value = "select distinct * from sns s, commit c where UPPER(s.title) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
+	Page<Board> findByTitleContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
 
 	// 랭킹관련
@@ -45,21 +51,15 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findBoardByEmailSort(@Param("email")String email,Pageable pageable);
 
-	Page<Board> findByContentContainingIgnoreCaseOrderByCreatedAtDesc(String keyword, Pageable pageable);
-	
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and c.open=1 "
 			+ "and lower(s.user_email) like :keyword order by s.created_at desc", nativeQuery = true)
 	Page<Board> findByEmailContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 	
 
-	Page<Board> findByTitleContainingIgnoreCaseOrderByCreatedAt(@Param("keyword")String keyword, Pageable pageable);
-
-
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and c.open=1 "
 			+ "and (lower(s.title) like :keyword or lower(s.content) like :keyword )order by s.created_at desc", nativeQuery = true)
 	Page<Board> findByTitleandContent(@Param("keyword")String keyword, Pageable pageable);
 
-	Page<Board> findByTitleContainingIgnoreCaseOrderByCreatedAtDesc(String keyword, Pageable pageable);
 
 	@Query(value = "select * from sns s,commit c "
 			+ "where (s.user_email in (select f.follow_to from follow f where f.follow_from=:email) or s.user_email=:email)"

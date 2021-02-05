@@ -129,24 +129,23 @@ public class BoardController {
 	//open 1...?
 	@GetMapping("/search/title")
 	@ApiOperation(value = "제목으로 검색")
-	public Page<Board> searchByTitle(@RequestParam String keyword, 
-			@PageableDefault(sort="createdAt", direction = Direction.DESC) Pageable pageable) {
+	public Page<Board> searchByTitle(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByTitleContainingIgnoreCaseOrderByCreatedAtDesc(keyword, pageable);
+		keyword = "%" + keyword + "%";
+		return boardDao.findByTitleContainingIgnoreCase(keyword, pageable);
 	}
 
 	@GetMapping("/search/content")
 	@ApiOperation(value = "내용으로 검색")
-	public Page<Board> searchByContent(@RequestParam String keyword, 
-			@PageableDefault(sort="createdAt", direction = Direction.DESC) Pageable pageable) {
+	public Page<Board> searchByContent(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByContentContainingIgnoreCaseOrderByCreatedAtDesc(keyword, pageable);
+		keyword = "%" + keyword + "%";
+		return boardDao.findByContentContainingIgnoreCase(keyword, pageable);
 	}
 
 	@GetMapping("/search/tnc")
 	@ApiOperation(value = "제목 & 내용으로 검색")
-	public Page<Board> searchByTandC(@RequestParam String keyword, 
-			@PageableDefault(sort="createdAt", direction = Direction.DESC) Pageable pageable) {
+	public Page<Board> searchByTandC(@RequestParam String keyword, final Pageable pageable) {
 
 		return boardDao.findByTitleandContent("%"+keyword.toLowerCase()+"%", pageable);
 	}
