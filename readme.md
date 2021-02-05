@@ -14,7 +14,7 @@
 
 강해성 [Github](https://github.com/Haesungkang) 🐶
 
-박소현 [Github]() 🐱
+박소현 [Github](https://github.com/dbdtrapper) 🐱
 
 김청화 [Github]() 🐯
 
