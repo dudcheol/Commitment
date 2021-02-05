@@ -41,6 +41,8 @@
   Jan 11th 2021 ~ Feb 19th 2021
 
 - Results
+
+  - [PPT]()
   - [시연영상]()
   - [UCC]()
   - [최종발표]()
@@ -100,7 +102,7 @@
 
 - Maven
 
-- VS Code with Spring Boot Extension Pack 
+- Spring Boot Extension Pack 
 
 - Docker
 
@@ -153,6 +155,8 @@
 ### Pages in Detail :mag:
 
 > 각 페이지별 소개
+>
+> PPT 참고
 
 [Pages in Detail ](Document/Page_Details/Page_Details.md)
 
