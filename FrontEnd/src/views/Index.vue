@@ -1,21 +1,5 @@
 <template>
   <v-app id="inspire">
-    <!-- <v-app-bar app color="white" flat hide-on-scroll>
-      <v-avatar
-        :color="$vuetify.breakpoint.smAndDown ? 'grey darken-1' : 'transparent'"
-        size="32"
-      ></v-avatar>
-
-      <v-tabs centered class="ml-n9" color="grey darken-1">
-        <v-tab v-for="item in items" :key="item" :to="item.route">
-          <v-icon>
-            {{ item.icon }}
-          </v-icon>
-        </v-tab>
-      </v-tabs>
-
-      <v-avatar class="hidden-sm-and-down" color="grey darken-1 shrink" size="32"></v-avatar>
-    </v-app-bar> -->
     <v-app-bar app color="white" flat>
       <div class="d-flex flex-row">
         <vs-button circle icon flat>
@@ -74,16 +58,6 @@ export default {
 </script>
 
 <style scoped>
-/* .sidebar_left {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 4px;
-}
-
-.mainslot {
-  overflow: auto;
-
-} */
 
 @media (max-width: 450px) {
   .search {

@@ -3,10 +3,9 @@ import App from './App.vue'
 import router from "./router/router";
 import Vuesax from 'vuesax'
 import vuetify from './plugins/vuetify';
-import 'vuesax/dist/vuesax.css' //Vuesax styles
-// import 'material-icons/iconfont/material-icons.css';
+import 'vuesax/dist/vuesax.css'
 import 'boxicons/css/boxicons.min.css'
-import VueHorizontalTimeline from "vue-horizontal-timeline";//타임라인
+import VueHorizontalTimeline from "vue-horizontal-timeline";
 import VueRouter from 'vue-router'
 import ScrollBar from '@morioh/v-perfect-scrollbar'
 
