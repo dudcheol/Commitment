@@ -25,14 +25,13 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	@Query(value = "select distinct * from sns s, commit c where UPPER(s.title) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
 	Page<Board> findByTitleContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
-
 	// 랭킹관련
 	@Query(value = "select sns.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from sns "
 			+ "group by sns.user_email", nativeQuery = true)
 	List<Ranking> boardRanking();
 	
 	// 중복해서 나옴
-	@Query(value = "select * from tag t, sns s, commit c, user u where u.email=s.user_email and s.id=t.sns_id and c.id=s.commit_id and s.user_email=:email order by s.created_at desc", nativeQuery = true)
+	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and s.user_email=:email order by s.created_at desc", nativeQuery = true)
 	Page<Board> findByEmail(String email, Pageable pageable);
 
 	@Query(value = "select * from sns s, commit c, tag t, user u where u.email=s.user_email and s.id=t.sns_id and c.id=s.commit_id and c.open=1 and s.user_email=:email order by s.created_at desc", nativeQuery = true)
@@ -41,16 +40,18 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and c.open=1 order by s.created_at desc", nativeQuery = true)
 	Page<Board> findAllByCommitId(Pageable pageable);
 
-	@Query(value = "SELECT s.*,c.* FROM `commit` c , `sns` s, tag t, user u where u.email=s.user_email and s.id=t.sns_id and c.id=s.commit_id and c.open=1 and ( 6371 * acos( cos( radians(:curlat) ) * cos( radians( `lat` ) ) *"
-			+ " cos( radians( `lng` ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( `lat` ) ) ) )<=:radius order by s.created_at desc", nativeQuery = true)
+	@Query(value = "SELECT * FROM commit c, sns s, tag t where c.id=s.commit_id and c.open=1 and ( 6371 * acos( cos( radians(:curlat) ) * cos( radians( c.lat ) ) *"
+			+ " cos( radians( c.lng ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( c.lat ) ) ) )<=:radius order by s.created_at desc", nativeQuery = true)
 	Page<Board> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng,
 			@Param("radius") Integer radius, Pageable pageable);
 
-	@Query(value = "select * from sns s,commit c, tag t, user u"
+	
+	@Query(value = "select * from sns s,commit c "
 			+ "where s.user_email in (select f.follow_to from follow f where f.follow_from=:email) "
-			+ "and u.email=s.user_email and s.id=t.sns_id and c.id=s.commit_id and c.open=1 "
+			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findBoardByEmailSort(@Param("email")String email,Pageable pageable);
+
 
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and c.open=1 "
 			+ "and lower(s.user_email) like :keyword order by s.created_at desc", nativeQuery = true)
@@ -62,10 +63,12 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	Page<Board> findByTitleandContent(@Param("keyword")String keyword, Pageable pageable);
 
 
-	@Query(value = "select * from sns s,commit c tag t, user u"
+	@Query(value = "select * from sns s,commit c "
 			+ "where (s.user_email in (select f.follow_to from follow f where f.follow_from=:email) or s.user_email=:email)"
-			+ "and u.email=s.user_email and s.id=t.sns_id and c.id=s.commit_id and c.open=1 "
+			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email")String email, Pageable pageable);
+
+
 
 }
