@@ -9,7 +9,8 @@ Vue.use(Vuex);
 const state = {
   userInfo: {},
   authToken: null,
-  currentPosition: null,
+  currentLatlng: null,
+  currentAddress: null,
 };
 
 export default new Vuex.Store({

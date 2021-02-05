@@ -97,10 +97,10 @@ export default {
     alldatalist: [],
   }),
   methods: {
-    ...mapActions(['CURRENT_POSITION']),
+    ...mapActions(['CURRENT_LATLNG']),
   },
   created() {
-    this.CURRENT_POSITION();
+    this.CURRENT_LATLNG();
   },
 };
 </script>

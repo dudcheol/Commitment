@@ -1,4 +1,5 @@
 import { findByToken, login, setAuthTokenToHeader, logout } from '../api/account';
+import { latlngToAddress } from '../api/commit';
 import router from '../router';
 
 export default {
@@ -40,15 +41,17 @@ export default {
     localStorage.removeItem('auth-token');
     logout();
   },
-  CURRENT_POSITION(context) {
+  CURRENT_LATLNG(context) {
     if ('geolocation' in navigator) {
       /* 위치정보 사용 가능 */
       navigator.geolocation.watchPosition(
         (position) => {
-          context.commit('CURRENT_POSITION', {
+          const latlng = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-          });
+          };
+          context.commit('CURRENT_LATLNG', latlng);
+          context.dispatch('LATLNG_TO_ADDRESS', latlng);
         },
         (error) => {
           if (error.code == error.PERMISSION_DENIED) {
@@ -60,5 +63,22 @@ export default {
       /* 위치정보 사용 불가능 */
       console.log('%cactions.js line:50 위치정보를 사용할 수 없음.', 'color: #007acc;');
     }
+  },
+  LATLNG_TO_ADDRESS(context, latlng) {
+    latlngToAddress(
+      latlng,
+      (response) => {
+        context.commit('LATLNG_TO_ADDRESS', response.data);
+      },
+      (error) => {
+        console.log('%cactions.js line:74 error', 'color: #007acc;', error);
+        context.commit(
+          'LATLNG_TO_ADDRESS',
+          this.currentAddress == this.SEARCHING_POSITIOND_TEXT || this.currentAddress.trim
+            ? this.SEARCHING_POSITIOND_TEXT
+            : this.currentAddress
+        );
+      }
+    );
   },
 };

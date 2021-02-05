@@ -4,12 +4,7 @@
       <v-container class="my-2">
         <v-row>
           <v-col>
-            <h4>
-              <!-- <i class="bx bxs-map" style="vertical-align:middle"></i>
-              서울특별시 강남구 역삼동 701 -->
-              <v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon
-              >서울특별시 강남구 역삼동 701
-            </h4>
+            <h4><v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon>{{ address }}</h4>
           </v-col>
         </v-row>
         <v-row>
@@ -30,7 +25,7 @@
                   :ripple="false"
                   depressed
                 >
-                  username님, 여기는 어떤 곳인가요?
+                  {{ user.nickname }}님, 여기는 어떤 곳인가요?
                 </v-chip>
               </div>
             </div>
@@ -43,12 +38,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import WriteDialog from '../../common/dialog/WriteDialog.vue';
 export default {
   data() {
     return {
       write: false,
     };
+  },
+  computed: {
+    ...mapGetters({ address: ['getCurrentAddress'], user: ['getUserInfo'] }),
   },
   components: { WriteDialog },
 };
