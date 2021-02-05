@@ -18,13 +18,15 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	List<Board> findAllByCommitId(String id);
 
 	List<Board> findBoardByEmail(String to);
+	
+	@Query(value = "select distinct * from sns s, commit c where UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
+	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
-	Page<Board> findByContentContainingIgnoreCase(String keyword, Pageable pageable);
-
-	Page<Board> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
+	@Query(value = "select distinct * from sns s, commit c where UPPER(s.title) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
+	Page<Board> findByTitleContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
 	Page<Board> findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(String keyword, String keyword2, Pageable pageable);
-
+	
 	Page<Board> findByEmailContainingIgnoreCase(String keyword, Pageable pageable);
 
 	// 랭킹관련
