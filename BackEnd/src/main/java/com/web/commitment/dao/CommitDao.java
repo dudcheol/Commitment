@@ -91,6 +91,4 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	@Query(value = "select * from commit c,sns s where c.user_email=:email and c.open=1 order by", nativeQuery = true)
 	Page<Commit> findAllByEmail(@Param("email") String email, Pageable pageable);
 
-	
-
 }

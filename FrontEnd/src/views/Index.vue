@@ -1,13 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app color="white" flat hide-on-scroll>
-      <v-btn
-        elevation=""
-        fab
-        x-small
-        class="ml-3 d-none d-sm-flex"
-        color="white"
-      >
+      <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
         <v-avatar size="35">
           <img src="../assets/img/main/commitment_logo.jpg" alt="logo" />
         </v-avatar>
@@ -37,13 +31,6 @@
         </v-btn>
       </div>
 
-      <div class="search-box">
-        <input type="text" name="" class="search-txt" placeholder="Search" />
-        <a class="search-btn" href="#">
-          <v-icon>mdi-magnify</v-icon>
-        </a>
-      </div>
-
       <v-speed-dial
         class="d-flex d-sm-none ml-auto"
         v-model="fab"
@@ -60,25 +47,37 @@
             </v-icon>
           </v-btn>
         </template>
-        <v-btn
-          fab
-          dark
-          x-small
-          color="blue"
-          v-for="item in right_items"
-          :key="item"
-        >
+        <v-btn fab dark x-small color="blue" v-for="item in right_items" :key="item">
           <v-icon>{{ item.icon }}</v-icon>
         </v-btn>
       </v-speed-dial>
+
+      <div class="search-box">
+        <div>
+          <input type="text" name="" class="search-txt" placeholder="Search" />
+          <a class="search-btn" href="#">
+            <v-icon color="white">mdi-magnify</v-icon>
+          </a>
+        </div>
+        <div class="result-box">
+          <div class="result-list">
+            <li>hello</li>
+            <li>it's me</li>
+            <li>I've</li>
+            <li>been</li>
+            <li>wandering</li>
+          </div>
+        </div>
+      </div>
     </v-app-bar>
-    <v-main class="grey lighten-3">
+    <v-main class="blue-grey lighten-5">
       <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'MainPage',
   data: () => ({
@@ -97,7 +96,12 @@ export default {
     ],
     alldatalist: [],
   }),
-  methods: {},
+  methods: {
+    ...mapActions(['CURRENT_POSITION']),
+  },
+  created() {
+    this.CURRENT_POSITION();
+  },
 };
 </script>
 
@@ -105,30 +109,62 @@ export default {
 .search-box {
   position: absolute;
   left: 6%;
-  background: #6a9ce2;
+  background: #cfd8dc;
   height: 40px;
   border-radius: 40px;
+  margin-top: 4px;
   z-index: 2px;
-  /* padding: 10px; */
+}
+
+.search-box .result-box {
+  /* padding: 10px 0px; */
+  font-size: 1em;
+  border-radius: 20px;
+}
+
+.result-box li {
+  list-style: none;
+  padding: 10px 15px;
+  width: 100%;
+  cursor: default;
+  display: none;
+  border: none;
+}
+
+.result-list {
+  background-color: rgba(236, 239, 241);
+  margin-top: 40px;
+  border-radius: 0px 0px 20px 20px;
+}
+
+.search-box:hover > .result-box li {
+  display: block;
+}
+
+.result-box li:hover {
+  background: white;
+  border-radius: 20px;
+}
+
+.search-box:hover {
+  border-radius: 20px 20px 0px 0px;
 }
 
 .search-box:hover > .search-txt {
-  width: 100px;
+  width: 150px;
   padding: 0 6px;
 }
 
 .search-box:hover > .search-btn {
-  background: white;
   color: black;
 }
 
 .search-box .search-btn {
-  color: #6ad42c;
   float: right;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #006aff;
+  background: #cfd8dc;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,11 +182,13 @@ export default {
   background: none;
   outline: none;
   float: left;
+  margin-top: 9px;
+  margin-left: 14px;
   padding: 0;
-  color: white;
-  font-size: 16px;
+  color: black;
+  font-size: 14px;
   transition: 0.4s;
-  width: 100px;
+  width: 150px;
   font-weight: bold;
 }
 
@@ -164,49 +202,40 @@ v-speed-dial {
   z-index: 0 !important;
 }
 
-@media (max-width: 450px) {
-  .v-tab {
-    min-width: 10vw !important;
-  }
-
-  .search__container {
-    z-index: 2px;
-    position: absolute;
-    width: 90vw;
-    background: grey;
-  }
+@media (max-width: 1200px) {
   .search-box {
     position: absolute;
-    left: 6%;
-    background: #6a9ce2;
-    height: 40px;
+    left: 10px;
+    background: #cfd8dc;
     border-radius: 40px;
-    z-index: 2px;
-    /* padding: 10px; */
+    background-color: white;
+  }
+
+  .search-box:hover {
+    width: 25vw;
+    background-color: #cfd8dc;
   }
 
   .search-box:hover > .search-txt {
-    width: 100px !important;
+    width: 100vw;
+    padding: 0 6px;
+    margin-top: 8px;
   }
 
-  .search-box:hover > .search-btn {
-    background: white;
-    color: black;
-  }
-
-  .search-box .search-btn {
-    color: #6ad42c;
-    float: right;
+  .search-btn {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #006aff;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 0.4s;
     color: white;
     cursor: pointer;
+  }
+
+  .search-box:hover > .search-btn {
+    background: #cfd8dc;
   }
 
   .search-btn > v-icon {
@@ -219,11 +248,21 @@ v-speed-dial {
     outline: none;
     float: left;
     padding: 0;
-    color: white;
+    color: #263238;
     font-size: 16px;
     transition: 0.4s;
     width: 0px;
     font-weight: bold;
+  }
+}
+
+@media (max-width: 450px) {
+  .v-tab {
+    min-width: 10vw !important;
+  }
+
+  .search-box:hover {
+    width: 80vw;
   }
 }
 </style>

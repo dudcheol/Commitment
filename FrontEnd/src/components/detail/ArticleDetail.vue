@@ -126,21 +126,6 @@ export default {
 </script>
 
 <style scoped>
-.grid-container-article-detail {
-  /* display: grid;
-  grid-template-columns: max-content max-content 1fr max-content;
-  grid-template-rows: 35vh max-content max-content max-content max-content max-content max-content;
-  gap: 5px 0px;
-  grid-template-areas:
-    'picture picture picture picture'
-    'avatar username . follow_btn'
-    'avatar username . follow_btn'
-    'buttons buttons buttons buttons'
-    'article article article article'
-    'hashtag hashtag hashtag hashtag'
-    'created_at created_at created_at created_at'; */
-}
-
 .picture {
   display: flex;
   justify-content: center;

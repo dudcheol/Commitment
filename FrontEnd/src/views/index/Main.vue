@@ -1,12 +1,6 @@
 <template>
   <v-container fluid class="blue-grey lighten-5 pa-0">
-    <v-col
-      class="sidebar_left mt-4"
-      :class="dynamicPosition"
-      cols="12"
-      md="3"
-      xl="2"
-    >
+    <v-col class="sidebar_left mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
       <v-row>
         <v-col>
           <ProfileSummary :userInfo="userInfo" />
@@ -19,13 +13,7 @@
       </v-row>
     </v-col>
 
-    <v-col
-      cols="12"
-      md="3"
-      :class="dynamicPosition"
-      style="right:0"
-      class="mt-4"
-    >
+    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-4">
       <CommitNow />
     </v-col>
 

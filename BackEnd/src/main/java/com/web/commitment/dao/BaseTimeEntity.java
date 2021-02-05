@@ -1,4 +1,4 @@
-package com.web.commitment.dto;
+package com.web.commitment.dao;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,4 +22,3 @@ public class BaseTimeEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 }
-

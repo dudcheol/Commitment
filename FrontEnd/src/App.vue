@@ -15,6 +15,7 @@ export default {
 </script>
 
 <style>
+
 .mid-size {
   max-width: 680px;
   width: 100%;

@@ -12,3 +12,4 @@ public class NotificationReqDto {
     private String type;
 
 }
+

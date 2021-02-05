@@ -6,6 +6,7 @@ import Index from '../views/Index.vue';
 import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
 import Detail from '@/views/index/Detail.vue';
+import Permission from '../views/Permission.vue';
 
 // 필수
 Vue.use(Router);
@@ -16,7 +17,12 @@ const requireAuth = () => async (to, from, next) => {
     await store.dispatch('GET_MEMBER_INFO', token);
   }
   if (store.getters.getAuthToken) {
-    return next();
+    // 위치 정보 동의 여부
+    if ('geolocation' in navigator) {
+      return next();
+    } else {
+      return next('/permission');
+    }
   } else next('/login');
 };
 
@@ -79,6 +85,11 @@ const routes = [
     name: 'Detail',
     beforeEnter: requireAuth(),
     component: Detail,
+  },
+  {
+    path: '/permission',
+    name: 'Permission',
+    component: Permission,
   },
 ];
 
