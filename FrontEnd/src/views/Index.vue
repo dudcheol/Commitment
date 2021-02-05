@@ -89,12 +89,26 @@
       <v-icon dark x-large>{{ commitBtnIcon }}</v-icon>
     </v-btn>
     <Dialog
-      :confirm="commitConfirm"
-      :confirmTitle="commitConfirmTitle"
-      :confirmContent="confirmContent"
-      @close="commitConfirm = !commitConfirm"
-      @confirm-ok="confirmOk"
+      :alert="commitAlert"
+      :alertTitle="alertTitle"
+      :alertContent="alertContent"
+      @close="
+        commitAlert = false;
+        commitLoading = false;
+      "
     ></Dialog>
+    <commit-complete
+      :confirm="commitConfirm"
+      :confirmContent="confirmContent"
+      :confirmTitle="confirmTitle"
+      :region="commitRegion"
+      :datas="commitDatas"
+      @close="
+        commitConfirm = false;
+        commitLoading = false;
+      "
+      @confirm-ok="confirmOk"
+    ></commit-complete>
   </v-app>
 </template>
 
@@ -102,8 +116,9 @@
 import { addCommit } from '../api/commit';
 import { mapActions, mapGetters } from 'vuex';
 import Dialog from '../components/common/dialog/Dialog.vue';
+import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 export default {
-  components: { Dialog },
+  components: { Dialog, CommitComplete },
   name: 'MainPage',
   computed: {
     ...mapGetters({
@@ -131,15 +146,19 @@ export default {
       commitBtnIcon: 'mdi-map-marker-check',
       commitLoading: false,
       commitConfirm: false,
-      commitConfirmTitle: '커밋완료',
-      confirmContent: `현재 커밋에 글을 남기시겠습니까?`,
+      commitAlert: false,
+      confirmTitle: '커밋완료🥳',
+      confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
+      alertTitle: '커밋실패😰',
+      alertContent: '동일한 위치는 하루에 1번만 커밋할 수 있습니다',
       openWriteDialog: false,
+      commitRegion: '',
+      commitDatas: '',
     };
   },
   methods: {
     ...mapActions(['CURRENT_LATLNG']),
     commit() {
-      console.log('%cIndex.vue line:119 commit', 'color: #007acc;', this.user);
       this.commitLoading = true;
       addCommit(
         this.user.email,
@@ -147,10 +166,17 @@ export default {
         this.latlng.lng,
         1,
         (response) => {
-          console.log('%cIndex.vue line:115 response', 'color: #007acc;', response);
-          this.commitLoading = false;
-          this.commitConfirm = true;
-          this.openNotification(4000);
+          console.log('%cIndex.vue line:115 response', 'color: #007acc;', response.data);
+          if (response.data) {
+            this.commitRegion = response.data.region;
+            this.commitDatas = [[response.data.localY, response.data.localX]];
+            this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
+            this.commitConfirm = true;
+            this.openNotification(4000);
+          } else {
+            this.alertContent = `[ ${this.address} ] 에서 이미 커밋하셨습니다. 1시간 뒤에 다시 시도해주세요.`;
+            this.commitAlert = true;
+          }
         },
         (error) => {
           console.log(
@@ -158,7 +184,8 @@ export default {
             'color: red; display: block; width: 100%;',
             error
           );
-          this.commitLoading = false;
+          this.alertContent = `알 수 없는 오류로 커밋에 실패했습니다. 다시 시도해주세요.`;
+          this.commitAlert = true;
         }
       );
     },
