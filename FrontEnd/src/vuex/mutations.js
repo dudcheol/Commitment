@@ -2,6 +2,7 @@ export default {
   LOGIN(state, payload) {
     state.authToken = payload['auth-token'];
     state.userInfo = { payload };
+    console.log('%cmutations.js line:5 payload', 'color: #007acc;', payload);
   },
   GET_MEMBER_INFO(state, payload) {
     state.authToken = payload.token;

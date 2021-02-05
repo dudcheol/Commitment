@@ -4,7 +4,10 @@
       <v-container class="my-2">
         <v-row>
           <v-col>
-            <h4><v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon>{{ address }}</h4>
+            <h4>
+              <v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon
+              >{{ address ? address : '위치를 찾는 중...' }}
+            </h4>
           </v-col>
         </v-row>
         <v-row>

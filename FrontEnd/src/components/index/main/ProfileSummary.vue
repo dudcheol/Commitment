@@ -7,19 +7,19 @@
         </div>
       </template>
       <template #text>
-        <h2 class="text-center">{{ userInfo.nickname }}</h2>
+        <h2 class="text-center">{{ user.nickname }}</h2>
         <div class="text-center">
-          {{ userInfo.mystory }}
+          {{ user.mystory }}
         </div>
         <div class="d-flex flex-row justify-center">
           <vs-button size="l" circle icon color="success" flat>
-            <i class="bx bxs-check-square"></i>{{ userInfo.commitCnt }}
+            <i class="bx bxs-check-square"></i>{{ user.commitCnt }}
           </vs-button>
           <vs-button size="l" circle icon color="danger" flat>
-            <i class="bx bxs-heart"></i>{{ userInfo.followerCnt }}
+            <i class="bx bxs-heart"></i>{{ user.followerCnt }}
           </vs-button>
           <vs-button size="l" circle icon color="warning" flat>
-            <i class="bx bxs-medal"></i>{{ userInfo.badgeCnt }}
+            <i class="bx bxs-medal"></i>{{ user.badgeCnt }}
           </vs-button>
         </div>
       </template>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
-  props: ['userInfo'],
   data: () => ({
     commitCnt: 12,
     badgeCnt: 7,
@@ -44,15 +44,15 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({ user: ['getUserInfo'] }),
     loader() {
-      if (!this.userInfo.region_name) {
+      if (!this.user.region_name) {
         return null;
       }
       return () =>
         import(
-          `../../../components/common/map/Map${this.userInfo.region_name.replace(
-            /\b[a-z]/,
-            (letter) => letter.toUpperCase()
+          `../../../components/common/map/Map${this.user.region_name.replace(/\b[a-z]/, (letter) =>
+            letter.toUpperCase()
           )}`
         );
     },
