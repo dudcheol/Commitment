@@ -1,10 +1,7 @@
 <template>
   <div class="d-flex flex-column ml-lg-16">
     <div class="d-flex align-center mb-2">
-      <img
-        src="../../../assets/img/commitnow/LiveMonitoring.gif"
-        style="max-width:16px;"
-      />
+      <img src="../../../assets/img/commitnow/LiveMonitoring.gif" style="max-width:16px;" />
       <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
     </div>
     <v-expansion-panels accordion flat class="mb-2 rounded-lg">
@@ -15,19 +12,10 @@
               반경
             </span>
             <v-chip small>
-              <span
-                v-if="
-                  commitRange[0] == commitMinRange &&
-                    commitRange[1] == commitMinRange
-                "
+              <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
                 >{{ commitMinRange }} km 이내</span
               >
-              <span
-                v-else-if="
-                  commitRange[0] > commitMinRange ||
-                    commitRange[1] < commitMaxRange
-                "
-              >
+              <span v-else-if="commitRange[0] > commitMinRange || commitRange[1] < commitMaxRange">
                 {{ commitRange[0] }} ~ {{ commitRange[1] }} km
               </span>
               <span v-else>
