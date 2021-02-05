@@ -73,8 +73,9 @@ public class ProfileController {
 
 		return user;
 	}
-	
-	public Object followCnt(String email) {
+	@GetMapping("/profile/followerCnt")
+	@ApiOperation(value = "팔로워 리스트")
+	public int followCnt(@RequestParam(required = true) String email) {
 		return followDao.followCnt(email);
 	}
 

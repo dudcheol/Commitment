@@ -255,8 +255,8 @@ public class CommitController {
 				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
 						+ lng + "," + lat);
 
-		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "ffffff");
-		getRequest.setHeader("X-NCP-APIGW-API-KEY", "ffffff");
+	    getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
+	    getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
 
 		try {
 			HttpResponse response = client.execute(getRequest);
@@ -291,11 +291,11 @@ public class CommitController {
 			@RequestParam(required = true) String lng) throws ParseException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet getRequest = new HttpGet(
-				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=roadaddr&request=coordsToaddr&coords="
+				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=admcode&request=coordsToaddr&coords="
 						+ lng + "," + lat);
 
-		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "ffffff");
-		getRequest.setHeader("X-NCP-APIGW-API-KEY", "ffffff");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
+	    getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
 
 		try {
 			HttpResponse response = client.execute(getRequest);
@@ -307,17 +307,18 @@ public class CommitController {
 				JSONObject obj = (JSONObject) parser.parse(body);
 
 				JSONArray results = (JSONArray) obj.get("results");
-
-				JSONObject obj2 = (JSONObject) results.get(0);
-				JSONObject results2 = (JSONObject) obj2.get("land");
-				String road=(String) results2.get("name");//도로명 주소
 				
-				JSONObject results3 = (JSONObject) obj2.get("region");
-				JSONObject si = (JSONObject) results3.get("area1");
+				JSONObject obj2 = (JSONObject) results.get(0);
+				JSONObject results2 = (JSONObject) obj2.get("region");
+//				
+				JSONObject si = (JSONObject) results2.get("area1");
 				String siname=(String) si.get("name");//시
-				JSONObject gu = (JSONObject) results3.get("area2");
+				JSONObject gu = (JSONObject) results2.get("area2");
 				String guname=(String) gu.get("name");//구군
-				return siname+ " "+ guname+" "+road;
+				JSONObject dong = (JSONObject) results2.get("area3");
+				String dongname=(String) dong.get("name");//구군
+				return siname+ " "+ guname+" "+dongname;
+//				return results2;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
