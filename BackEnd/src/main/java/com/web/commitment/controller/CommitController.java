@@ -70,64 +70,68 @@ public class CommitController {
 	}
 
 	// CRUD 중 C만
-    
-    // 커밋 행렬 좌표, 횟수 불러오기
+
+	// 커밋 행렬 좌표, 횟수 불러오기
 	@GetMapping("/commit")
-    @ApiOperation(value = "인덱스 별 커밋 횟수 불러오기")
-    public List<int[]> commitCount(@RequestParam(required = true) final String email, @RequestParam(required = false) String name) {
-		
-    	Map<Position, Integer> map = new HashMap<>();
-    	
-    	if(name != null) {
-	    	List<Commit> commits = commitDao.findAllByEmailAndRegion(email, name);
-	    	for (Commit commit : commits) {
-				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())), map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())), 0) + 1);
-			}
-    	} else { // name이 null이라면 전국지도
-    		List<Commit> commits = commitDao.findAllByEmail(email);
-    		for (Commit commit : commits) {
-    			map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())), map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())), 0) + 1);
-			}
-    	}
-    		
-    	List<int[]> positions = new ArrayList<>();
-        // Iterator 사용 1 - keySet()
-        Iterator<Position> keys = map.keySet().iterator();
-        while (keys.hasNext()){
-            Position key = keys.next();
-            positions.add(new int[] {key.x, key.y, map.get(new Position(key.x, key.y))});
-            System.out.println("KEY : " + key.x + " " + key.y); //
-        }
+	@ApiOperation(value = "인덱스 별 커밋 횟수 불러오기")
+	public List<int[]> commitCount(@RequestParam(required = true) final String email,
+			@RequestParam(required = false) String name) {
 
-    	return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count
-    }
-    
-    // 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
-    @GetMapping("/commit/square")
-    @ApiOperation(value = "네모칸 안의 커밋 정보 list")
-    public List<Commit> commitSquare(@RequestParam String email, @RequestParam String x, @RequestParam String y, @RequestParam String region) {
+		Map<Position, Integer> map = new HashMap<>();
+
+		if (name != null) {
+			List<Commit> commits = commitDao.findAllByEmailAndRegion(email, name);
+			for (Commit commit : commits) {
+				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())),
+						map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()),
+								Integer.parseInt(commit.getLocalY())), 0) + 1);
+			}
+		} else { // name이 null이라면 전국지도
+			List<Commit> commits = commitDao.findAllByEmail(email);
+			for (Commit commit : commits) {
+				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())),
+						map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()),
+								Integer.parseInt(commit.getLocalY())), 0) + 1);
+			}
+		}
+
+		List<int[]> positions = new ArrayList<>();
+		// Iterator 사용 1 - keySet()
+		Iterator<Position> keys = map.keySet().iterator();
+		while (keys.hasNext()) {
+			Position key = keys.next();
+			positions.add(new int[] { key.x, key.y, map.get(new Position(key.x, key.y)) });
+			System.out.println("KEY : " + key.x + " " + key.y); //
+		}
+
+		return positions; // positions[0]: x좌표, positions[1]: y좌표, positions[2]: count list로
+	}
+
+	// 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
+	@GetMapping("/commit/square")
+	@ApiOperation(value = "네모칸 안의 커밋 정보 list")
+	public List<Commit> commitSquare(@RequestParam String email, @RequestParam String x, @RequestParam String y,
+			@RequestParam String region) {
 		// region : 지역지도인지 국내지도인지/ 0: 국내지도, 1: 지역지도
-    	
-    	List<Commit> commits = new ArrayList<>();
-    	if(region.equals("national")) {
-    		commits = commitDao.findAllByEmailAndNationalXAndNationalY(email, x, y);
-    	} else
-    		commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
-    	
-    	return commits;
-    }
 
-	@GetMapping("/commit/commitrank")
-    @ApiOperation(value = "랭킹")
-    public List<Ranking> commitRank() {
-    	
-    	List<Ranking> list =commitDao.commitRank();
-    	return list;
-    }
-    
+		List<Commit> commits = new ArrayList<>();
+		if (region.equals("national")) {
+			commits = commitDao.findAllByEmailAndNationalXAndNationalY(email, x, y);
+		} else
+			commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
 
-    // 커밋 불러오기 -> open 1인 것만
-    
+		return commits;
+	}
+
+	@GetMapping("commit/total")
+	@ApiOperation(value = "user의 총 커밋수")
+	public int totalCommitNum(String email) {
+
+		return commitDao.countByEmail(email);
+	}
+
+	// 커밋 불러오기 -> open 1인 것만
+
 	// CRUD 중 C만
 	@PostMapping("/commit/{open}")
 	@ApiOperation(value = "커밋하기")
@@ -251,8 +255,8 @@ public class CommitController {
 				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
 						+ lng + "," + lat);
 
-		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "fffff");
-		getRequest.setHeader("X-NCP-APIGW-API-KEY", "ffffffffffffffffffffff");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "ffffff");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY", "ffffff");
 
 		try {
 			HttpResponse response = client.execute(getRequest);
@@ -279,29 +283,73 @@ public class CommitController {
 
 		return "fail";
 
-	}   
-	
+	}
+
+	@GetMapping("/commit/location")
+	@ApiOperation(value = "위도 경도로 현재 위치 추출 ")
+	public Object reverseGeoLocation(@RequestParam(required = true) String lat,
+			@RequestParam(required = true) String lng) throws ParseException {
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpGet getRequest = new HttpGet(
+				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=roadaddr&request=coordsToaddr&coords="
+						+ lng + "," + lat);
+
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "ffffff");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY", "ffffff");
+
+		try {
+			HttpResponse response = client.execute(getRequest);
+			if (response.getStatusLine().getStatusCode() == 200) {
+				ResponseHandler<String> handler = new BasicResponseHandler();
+				String body = handler.handleResponse(response);
+
+				JSONParser parser = new JSONParser();
+				JSONObject obj = (JSONObject) parser.parse(body);
+
+				JSONArray results = (JSONArray) obj.get("results");
+
+				JSONObject obj2 = (JSONObject) results.get(0);
+				JSONObject results2 = (JSONObject) obj2.get("land");
+				String road=(String) results2.get("name");//도로명 주소
+				
+				JSONObject results3 = (JSONObject) obj2.get("region");
+				JSONObject si = (JSONObject) results3.get("area1");
+				String siname=(String) si.get("name");//시
+				JSONObject gu = (JSONObject) results3.get("area2");
+				String guname=(String) gu.get("name");//구군
+				return siname+ " "+ guname+" "+road;
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "fail";
+
+	}
+
 	// 인덱스 정보
-    static public class Position {
-    	int x;
-    	int y;
+	static public class Position {
+		int x;
+		int y;
 
-    	Position(int x, int y){
-    		this.x = x;
-    		this.y = y;
-    	}
-    	
-    	@Override
-        public boolean equals(Object obj)//비교 부분
-        {
-            return (y == ((Position)obj).y && x == ((Position)obj).x);
-        }
+		Position(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
 
-        @Override
-        public int hashCode()//해쉬 코드 부분
-        {
-            return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
-        }
+		@Override
+		public boolean equals(Object obj)// 비교 부분
+		{
+			return (y == ((Position) obj).y && x == ((Position) obj).x);
+		}
 
-    }
+		@Override
+		public int hashCode()// 해쉬 코드 부분
+		{
+			return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
+		}
+
+	}
 }

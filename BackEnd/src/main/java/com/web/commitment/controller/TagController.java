@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,11 +60,21 @@ public class TagController {
         return tagDao.findBySnsId(id);
     }
     
-    /// 해시태그로 검색
     @GetMapping("/search/tag")
-    @ApiOperation(value = "해시태그로 검색")
-    public Collection<Tag> searchByTag(@RequestParam String keyword) {
+    @ApiOperation(value = "해시태그로 검색 -> 태그 목록 불러옴")
+    public Page<String[]> searchByTag(@RequestParam String keyword, 
+    		@PageableDefault(size=5) Pageable pageable) {
     	
-    	return tagDao.findByContentContainingIgnoreCase(keyword);
+    	keyword = "%" + keyword + "%";
+    	return tagDao.findByContentContainingIgnoreCase(keyword, pageable);
+    }
+    
+    /// 인스타처럼 해시태그 목록 띄우고 그 중 하나 선택하면 해당 해시태그를 가진 게시글
+    @GetMapping("/search/tagname")
+    @ApiOperation(value = "해시태그와 일치하는 게시글 찾기")
+    public Page<Object> searchByTagName(@RequestParam String keyword, 
+    		@PageableDefault(size=5) Pageable pageable) {
+    	
+    	return tagDao.findByContentContaining(keyword, pageable);
     }
 }

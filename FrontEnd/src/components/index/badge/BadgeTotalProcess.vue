@@ -15,7 +15,13 @@
 
     <v-list-item>
       <div class="totalCollect mx-auto">
-        <v-progress-circular :rotate="180" :size="100" :width="15" :value="70" color="pink">
+        <v-progress-circular
+          :rotate="180"
+          :size="100"
+          :width="15"
+          :value="70"
+          color="pink"
+        >
           70
         </v-progress-circular>
       </div>

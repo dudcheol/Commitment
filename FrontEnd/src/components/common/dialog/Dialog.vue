@@ -1,6 +1,12 @@
 <template>
   <div>
-    <vs-dialog width="550px" not-center v-model="alert" v-on:close="close" not-close>
+    <vs-dialog
+      width="550px"
+      not-center
+      v-model="alert"
+      v-on:close="close"
+      not-close
+    >
       <template #header>
         <h4 class="not-margin">
           <b>{{ alertTitle }}</b>
@@ -21,7 +27,13 @@
         </div>
       </template>
     </vs-dialog>
-    <vs-dialog width="550px" not-center v-model="confirm" v-on:close="close" not-close>
+    <vs-dialog
+      width="550px"
+      not-center
+      v-model="confirm"
+      v-on:close="close"
+      not-close
+    >
       <template #header>
         <h4 class="not-margin">
           <b>{{ confirmTitle }}</b>
@@ -45,7 +57,13 @@
         </div>
       </template>
     </vs-dialog>
-    <vs-dialog width="300px" not-center v-model="prompt" v-on:close="close" not-close>
+    <vs-dialog
+      width="300px"
+      not-center
+      v-model="prompt"
+      v-on:close="close"
+      not-close
+    >
       <template #header>
         <h4 class="not-margin">
           <b>{{ promptTitle }}</b>
