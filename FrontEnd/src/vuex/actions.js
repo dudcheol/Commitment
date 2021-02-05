@@ -27,10 +27,11 @@ export default {
       token,
       (response) => {
         let user = response.data.user;
-        user.badgeCnt = response.data.badgeCnt;
+        user.badgeCnt = response.data.user.badge;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
         context.commit('GET_MEMBER_INFO', { token, user });
+        console.log('%cactions.js line:34 response.data', 'color: #007acc;', response.data);
       },
       (error) => {
         console.log('%cactions.js line:26 error', 'color: #007acc;', error);
