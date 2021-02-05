@@ -104,7 +104,7 @@ public class NotificationService {
         }
 
         User fromUser = getUser(userId);
-        User toUser = getUser(toId);
+//        User toUser = getUser(toId);
 
 
         DatabaseReference notiRef = ref.child(toId.toString()); // 알림 받는 사람의 아이디
