@@ -126,7 +126,7 @@ public class BoardController {
 	}
 
 	// 대소문자 구분 없이 검색! IgnoreCase
-
+	//open 1...?
 	@GetMapping("/search/title")
 	@ApiOperation(value = "제목으로 검색")
 	public Page<Board> searchByTitle(@RequestParam String keyword, final Pageable pageable) {
@@ -147,14 +147,14 @@ public class BoardController {
 	@ApiOperation(value = "제목 & 내용으로 검색")
 	public Page<Board> searchByTandC(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByTitleContainingIgnoreCaseOrContentContainingIgnoreCase(keyword,keyword, pageable);
+		return boardDao.findByTitleandContent("%"+keyword.toLowerCase()+"%", pageable);
 	}
 
 	@GetMapping("/search/writer")
 	@ApiOperation(value = "글쓴이로 검색")
 	public Page<Board> searchByWriter(@RequestParam String keyword, final Pageable pageable) {
-
-		return boardDao.findByEmailContainingIgnoreCase(keyword, pageable);
+		
+		return boardDao.findByEmailContainingIgnoreCase("%"+keyword.toLowerCase()+"%", pageable);
 	}
 
 	// 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
