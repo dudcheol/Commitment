@@ -20,7 +20,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	List<Board> findBoardByEmail(String to);
 	
 	//내용으로검색
-	@Query(value = "select * from sns s,commit c where UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
+	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
 	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 	//제목으로 검색
 	@Query(value = "select * from sns s, commit c where  c.id=s.commit_id and UPPER(s.title) like UPPER(:keyword) and c.open = 1", nativeQuery = true)

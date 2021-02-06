@@ -19,7 +19,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +36,7 @@ import lombok.ToString;
 @Setter
 @Table(name = "sns")
 @NoArgsConstructor
-@ToString
+
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Board {
@@ -74,6 +78,30 @@ public class Board {
 	private User user;
 	
 	@OneToMany
-	@JoinColumn(name = "sns_id")
+	@JoinColumn(name = "sns_id",insertable=false, updatable=false)
 	private List<Tag> tag;
+	
+	@OneToMany
+	@JoinColumn(name = "sns_id",insertable=false, updatable=false)
+	private List<Comment> comment;
+	
+	@OneToMany(mappedBy = "snsId")
+	private List<Like> like;
+
+	@Override
+	public String toString() {
+		return "Board [id=" + id + ", commitId=" + commitId + ", email=" + email + ", title=" + title + ", content="
+				+ content + ", createdAt=" + createdAt + ", location=" + location + ", image=" + image + ", commit="
+				+ commit + ", user=" + user + ", tag=" + tag + ", comment=" + comment + ", like=" + like + "]";
+	}
+	
+	public void setLike(Like like) {
+		this.like.add(like);
+		if(like.getBoard()!=this) {
+			like.setBoard(this);
+		}
+	}
+	
+
+	
 }
