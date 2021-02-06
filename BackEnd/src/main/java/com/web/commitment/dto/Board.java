@@ -95,12 +95,7 @@ public class Board {
 				+ commit + ", user=" + user + ", tag=" + tag + ", comment=" + comment + ", like=" + like + "]";
 	}
 	
-	public void setLike(Like like) {
-		this.like.add(like);
-		if(like.getBoard()!=this) {
-			like.setBoard(this);
-		}
-	}
+
 	
 
 	

@@ -54,10 +54,11 @@ public class Like {
 		return "Like [id=" + id + ", email=" + email + ", snsId=" + snsId + ", writer=" + writer + ", board=" + board
 				+ "]";
 	}
-	public void setBoard(Board board) {
-		this.board=board;
-		if(!board.getLike().contains(this)) {
-			board.setLike(this);
-		}
-	}
+	
+//	public void setBoardDto(BoardDto boardDto) {
+//	this.boardDto=boardDto;
+//	if(!boardDto.getLike().contains(this)) {
+//		boardDto.setLike(this);
+//	}
+//}
 }
