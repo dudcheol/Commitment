@@ -57,8 +57,8 @@ public class NotificationController {
     @ApiOperation(value = "알람 읽기")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PutMapping("/{notiId}")
-    public ResponseEntity<Void> readNotification(@RequestParam String email, @PathVariable("notiId") final String notiId) {
-        notificationService.readNoti(notiId, email);
+    public ResponseEntity<Void> readNotification(@RequestParam String nickname, @PathVariable("notiId") final String notiId) {
+        notificationService.readNoti(notiId, nickname);
         return ResponseEntity.ok().build();
     }
 
