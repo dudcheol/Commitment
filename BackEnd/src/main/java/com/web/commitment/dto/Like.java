@@ -11,9 +11,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +27,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @Table(name="save")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Like {
 	
 	@Id
@@ -54,11 +55,4 @@ public class Like {
 		return "Like [id=" + id + ", email=" + email + ", snsId=" + snsId + ", writer=" + writer + ", board=" + board
 				+ "]";
 	}
-	
-//	public void setBoardDto(BoardDto boardDto) {
-//	this.boardDto=boardDto;
-//	if(!boardDto.getLike().contains(this)) {
-//		boardDto.setLike(this);
-//	}
-//}
 }

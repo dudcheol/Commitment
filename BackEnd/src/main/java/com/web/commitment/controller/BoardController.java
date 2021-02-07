@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +38,7 @@ public class BoardController {
 
 	@Autowired
 	BoardDao boardDao;
-	
+
 	@Autowired
 	UserDao userDao;
 
@@ -69,10 +72,11 @@ public class BoardController {
 	// 로그인한 유저의 게시글 불러오기
 	@GetMapping("/mysns")
 	@ApiOperation(value = "로그인 한 유저의 게시글 목록")
+	@Transactional(readOnly = true)
 	public Page<Board> mySns(@RequestParam final String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		Board board=new Board();
 		return boardDao.findByEmail(email, pageable);
+//		return boardDto;
 	}
 
 	// 다른 유저의 게시글 불러오기 open이 1인 것만 (닉네임, 좋아요 수, 태그 주소 줘야 함)
@@ -80,14 +84,8 @@ public class BoardController {
 	@ApiOperation(value = "다른 유저의 게시글 목록")
 	public Page<Board> loadSns(@RequestParam String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		Page<Board> board=boardDao.findAllByEmail(email, pageable);
-//		List<BoardDto> bdto=new ArrayList<BoardDto>();
-//		for (Board b:board) {
-//			BoardDto d=new BoardDto(b);
-//			bdto.add(d);
-//		}
-		return board;
-				
+		return boardDao.findAllByEmail(email, pageable);
+
 	}
 
 	@PutMapping("/account/update")
@@ -136,7 +134,6 @@ public class BoardController {
 	}
 
 	// 대소문자 구분 없이 검색! IgnoreCase
-	//open 1...?
 	@GetMapping("/search/title")
 	@ApiOperation(value = "제목으로 검색")
 	public Page<Board> searchByTitle(@RequestParam String keyword, final Pageable pageable) {
@@ -157,14 +154,14 @@ public class BoardController {
 	@ApiOperation(value = "제목 & 내용으로 검색")
 	public Page<Board> searchByTandC(@RequestParam String keyword, final Pageable pageable) {
 
-		return boardDao.findByTitleandContent("%"+keyword.toLowerCase()+"%", pageable);
+		return boardDao.findByTitleandContent("%" + keyword.toLowerCase() + "%", pageable);
 	}
 
 	@GetMapping("/search/writer")
 	@ApiOperation(value = "글쓴이로 검색")
 	public Page<Board> searchByWriter(@RequestParam String keyword, final Pageable pageable) {
-		
-		return boardDao.findByEmailContainingIgnoreCase("%"+keyword.toLowerCase()+"%", pageable);
+
+		return boardDao.findByEmailContainingIgnoreCase("%" + keyword.toLowerCase() + "%", pageable);
 	}
 
 	// 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
@@ -178,11 +175,12 @@ public class BoardController {
 
 		String lat = user.getLat();
 		String lng = user.getLng();
-		
+
 		if (radius == 0) {
 			// 모든 게시물(open1인 것만)
 			return boardDao.findAll(pageable);
 		}
 		return boardDao.radiusCommitId(lat, lng, radius, pageable);
 	}
+
 }
