@@ -37,5 +37,4 @@ public class FollowingBoardController {
     public Page<Board> totalboard(@RequestParam String email,Pageable pageable) {
     	return boardDao.findtotalByEmail(email,pageable);
     }
-
 }

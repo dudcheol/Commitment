@@ -1,6 +1,8 @@
 package com.web.commitment.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class BoardController {
 
 	@Autowired
 	BoardDao boardDao;
-
+	
 	@Autowired
 	UserDao userDao;
 
@@ -69,15 +71,23 @@ public class BoardController {
 	@ApiOperation(value = "로그인 한 유저의 게시글 목록")
 	public Page<Board> mySns(@RequestParam final String email, final Pageable pageable) {
 		// 페이지 index는 0부터
+		Board board=new Board();
 		return boardDao.findByEmail(email, pageable);
 	}
 
-	// 다른 유저의 게시글 불러오기 open이 1인 것만
+	// 다른 유저의 게시글 불러오기 open이 1인 것만 (닉네임, 좋아요 수, 태그 주소 줘야 함)
 	@GetMapping("/sns")
 	@ApiOperation(value = "다른 유저의 게시글 목록")
 	public Page<Board> loadSns(@RequestParam String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		return boardDao.findAllByEmail(email, pageable);
+		Page<Board> board=boardDao.findAllByEmail(email, pageable);
+//		List<BoardDto> bdto=new ArrayList<BoardDto>();
+//		for (Board b:board) {
+//			BoardDto d=new BoardDto(b);
+//			bdto.add(d);
+//		}
+		return board;
+				
 	}
 
 	@PutMapping("/account/update")
@@ -161,14 +171,14 @@ public class BoardController {
 	@GetMapping("/sns/radius")
 	@ApiOperation(value = "설정한 반경 내 모든 유저의 게시글(open 1인 것만)")
 	public Page<Board> loadRadiusSns(@RequestParam(required = true) String email,
-			@RequestParam(required = false) Integer radius, final Pageable pageable) {
+			@RequestParam(required = true, defaultValue = "0") Integer radius, final Pageable pageable) {
 
 		// 유저의 현재 위치 구하기
 		User user = userDao.getUserByEmail(email);
 
 		String lat = user.getLat();
 		String lng = user.getLng();
-
+		
 		if (radius == 0) {
 			// 모든 게시물(open1인 것만)
 			return boardDao.findAll(pageable);
