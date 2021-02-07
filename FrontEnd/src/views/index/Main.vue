@@ -13,7 +13,7 @@
       </v-row>
     </v-col>
 
-    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-4">
+    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-md-4 px-0">
       <CommitNow />
     </v-col>
 

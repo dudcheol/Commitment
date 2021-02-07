@@ -4,8 +4,9 @@
     color="white"
     elevation="0"
     large
-    rounded="lg"
+    rounded="circle"
     :ripple="false"
+    block
   >
     <div class="row">
       <div class="mr-2" v-if="img">
