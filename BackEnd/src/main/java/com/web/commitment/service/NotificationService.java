@@ -7,7 +7,6 @@ import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.LikeDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.dto.Notification.NotificationSaveDto;
@@ -23,10 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -111,10 +106,11 @@ public class NotificationService {
 		DatabaseReference saveNoti = notiRef.child(postId); // to의 아이디 값의 child node
 
 		if (type.equals("follow")) { // 팔로우
-            	saveNoti.setValueAsync(notificationSaveDto); // 정의된 경로(예: users/<user-id>/<username>)에 데이터를 쓰거나 대체합니다.
-		
+			String lastId = followDao.findByLastFollow();
+			notificationSaveDto.setFollowId(lastId);
+			saveNoti.setValueAsync(notificationSaveDto);  // 정의된 경로(예: users/<user-id>/<username>)에 데이터를 쓰거나 대체합니다.
+			
 		} else if (type.equals("like")) { // 좋아요
-			saveNoti.setValueAsync(notificationSaveDto);
 			String lastId = likeDao.findByLastLike();
 			notificationSaveDto.setLikeId(lastId);
 			saveNoti.setValueAsync(notificationSaveDto);
@@ -162,7 +158,8 @@ public class NotificationService {
 			isIn = commentDao.findById(objectId).isPresent();
 		else if(type.equals("like"))
 			isIn = likeDao.findById(objectId).isPresent();
-		
+		else if(type.equals("follow"))
+			isIn = followDao.findById(objectId).isPresent();
 		
 		if (isIn) {
 			final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -175,8 +172,6 @@ public class NotificationService {
 					exFindData: for (DataSnapshot data : snapshot.getChildren()) {
 						String postKey = data.getKey();
 						for (DataSnapshot value : data.getChildren()) {
-							
-							System.out.println(value.getKey());
 							if (value.getKey().equals(type + "Id")) {
 								
 								if (value.getValue().equals(objectId)) {

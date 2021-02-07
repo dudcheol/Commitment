@@ -10,7 +10,6 @@ import java.net.URL;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.Token;
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.service.NotificationService;
@@ -50,9 +48,9 @@ public class NotificationController {
     @ApiOperation(value = "알람 저장하기")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PostMapping
-    public ResponseEntity<Void> saveNotification(@RequestParam String nickname, @RequestBody final NotificationReqDto requestDto) {
+    public String saveNotification(@RequestParam String nickname, @RequestBody final NotificationReqDto requestDto) {
     	notificationService.saveNoti(requestDto, nickname); // nickname: 알림을 만든 사람
-        return ResponseEntity.ok().build();
+        return "success";
     }
 
     @ApiOperation(value = "알람 읽기")

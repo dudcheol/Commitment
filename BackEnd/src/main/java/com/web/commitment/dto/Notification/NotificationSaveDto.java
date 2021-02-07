@@ -15,6 +15,7 @@ public class NotificationSaveDto {
     private String type;
     private String commentId; // comment: 방금 단 댓글의 id
     private String likeId; // like: 방금 한 좋아요 id
+    private String followId; // follow: 방금 신청한 follow id
 
     public NotificationSaveDto(String createdAt, String dataId, String fromUserNickname, Boolean isRead, String type){
         this.createdAt = createdAt;
@@ -30,6 +31,10 @@ public class NotificationSaveDto {
     
     public void setLikeId(String likeId){
     	this.likeId = likeId;
+    }
+    
+    public void setFollowId(String followId){
+    	this.followId = followId;
     }
 }
 

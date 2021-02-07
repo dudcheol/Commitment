@@ -30,4 +30,7 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 	
 	@Query(value = "select count(*) from follow f where f.follow_to=:email and f.follow_from=:email2", nativeQuery = true)
 	Optional<User> findByToUserAndFromUser(@Param("email") String email,@Param("email2") String email2);
+	
+	@Query(value = "select max(id) from follow", nativeQuery = true)
+	String findByLastFollow();
 }

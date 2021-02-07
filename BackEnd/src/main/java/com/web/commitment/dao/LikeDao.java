@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.web.commitment.dto.Like;
 import com.web.commitment.dto.Ranking;
-import com.web.commitment.dto.User;
 
 @Repository
 public interface LikeDao extends JpaRepository<Like, String> {
