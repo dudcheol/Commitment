@@ -14,48 +14,72 @@
             </template>
           </vs-input>
           비밀번호
-          <vs-input type="password" icon-after placeholder="Password">
+          <vs-input type="password" v-model="password" icon-after placeholder="Password">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
           </vs-input>
           비밀번호 확인
-          <vs-input type="password" icon-after placeholder="Password">
+          <vs-input type="password" v-model="passwordConfirm" icon-after placeholder="Password">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
           </vs-input>
           닉네임
-          <vs-input icon-after placeholder="3글자이상">
+          <vs-input icon-after v-model="nickname" placeholder="3글자이상">
             <template #icon>
               <i class="bx bx-user"></i>
             </template>
           </vs-input>
           한줄소개
-          <vs-input icon-after placeholder="한줄소개">
+          <vs-input icon-after v-model="mystory" placeholder="한줄소개">
             <template #icon>
               <i class="bx bx-comment-detail"></i>
             </template>
           </vs-input>          
           전화번호
-          <vs-input icon-after placeholder="전화번호">
+          <vs-input icon-after v-model="tel" placeholder="전화번호">
             <template #icon>
               <i class="bx bx-phone"></i>
             </template>
           </vs-input>
           성별
           <div>
-            <vs-select placeholder="Select" v-model="value">
-              <vs-option label="Man" value="1">
+            <vs-select placeholder="Select" v-model="gender">
+              <vs-option label="Man" value="man">
                 Man
               </vs-option>
-              <vs-option label="Woman" value="2">
+              <vs-option label="Woman" value="woman">
                 Woman
               </vs-option>
             </vs-select>
           </div>
           생일
-          <vs-input type="date" icon-after> </vs-input>
+          <vs-input type="date" v-model="birth" icon-after> </vs-input>
+        지역
+        <div>
+        <vs-select placeholder="Select" v-model="region">
+        <vs-option label="서울" value="1">
+          서울
+        </vs-option>
+        <vs-option label="경기도" value="2">
+          경기도
+        </vs-option>
+        <vs-option label="광주" value="3">
+          광주
+        </vs-option>
+        <vs-option label="울산" value="4">
+          울산
+        </vs-option>
+        <vs-option label="부산" value="5">
+          부산
+        </vs-option>
+        <vs-option label="강원도" value="6">
+          강원도
+        </vs-option>
+      </vs-select>
+      </div>
+
         </div>
 
         <div class="footer-dialog">
@@ -76,11 +100,17 @@ export default {
     return {
       signupdata: {
         active: true,
-        value: '',
         email: '',
         password: '',
+        passwordConfirm: '',
+        tel: '',
+        mystory: '',
+        gender: '',
+        birth: '',
         value2: '',
         remember: false,
+        region: '',
+        nickname: '',
       },
 
       
@@ -88,9 +118,7 @@ export default {
   },
 
   methods: {
-    signup: function() {
-      // axios.post()
-    }
+
   }
 };
 </script>
