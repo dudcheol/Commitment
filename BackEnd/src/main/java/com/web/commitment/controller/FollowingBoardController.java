@@ -33,4 +33,6 @@ public class FollowingBoardController {
     public Page<Board> totalboard(@RequestParam String email,Pageable pageable) {
     	return boardDao.findtotalByEmail(email,pageable);
     }
+    
+    // 팔로우한 사람의 커밋지도 불러오기 (최신순으로)
 }
