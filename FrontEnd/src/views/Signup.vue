@@ -4,7 +4,7 @@
       <template #title>
         <h4 class="not-margin"><b>Commmitment</b> 회원가입</h4>
       </template>
-
+        <!-- 이메일 지역 닉네임 비밀번호 전화번호 나이 성별 이메일 인증여부-->
       <template #text>
         <div class="con-form">
           이메일
@@ -36,14 +36,20 @@
             <template #icon>
               <i class="bx bx-comment-detail"></i>
             </template>
+          </vs-input>          
+          전화번호
+          <vs-input icon-after placeholder="전화번호">
+            <template #icon>
+              <i class="bx bx-phone"></i>
+            </template>
           </vs-input>
           성별
           <div>
             <vs-select placeholder="Select" v-model="value">
-              <vs-option label="Vuesax" value="1">
+              <vs-option label="Man" value="1">
                 Man
               </vs-option>
-              <vs-option label="Vue" value="2">
+              <vs-option label="Woman" value="2">
                 Woman
               </vs-option>
             </vs-select>
@@ -63,15 +69,29 @@
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
-  data: () => ({
-    active: true,
-    value: '',
-    email: '',
-    password: '',
-    value2: '',
-    remember: false,
-  }),
+  data () {
+    return {
+      signupdata: {
+        active: true,
+        value: '',
+        email: '',
+        password: '',
+        value2: '',
+        remember: false,
+      },
+
+      
+    }
+  },
+
+  methods: {
+    signup: function() {
+      // axios.post()
+    }
+  }
 };
 </script>
 

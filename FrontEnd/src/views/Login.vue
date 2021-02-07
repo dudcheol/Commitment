@@ -6,7 +6,7 @@
       </template>
 
       <template #text>
-        <div class="con-form">
+        <div class="con-form" @keyup.enter="confirm">
           <vs-input v-model="email" placeholder="Email">
             <template #icon>
               @
@@ -28,11 +28,13 @@
         </div>
 
         <div class="footer-dialog">
-          <vs-button block @click="confirm" :loading="loading">
+          <vs-button block @click="confirm" :loading="loading"
+         
+          >
             로그인
           </vs-button>
 
-          <div class="new">아직 처음이신가요? <a href="#">회원가입</a></div>
+          <div class="new">아직 처음이신가요? <a @click="signuplink">회원가입</a></div>
         </div>
       </template>
     </vs-card>
@@ -79,6 +81,9 @@ export default {
         this.$router.push({ name: 'Main' });
       }
     },
+    signuplink() {
+       this.$router.push({ name: 'Signup' })
+    }
   },
 };
 </script>
@@ -96,12 +101,12 @@ export default {
     top: 50%
     transform: translate( -50%, -50% )
 .vs-card-content
-    width 40vmax
+    width 50vmax
     @media screen and (min-width: 600px)
         width 30vmax
 
   .not-margin
-    margin 0px
+    margin 3px
     font-weight normal
     padding 10px
   .con-form
@@ -118,7 +123,7 @@ export default {
     .vs-checkbox-label
       font-size .8rem
     .vs-input-content
-      margin 10px 0px
+      margin 10px 10px
       width calc(100%)
       .vs-input
         width 100%
