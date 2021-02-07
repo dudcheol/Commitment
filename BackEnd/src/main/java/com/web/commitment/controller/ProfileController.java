@@ -25,7 +25,6 @@ import com.web.commitment.dao.S3Dao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.Follow;
-import com.web.commitment.dto.FollowId;
 import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.User;
 
@@ -48,9 +47,13 @@ public class ProfileController {
 	@ApiOperation(value = "팔로우 하기")
 	public Object follow(@RequestParam(required = true) final String from,
 			@RequestParam(required = true) final String to) {
-		FollowId followid = new FollowId(from, to);
+//		FollowId followid = new FollowId(from, to);
+//		Follow follow = new Follow();
+//		follow.setFollowid(followid);
+		
 		Follow follow = new Follow();
-		follow.setFollowid(followid);
+		follow.setFromUser(from);
+		follow.setToUser(to);
 		followDao.save(follow);
 
 		final BasicResponse result = new BasicResponse();
@@ -67,14 +70,16 @@ public class ProfileController {
 		List<User> user = new ArrayList<User>();
 		int index = 0;
 		for (Follow f : list) {
-			user.add(userDao.getUserByEmail(f.getFollowid().getToUser()));
+//			user.add(userDao.getUserByEmail(f.getFollowid().getToUser()));
+			user.add(userDao.getUserByEmail(f.getToUser()));
 			System.out.println(user.get(index++));
 		}
 
 		return user;
 	}
-	
-	public Object followCnt(String email) {
+	@GetMapping("/profile/followerCnt")
+	@ApiOperation(value = "팔로워 리스트")
+	public int followCnt(@RequestParam(required = true) String email) {
 		return followDao.followCnt(email);
 	}
 

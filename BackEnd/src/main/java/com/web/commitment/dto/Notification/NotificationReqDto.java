@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class NotificationReqDto {
-    private String to;
+    private String to; // 알림 받는 사람 (type이 commit일 경우 all로 지정)
     private String dataId;
     private Boolean isRead;
     private String type;

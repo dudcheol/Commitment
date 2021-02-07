@@ -10,7 +10,6 @@ import java.net.URL;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,35 +48,44 @@ public class NotificationController {
     @ApiOperation(value = "알람 저장하기")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PostMapping
-    public ResponseEntity<Void> saveNotification(@RequestParam String email, @RequestBody final NotificationReqDto requestDto) {
-    	System.out.println(email);
-    	notificationService.saveNoti(requestDto, email);
-        return ResponseEntity.ok().build();
+    public String saveNotification(@RequestParam String nickname, @RequestBody final NotificationReqDto requestDto) {
+    	notificationService.saveNoti(requestDto, nickname); // nickname: 알림을 만든 사람
+        return "success";
     }
 
     @ApiOperation(value = "알람 읽기")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PutMapping("/{notiId}")
-    public ResponseEntity<Void> readNotification(@RequestParam String email, @PathVariable("notiId") final String notiId) {
-        notificationService.readNoti(notiId, email);
-        return ResponseEntity.ok().build();
+    public String readNotification(@RequestParam String nickname, @PathVariable("notiId") final String notiId) {
+        try {
+        	notificationService.readNoti(notiId, nickname);
+        	return "success";
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return "fail";
+        }
     }
 
     @ApiOperation(value = "알람 삭제")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @DeleteMapping("/{notiId}")
-    public ResponseEntity<Void> deleteNotification(@RequestParam String email, @PathVariable("notiId") final String notiId) {
-        notificationService.deleteNoti(notiId, email);
-        return ResponseEntity.ok().build();
+    public String deleteNotification(@RequestParam String nickname, @PathVariable("notiId") final String notiId) {
+        try {
+        	notificationService.deleteNoti(notiId, nickname);
+        	return "success";
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return "fail";
+        }
     }
-
-    @ApiOperation(value = "댓글 삭제 시, 알람 삭제")
-    @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<Void> deleteCommentsNotification(@RequestParam String email, @PathVariable("commentId") final String commentId) {
-        notificationService.deleteCommentAlert(commentId, email);
-        return ResponseEntity.ok().build();
+    
+    @ApiOperation(value = "댓글, 좋아요 삭제 시 알람 삭제 // nickname : 알림 받은 사람의 닉네임(ex. 글쓴이)")
+    @DeleteMapping("/notidel/{objectId}") // nickname : 알림 받은 사람의 닉네임(글쓴이)
+    public String deleteCommentsNotification(@RequestParam String type, @RequestParam String nickname, @PathVariable("objectId") final String objectId) {
+    	notificationService.deleteObjectAlert(type, objectId, nickname);
+    	return "success";
     }
-
+    
     @PostMapping("/test")
     public static JSONObject Push(@RequestBody Token dataa) throws IOException {
 
