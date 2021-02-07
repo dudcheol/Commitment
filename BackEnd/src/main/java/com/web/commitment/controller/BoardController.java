@@ -1,6 +1,8 @@
 package com.web.commitment.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class BoardController {
 
 	@Autowired
 	BoardDao boardDao;
-
+	
 	@Autowired
 	UserDao userDao;
 
@@ -67,6 +69,7 @@ public class BoardController {
 	@ApiOperation(value = "로그인 한 유저의 게시글 목록")
 	public Page<Board> mySns(@RequestParam final String email, final Pageable pageable) {
 		// 페이지 index는 0부터
+		Board board=new Board();
 		return boardDao.findByEmail(email, pageable);
 	}
 
@@ -75,7 +78,14 @@ public class BoardController {
 	@ApiOperation(value = "다른 유저의 게시글 목록")
 	public Page<Board> loadSns(@RequestParam String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		return boardDao.findAllByEmail(email, pageable);
+		Page<Board> board=boardDao.findAllByEmail(email, pageable);
+//		List<BoardDto> bdto=new ArrayList<BoardDto>();
+//		for (Board b:board) {
+//			BoardDto d=new BoardDto(b);
+//			bdto.add(d);
+//		}
+		return board;
+				
 	}
 
 	@PutMapping("/account/update")

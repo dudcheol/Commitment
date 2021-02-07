@@ -115,7 +115,6 @@ public class UserController {
 	@Transactional
 	public User signup(@Valid @RequestBody User request) {
 		User user = userDao.findUserByEmail(request.getEmail());// 수정
-		badgeController.badgeReset(request.getEmail());//뱃지 리셋
 		
 		if (user == null)// 가입
 			user = request;
@@ -127,11 +126,13 @@ public class UserController {
 			user.setAge(request.getAge());
 			user.setGender(request.getGender());
 			user.setMystory(request.getMystory());
+			//지역은 회원가입후 현재 위치 설정에서  받아옴
 		}
 
 		System.out.println(user);
 		userDao.save(user);
 
+		badgeController.badgeReset(request.getEmail());//뱃지 리셋
 		return user;
 	}
 

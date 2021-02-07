@@ -10,15 +10,15 @@
 
 ### Contact :green_book:
 
-박영철 [Github]() 🐹
+박영철 [Github](https://github.com/dudcheol) 🐹
 
 강해성 [Github](https://github.com/Haesungkang) 🐶
 
 박소현 [Github](https://github.com/dbdtrapper) 🐱
 
-김청화 [Github]() 🐯
+김청화 [Github](https://github.com/cheonghwakim ) 🐯
 
-박유정 [Github]() 🐭
+박유정 [Github](https://github.com/ParkYooJeong/ParkYooJeong) 🐭
 
 <br>
 
@@ -41,6 +41,8 @@
   Jan 11th 2021 ~ Feb 19th 2021
 
 - Results
+
+  - [PPT]()
   - [시연영상]()
   - [UCC]()
   - [최종발표]()
@@ -153,6 +155,8 @@
 ### Pages in Detail :mag:
 
 > 각 페이지별 소개
+>
+> PPT 참고
 
 [Pages in Detail ](Document/Page_Details/Page_Details.md)
 
