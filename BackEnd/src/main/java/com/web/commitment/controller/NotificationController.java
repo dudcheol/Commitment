@@ -49,9 +49,8 @@ public class NotificationController {
     @ApiOperation(value = "알람 저장하기")
     @ApiImplicitParams({@ApiImplicitParam(name = "jwt", value = "JWT Token", required = true, dataType = "string", paramType = "header")})
     @PostMapping
-    public ResponseEntity<Void> saveNotification(@RequestParam String email, @RequestBody final NotificationReqDto requestDto) {
-    	System.out.println(email);
-    	notificationService.saveNoti(requestDto, email);
+    public ResponseEntity<Void> saveNotification(@RequestParam String nickname, @RequestBody final NotificationReqDto requestDto) {
+    	notificationService.saveNoti(requestDto, nickname); // nickname: 알림을 만든 사람
         return ResponseEntity.ok().build();
     }
 

@@ -21,5 +21,5 @@ public interface CommentDao extends JpaRepository<Comment, String> {
 	Object findByEmailAndSnsId(String email, String id);
 
 	@Query(value = "select max(id) from comment", nativeQuery = true)
-	Comment findByLastComment();
+	String findByLastComment();
 }

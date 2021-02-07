@@ -19,7 +19,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findBoardByEmail(String to);
 	
-	@Query(value = "select distinct * from sns s, commit c where UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
+	@Query(value = "select * from sns s, commit c where s.commit_id=c.id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
 	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
 	@Query(value = "select distinct * from sns s, commit c where UPPER(s.title) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
@@ -30,7 +30,6 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "group by sns.user_email", nativeQuery = true)
 	List<Ranking> boardRanking();
 	
-	// 중복해서 나옴
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and s.user_email=:email order by s.created_at desc", nativeQuery = true)
 	Page<Board> findByEmail(String email, Pageable pageable);
 
@@ -68,7 +67,4 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email")String email, Pageable pageable);
-
-
-
 }

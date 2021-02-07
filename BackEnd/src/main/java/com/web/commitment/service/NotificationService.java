@@ -40,8 +40,8 @@ public class NotificationService {
 	private final BoardDao boardDao;
 	private final CommentDao commentDao;
 
-	private User getUser(String email) {
-		return userDao.findByEmail(email).orElseThrow(() -> new BaseException(ErrorCode.UNEXPECTED_USER));
+	private User getUser(String nickname) { // 닉네임으로 유저 찾기
+		return userDao.findUserByNickname(nickname).orElseThrow(() -> new BaseException(ErrorCode.UNEXPECTED_USER));
 	}
 
 	private Board getBoard(String postId) {
@@ -79,13 +79,14 @@ public class NotificationService {
 	}
 
 	@Transactional
-	public void saveNoti(NotificationReqDto notificationReqDto, String userId) {
+	public void saveNoti(NotificationReqDto notificationReqDto, String nickname) {
 		LocalDateTime curDateTime = LocalDateTime.now();
 		String nowDate = curDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
+	
 		// 저장할 데이터
 		NotificationSaveDto notificationSaveDto = new NotificationSaveDto(nowDate, notificationReqDto.getDataId(),
-				userId, notificationReqDto.getIsRead(), notificationReqDto.getType());
+				nickname, notificationReqDto.getIsRead(), notificationReqDto.getType());
 
 		String type = notificationReqDto.getType();
 
@@ -98,35 +99,40 @@ public class NotificationService {
 		if (type.equals("like") || type.equals("comment")) {
 			board = getBoard(notificationReqDto.getDataId());
 			toId = notificationReqDto.getTo();
+			notificationSaveDto.setFrom(nickname);
 		} else {
 			toId = notificationReqDto.getTo();
 		}
 
-		User fromUser = getUser(userId);
-
-		DatabaseReference notiRef = ref.child(toId.toString()); // 알림 받는 사람의 아이디
+//		User fromUser = getUser(nickname); // follow: 좋아요 받은 사람, like: 좋아요 받은 사람의 아이디
+//		User toUser = getUser(toId);
+//
+//		System.out.println("to: " + toUser.getEmail());
+//		System.out.println("from: " + fromUser.getEmail());
+		
+		DatabaseReference notiRef = ref.child(toId); // 알림 받는 사람의 닉네임
+		System.out.println("notiRef: " + notiRef);
 		DatabaseReference nextNotiRef = notiRef.push(); // 다음 키값으로 푸시
+		System.out.println("nextNotiRef: " + nextNotiRef);
 		String postId = nextNotiRef.getKey(); // 현재 알람의 키값을 가져옴
+		System.out.println("postId: " + postId);
+		
 		DatabaseReference saveNoti = notiRef.child(postId); // to의 아이디 값의 child node
 
 		if (type.equals("follow")) { // 팔로우
-//            if (followDao.findByToUserAndFromUser(fromUser.getEmail(), toUser.getEmail()).isPresent()) {
-//                saveNotificationData(userId, notiRef, type);
-//            } else {
-			saveNoti.setValueAsync(notificationSaveDto);
-//            }
+            	saveNoti.setValueAsync(notificationSaveDto); // 정의된 경로(예: users/<user-id>/<username>)에 데이터를 쓰거나 대체합니다.
+		
 		} else if (type.equals("like")) { // 좋아요
-			if (likeDao.findByEmailAndSnsId(fromUser.getEmail(), board.getId()).isPresent()) {
-				saveNotificationData(userId, notiRef, type);
-			} else {
-				saveNoti.setValueAsync(notificationSaveDto);
-			}
+			saveNoti.setValueAsync(notificationSaveDto);
+			
 		} else if (type.equals("comment")) { // 댓글
-			Comment comment = commentDao.findByLastComment();
-			notificationSaveDto.setCommentId(comment.getId());
+			String lastId = commentDao.findByLastComment();
+			notificationSaveDto.setCommentId(lastId);
 			saveNoti.setValueAsync(notificationSaveDto);
-		} else if (type.equals("approve")) {
+			
+		} else if (type.equals("commit")) { // 실시간 커밋
 			saveNoti.setValueAsync(notificationSaveDto);
+			
 		} else {
 			saveNoti.setValueAsync(notificationSaveDto);
 		}

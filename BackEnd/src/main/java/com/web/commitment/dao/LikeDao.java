@@ -30,6 +30,4 @@ public interface LikeDao extends JpaRepository<Like, String> {
 			+ "group by save.user_email", nativeQuery = true)
 	List<Ranking> likeRanking();
 
-	Optional<User> findByEmailAndSnsId(String fromUser, String id);
-
 }
