@@ -17,9 +17,11 @@
             style="height:35px; width:100%"
             class="mb-2"
           ></commit-card>
-          <!-- <v-btn block :ripple="false" rounded height="35px" color="blue-grey darken-4" text
-            ><strong>더보기</strong></v-btn
-          > -->
+          <no-data-card
+            v-show="empCommits"
+            :icon="'emoticon-happy-outline'"
+            :text="'비어있는 커밋이 없어요'"
+          ></no-data-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -30,8 +32,9 @@
 import CommitCard from '../../common/card/CommitCard.vue';
 import { emptyCommit, latlngToAddress } from '../../../api/commit';
 import { mapGetters } from 'vuex';
+import NoDataCard from '../../common/card/NoDataCard.vue';
 export default {
-  components: { CommitCard },
+  components: { CommitCard, NoDataCard },
   data() {
     return {
       empCommits: [],

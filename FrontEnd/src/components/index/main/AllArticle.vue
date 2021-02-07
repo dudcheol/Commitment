@@ -8,28 +8,33 @@
       </v-btn-toggle>
     </div>
 
-    <div class="mt-4" v-for="content in feedDatas" :key="content">
-      <main-card></main-card>
+    <div class="mt-4" v-for="data in feedDatas" :key="data">
+      <main-card :data="data"></main-card>
     </div>
-    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
-      <div slot="no-more">더이상 불러올 데이터가 없습니다</div>
-      <div slot="spinner">로딩중...</div>
-      <div slot="no-results">결과가 없습니다</div>
+    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="circles">
+      <div slot="no-more">
+        <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
+      </div>
+      <!-- <div slot="spinner"></div> -->
+      <div slot="no-results" class="mt-4">
+        <NoDataCard :icon="'emoticon-cry-outline'" :text="'불러올 커밋이 없어요'"></NoDataCard>
+      </div>
     </infinite-loading>
   </div>
 </template>
 
 <script>
 import MainCard from '../../common/card/MainCard.vue';
+import NoDataCard from '../../common/card/NoDataCard.vue';
 import InfiniteLoading from 'vue-infinite-loading';
 import { myBoardList, followingBoardList, totalBoadList } from '../../../api/board';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { MainCard, InfiniteLoading },
+  components: { MainCard, InfiniteLoading, NoDataCard },
 
   data: () => ({
-    feedDatas: [],
+    feedDatas: [1],
     toggle: 0,
     pageNumber: 0, // 무한스크롤이 진행되면서 다음에 불러올 페이지 번호
     pageSize: 5,
@@ -55,12 +60,17 @@ export default {
               page: this.pageNumber,
             },
             (response) => {
-              this.feedDatas = this.feedDatas.concat(response.data);
-              if (response.data.length < this.pageSize) {
-                $state.complete();
-              } else {
+              console.log(
+                '%cAllArticle.vue line:58 response.data',
+                'color: #007acc;',
+                response.data
+              );
+              if (response.data.content.length > 0) {
+                this.feedDatas = this.feedDatas.concat(response.data.content);
                 $state.loaded();
                 this.pageNumber++;
+              } else {
+                $state.complete();
               }
             },
             (error) => {
@@ -80,12 +90,12 @@ export default {
               page: this.pageNumber,
             },
             (response) => {
-              this.feedDatas = this.feedDatas.concat(response.data);
-              if (response.data.length < this.pageSize) {
-                $state.complete();
-              } else {
+              if (response.data.content.length > 0) {
+                this.feedDatas = this.feedDatas.concat(response.data.content);
                 $state.loaded();
                 this.pageNumber++;
+              } else {
+                $state.complete();
               }
             },
             (error) => {
@@ -105,12 +115,12 @@ export default {
               page: this.pageNumber,
             },
             (response) => {
-              this.feedDatas = this.feedDatas.concat(response.data);
-              if (response.data.length < this.pageSize) {
-                $state.complete();
-              } else {
+              if (response.data.content.length > 0) {
+                this.feedDatas = this.feedDatas.concat(response.data.content);
                 $state.loaded();
                 this.pageNumber++;
+              } else {
+                $state.complete();
               }
             },
             (error) => {
