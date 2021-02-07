@@ -16,4 +16,11 @@ function addCommit(email, lat, lng, open, success, fail) {
     .catch(fail);
 }
 
-export { latlngToAddress, addCommit };
+function emptyCommit(email, success, fail) {
+  instance
+    .get('commit/noboard', { params: { email } })
+    .then(success)
+    .catch(fail);
+}
+
+export { latlngToAddress, addCommit, emptyCommit };

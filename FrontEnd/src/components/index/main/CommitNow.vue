@@ -24,7 +24,11 @@
             </v-chip>
           </div> -->
           <div class="d-flex align-center">
-            <img src="../../../assets/img/commitnow/LiveMonitoring.gif" style="max-width:16px;" />
+            <img
+              src="../../../assets/img/commitnow/LiveMonitoring.gif"
+              style="max-width:18px;"
+              class="mx-1"
+            />
             <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
           </div>
         </v-expansion-panel-header>

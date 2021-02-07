@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex justify-center" @click="goToMyPage">
-    <vs-card>
+  <div class="d-flex justify-center pr-lg-16">
+    <vs-card @click="goToMyPage">
       <template #title>
         <div>
           <component :is="mapType" :size="5" :borderRadius="5" :spacing="1"></component>
