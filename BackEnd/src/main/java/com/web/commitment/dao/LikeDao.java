@@ -29,5 +29,8 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	@Query(value = "select save.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from save "
 			+ "group by save.user_email", nativeQuery = true)
 	List<Ranking> likeRanking();
+	
+	@Query(value = "select max(id) from save", nativeQuery = true)
+	String findByLastLike();
 
 }

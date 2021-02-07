@@ -103,19 +103,10 @@ public class NotificationService {
 		} else {
 			toId = notificationReqDto.getTo();
 		}
-
-//		User fromUser = getUser(nickname); // follow: 좋아요 받은 사람, like: 좋아요 받은 사람의 아이디
-//		User toUser = getUser(toId);
-//
-//		System.out.println("to: " + toUser.getEmail());
-//		System.out.println("from: " + fromUser.getEmail());
 		
 		DatabaseReference notiRef = ref.child(toId); // 알림 받는 사람의 닉네임
-		System.out.println("notiRef: " + notiRef);
 		DatabaseReference nextNotiRef = notiRef.push(); // 다음 키값으로 푸시
-		System.out.println("nextNotiRef: " + nextNotiRef);
 		String postId = nextNotiRef.getKey(); // 현재 알람의 키값을 가져옴
-		System.out.println("postId: " + postId);
 		
 		DatabaseReference saveNoti = notiRef.child(postId); // to의 아이디 값의 child node
 
@@ -123,6 +114,9 @@ public class NotificationService {
             	saveNoti.setValueAsync(notificationSaveDto); // 정의된 경로(예: users/<user-id>/<username>)에 데이터를 쓰거나 대체합니다.
 		
 		} else if (type.equals("like")) { // 좋아요
+			saveNoti.setValueAsync(notificationSaveDto);
+			String lastId = likeDao.findByLastLike();
+			notificationSaveDto.setLikeId(lastId);
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else if (type.equals("comment")) { // 댓글
@@ -139,37 +133,53 @@ public class NotificationService {
 	}
 
 	@Transactional
-	public void readNoti(String notiId, String userId) {
+	public void readNoti(String notiId, String nickname) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-		DatabaseReference notiRef = ref.child(userId.toString()); // noti의 child node: to의 아이디 값
+		DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
+		
+		System.out.println(notiRef);
+		System.out.println(notiRef.getRef());
 		DatabaseReference updateRef = notiRef.child(notiId);
+		
+		System.out.println(updateRef.getKey());
 		updateRef.child("isRead").setValueAsync(true);
 	}
 
 	@Transactional
-	public void deleteNoti(String notiId, String userId) {
+	public void deleteNoti(String notiId, String nickname) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-		DatabaseReference notiRef = ref.child(userId.toString()); // noti의 child node: to의 아이디 값
+		DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
 		DatabaseReference deleteRef = notiRef.child(notiId);
 		deleteRef.removeValueAsync();
 	}
 
 	@Transactional
-	public void deleteCommentAlert(String commentId, String userId) {
-		if (commentDao.findById(commentId).isPresent()) {
+	public void deleteObjectAlert(String type, String objectId, String nickname) {
+		boolean isIn = false;
+		if(type.equals("comment"))
+			isIn = commentDao.findById(objectId).isPresent();
+		else if(type.equals("like"))
+			isIn = likeDao.findById(objectId).isPresent();
+		
+		
+		if (isIn) {
 			final FirebaseDatabase database = FirebaseDatabase.getInstance();
 			DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-			DatabaseReference notiRef = ref.child(userId.toString()); // noti의 child node: to의 아이디 값
+			DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
+			
 			notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(DataSnapshot snapshot) {
 					exFindData: for (DataSnapshot data : snapshot.getChildren()) {
 						String postKey = data.getKey();
 						for (DataSnapshot value : data.getChildren()) {
-							if (value.getKey().equals("commentId")) {
-								if (value.getValue() == commentId) {
+							
+							System.out.println(value.getKey());
+							if (value.getKey().equals(type + "Id")) {
+								
+								if (value.getValue().equals(objectId)) {
 									DatabaseReference deleteRef = notiRef.child(postKey);
 									deleteRef.removeValueAsync();
 									break exFindData;
@@ -185,5 +195,4 @@ public class NotificationService {
 			});
 		}
 	}
-
 }
