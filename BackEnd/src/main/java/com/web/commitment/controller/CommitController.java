@@ -29,10 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
-import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
 import net.minidev.json.JSONArray;
@@ -227,9 +225,9 @@ public class CommitController {
 	
 	@GetMapping("/commit/noboard")
 	@ApiOperation(value = "빈커밋")
-	public Page<Board> commitOnly(@RequestParam String email, final Pageable pageable) {
+	public Page<Commit> commitOnly(@RequestParam String email, final Pageable pageable) {
 		
-		return null;
+		return commitDao.commitOnly(email,pageable);
 	}
 //	@GetMapping("/commit/timeCheck")
 //	@ApiOperation(value = "커밋 시간제한 확인")
@@ -242,7 +240,7 @@ public class CommitController {
 //			return "false";//fail로 바꾸기
 //		return "success";
 //	}
-	@GetMapping("/test")
+//	@GetMapping("/test")
 	// 위도경도-> 지역 이름 (서울,광주,경기....)
 	public String reverseGeo(@RequestParam(required = true) String lat, @RequestParam(required = true) String lng)
 			throws ParseException {
