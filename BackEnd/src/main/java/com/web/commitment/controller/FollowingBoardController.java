@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.FollowDao;
+import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -21,6 +23,8 @@ public class FollowingBoardController {
 	BoardDao boardDao;
 	@Autowired
 	FollowDao followDao;
+	@Autowired
+	UserDao userDao;
 	
     @GetMapping("/sns/followingboard")
     @ApiOperation(value = "팔로잉 한 사람의 게시글만 불러오기")
@@ -33,4 +37,11 @@ public class FollowingBoardController {
     public Page<Board> totalboard(@RequestParam String email,Pageable pageable) {
     	return boardDao.findtotalByEmail(email,pageable);
     }
+    // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
+    @GetMapping("sns/followmap") 
+    @ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
+    public Page<User> followmap(@RequestParam String email,Pageable pageable){
+        return userDao.findfollowMapByEmail(email, pageable);
+    }
+    
 }
