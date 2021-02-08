@@ -56,29 +56,10 @@
           </div>
           생일
           <vs-input type="date" v-model="birth" icon-after> </vs-input>
-        지역
-        <div>
-        <!-- <vs-select placeholder="Select" v-model="region">
-        <vs-option label="서울" value="서울">
-          서울
-        </vs-option>
-        <vs-option label="경기도" value="경기도">
-          경기도
-        </vs-option>
-        <vs-option label="광주" value="광주">
-          광주
-        </vs-option>
-        <vs-option label="울산" value="울산">
-          울산
-        </vs-option>
-        <vs-option label="부산" value="부산">
-          부산
-        </vs-option>
-        <vs-option label="강원도" value="강원도">
-          강원도
-        </vs-option>
-      </vs-select> -->
-      </div>
+          나이
+          <vs-input type="number" v-model="age" />
+
+
 
 
 
@@ -103,7 +84,7 @@ export default {
 
 
   methods: {
-    ...mapActions(["smtp"]),
+    ...mapActions(["smtp", "SIGNUP"]),
     submit() {
       if (this.check()) {
         const params = {
@@ -115,14 +96,15 @@ export default {
           gender: this.gender,
           birth: this.birth,
           region: this.region,
-          age: 20,
+          age: this.age,
         };
         axios
           .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
           .then((res) => {
             console.log(res);
+            this.SIGNUP(params);
             this.$router.push({
-              name: 'https://i4a308.p.ssafy.io:8080/account/smtp',
+              name: 'EmailCheck',
               params: { email: this.email },
             });
           })
@@ -181,7 +163,7 @@ export default {
         remember: false,
         region: '',
         nickname: '',
-
+        age: '',
     }
   },
 };
