@@ -1,5 +1,7 @@
 package com.web.commitment.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,7 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
@@ -37,11 +40,13 @@ public class FollowingBoardController {
     public Page<Board> totalboard(@RequestParam String email,Pageable pageable) {
     	return boardDao.findtotalByEmail(email,pageable);
     }
-    // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
-    @GetMapping("sns/followmap") 
-    @ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
-    public Page<User> followmap(@RequestParam String email,Pageable pageable){
-        return userDao.findfollowMapByEmail(email, pageable);
-    }
+    
+//    // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
+//    @GetMapping("sns/followmap") 
+//    @ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
+//    public Page<User> followmap(@RequestParam String email,Pageable pageable){
+//    	return userDao.findfollowMapByEmail(email, pageable);
+//    }
+
     
 }

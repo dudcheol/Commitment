@@ -1,7 +1,10 @@
 package com.web.commitment.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
+import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
@@ -90,9 +94,9 @@ public class CommitController {
 		} else { // name이 null이라면 전국지도
 			List<Commit> commits = commitDao.findAllByEmail(email);
 			for (Commit commit : commits) {
-				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())),
-						map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()),
-								Integer.parseInt(commit.getLocalY())), 0) + 1);
+				map.put(new Position(Integer.parseInt(commit.getNationalX()), Integer.parseInt(commit.getNationalY())),
+						map.getOrDefault(new Position(Integer.parseInt(commit.getNationalX()),
+								Integer.parseInt(commit.getNationalY())), 0) + 1);
 			}
 		}
 
@@ -145,7 +149,7 @@ public class CommitController {
 			commit.setLat(user.getLat());
 			commit.setLng(user.getLng());
 			commit.setOpen(open);
-
+			commit.setAddress(reverseGeoLocation(user.getLat(),user.getLng()));
 			// 여기에 인덱스 변환 넣기
 			String region = reverseGeo(user.getLat(), user.getLng());
 			System.out.println(region);
@@ -176,9 +180,12 @@ public class CommitController {
 			commit.setNationalY(String.valueOf(dot[1]));
 			commit.setLocalX(String.valueOf(dot2[0]));
 			commit.setLocalY(String.valueOf(dot2[1]));
-
-			commitDao.save(commit);
-			return commit;
+//			System.out.println();
+			Commit c=commitDao.save(commit);
+			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+			c.setCreatedAt(format1.format(new Date()));
+			
+			return c;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -281,7 +288,7 @@ public class CommitController {
 
 	@GetMapping("/commit/location")
 	@ApiOperation(value = "위도 경도로 현재 위치 추출 ")
-	public Object reverseGeoLocation(@RequestParam(required = true) String lat,
+	public String reverseGeoLocation(@RequestParam(required = true) String lat,
 			@RequestParam(required = true) String lng) throws ParseException {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpGet getRequest = new HttpGet(
@@ -324,7 +331,26 @@ public class CommitController {
 
 	}
 	
-
+    // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
+    @GetMapping("sns/followmap") 
+    @ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
+    public List<FollowCommitMap> followmap(@RequestParam String email){
+    	
+    	List<FollowCommitMap> result = new ArrayList<>();
+    	
+    	// 1. 팔로우한 사람 id목록 (최신순으로 불러오기)
+    	List<User> followings = userDao.findAllByFollowing(email);
+    	for (int i = 0; i < followings.size(); i++) {
+    		// 2. 각각 팔로우한 사람들에게서 커밋지도 불러오기
+    		FollowCommitMap followCommitMap = new FollowCommitMap();
+    		followCommitMap.setUser(followings.get(i));
+    		followCommitMap.setCommit(commitCount(followings.get(i).getEmail(), followings.get(i).getRegion_name()));
+    		result.add(followCommitMap);
+    	}
+    	
+    	return result;
+    }
+    
 	// 인덱스 정보
 	static public class Position {
 		int x;
