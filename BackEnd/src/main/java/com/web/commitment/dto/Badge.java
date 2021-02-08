@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Badge")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Badge {
 	@Id
 	@Column(name = "user_email")
