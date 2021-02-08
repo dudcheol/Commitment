@@ -3,12 +3,12 @@
     block
     class="pa-5 mx-auto text-center"
     rounded="xl"
-    color="blue-grey lighten-4"
+    color="rgb(224,229,231)"
     style="max-width:680px"
   >
     <div class="font-weight-medium">
-      <v-icon large class="blue-grey--text text--lighten-2">mdi-{{ icon }}</v-icon>
-      <h4 class="blue-grey--text text--lighten-2">{{ text }}</h4>
+      <v-icon large class="blue-grey--text text--lighten-3">mdi-{{ icon }}</v-icon>
+      <h4 class="blue-grey--text text--lighten-3">{{ text }}</h4>
     </div>
   </v-sheet>
 </template>
