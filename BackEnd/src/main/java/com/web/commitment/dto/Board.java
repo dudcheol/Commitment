@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -24,7 +23,6 @@ import org.hibernate.annotations.FetchMode;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -94,9 +92,4 @@ public class Board {
 				+ content + ", createdAt=" + createdAt + ", location=" + location + ", image=" + image + ", commit="
 				+ commit + ", user=" + user + ", tag=" + tag + ", comment=" + comment + ", like=" + like + "]";
 	}
-//	
-
-	
-
-	
 }

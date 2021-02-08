@@ -6,10 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -86,8 +89,8 @@ public class User {
 	@JoinColumn(name = "email", referencedColumnName = "user_email")
 	private Profile profile;
 
-//	// User 1: N Commit
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-//	private List<Commit> commitList;
-
+	// User 1: N Commit
+	@OneToMany(mappedBy = "email")
+	private List<Commit> commit;
+	
 }
