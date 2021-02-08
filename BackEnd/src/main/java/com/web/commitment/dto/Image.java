@@ -20,7 +20,6 @@ import lombok.Setter;
 @Table(name="image")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Image {
 	
 	@Id

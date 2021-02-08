@@ -19,12 +19,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findBoardByEmail(String to);
 	
-<<<<<<< HEAD
 	@Query(value = "select * from sns s, commit c where s.commit_id=c.id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
-=======
-	//내용으로검색
-	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
->>>>>>> 82023f582d31f795097066fc9487129fb01aedaf
 	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 	//제목으로 검색
 	@Query(value = "select * from sns s, commit c where  c.id=s.commit_id and UPPER(s.title) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
@@ -71,7 +66,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	
 	@Query(value = "select * from sns s, commit c "
 			+ "where (s.user_email in (select f.follow_to from follow f where f.follow_from=:email) or s.user_email=:email)"
-			+ "and c.id=s.commit_id c.open=1 "
+			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email")String email, Pageable pageable);
 }

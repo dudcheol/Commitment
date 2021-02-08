@@ -51,7 +51,7 @@ public class CommitController {
 	static final double METER_PER_LAT = 88740; // 경도 1도당 미터
 	static final double METER_PER_LNG = 110000; // 위도 1도당 미터
 	HashMap<String, double[]> hm = new HashMap<>();
-
+	
 	{
 		// tile 사이즈,latmin,latmax,lngmin,mngmax
 		double[] national = { 20000, 33.0, 38.9, 124.5, 132.0 };
@@ -71,7 +71,6 @@ public class CommitController {
 	}
 
 	// CRUD 중 C만
-
 	// 커밋 행렬 좌표, 횟수 불러오기
 	@GetMapping("/commit")
 	@ApiOperation(value = "인덱스 별 커밋 횟수 불러오기")
@@ -80,9 +79,10 @@ public class CommitController {
 
 		Map<Position, Integer> map = new HashMap<>();
 
-		if (name != null) {
+		if (name.equals("national")) {
 			List<Commit> commits = commitDao.findAllByEmailAndRegion(email, name);
 			for (Commit commit : commits) {
+				System.out.println(commit);
 				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())),
 						map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()),
 								Integer.parseInt(commit.getLocalY())), 0) + 1);
