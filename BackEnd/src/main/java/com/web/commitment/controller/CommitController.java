@@ -17,6 +17,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +31,6 @@ import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
 import net.minidev.json.JSONArray;
@@ -137,6 +138,7 @@ public class CommitController {
 	@ApiOperation(value = "커밋하기")
 	public Commit commit(@Valid @RequestBody User user, @PathVariable int open) {
 		// user를 받아오면 해당 user, lat, lng로 커밋 정보 저장
+		//
 		try {
 			Commit commit = new Commit();
 			commit.setEmail(user.getEmail());
@@ -220,20 +222,25 @@ public class CommitController {
 		}
 		return list;
 	}
-
-	@GetMapping("/commit/timeCheck")
-	@ApiOperation(value = "커밋 시간제한 확인")
-	public String timeCheck(@RequestParam(required = true) final String email, @RequestParam(required = true) int x,
-			@RequestParam(required = true) int y, @RequestParam(required = true) String region) {
-		// x,y는 위도 경도 변환된 인덱스
-		List<Commit> li = commitDao.timeCheck(email, x, y, region);
-
-		if (li.size() != 0)
-			return "false";//fail로 바꾸기
-		return "success";
+	
+	@GetMapping("/commit/noboard")
+	@ApiOperation(value = "빈커밋")
+	public Page<Commit> commitOnly(@RequestParam String email, final Pageable pageable) {
+		
+		return commitDao.commitOnly(email,pageable);
 	}
-
-	@GetMapping("/test")
+//	@GetMapping("/commit/timeCheck")
+//	@ApiOperation(value = "커밋 시간제한 확인")
+//	public String timeCheck(@RequestParam(required = true) final String email, @RequestParam(required = true) int x,
+//			@RequestParam(required = true) int y, @RequestParam(required = true) String region) {
+//		// x,y는 위도 경도 변환된 인덱스
+//		List<Commit> li = commitDao.timeCheck(email, x, y, region);
+//
+//		if (li.size() != 0)
+//			return "false";//fail로 바꾸기
+//		return "success";
+//	}
+//	@GetMapping("/test")
 	// 위도경도-> 지역 이름 (서울,광주,경기....)
 	public String reverseGeo(@RequestParam(required = true) String lat, @RequestParam(required = true) String lng)
 			throws ParseException {
@@ -316,6 +323,7 @@ public class CommitController {
 		return "fail";
 
 	}
+	
 
 	// 인덱스 정보
 	static public class Position {

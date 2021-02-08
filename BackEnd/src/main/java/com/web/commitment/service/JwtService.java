@@ -17,7 +17,7 @@ public class JwtService {
 	public static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 	
 	private String signature = "VUETOKEN";
-	private Long expireMin = 5L;
+	private Long expireMin = 30L;
 
 //	로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.
 	public String create(User user) {
