@@ -1,6 +1,7 @@
 import { findByToken, login, setAuthTokenToHeader, logout } from '../api/account';
 import router from '../router';
-import axios from '../api/index.js'
+import axios from 'axios'
+// import axios from '../api/index.js'
 
 export default {
   async LOGIN(context, user) {
@@ -62,25 +63,25 @@ export default {
       console.log('%cactions.js line:50 위치정보를 사용할 수 없음.', 'color: #007acc;');
     }
   },
-  SIGNUP: (store, payload) => {
-    console.log(payload);
-    axios
-      .post("/account/signup", payload)
-      .then((response) => {
-        console.log("회원가입 : " + response.data.length);
-        store.dispatch("SMTP",payload);
-      })
-      .catch((response, error) => {
-        console.log("FAIL : " + response.status);
-        console.log(error);
-        router.push("/error");
-      });
-    }, 
+  // SIGNUP: (store, payload) => {
+  //   console.log(payload);
+  //   axios
+  //     .post("/account/signup", payload)
+  //     .then((response) => {
+  //       console.log("회원가입 : " + response.data.length);
+  //       store.dispatch("SMTP",payload);
+  //     })
+  //     .catch((response, error) => {
+  //       console.log("FAIL : " + response.status);
+  //       console.log(error);
+  //       router.push("/error");
+  //     });
+  //   }, 
 
     SMTP: (store, payload) => {
       console.log(payload);
       axios
-        .get("/account/smtp?email=" + payload.email)
+        .get('https://i4a308.p.ssafy.io:8080/account/smtp' + payload.email)
         .then((response) => {
           console.log("smtp : " + response.data.length);
         })
@@ -92,25 +93,25 @@ export default {
         });
     },
 
-    DELETE:(store,payload) => {
-      console.log(payload);
-      axios
-        .delete("/account/delete?email=" + payload)
-        .then((response) => {
-          console.log(response);
-          if (response.data.data == "success") {
-            console.log("sc");
-            store.dispatch('logout')
-          } else {
-            console.log("fa");
-          }
-        })
-        .catch((response, error) => {
-          console.log("FAIL : " + response.status);
-          console.log(error);
-          router.push("/error");
-        });
-    }
+    // DELETE:(store,payload) => {
+    //   console.log(payload);
+    //   axios
+    //     .delete("/account/delete?email=" + payload)
+    //     .then((response) => {
+    //       console.log(response);
+    //       if (response.data.data == "success") {
+    //         console.log("sc");
+    //         store.dispatch('logout')
+    //       } else {
+    //         console.log("fa");
+    //       }
+    //     })
+    //     .catch((response, error) => {
+    //       console.log("FAIL : " + response.status);
+    //       console.log(error);
+    //       router.push("/error");
+    //     });
+    // }
 
 
 };

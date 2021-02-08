@@ -58,32 +58,35 @@
           <vs-input type="date" v-model="birth" icon-after> </vs-input>
         지역
         <div>
-        <vs-select placeholder="Select" v-model="region">
-        <vs-option label="서울" value="1">
+        <!-- <vs-select placeholder="Select" v-model="region">
+        <vs-option label="서울" value="서울">
           서울
         </vs-option>
-        <vs-option label="경기도" value="2">
+        <vs-option label="경기도" value="경기도">
           경기도
         </vs-option>
-        <vs-option label="광주" value="3">
+        <vs-option label="광주" value="광주">
           광주
         </vs-option>
-        <vs-option label="울산" value="4">
+        <vs-option label="울산" value="울산">
           울산
         </vs-option>
-        <vs-option label="부산" value="5">
+        <vs-option label="부산" value="부산">
           부산
         </vs-option>
-        <vs-option label="강원도" value="6">
+        <vs-option label="강원도" value="강원도">
           강원도
         </vs-option>
-      </vs-select>
+      </vs-select> -->
       </div>
 
-        </div>
 
+
+        </div>
+             <!-- <input v-model="isTerm" type="checkbox" id="term" />
+          <span>약관에 동의합니다</span> -->
         <div class="footer-dialog">
-          <vs-button block>
+          <vs-button block @click="submit">
             회원가입
           </vs-button>
         </div>
@@ -93,12 +96,80 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+import { mapActions } from "vuex"
 
 export default {
-  data () {
+
+
+  methods: {
+    ...mapActions(["smtp"]),
+    submit() {
+      if (this.check()) {
+        const params = {
+          email: this.email,
+          nickname: this.nickname,
+          password: this.password,
+          tel: this.tel,
+          mystory: this.mystory,
+          gender: this.gender,
+          birth: this.birth,
+          region: this.region,
+          age: 20,
+        };
+        axios
+          .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
+          .then((res) => {
+            console.log(res);
+            this.$router.push({
+              name: 'https://i4a308.p.ssafy.io:8080/account/smtp',
+              params: { email: this.email },
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            console.log('가입에 실패하셨습니다.');
+          });
+      } else {
+        console.log('no');
+      }
+    },
+
+     check() {
+      let emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+      let passRule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
+      if (
+        this.email &&
+        this.nickname &&
+        this.password &&
+        this.passwordConfirm
+      ) {
+        if (!emailRule.test(this.email)) {
+          console.log('이메일 형식에 맞게 작성해주세요.');
+          return false;
+        }
+        if (!passRule.test(this.password)) {
+          console.log('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
+          return;
+        }
+        if (this.password !== this.passwordConfirm) {
+          console.log('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
+          return false;
+        }
+        // if (!this.isTerm) {
+        //   console.log('약관에 동의하셔야 합니다.');
+        //   return false;
+        // }
+        return true;
+      }
+      console.log('회원가입 양식을 모두 채워주세요.');
+      return false;
+    },
+
+  },
+
+    data () {
     return {
-      signupdata: {
         active: true,
         email: '',
         password: '',
@@ -107,19 +178,12 @@ export default {
         mystory: '',
         gender: '',
         birth: '',
-        value2: '',
         remember: false,
         region: '',
         nickname: '',
-      },
 
-      
     }
   },
-
-  methods: {
-
-  }
 };
 </script>
 
