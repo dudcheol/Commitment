@@ -56,14 +56,22 @@ export default {
           context.dispatch('LATLNG_TO_ADDRESS', latlng);
         },
         (error) => {
-          if (error.code == error.PERMISSION_DENIED) {
-            router.replace('/permission');
-          }
+          // if (error.code == error.PERMISSION_DENIED) {
+          console.log(
+            '%cerror actions.js line:60 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+          router.replace('/permission');
+          context.commit('CURRENT_LATLNG', null);
+          context.commit('LATLNG_TO_ADDRESS', null);
+          // }
         }
       );
     } else {
       /* 위치정보 사용 불가능 */
       console.log('%cactions.js line:50 위치정보를 사용할 수 없음.', 'color: #007acc;');
+      router.replace('/permission');
     }
   },
   LATLNG_TO_ADDRESS(context, latlng) {

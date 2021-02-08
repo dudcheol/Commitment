@@ -82,8 +82,8 @@
       bottom
       :ripple="false"
       @click="commit"
-      :loading="commitLoading"
-      :disabled="commitLoading"
+      :loading="!latlng || commitLoading"
+      :disabled="!latlng || commitLoading"
       elevation="10"
     >
       <v-icon dark x-large>{{ commitBtnIcon }}</v-icon>
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { addCommit } from '../api/commit';
+import { addCommit, READ_PERMISSION_OK } from '../api/commit';
 import { mapActions, mapGetters } from 'vuex';
 import Dialog from '../components/common/dialog/Dialog.vue';
 import CommitComplete from '../components/common/dialog/CommitComplete.vue';
@@ -164,12 +164,12 @@ export default {
         this.user.email,
         this.latlng.lat,
         this.latlng.lng,
-        1,
+        READ_PERMISSION_OK,
         (response) => {
           console.log('%cIndex.vue line:115 response', 'color: #007acc;', response.data);
           if (response.data) {
             this.commitRegion = response.data.region;
-            this.commitDatas = [[response.data.localY, response.data.localX]];
+            this.commitDatas = [[response.data.localY, response.data.localX, 3]];
             this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
             this.commitConfirm = true;
             this.openNotification(4000);
