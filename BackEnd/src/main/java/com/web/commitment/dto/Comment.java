@@ -24,7 +24,6 @@ import lombok.ToString;
 @Table(name="comment")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Comment {
 	
 	@Id

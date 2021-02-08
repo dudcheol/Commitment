@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 public class User {
 

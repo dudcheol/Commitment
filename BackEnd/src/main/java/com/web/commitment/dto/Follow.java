@@ -1,6 +1,7 @@
 package com.web.commitment.dto;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,21 +19,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="Follow")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Follow {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private String followid;
-	
-	@Column(name = "follow_from")
-	private String fromUser;
-	@Column(name = "follow_to")
-	private String toUser;
-
-//	@EmbeddedId
-//	private FollowId followid;
+	@EmbeddedId
+	private FollowId followid;
 }
 
 
