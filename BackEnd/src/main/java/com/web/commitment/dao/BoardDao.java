@@ -66,7 +66,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	
 	@Query(value = "select * from sns s, commit c "
 			+ "where (s.user_email in (select f.follow_to from follow f where f.follow_from=:email) or s.user_email=:email)"
-			+ "and c.id=s.commit_id c.open=1 "
+			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email")String email, Pageable pageable);
 }
