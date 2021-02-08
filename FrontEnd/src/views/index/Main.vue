@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="blue-grey lighten-5 pa-0">
-    <v-col class="mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
+    <v-col class="mt-4" :class="dynamicPosition" cols="12" md="3" lg="2" xl="2">
       <v-row>
         <v-col>
           <ProfileSummary />

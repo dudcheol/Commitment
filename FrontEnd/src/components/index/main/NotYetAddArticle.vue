@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 pr-lg-16">
+  <div class="mt-4">
     <v-expansion-panels accordion flat multiple v-model="panel" class="rounded-lg">
       <v-expansion-panel style="background-color:transparent">
         <v-expansion-panel-header>

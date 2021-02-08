@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-center pr-lg-16">
+  <div class="d-flex justify-center">
     <vs-card @click="goToMyPage">
       <template #title>
         <div>
