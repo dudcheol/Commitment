@@ -33,7 +33,7 @@ public class Like {
 	private String id;
 
 	@Column(name="user_email")
-	private String email;
+	private String email; // 좋아요 누른 사람의 이메일
 
 	@Column(name="sns_id")
 	private int snsId;

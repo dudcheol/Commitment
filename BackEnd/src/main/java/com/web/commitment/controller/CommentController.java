@@ -53,7 +53,8 @@ public class CommentController {
     		return "error";
     	}
     }
-    
+	
+
     @GetMapping("/comment")
     @ApiOperation(value = "해당 게시글의 댓글 목록")
     public List<Comment> mypage(@RequestParam String sns_id) {
