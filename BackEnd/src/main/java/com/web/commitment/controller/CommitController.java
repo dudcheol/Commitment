@@ -332,7 +332,7 @@ public class CommitController {
     	
     	List<FollowCommitMap> result = new ArrayList<>();
     	
-    	// 1. 팔로우한 사람 id목록
+    	// 1. 팔로우한 사람 id목록 (최신순으로 불러오기)
     	List<User> followings = userDao.findAllByFollowing(email);
     	for (int i = 0; i < followings.size(); i++) {
     		// 2. 각각 팔로우한 사람들에게서 커밋지도 불러오기

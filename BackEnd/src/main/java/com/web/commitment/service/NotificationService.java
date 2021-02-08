@@ -121,6 +121,8 @@ public class NotificationService {
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else if (type.equals("commit")) { // 실시간 커밋
+			User user = getUser(nickname);
+			notificationSaveDto.setUserEmail(user.getEmail());
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else {
