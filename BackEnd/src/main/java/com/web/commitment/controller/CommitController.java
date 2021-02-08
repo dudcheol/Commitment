@@ -79,7 +79,7 @@ public class CommitController {
 
 		Map<Position, Integer> map = new HashMap<>();
 
-		if (name.equals("national")) {
+		if (!name.equals("national")) {
 			List<Commit> commits = commitDao.findAllByEmailAndRegion(email, name);
 			for (Commit commit : commits) {
 				System.out.println(commit);
