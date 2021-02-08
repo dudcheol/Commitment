@@ -28,4 +28,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.theme--light.v-btn:hover::before {
+  opacity: 0.08;
+  background-color: skyblue;
+}
+</style>

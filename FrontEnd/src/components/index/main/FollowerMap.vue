@@ -1,7 +1,7 @@
 <template>
   <v-sheet class="mx-auto" max-width="800" color="transparent">
     <v-slide-group v-model="model" class="" show-arrows>
-      <v-slide-item v-for="item in items" :key="item" v-slot="{ active, toggle }">
+      <v-slide-item v-for="item in items" :key="item" v-slot="{ toggle }">
         <v-card
           :color="item.region ? 'white' : 'rgb(224,229,231)'"
           class="ma-1 d-flex justify-center flex-column justify-space-between"

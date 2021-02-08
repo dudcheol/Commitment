@@ -18,7 +18,7 @@
             class="mb-2"
           ></commit-card>
           <no-data-card
-            v-show="empCommits"
+            v-if="empCommits.length == 0"
             :icon="'emoticon-happy-outline'"
             :text="'비어있는 커밋이 없어요'"
           ></no-data-card>
@@ -59,21 +59,26 @@ export default {
     emptyCommit(
       this.user.email,
       (response) => {
-        const res = response.data;
-        latlngToAddress(
-          { lat: res.lat, lng: res.lng },
-          (response2) => {
-            res['address'] = response2.data;
-          },
-          (error) => {
-            console.log(
-              '%cerror NotYetAddArticle.vue line:64 ',
-              'color: red; display: block; width: 100%;',
-              error
-            );
-          }
-        );
-        this.empCommits.push(res);
+        const res = response.data.content;
+        for (let i = 0; i < res.length; i++) {
+          const item = res[i];
+          console.log('%cNotYetAddArticle.vue line:65 item', 'color: #007acc;', item);
+          latlngToAddress(
+            { lat: item.lat, lng: item.lng },
+            (response2) => {
+              console.log('%cNotYetAddArticle.vue line:68 response2', 'color: #007acc;', response2);
+              item['address'] = response2.data;
+              this.empCommits.push(item);
+            },
+            (error) => {
+              console.log(
+                '%cerror NotYetAddArticle.vue line:64 ',
+                'color: red; display: block; width: 100%;',
+                error
+              );
+            }
+          );
+        }
       },
       (error) => {
         console.log(

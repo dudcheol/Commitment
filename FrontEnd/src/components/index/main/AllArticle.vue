@@ -12,7 +12,7 @@
       <main-card :data="data"></main-card>
     </div>
     <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="circles">
-      <div slot="no-more">
+      <div slot="no-more" class="mt-4">
         <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
       </div>
       <!-- <div slot="spinner"></div> -->
@@ -34,7 +34,7 @@ export default {
   components: { MainCard, InfiniteLoading, NoDataCard },
 
   data: () => ({
-    feedDatas: [1],
+    feedDatas: [],
     toggle: 0,
     pageNumber: 0, // 무한스크롤이 진행되면서 다음에 불러올 페이지 번호
     pageSize: 5,
@@ -66,7 +66,7 @@ export default {
                 response.data
               );
               if (response.data.content.length > 0) {
-                this.feedDatas = this.feedDatas.concat(response.data.content);
+                this.feedDatas = this.feedDatas.concat(response.data.content[0]);
                 $state.loaded();
                 this.pageNumber++;
               } else {
