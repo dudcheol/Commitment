@@ -21,12 +21,10 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 import lombok.AllArgsConstructor;
@@ -94,12 +92,4 @@ public class Board {
 				+ content + ", createdAt=" + createdAt + ", location=" + location + ", image=" + image + ", commit="
 				+ commit + ", user=" + user + ", tag=" + tag + ", comment=" + comment + ", like=" + like + "]";
 	}
-<<<<<<< HEAD
-=======
-//	
-
-	
-
-	
->>>>>>> 8eed12896b019fafe23642e2476a7af7e25848d2
 }

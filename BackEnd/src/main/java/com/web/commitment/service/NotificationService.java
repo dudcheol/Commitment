@@ -117,7 +117,7 @@ public class NotificationService {
 			
 		} else if (type.equals("comment")) { // 댓글
 			String lastId = commentDao.findByLastComment();
-			notificationSaveDto.setCommentId(lastId);
+			notificationSaveDto.setCommentId(lastId); // sns_id로 변경
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else if (type.equals("commit")) { // 실시간 커밋

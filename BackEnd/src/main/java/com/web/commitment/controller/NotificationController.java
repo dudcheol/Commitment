@@ -79,7 +79,7 @@ public class NotificationController {
         }
     }
     
-    @ApiOperation(value = "댓글, 좋아요 삭제 시 알람 삭제 // nickname : 알림 받은 사람의 닉네임(ex. 글쓴이)")
+    @ApiOperation(value = "댓글, 좋아요 삭제, 팔로우 취소  시 알람 삭제 // nickname : 알림 받은 사람의 닉네임(ex. 글쓴이)")
     @DeleteMapping("/notidel/{objectId}") // nickname : 알림 받은 사람의 닉네임(글쓴이)
     public String deleteCommentsNotification(@RequestParam String type, @RequestParam String nickname, @PathVariable("objectId") final String objectId) {
     	notificationService.deleteObjectAlert(type, objectId, nickname);
