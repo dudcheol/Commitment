@@ -156,7 +156,7 @@ public class CommitController {
 			if (region.equals("서울")) {
 				commit.setRegion("seoul");
 			} else if (region.equals("경기")) {
-				commit.setRegion("gyenggi");
+				commit.setRegion("gyeonggi");
 			} else if (region.equals("강원")) {
 				commit.setRegion("gangwon");
 			} else if (region.equals("광주")) {
@@ -180,7 +180,7 @@ public class CommitController {
 			commit.setNationalY(String.valueOf(dot[1]));
 			commit.setLocalX(String.valueOf(dot2[0]));
 			commit.setLocalY(String.valueOf(dot2[1]));
-//			System.out.println();
+			System.out.println(commit);
 			Commit c=commitDao.save(commit);
 			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 			c.setCreatedAt(format1.format(new Date()));
