@@ -7,8 +7,8 @@
             <h4>
               <!-- <i class="bx bxs-map" style="vertical-align:middle"></i>
               서울특별시 강남구 역삼동 701 -->
-              <v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon>서울특별시 강남구
-              역삼동 701
+              <v-icon class="mr-1" color="primary">mdi-crosshairs-gps</v-icon
+              >서울특별시 강남구 역삼동 701
             </h4>
           </v-col>
         </v-row>

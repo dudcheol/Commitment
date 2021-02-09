@@ -1,15 +1,15 @@
 package com.web.commitment.dto;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -29,7 +29,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @DynamicInsert
 @DynamicUpdate
 public class Commit {
@@ -49,7 +48,7 @@ public class Commit {
 	private String lng;
 	
 	@Column(name="created_at")
-	private Date createdAt;
+	private String createdAt;
 	
 	@Column(name="open")
 	private int open;
@@ -68,10 +67,12 @@ public class Commit {
 	
 	@Column(name="local_y")
 	private String localY;
+	
+	@Column(name="address")
+	private String address;
 
-	@OneToOne
-	@JoinColumn(name = "id", referencedColumnName = "commit_id")
-	private Board board;
+//	@OneToMany(mappedBy = "commitId" )
+//	private List<Board> board;
 	
 //	// commit N : 1 User
 //	@ManyToOne

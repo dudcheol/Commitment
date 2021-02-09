@@ -1,29 +1,25 @@
 <template>
-  <v-app id="inspire">
-    <v-main class="grey lighten-3" >
-      <v-container >
-        <v-row>
-          <v-col class="sidebar_left" cols="12" sm="2">
-            <div class="d-flex justify-center">
-              <SelectZone />
+  <v-container class="pt-7">
+    <v-row>
+      <v-col class="sidebar_left" cols="12" sm="2">
+        <div class="d-flex justify-center">
+          <SelectZone />
+        </div>
+      </v-col>
+      <v-col class="mainslot" cols="12" sm="8">
+        <v-sheet min-height="70vh" rounded="xl">
+          <div class="mainpage pa-5">
+            <Top3 />
+            <div class="whitebox">
+              <SearchBar />
+              <After4 />
             </div>
-          </v-col>
-          <v-col class="mainslot" cols="12" sm="8">
-            <v-sheet min-height="70vh" rounded="lg">
-              <div class="mainpage">
-                  <Top3 />
-                <div class="whitebox">
-                <SearchBar/>
-                <After4 />
-                </div>
-                <br />
-              </div>
-            </v-sheet>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+            <br />
+          </div>
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -63,7 +59,7 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.whitebox{
+.whitebox {
   background-color: white;
 }
 @media (max-width: 450px) {

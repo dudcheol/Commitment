@@ -3,6 +3,8 @@ package com.web.commitment.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,7 @@ public interface LikeDao extends JpaRepository<Like, String> {
 
 	Optional<Like> findByEmailAndSnsId(String email, int snsId);
 
-	List<Like> findAllByEmail(String email);
+	Page<Like> findAllByEmail(String email, Pageable pabeable);
 
 	int countByWriter(String email);
 
@@ -26,5 +28,8 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	@Query(value = "select save.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from save "
 			+ "group by save.user_email", nativeQuery = true)
 	List<Ranking> likeRanking();
+	
+	@Query(value = "select max(id) from save", nativeQuery = true)
+	String findByLastLike();
 
 }

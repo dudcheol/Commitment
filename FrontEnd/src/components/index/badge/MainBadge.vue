@@ -1,17 +1,5 @@
 <template>
   <div>
-    <!--   <div class="percentageNum">
-    <p>도전과제 75% 완료!</p>
-  </div>
-  <div class="percentageBar">
-    <v-progress-linear
-      color="red lighten-2"
-      buffer-value="75"
-      height="10"
-      stream
-    ></v-progress-linear>
-    <br>
-  </div> -->
     <div class="d-flex justify-center">
       <div>
         <vs-card class="maincard">
@@ -28,11 +16,6 @@
               커밋홀릭
             </p>
           </template>
-          <!--     <template #interactions>
-          <vs-button danger icon>
-            <i class='bx bx-heart'></i>
-          </vs-button>
-        </template> -->
         </vs-card>
       </div>
     </div>

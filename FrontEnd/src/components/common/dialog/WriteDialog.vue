@@ -13,7 +13,8 @@
         <div class="d-flex flex-column">
           <h2 class="text-center">커밋하기</h2>
           <v-chip small outlined>
-            <i class="bx bxs-map" style="vertical-align:middle"></i>{{ address }}
+            <i class="bx bxs-map" style="vertical-align:middle"></i
+            >{{ address }}
           </v-chip>
         </div>
       </template>
@@ -29,7 +30,11 @@
           <div class="flex-column pl-2">
             <h3>{{ username }}</h3>
             <div>
-              <vs-select placeholder="공개설정" v-model="value" style="width:85px">
+              <vs-select
+                placeholder="공개설정"
+                v-model="value"
+                style="width:85px"
+              >
                 <vs-option label="공개" value="1">
                   공개
                 </vs-option>

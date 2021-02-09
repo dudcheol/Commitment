@@ -24,7 +24,6 @@ import lombok.ToString;
 @Table(name="comment")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Comment {
 	
 	@Id
@@ -57,7 +56,4 @@ public class Comment {
 	
 	@Column(name="created_at")
 	private LocalDateTime createdAt;
-	
-	@Column(name="seq")
-	private int seq;
 }

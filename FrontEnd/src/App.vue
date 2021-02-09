@@ -4,17 +4,13 @@
   </v-app>
 </template>
 
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/vuesax"></script>
 <script>
 export default {
   name: 'App',
 
   components: {},
 
-  data: () => ({
-    //
-  }),
+  data: () => ({}),
 };
 </script>
 

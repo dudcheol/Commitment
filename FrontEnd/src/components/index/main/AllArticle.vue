@@ -1,30 +1,20 @@
 <template>
   <div>
-    <div class="filtering">
-      <vs-button-group>
-        <vs-button flat icon>
-          ALL
-        </vs-button>
-        <vs-button flat icon>
-          ME
-        </vs-button>
-        <vs-button flat icon>
-          FOLLOW
-        </vs-button>
-      </vs-button-group>
-      <!-- <v-sheet class="pa-3 " rounded="xl">
-        <div>
-          <h3>피드 필터링</h3>
-        </div>
-      </v-sheet> -->
+    <div class="filtering d-flex justify-center">
+      <v-btn-toggle mandatory dense borderless rounded v-model="toggle">
+        <v-btn small color="primary" :ripple="false" text>ALL</v-btn>
+        <v-btn small color="primary" :ripple="false" text>ME</v-btn>
+        <v-btn small color="primary" :ripple="false" text>FOLLOW</v-btn>
+      </v-btn-toggle>
     </div>
 
     <div class="mt-4" v-for="content in feedDatas" :key="content">
       <main-card></main-card>
     </div>
-    <infinite-loading @infinite="infiniteHandler">
+    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading">
       <div slot="no-more">더이상 불러올 데이터가 없습니다</div>
       <div slot="spinner">로딩중...</div>
+      <div slot="no-results">결과가 없습니다</div>
     </infinite-loading>
   </div>
 </template>
@@ -32,28 +22,107 @@
 <script>
 import MainCard from '../../common/card/MainCard.vue';
 import InfiniteLoading from 'vue-infinite-loading';
+import { myBoardList, followingBoardList, totalBoadList } from '../../../api/board';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { MainCard, InfiniteLoading },
 
   data: () => ({
     feedDatas: [],
-    limit: 0, // 무한스크롤이 진행되면서 다음에 불러올 페이지 번호
+    toggle: 0,
+    pageNumber: 0, // 무한스크롤이 진행되면서 다음에 불러올 페이지 번호
+    pageSize: 5,
   }),
+  watch: {
+    toggle: function() {
+      this.feedDatas = [];
+      this.pageNumber = 0;
+      this.$refs.infiniteLoading.stateChanger.reset();
+    },
+  },
+  computed: {
+    ...mapGetters({ userInfo: ['getUserInfo'] }),
+  },
   methods: {
     infiniteHandler($state) {
-      // const EACH_LEN = 5; // 5개씩 받아오기
-
-      console.log('%cAllArticle.vue line:48 인피티니 핸들러 작동!', 'color: #007acc;');
-
-      const tmpdata = [0, 0, 0, 0, 0];
-      setTimeout(() => {
-        this.feedDatas = this.feedDatas.concat(tmpdata);
-        $state.loaded();
-        console.log('%cAllArticle.vue line:52 데이터추가됨!', 'color: #007acc;');
-      }, 1000);
-
-      console.log('%cAllArticle.vue line:55 $state', 'color: #007acc;', $state);
+      switch (this.toggle) {
+        case 0:
+          totalBoadList(
+            {
+              email: this.userInfo.email,
+              size: this.pageSize,
+              page: this.pageNumber,
+            },
+            (response) => {
+              this.feedDatas = this.feedDatas.concat(response.data);
+              if (response.data.length < this.pageSize) {
+                $state.complete();
+              } else {
+                $state.loaded();
+                this.pageNumber++;
+              }
+            },
+            (error) => {
+              console.log(
+                '%cerror AllArticle.vue line:81 ',
+                'color: red; display: block; width: 100%;',
+                error
+              );
+            }
+          );
+          break;
+        case 1:
+          myBoardList(
+            {
+              email: this.userInfo.email,
+              size: this.pageSize,
+              page: this.pageNumber,
+            },
+            (response) => {
+              this.feedDatas = this.feedDatas.concat(response.data);
+              if (response.data.length < this.pageSize) {
+                $state.complete();
+              } else {
+                $state.loaded();
+                this.pageNumber++;
+              }
+            },
+            (error) => {
+              console.log(
+                '%cerror AllArticle.vue line:85 ',
+                'color: red; display: block; width: 100%;',
+                error
+              );
+            }
+          );
+          break;
+        case 2:
+          followingBoardList(
+            {
+              email: this.userInfo.email,
+              size: this.pageSize,
+              page: this.pageNumber,
+            },
+            (response) => {
+              this.feedDatas = this.feedDatas.concat(response.data);
+              if (response.data.length < this.pageSize) {
+                $state.complete();
+              } else {
+                $state.loaded();
+                this.pageNumber++;
+              }
+            },
+            (error) => {
+              console.log(
+                '%cerror AllArticle.vue line:102 ',
+                'color: red; display: block; width: 100%;',
+                error
+              );
+            }
+          );
+          break;
+      }
     },
   },
 };
@@ -64,12 +133,4 @@ export default {
   max-width: 50vh !important;
   max-height: 50vh !important;
 }
-
-/* .filtering {
-  display: flex;
-  justify-content: space-around;
-}
-.filtering .vs-button__content {
-  width: 20vh !important;
-} */
 </style>

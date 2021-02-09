@@ -1,5 +1,6 @@
 package com.web.commitment.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.web.commitment.dao.CommentDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Comment;
+//import com.web.commitment.dto.Token;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -31,12 +33,14 @@ public class CommentController {
 	
 	@PostMapping("/comment")
     @ApiOperation(value = "댓글 작성 & 수정")
-    public String writeComment(@RequestBody Comment comment) {
-
+    public String writeComment(@RequestBody Comment comment) throws IOException {
+		
+//		NotificationController.Push(data, 0);
+		
 		// id가 있으면 
 		// 댓글은 여러 개 작성 가능
     	try { 
-    		if(!comment.getParent().equals("0")) { // 부모 댓글이 있으면
+    		if(comment.getParent()!=null) { // 부모 댓글이 있으면
     			Optional<Comment> parent = commentDao.findById(comment.getParent());
     			System.out.println(parent.get().getDepth());
     			comment.setDepth(parent.get().getDepth() + 1);
@@ -49,7 +53,8 @@ public class CommentController {
     		return "error";
     	}
     }
-    
+	
+
     @GetMapping("/comment")
     @ApiOperation(value = "해당 게시글의 댓글 목록")
     public List<Comment> mypage(@RequestParam String sns_id) {

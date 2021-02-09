@@ -38,6 +38,7 @@ public class BadgeController {
 		badgedao.save(b);
 		return "success";
 	}
+	
 	@GetMapping("/badge/list")
 	@ApiOperation(value = "뱃지 리스트")
 	public Badge badgeList(@RequestParam String email) {
@@ -48,7 +49,7 @@ public class BadgeController {
 	//뱃지달성을 어떻게 받아올건지는 프론트와 협의후 적절히 수정예정
 	//객체로받아올 것인가 아니면 뱃지별로 메소드를 제작할것인가...?
 	@PostMapping("/badge/list")
-	@ApiOperation(value = "뱃지")
+	@ApiOperation(value = "뱃지 저장")
 	public String badgeList(@RequestBody Badge b) {
 		badgedao.save(b);
 		return "success";
