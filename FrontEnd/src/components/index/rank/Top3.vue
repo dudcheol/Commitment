@@ -106,4 +106,7 @@ export default {
 .percentage{
   color: rgba(0, 0, 0, 0.589);
 }
+.three{
+  margin-top : 5%;
+}
 </style>
