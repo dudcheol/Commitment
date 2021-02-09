@@ -5,7 +5,10 @@ export default {
   getUserInfo(state) {
     return state.userInfo;
   },
-  getCurrentPosition(state) {
-    return state.currentPosition;
+  getCurrentLatlng(state) {
+    return state.currentLatlng;
+  },
+  getCurrentAddress(state) {
+    return state.currentAddress;
   },
 };

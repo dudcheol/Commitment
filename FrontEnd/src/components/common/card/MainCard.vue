@@ -4,38 +4,59 @@
       <div class="d-flex flex-row" style="height:40px">
         <div class="flex-grow-0">
           <vs-avatar circle size="40">
-            <img src="https://picsum.photos/200/300" alt="" />
+            <img :src="data.user.profile" alt="" />
           </vs-avatar>
         </div>
         <div class="flex-grow-1 ml-2">
-          <h3>{{ info.name }}</h3>
-          <p class="text-caption">{{ info.address }}</p>
+          <h3>{{ data.user.nickname }}</h3>
+          <p class="text-caption">{{ data.address }}</p>
         </div>
-        <div class="flex-grow-0 align-center">
-          <v-btn text rounded color="primary" :ripple="false"
-            ><strong>팔로우</strong></v-btn
-          >
+        <div class="flex-grow-0 align-center" v-if="user.email != data.email">
+          <v-btn text rounded color="primary" :ripple="false"><strong>팔로우</strong></v-btn>
+        </div>
+        <div class="flex-grow-0 align-center" v-else>
+          <v-menu offset-y left rounded="lg" transition="slide-y-transition">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn :ripple="false" icon v-bind="attrs" v-on="on">
+                <v-icon>mdi-dots-horizontal</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-item-group>
+                <v-list-item v-for="(item, index) in etc" :key="item" :ripple="false" dense>
+                  <v-list-item-icon>
+                    <v-icon
+                      v-text="item.icon"
+                      :color="index == etc.length - 1 ? 'error' : ''"
+                    ></v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      v-text="item.text"
+                      :class="index == etc.length - 1 ? 'error--text' : ''"
+                    ></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-menu>
         </div>
       </div>
     </div>
 
     <div class="px-6 pt-4">
-      {{ info.content }}
+      {{ data.content }}
     </div>
 
-    <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-      height="auto"
-      class="mt-2"
-    >
-    </v-img>
+    <v-img :src="data.image[0]" height="auto" class="mt-2"> </v-img>
 
     <div class="px-4 pt-1 pb-3">
       <div class="d-flex flex-row justify-space-between">
         <div class="align-self-center">
           <v-chip-group>
             <v-chip
-              v-for="tag in info.tags"
+              v-for="tag in data.tag"
               :key="tag"
               color="#f5f5f5"
               text-color="#808080"
@@ -48,23 +69,11 @@
           </v-chip-group>
         </div>
         <div class="d-flex flex-row">
-          <vs-button
-            icon
-            color="danger"
-            flat
-            :active="active == 2"
-            @click="active = 2"
-          >
-            <i class="bx bxs-heart"></i>{{ info.like }}
+          <vs-button icon color="danger" flat :active="active == 2" @click="active = 2">
+            <i class="bx bxs-heart"></i>{{ data.like.length }}
           </vs-button>
-          <vs-button
-            icon
-            color="dark"
-            flat
-            :active="active == 2"
-            @click="active = 2"
-          >
-            <i class="bx bxs-message"></i>{{ info.comment }}
+          <vs-button icon color="dark" flat :active="active == 2" @click="active = 2">
+            <i class="bx bxs-message"></i>{{ data.comment.length }}
           </vs-button>
         </div>
       </div>
@@ -73,20 +82,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
+  props: ['data'],
   data() {
     return {
-      info: {
-        name: 'username',
-        date: '2020. 1. 28.',
-        like: 2,
-        comment: 12,
-        tags: ['tag1', 'tag2', 'tag3'],
-        address: '서울특별시 강남구 테헤란로 123-1',
-        content:
-          '테스트입니다. 내용이 너무 길어지면 ...으로 표시되는 글자 수 줄일 예정. 사진있으면 1줄내외, 사진없이 글자만있으면 3줄?2줄 내외',
-      },
+      etc: [
+        { icon: 'mdi-pencil-outline', text: '수정' },
+        { icon: 'mdi-trash-can-outline', text: '삭제' },
+      ],
     };
+  },
+  computed: {
+    ...mapGetters({ user: ['getUserInfo'] }),
   },
 };
 </script>

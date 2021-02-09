@@ -1,13 +1,13 @@
 <template>
   <div class="d-flex flex-column ml-lg-16">
-    <div class="d-flex align-center mb-2">
+    <!-- <div class="d-flex align-center mb-2">
       <img src="../../../assets/img/commitnow/LiveMonitoring.gif" style="max-width:16px;" />
       <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
-    </div>
-    <v-expansion-panels accordion flat class="mb-2 rounded-lg">
-      <v-expansion-panel size="x-small">
+    </div> -->
+    <v-expansion-panels v-model="panel" accordion flat class="mb-2 rounded-lg" multiple>
+      <v-expansion-panel size="x-small" style="background-color:transparent">
         <v-expansion-panel-header>
-          <div class="d-flex align-center">
+          <!-- <div class="d-flex align-center">
             <span class="font-weight-black mr-2">
               반경
             </span>
@@ -22,20 +22,39 @@
                 전체
               </span>
             </v-chip>
+          </div> -->
+          <div class="d-flex align-center">
+            <img
+              src="../../../assets/img/commitnow/LiveMonitoring.gif"
+              style="max-width:18px;"
+              class="mx-1"
+            />
+            <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <v-range-slider
+          <!-- <v-range-slider
             v-model="commitRange"
             step="0.5"
             :min="commitMinRange"
             :max="commitMaxRange"
           ></v-range-slider>
-          <span class="text-caption">슬라이더로 반경을 조절할 수 있어요</span>
+          <span class="text-caption">슬라이더로 반경을 조절할 수 있어요</span> -->
+          <commit-card
+            v-for="(item, index) in nowCommits"
+            :key="index"
+            :img="'https://picsum.photos/200/300'"
+            :username="item.username"
+            :address="item.address"
+            class="mb-2"
+          ></commit-card>
+          <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
+            ><strong>더보기</strong></v-btn
+          >
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <commit-card
+    <!-- <commit-card
       v-for="(item, index) in nowCommits"
       :key="index"
       :img="'https://picsum.photos/200/300'"
@@ -43,6 +62,9 @@
       :address="item.address"
       class="mb-2"
     ></commit-card>
+    <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
+      ><strong>더보기</strong></v-btn
+    > -->
   </div>
 </template>
 
@@ -59,47 +81,26 @@ export default {
         { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
         { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
         { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
       ],
       commitRange: [0, 10],
       commitMinRange: 0.5,
       commitMaxRange: 10,
     };
   },
-  methods: {},
+  computed: {
+    panel() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'md':
+          return [0];
+        case 'lg':
+          return [0];
+        case 'xl':
+          return [0];
+        default:
+          return [];
+      }
+    },
+  },
 };
 </script>
 

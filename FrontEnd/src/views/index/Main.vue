@@ -1,27 +1,27 @@
 <template>
   <v-container fluid class="blue-grey lighten-5 pa-0">
-    <v-col class="sidebar_left mt-4" :class="dynamicPosition" cols="12" md="3" xl="2">
+    <v-col class="mt-4" :class="dynamicPosition" cols="12" md="3" lg="2" xl="2">
       <v-row>
         <v-col>
-          <ProfileSummary :userInfo="userInfo" />
+          <ProfileSummary />
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col class="pa-0">
           <NotYetAddArticle />
         </v-col>
       </v-row>
     </v-col>
 
-    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-4">
+    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-md-4 pa-0">
       <CommitNow />
     </v-col>
 
     <v-row :justify="dynamicJustify" class="px-3 px-lg-16 px-md-8 px-xl-16">
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
-          <FollowerMap class="mb-6 mt-3" />
-          <MyState />
+          <FollowerMap class="mb-4 my-lg-6" />
+          <MyState :openWriteDialog="openWriteDialog" @close-write="closeWrite" />
           <AllArticle class="my-4" />
         </div>
       </v-col>
@@ -36,9 +36,9 @@ import MyState from '../../components/index/main/MyState';
 import CommitNow from '../../components/index/main/CommitNow';
 import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
 import ProfileSummary from '../../components/index/main/ProfileSummary';
-import { mapGetters } from 'vuex';
 
 export default {
+  props: ['openWriteDialog'],
   components: {
     AllArticle,
     FollowerMap,
@@ -47,11 +47,18 @@ export default {
     NotYetAddArticle,
     ProfileSummary,
   },
+  watch: {
+    openWriteDialog: {
+      immediate: true,
+      handler(val) {
+        this.openWriteDialog = val;
+      },
+    },
+  },
   data() {
     return {};
   },
   computed: {
-    ...mapGetters({ userInfo: ['getUserInfo'] }),
     dynamicPosition() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
@@ -81,6 +88,11 @@ export default {
           return 'center';
       }
       return '';
+    },
+  },
+  methods: {
+    closeWrite() {
+      this.$emit('close-write');
     },
   },
 };
