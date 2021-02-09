@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
+import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.User;
 
 import io.swagger.annotations.ApiOperation;
@@ -330,7 +331,26 @@ public class CommitController {
 
 	}
 	
-
+    // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
+    @GetMapping("sns/followmap") 
+    @ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
+    public List<FollowCommitMap> followmap(@RequestParam String email){
+    	
+    	List<FollowCommitMap> result = new ArrayList<>();
+    	
+    	// 1. 팔로우한 사람 id목록 (최신순으로 불러오기)
+    	List<User> followings = userDao.findAllByFollowing(email);
+    	for (int i = 0; i < followings.size(); i++) {
+    		// 2. 각각 팔로우한 사람들에게서 커밋지도 불러오기
+    		FollowCommitMap followCommitMap = new FollowCommitMap();
+    		followCommitMap.setUser(followings.get(i));
+    		followCommitMap.setCommit(commitCount(followings.get(i).getEmail(), followings.get(i).getRegion_name()));
+    		result.add(followCommitMap);
+    	}
+    	
+    	return result;
+    }
+    
 	// 인덱스 정보
 	static public class Position {
 		int x;

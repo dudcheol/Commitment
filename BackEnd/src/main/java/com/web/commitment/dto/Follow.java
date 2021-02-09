@@ -3,9 +3,6 @@ package com.web.commitment.dto;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,9 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name="Follow")
 public class Follow {
-	
 	@EmbeddedId
 	private FollowId followid;
 }
-
 
