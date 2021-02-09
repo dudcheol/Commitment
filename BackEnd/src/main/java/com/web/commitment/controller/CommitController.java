@@ -230,6 +230,7 @@ public class CommitController {
 		
 		return commitDao.commitOnly(email,pageable);
 	}
+	
 //	@GetMapping("/commit/timeCheck")
 //	@ApiOperation(value = "커밋 시간제한 확인")
 //	public String timeCheck(@RequestParam(required = true) final String email, @RequestParam(required = true) int x,
@@ -242,6 +243,7 @@ public class CommitController {
 //		return "success";
 //	}
 //	@GetMapping("/test")
+	
 	// 위도경도-> 지역 이름 (서울,광주,경기....)
 	public String reverseGeo(@RequestParam(required = true) String lat, @RequestParam(required = true) String lng)
 			throws ParseException {
