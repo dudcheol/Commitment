@@ -74,19 +74,22 @@ public class BadgeController {
 		Badge b=badgedao.findBadgeByUserEmail(email);
 		Map<String,String> map=new HashMap<String,String>();
 	    
-		if(commitDao.commitCnt(email)==1&&b.getFirstCommit()==0) {
+	    if(commitDao.commitCnt(email)==1&&b.getFirstCommit()==0) {
 	        b.setFirstCommit(1);
 	        map.put("badge","첫번째 커밋");
 	        map.put("msg","처음으로 커밋을 하셨네요!! 커밋먼트와 함께 여행을 떠나요~~");
-	    } else if(followDao.followingCnt(email)==1&&b.getNumFollowing()==0) {
+	        map.put("result", "yes");
+	    }else if(followDao.followingCnt(email)==1&&b.getNumFollowing()==0) {
 	        b.setNumFollowing(1);
 	        map.put("badge","첫번째 팔로잉");
 	        map.put("msg","처음으로 팔로잉을 하셨네요!!");
-	    } else if(commitController.commitCount(email,"national").size()==1056){
+	        map.put("result", "yes");
+	    }else if(commitController.commitCount(email,"national").size()==1056){
 	        b.setTotalCommit(1);
 	        badgedao.save(b);
 	        map.put("badge","전국 커밋");
 	        map.put("msg","축하드려요!! 전국 커밋 완료!!!");
+	        map.put("result", "yes");
 	    } else if(userDao.getDokdoCommit(email) == 1 && b.getFirstLocation() == 0) {
 	    	b.setFirstLocation(1);
 			badgedao.save(b);
