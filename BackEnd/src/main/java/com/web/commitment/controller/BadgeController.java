@@ -30,6 +30,8 @@ public class BadgeController {
 	FollowDao followDao;
 	@Autowired
 	UserDao userDao;
+	@Autowired
+	CommitController CommitController;
 
 	@GetMapping("/badge/cnt")
 	@ApiOperation(value = "뱃지 갯수")
@@ -84,7 +86,7 @@ public class BadgeController {
 	        map.put("badge","첫번째 팔로잉");
 	        map.put("msg","처음으로 팔로잉을 하셨네요!!");
 	        map.put("result", "yes");
-	    }else if(commitController.commitCount(email,"national").size()==1056){
+	    }else if(CommitController.commitCount(email,"national").size()==1056){
 	        b.setTotalCommit(1);
 	        badgedao.save(b);
 	        map.put("badge","전국 커밋");

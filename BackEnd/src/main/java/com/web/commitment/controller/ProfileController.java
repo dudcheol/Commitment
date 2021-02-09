@@ -103,16 +103,16 @@ public int followCnt(@RequestParam(required = true) String email) {
 			profile = new Profile();
 			profile.setEmail(email);
 		} else {// 원래 프로필 사진 지우기
-			s3Uploader.deletefile(profile.getFile_name());
+			s3Uploader.deletefile(profile.getFileName());
 		}
 
-		profile.setFile_name(saveFileName);
-		profile.setFile_path(url);
+		profile.setFileName(saveFileName);
+		profile.setFilePath(url);
 		
 		System.out.println(profile);
 		profileDao.save(profile);
 		Map<String, String> result = new HashMap<>();
-		result.put("url", profile.getFile_path());// 사진 url 리턴
+		result.put("url", profile.getFilePath());// 사진 url 리턴
 		return result;
 	}
 
