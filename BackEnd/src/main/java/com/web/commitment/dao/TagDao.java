@@ -1,5 +1,6 @@
 package com.web.commitment.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -15,6 +16,8 @@ import com.web.commitment.dto.Tag;
 public interface TagDao extends JpaRepository<Tag, String> {
 
 	List<Tag> findBySnsId(String sns_id);
+
+	List<Tag> findAllBySnsId(String id);
 
 	@Query(value = "select distinct content from tag where content like :keyword", nativeQuery = true)
 	Page<String[]> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
