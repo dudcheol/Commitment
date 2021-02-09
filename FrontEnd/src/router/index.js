@@ -7,6 +7,7 @@ import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
 import Detail from '@/views/index/Detail.vue';
 import Permission from '../views/Permission.vue';
+import EmailCheck from '../views/EmailCheck.vue';
 
 // 필수
 Vue.use(Router);
@@ -90,6 +91,11 @@ const routes = [
     path: '/permission',
     name: 'Permission',
     component: Permission,
+  },
+  {
+    path: '/user/mailCheck',
+    name: 'EmailCheck',
+    component: EmailCheck,
   },
 ];
 
