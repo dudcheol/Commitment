@@ -124,7 +124,7 @@ export default {
             console.log('가입에 실패하셨습니다.');
           });
       } else {
-        console.log('no');
+        console.log("항목중에서 하나 실패했으니깐 조심해보자");
       }
     },
 

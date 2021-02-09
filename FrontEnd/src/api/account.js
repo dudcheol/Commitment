@@ -31,4 +31,19 @@ function logout() {
   instance.defaults.headers['auth-token'] = undefined;
 }
 
-export { login, findByToken, setAuthTokenToHeader, logout };
+// 이메일, 닉네임, 비밀번호, 전화, 나의한마디, 성별, 생일, 지역, 나이 
+function signup ( email, nickname, password, tel, mystory, gender, birth, region, age, success, fail) {
+  instance
+  .post('account/signup', { email, nickname, password, tel, mystory, gender, age, birth, region })
+  .then(success)
+  .catch(fail);
+}
+
+function smtp( email, success, fail) {
+  instance
+  .get('account/smtp', { params: { email } })
+  .then(success)
+  .catch(fail);
+}
+
+export { login, findByToken, setAuthTokenToHeader, logout, signup, smtp };

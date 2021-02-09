@@ -118,6 +118,7 @@ export default {
         this.$router.push({ name: 'Main' });
       }
     },
+    
     signuplink() {
        this.$router.push({ name: 'Signup' })
     },
