@@ -91,13 +91,7 @@ export default {
 </script>
 
 <style  scoped>
-vs-input {
-  width: 300px !important
-}
-/* 
-input#vs-input--7 {
-  width: 400px !important
-}  */
+
 .email_input {
   display: flex;
   justify-content: center;
@@ -112,19 +106,15 @@ input#vs-input--7 {
 
 .login_form {
   display: flex;
-  justify-content: center;
   position: absolute;
-  left: 50%;
   top: 50%;
-  transform: translate( -50%, -50% ) }
+  left: 50%;
+  transform: translate( -50% , -50% ) 
+  }
 
-
-
-.vs-card-content {
-    width: 50vmax }
-    /* @media screen and (min-width: 600px)
-        width 30vmax } */
-
+/* @media screen and (min-width: 600px)
+    width 30vmax } */
+        
 .not-margin {
   margin: 3px;
   font-weight: normal;
