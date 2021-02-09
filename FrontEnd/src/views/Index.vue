@@ -71,36 +71,144 @@
       </div>
     </v-app-bar>
     <v-main class="blue-grey lighten-5">
-      <router-view></router-view>
+      <router-view :openWriteDialog="openWriteDialog" @close-write="closeWrite"></router-view>
     </v-main>
+    <v-btn
+      fab
+      large
+      color="primary"
+      fixed
+      right
+      bottom
+      :ripple="false"
+      @click="commit"
+      :loading="!latlng || commitLoading"
+      :disabled="!latlng || commitLoading"
+      elevation="10"
+    >
+      <v-icon dark x-large>{{ commitBtnIcon }}</v-icon>
+    </v-btn>
+    <Dialog
+      :alert="commitAlert"
+      :alertTitle="alertTitle"
+      :alertContent="alertContent"
+      @close="
+        commitAlert = false;
+        commitLoading = false;
+      "
+    ></Dialog>
+    <commit-complete
+      :confirm="commitConfirm"
+      :confirmContent="confirmContent"
+      :confirmTitle="confirmTitle"
+      :region="commitRegion"
+      :datas="commitDatas"
+      @close="
+        commitConfirm = false;
+        commitLoading = false;
+      "
+      @confirm-ok="confirmOk"
+    ></commit-complete>
   </v-app>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { addCommit, READ_PERMISSION_OK } from '../api/commit';
+import { mapActions, mapGetters } from 'vuex';
+import Dialog from '../components/common/dialog/Dialog.vue';
+import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 export default {
+  components: { Dialog, CommitComplete },
   name: 'MainPage',
-  data: () => ({
-    fab: false,
-    items: [
-      { icon: 'mdi-home', route: '/' },
-      { icon: 'mdi-map-marker', route: '/sns' },
-      { icon: 'mdi-medal', route: '/rank' },
-      { icon: 'mdi-heart', route: 'likes' },
-    ],
-    right_items: [
-      { icon: 'mdi-account', route: '/' },
-      { icon: 'mdi-bell', route: '/sns' },
-      { icon: 'mdi-cog', route: '/rank' },
-      { icon: 'mdi-logout', route: 'likes' },
-    ],
-    alldatalist: [],
-  }),
+  computed: {
+    ...mapGetters({
+      latlng: ['getCurrentLatlng'],
+      user: ['getUserInfo'],
+      address: ['getCurrentAddress'],
+    }),
+  },
+  data() {
+    return {
+      fab: false,
+      items: [
+        { icon: 'mdi-home', route: '/' },
+        { icon: 'mdi-map-marker', route: '/sns' },
+        { icon: 'mdi-medal', route: '/rank' },
+        { icon: 'mdi-heart', route: 'likes' },
+      ],
+      right_items: [
+        { icon: 'mdi-account', route: '/' },
+        { icon: 'mdi-bell', route: '/sns' },
+        { icon: 'mdi-cog', route: '/rank' },
+        { icon: 'mdi-logout', route: 'likes' },
+      ],
+      alldatalist: [],
+      commitBtnIcon: 'mdi-map-marker-check',
+      commitLoading: false,
+      commitConfirm: false,
+      commitAlert: false,
+      confirmTitle: '커밋완료🥳',
+      confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
+      alertTitle: '커밋실패😰',
+      alertContent: '동일한 위치는 하루에 1번만 커밋할 수 있습니다',
+      openWriteDialog: false,
+      commitRegion: '',
+      commitDatas: '',
+    };
+  },
   methods: {
-    ...mapActions(['CURRENT_POSITION']),
+    ...mapActions(['CURRENT_LATLNG']),
+    commit() {
+      this.commitLoading = true;
+      addCommit(
+        this.user.email,
+        this.latlng.lat,
+        this.latlng.lng,
+        READ_PERMISSION_OK,
+        (response) => {
+          console.log('%cIndex.vue line:115 response', 'color: #007acc;', response.data);
+          if (response.data) {
+            this.commitRegion = response.data.region;
+            this.commitDatas = [[response.data.localX, response.data.localY, 3]];
+            this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
+            this.commitConfirm = true;
+            this.openNotification(4000);
+          } else {
+            this.alertContent = `[ ${this.address} ] 에서 이미 커밋하셨습니다. 1시간 뒤에 다시 시도해주세요.`;
+            this.commitAlert = true;
+          }
+        },
+        (error) => {
+          console.log(
+            '%cerror Index.vue line:116 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+          this.alertContent = `알 수 없는 오류로 커밋에 실패했습니다. 다시 시도해주세요.`;
+          this.commitAlert = true;
+        }
+      );
+    },
+    openNotification(duration) {
+      this.$vs.notification({
+        duration,
+        position: 'top-right',
+        color: 'primary',
+        flat: true,
+        progress: 'auto',
+        title: 'Commit!',
+        text: `<strong>${this.address}</strong>에서 커밋했습니다.`,
+      });
+    },
+    confirmOk() {
+      this.openWriteDialog = true;
+    },
+    closeWrite() {
+      this.openWriteDialog = false;
+    },
   },
   created() {
-    this.CURRENT_POSITION();
+    this.CURRENT_LATLNG();
   },
 };
 </script>

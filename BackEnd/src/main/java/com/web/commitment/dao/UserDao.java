@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -58,5 +59,9 @@ public interface UserDao extends JpaRepository<User, String> {
              + "where u.email in (select f.follow_to from follow f where f.follow_from=:email) "
              + "order by c.created_at desc", nativeQuery = true)
 	 Page<User> findfollowMapByEmail(@Param("email") String email, Pageable pageable);
+
+
+	@Query(value = "select * from user u where u.email in (select f.follow_to from follow f where f.follow_from=:email)", nativeQuery = true)
+	List<User> findAllByFollowing(@Param("email") String email);
 
 }

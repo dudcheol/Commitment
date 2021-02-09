@@ -11,7 +11,10 @@ export default {
     state.authToken = null;
     state.userInfo = '';
   },
-  CURRENT_POSITION(state, payload) {
-    state.currentPosition = payload;
+  CURRENT_LATLNG(state, payload) {
+    state.currentLatlng = payload;
+  },
+  LATLNG_TO_ADDRESS(state, payload) {
+    state.currentAddress = payload;
   },
 };
