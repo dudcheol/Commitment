@@ -169,7 +169,7 @@ export default {
           console.log('%cIndex.vue line:115 response', 'color: #007acc;', response.data);
           if (response.data) {
             this.commitRegion = response.data.region;
-            this.commitDatas = [[response.data.localY, response.data.localX, 3]];
+            this.commitDatas = [[response.data.localX, response.data.localY, 3]];
             this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
             this.commitConfirm = true;
             this.openNotification(4000);
