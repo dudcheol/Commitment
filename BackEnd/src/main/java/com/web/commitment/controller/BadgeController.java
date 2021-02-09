@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.BadgeDao;
+import com.web.commitment.dao.CommitDao;
+import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Badge;
 
@@ -22,6 +24,10 @@ import io.swagger.annotations.ApiOperation;
 public class BadgeController {
 	@Autowired
 	BadgeDao badgedao;
+	@Autowired
+	CommitDao commitDao;
+	@Autowired
+	FollowDao followDao;
 	@Autowired
 	UserDao userDao;
 
@@ -61,126 +67,71 @@ public class BadgeController {
 		return "success";
 	}
 	
-	@GetMapping("/badge/firstlocation")
-	@ApiOperation(value = "첫번째 독도 커밋 확인")
-	public Map<String, String> locationbadge(@RequestParam String email) {
-		Badge b = badgedao.findBadgeByUserEmail(email);
-		
-		Map<String, String> map = new HashMap<>();
-		if(userDao.getDokdoCommit(email) == 1 && b.getFirstLocation() == 0) {
-			b.setFirstLocation(1);
+	
+	@GetMapping("badge/check")
+	@ApiOperation(value = "뱃지 달성 체크")
+	public Map<String, String> badgeCheck(@RequestParam String email) {
+		Badge b=badgedao.findBadgeByUserEmail(email);
+		Map<String,String> map=new HashMap<String,String>();
+	    
+		if(commitDao.commitCnt(email)==1&&b.getFirstCommit()==0) {
+	        b.setFirstCommit(1);
+	        map.put("badge","첫번째 커밋");
+	        map.put("msg","처음으로 커밋을 하셨네요!! 커밋먼트와 함께 여행을 떠나요~~");
+	    } else if(followDao.followingCnt(email)==1&&b.getNumFollowing()==0) {
+	        b.setNumFollowing(1);
+	        map.put("badge","첫번째 팔로잉");
+	        map.put("msg","처음으로 팔로잉을 하셨네요!!");
+	    } else if(commitController.commitCount(email,"national").size()==1056){
+	        b.setTotalCommit(1);
+	        badgedao.save(b);
+	        map.put("badge","전국 커밋");
+	        map.put("msg","축하드려요!! 전국 커밋 완료!!!");
+	    } else if(userDao.getDokdoCommit(email) == 1 && b.getFirstLocation() == 0) {
+	    	b.setFirstLocation(1);
 			badgedao.save(b);
 			
 			map.put("badge", "첫 번째로 독도에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 독도");
 			map.put("result", "yes");
-			return map;
-		}
-		
-		map.put("result", "no");
-		return map;
-	}
-	
-	@GetMapping("/badge/seoul")
-	@ApiOperation(value = "첫번째 서울 커밋 확인")
-	public Map<String, String> seoulbadge(@RequestParam String email) {
-		Badge b = badgedao.findBadgeByUserEmail(email);
-		
-		Map<String, String> map = new HashMap<>();
-		if(userDao.getSeoulCommit(email) >= 1 && b.getSeoul() == 0) {
+		} else if(userDao.getSeoulCommit(email) >= 1 && b.getSeoul() == 0) {
 			b.setSeoul(1);
 			badgedao.save(b);
 			
 			map.put("badge", "첫 번째로 독도에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 독도");
 			map.put("result", "yes");
-			return map;
-		}
-		
-		map.put("result", "no");
-		return map;
-	}
-	
-	@GetMapping("/badge/gangwon")
-	@ApiOperation(value = "첫번째 강원도 커밋 확인")
-	public Map<String, String> gangwondobadge(@RequestParam String email) {
-		Badge b = badgedao.findBadgeByUserEmail(email);
-
-		Map<String, String> map = new HashMap<>();
-		if(userDao.getGangwondoCommit(email) >= 1 && b.getGangwondo() == 0) {
+		} else if(userDao.getGangwondoCommit(email) >= 1 && b.getGangwondo() == 0) {
 			b.setGangwondo(1);
 			badgedao.save(b);
 			
 			map.put("badge", "첫 번째로 강원도에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 강원도");
 			map.put("result", "yes");
-			return map;
-		}
-		
-		map.put("result", "no");
-		return map;
-	}
-	
-	@GetMapping("/badge/gwangju")
-	@ApiOperation(value = "첫번째 광주 커밋 확인")
-	public Map<String, String> gwangjubadge(@RequestParam String email) {
-		Badge b = badgedao.findBadgeByUserEmail(email);
-		
-		System.out.println(userDao.getGwangjuCommit(email));
-		Map<String, String> map = new HashMap<>();
-		if(userDao.getGwangjuCommit(email) >= 1 && b.getGwanju() == 0) {
+		} else if(userDao.getGwangjuCommit(email) >= 1 && b.getGwanju() == 0) {
 			b.setGwanju(1);
 			badgedao.save(b);
 			
 			map.put("badge", "첫 번째로 광주에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 광주");
 			map.put("result", "yes");
-			return map;
-		}
-		
-		map.put("result", "no");
-		return map;
-	}
-	
-	@GetMapping("/badge/gyeonggi")
-	@ApiOperation(value = "첫번째 경기도 커밋 확인")
-	public Map<String, String> gyeonggidobadge(@RequestParam String email) {
-		Badge b = badgedao.findBadgeByUserEmail(email);
-		
-		System.out.println(userDao.getGyeonggidoCommit(email));
-		Map<String, String> map = new HashMap<>();
-		if(userDao.getGyeonggidoCommit(email) >= 1 && b.getGyenggido() == 0) {
-			b.setGyenggido(1);
-			badgedao.save(b);
-			
-			map.put("badge", "첫 번째로 경기도에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 경기도");
-			map.put("result", "yes");
-			return map;
-		}
-		
-		map.put("result", "no");
-		return map;
-	}
-	
-	@GetMapping("/badge/ulsan")
-	@ApiOperation(value = "첫번째 울산 커밋 확인")
-	public Map<String, String> ulsanbadge(@RequestParam String email) {
-		Badge b = badgedao.findBadgeByUserEmail(email);
-		
-		System.out.println(userDao.getUlsanCommit(email));
-		Map<String, String> map = new HashMap<>();
-		if(userDao.getUlsanCommit(email) >= 1 && b.getUlssan() == 0) {
-			b.setUlssan(1);
-			badgedao.save(b);
-			
-			map.put("badge", "첫 번째로 울산에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 울산");
-			map.put("result", "yes");
-			return map;
-		}
-		
-		map.put("result", "no");
-		return map;
+		} else if(userDao.getGyeonggidoCommit(email) >= 1 && b.getGyenggido() == 0) {
+				b.setGyenggido(1);
+				badgedao.save(b);
+				
+				map.put("badge", "첫 번째로 경기도에 커밋하셨습니다!");
+				map.put("msg", "첫 번째 커밋: 경기도");
+				map.put("result", "yes");
+		} else if(userDao.getUlsanCommit(email) >= 1 && b.getUlssan() == 0) {
+				b.setUlssan(1);
+				badgedao.save(b);
+				
+				map.put("badge", "첫 번째로 울산에 커밋하셨습니다!");
+				map.put("msg", "첫 번째 커밋: 울산");
+				map.put("result", "yes");
+		} else
+			map.put("result", "no");
+	    
+	    return map;
 	}
 }
