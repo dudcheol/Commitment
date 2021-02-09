@@ -25,7 +25,7 @@ Vue.use(VueHorizontalTimeline);
 Vue.use(ScrollBar);
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyDfJPzK37L0Gn55NIunyC09Bgt9A8X3Vjw',
+    key: 'AIzaSyDq5jEL1HSwZ9dDUxhUJ_G5U_f8KvMF6ys',
     libraries: 'places',
   },
 });
