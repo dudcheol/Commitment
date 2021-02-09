@@ -105,12 +105,6 @@ export default {
 </script>
 
 <style>
-.v-slider__track-container {
-  height: 12px !important;
-}
-.v-slider__track-background {
-  border-radius: 6px;
-}
 .v-messages {
   min-height: 0px;
 }
