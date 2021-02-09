@@ -60,11 +60,6 @@ public interface UserDao extends JpaRepository<User, String> {
              + "order by c.created_at desc", nativeQuery = true)
 	 Page<User> findfollowMapByEmail(@Param("email") String email, Pageable pageable);
 
-	@Query(value = "select distinct u.* from user u, commit c "
-				+ "where u.email in (select f.follow_to from follow f where f.follow_from=:email) "
-				+ "order by c.created_at desc", nativeQuery = true)
-	Page<User> findfollowMapByEmail(@Param("email") String email, Pageable pageable);
-
 	@Query(value = "select distinct u.* from user u, commit c where u.email in (select f.follow_to from follow f where f.follow_from=:email) "
 			+ "order by c.created_at desc", nativeQuery = true)
 	List<User> findAllByFollowing(@Param("email") String email);

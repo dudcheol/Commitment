@@ -45,10 +45,6 @@ public class Comment {
 	// 댓글의 깊이
 	@Column(name="depth")
 	private int depth;
-
-//	// 그룹 내 순서
-//	@Column(name="seq")
-//	private int seq;
 	
 	// 원글에 대한 답글인지, 답글에 대한 답글인지 구분
 	@Column(name="parent")
