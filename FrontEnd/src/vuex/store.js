@@ -6,10 +6,13 @@ import mutations from './mutations';
 
 Vue.use(Vuex);
 
+const SEARCHING_POSITION_TEXT = '위치 찾는 중...';
+
 const state = {
   userInfo: {},
   authToken: null,
-  currentPosition: null,
+  currentLatlng: null,
+  currentAddress: SEARCHING_POSITION_TEXT,
 };
 
 export default new Vuex.Store({

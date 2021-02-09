@@ -4,7 +4,7 @@ const instance = createInstance();
 
 function myBoardList(param, success, fail) {
   instance
-    .get('sns/followingboard', { params: param })
+    .get('mysns', { params: param })
     .then(success)
     .catch(fail);
 }
