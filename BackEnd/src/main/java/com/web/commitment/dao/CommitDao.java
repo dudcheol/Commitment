@@ -87,4 +87,6 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	@Query(value = "select * from commit c where user_email=:email and c.id not in (select distinct commit_id from sns) order by created_at desc", nativeQuery = true)
 	Page<Commit> commitOnly(@Param("email")String email, Pageable pageable);
 
+	Commit findCommitById(String id);
+
 }
