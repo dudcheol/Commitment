@@ -24,7 +24,6 @@ import lombok.ToString;
 @Table(name="tag")
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Tag {
 	
 	@Id

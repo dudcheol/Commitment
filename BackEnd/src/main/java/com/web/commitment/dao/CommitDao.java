@@ -20,10 +20,6 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	Optional<Commit> findByLatAndLng(String lat, String lng);
 
-//	@Query(value = "select * from commit c where user_email=:email and c.lat=:lat and c.lng=:lng", nativeQuery = true)
-//	Optional<Commit> commitCheck(@Param("email") String email, @Param("lat") String lat, @Param("lng") String lng);
-
-
 	List<Commit> findAllByEmailAndRegion(String eamil, String name);
 
 	List<Commit> findAllByOpen(int i);
@@ -87,8 +83,10 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 			@Param("region") String region);
 
 	int countByEmail(String email);
+	
+	@Query(value = "select * from commit c where user_email=:email and c.id not in (select distinct commit_id from sns) order by created_at desc", nativeQuery = true)
+	Page<Commit> commitOnly(@Param("email")String email, Pageable pageable);
 
-	@Query(value = "select * from commit c,sns s where c.user_email=:email and c.open=1 order by", nativeQuery = true)
-	Page<Commit> findAllByEmail(@Param("email") String email, Pageable pageable);
+	Commit findCommitById(String id);
 
 }

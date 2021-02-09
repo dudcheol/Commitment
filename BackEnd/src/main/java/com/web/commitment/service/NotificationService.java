@@ -7,7 +7,6 @@ import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.LikeDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.dto.Notification.NotificationSaveDto;
@@ -23,10 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,8 +35,8 @@ public class NotificationService {
 	private final BoardDao boardDao;
 	private final CommentDao commentDao;
 
-	private User getUser(String email) {
-		return userDao.findByEmail(email).orElseThrow(() -> new BaseException(ErrorCode.UNEXPECTED_USER));
+	private User getUser(String nickname) { // 닉네임으로 유저 찾기
+		return userDao.findUserByNickname(nickname).orElseThrow(() -> new BaseException(ErrorCode.UNEXPECTED_USER));
 	}
 
 	private Board getBoard(String postId) {
@@ -79,13 +74,14 @@ public class NotificationService {
 	}
 
 	@Transactional
-	public void saveNoti(NotificationReqDto notificationReqDto, String userId) {
+	public void saveNoti(NotificationReqDto notificationReqDto, String nickname) {
 		LocalDateTime curDateTime = LocalDateTime.now();
 		String nowDate = curDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 
+	
 		// 저장할 데이터
 		NotificationSaveDto notificationSaveDto = new NotificationSaveDto(nowDate, notificationReqDto.getDataId(),
-				userId, notificationReqDto.getIsRead(), notificationReqDto.getType());
+				nickname, notificationReqDto.getIsRead(), notificationReqDto.getType());
 
 		String type = notificationReqDto.getType();
 
@@ -98,72 +94,89 @@ public class NotificationService {
 		if (type.equals("like") || type.equals("comment")) {
 			board = getBoard(notificationReqDto.getDataId());
 			toId = notificationReqDto.getTo();
+			notificationSaveDto.setFrom(nickname);
 		} else {
 			toId = notificationReqDto.getTo();
 		}
-
-		User fromUser = getUser(userId);
-
-		DatabaseReference notiRef = ref.child(toId.toString()); // 알림 받는 사람의 아이디
+		
+		DatabaseReference notiRef = ref.child(toId); // 알림 받는 사람의 닉네임
 		DatabaseReference nextNotiRef = notiRef.push(); // 다음 키값으로 푸시
 		String postId = nextNotiRef.getKey(); // 현재 알람의 키값을 가져옴
+		
 		DatabaseReference saveNoti = notiRef.child(postId); // to의 아이디 값의 child node
 
 		if (type.equals("follow")) { // 팔로우
-//            if (followDao.findByToUserAndFromUser(fromUser.getEmail(), toUser.getEmail()).isPresent()) {
-//                saveNotificationData(userId, notiRef, type);
-//            } else {
-			saveNoti.setValueAsync(notificationSaveDto);
-//            }
+			String lastId = followDao.findByLastFollow();
+			notificationSaveDto.setFollowId(lastId);
+			saveNoti.setValueAsync(notificationSaveDto);  // 정의된 경로(예: users/<user-id>/<username>)에 데이터를 쓰거나 대체합니다.
+			
 		} else if (type.equals("like")) { // 좋아요
-			if (likeDao.findByEmailAndSnsId(fromUser.getEmail(), board.getId()).isPresent()) {
-				saveNotificationData(userId, notiRef, type);
-			} else {
-				saveNoti.setValueAsync(notificationSaveDto);
-			}
+			String lastId = likeDao.findByLastLike();
+			notificationSaveDto.setLikeId(lastId);
+			saveNoti.setValueAsync(notificationSaveDto);
+			
 		} else if (type.equals("comment")) { // 댓글
-			Comment comment = commentDao.findByLastComment();
-			notificationSaveDto.setCommentId(comment.getId());
+			String lastId = commentDao.findByLastComment();
+			notificationSaveDto.setCommentId(lastId); // sns_id로 변경
 			saveNoti.setValueAsync(notificationSaveDto);
-		} else if (type.equals("approve")) {
+			
+		} else if (type.equals("commit")) { // 실시간 커밋
+			User user = getUser(nickname);
+			notificationSaveDto.setUserEmail(user.getEmail());
 			saveNoti.setValueAsync(notificationSaveDto);
+			
 		} else {
 			saveNoti.setValueAsync(notificationSaveDto);
 		}
 	}
 
 	@Transactional
-	public void readNoti(String notiId, String userId) {
+	public void readNoti(String notiId, String nickname) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-		DatabaseReference notiRef = ref.child(userId.toString()); // noti의 child node: to의 아이디 값
+		DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
+		
+		System.out.println(notiRef);
+		System.out.println(notiRef.getRef());
 		DatabaseReference updateRef = notiRef.child(notiId);
+		
+		System.out.println(updateRef.getKey());
 		updateRef.child("isRead").setValueAsync(true);
 	}
 
 	@Transactional
-	public void deleteNoti(String notiId, String userId) {
+	public void deleteNoti(String notiId, String nickname) {
 		final FirebaseDatabase database = FirebaseDatabase.getInstance();
 		DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-		DatabaseReference notiRef = ref.child(userId.toString()); // noti의 child node: to의 아이디 값
+		DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
 		DatabaseReference deleteRef = notiRef.child(notiId);
 		deleteRef.removeValueAsync();
 	}
 
 	@Transactional
-	public void deleteCommentAlert(String commentId, String userId) {
-		if (commentDao.findById(commentId).isPresent()) {
+	public void deleteObjectAlert(String type, String objectId, String nickname) {
+		boolean isIn = false;
+		if(type.equals("comment"))
+			isIn = commentDao.findById(objectId).isPresent();
+		else if(type.equals("like"))
+			isIn = likeDao.findById(objectId).isPresent();
+		else if(type.equals("follow"))
+			isIn = followDao.findById(objectId).isPresent();
+		
+		if (isIn) {
 			final FirebaseDatabase database = FirebaseDatabase.getInstance();
 			DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
-			DatabaseReference notiRef = ref.child(userId.toString()); // noti의 child node: to의 아이디 값
+			DatabaseReference notiRef = ref.child(nickname); // noti의 child node: to의 아이디 값
+			
 			notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(DataSnapshot snapshot) {
 					exFindData: for (DataSnapshot data : snapshot.getChildren()) {
 						String postKey = data.getKey();
 						for (DataSnapshot value : data.getChildren()) {
-							if (value.getKey().equals("commentId")) {
-								if (value.getValue() == commentId) {
+							if (value.getKey().equals(type + "Id")) {
+								
+								if (value.getValue().equals(objectId)) {
 									DatabaseReference deleteRef = notiRef.child(postKey);
 									deleteRef.removeValueAsync();
 									break exFindData;
@@ -179,5 +192,4 @@ public class NotificationService {
 			});
 		}
 	}
-
 }

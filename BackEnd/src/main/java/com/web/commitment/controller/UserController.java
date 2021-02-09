@@ -1,7 +1,6 @@
-package com.web.commitment.controller;
+ package com.web.commitment.controller;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -175,8 +174,8 @@ public class UserController {
 		// 먼저 아이디로 회원정보를 받아오고 가져온 데이터에서 email값을 비교하여 존재하지 않으면 인증메일 보내지 못함
 		// mail server 설정
 		String host = "smtp.naver.com";
-		String id = "ssafy@ssafy.com"; // 자신의 네이버 계정
-		String password = "ssafy";// 자신의 네이버 패스워드
+		String id = "1693013"; // 자신의 네이버 계정
+		String password = "best81264";// 자신의 네이버 패스워드
 
 		// 메일 받을 주소
 		String to_email = email;
@@ -230,7 +229,7 @@ public class UserController {
 			// 메일 내용
 			messageHelper.setText(new StringBuffer().append("<center>").append("<div height=\"1000\">").append(
 					"<img src=\"https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%EB%A9%94%EC%9D%BC+%EC%9D%B8%EC%A6%9D.PNG\" width=\"550\" >")
-					.append("<br>").append("<a  href='http://localhost:8080/user/signUpConfirm?email=")
+					.append("<br>").append("<a  href='https://i4a308.p.ssafy.io:8080/user/signUpConfirm?email=")
 					.append(user.getEmail()).append("&authKey=").append(AuthenticationKey)
 					.append("' target='_blenk'><font size=\"5px\"  color=\"black\">[메일 인증]</a></font>").append("</div>")
 					.append("</center>").toString(), true);// true를 해야 html형식으로 됨
@@ -252,9 +251,9 @@ public class UserController {
 		Optional<User> userOpt = userDao.findUserByEmailAndAuthkey(email, authKey);// 인증키 일치하는지 확인
 		if (userOpt.isPresent()) {
 			userDao.AuthUpdate(email);// 인증 했다고 체크
-			response.sendRedirect("http://localhost:8082/#/user/mailCheck");// 회원가입이 완료되었습니다 페이지로 이동(프론트 주소)
+			response.sendRedirect("http://i4a308.p.ssafy.io/user/mailCheck");// 회원가입이 완료되었습니다 페이지로 이동(프론트 주소)
 		} else
-			response.sendRedirect("http://localhost:8082/#/404");
+			response.sendRedirect("http://i4a308.p.ssafy.io/404");
 	}
 
 	@GetMapping("/user/loaction")
