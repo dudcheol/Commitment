@@ -38,9 +38,9 @@ public class CommentController {
 //		NotificationController.Push(data, 0);
 		
 		// id가 있으면 
-		// 댓글은 여러 개 작성 가능
+		// 댓글은 여러 개 작성 가능 
     	try { 
-    		if(comment.getParent()!=null) { // 부모 댓글이 있으면
+    		if(!comment.getParent().equals("0")) { // 부모 댓글이 있으면
     			Optional<Comment> parent = commentDao.findById(comment.getParent());
     			System.out.println(parent.get().getDepth());
     			comment.setDepth(parent.get().getDepth() + 1);
