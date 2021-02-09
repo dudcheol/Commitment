@@ -75,7 +75,7 @@
 <script>
 import { mapActions } from 'vuex';
 import DialogVue from '../components/common/dialog/Dialog.vue';
-import Logo from '../views/Logo.vue'
+import Logo from '../components/login/Logo.vue'
 
 export default {
   components: {
