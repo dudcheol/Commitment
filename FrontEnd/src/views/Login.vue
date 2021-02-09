@@ -1,4 +1,26 @@
 <template>
+<div>
+  <div>
+
+    <!-- <v-img v-scrollanimation
+      :width="window.width"
+      src="../assets/img/login/koreatower.jpg"
+    ></v-img>
+
+    <div v-scrollanimation>
+    <v-img
+      :aspect-ratio="16/9"
+      :width="window.width"
+      src="../assets/img/login/koreatower.jpg"
+    ></v-img>
+    </div> -->
+    <Logo id="logo"></Logo>
+    <div id="videoBd">
+    <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
+      <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4">
+    </video>
+    </div>
+  </div>
   <div class="login_form">
     <vs-card>
       <template #title>
@@ -47,17 +69,23 @@
       @close="alert = !alert"
     ></DialogVue>
   </div>
+</div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import DialogVue from '../components/common/dialog/Dialog.vue';
+import Logo from '../views/Logo.vue'
 
 export default {
   components: {
-    DialogVue,
+    DialogVue, Logo
   },
   data: () => ({
+    window: {
+            width: 0,
+            height: 0
+      },
     active: true,
     email: '',
     pass: '',
@@ -67,6 +95,13 @@ export default {
     content: '로그인에 실패했습니다',
     loading: false,
   }),
+  created() {
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();
+    },
+  destroyed() {
+      window.removeEventListener('resize', this.handleResize);
+  },
   methods: {
     ...mapActions(['LOGIN']),
     async confirm() {
@@ -85,12 +120,67 @@ export default {
     },
     signuplink() {
        this.$router.push({ name: 'Signup' })
-    }
+    },
+    
+    handleResize() {
+            this.window.width = window.innerWidth;
+            this.window.height = window.innerHeight;
+        }
   },
 };
 </script>
 
-<style  scoped>
+
+<style scoped>
+#logo {
+  position: fixed;
+  z-index: 1;
+  top: 10%;
+  right: 10%;
+}
+
+#videoBd  {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+ }
+#videoBG {
+  position: fixed;
+  z-index: 0;
+}
+@media (min-aspect-ratio: 16/9) {
+      #videoBG {
+          width: 100%;
+          height: auto;
+      }
+  }
+
+@media (max-aspect-ratio: 16/9) {
+      #videoBG {
+          width: auto;
+          height: 100%;
+      }
+  }
+
+@media (max-width: 767px) {
+      #videoBG {
+          display: none;
+      }
+      #videoBd {
+        background: url('../assets/img/login/poster.jpg') !important;
+        background-size: cover;
+      }
+  }
+.before-enter {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 1s ease-out;
+}
+
+.enter {
+  opacity: 1;
+  transform: translateY(0px);
+}
 
 .email_input {
   display: flex;
@@ -105,12 +195,13 @@ export default {
 }
 
 .login_form {
-  display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate( -50% , -50% ) 
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  
   }
+  
+
 
 /* @media screen and (min-width: 600px)
     width 30vmax } */
@@ -166,5 +257,9 @@ export default {
   .vs-button {
 
     margin: 0px }
+
+.vs-card {
+  background-color: green !important
+}
 
 </style>
