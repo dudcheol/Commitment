@@ -66,13 +66,13 @@ export default {
   SIGNUP: (store, payload) => {
     console.log(payload);
     axios
-      .post("/account/signup", payload)
+      .post("https://i4a308.p.ssafy.io:8080/account/signup", payload)
       .then((response) => {
         console.log("회원가입 : " + response.data.length);
         store.dispatch("SMTP",payload);
       })
       .catch((response, error) => {
-        console.log("FAIL : " + response.status);
+        console.log("잘못됐음" + response.status);
         console.log(error);
         // router.push("/error");
       });

@@ -73,16 +73,24 @@
         </div>
       </template>
     </vs-card>
+  <EmailDialog
+    @yes="dialog.activation = false"
+    :content="dialog.content"
+    :dialog="dialog.activation"
+  > </EmailDialog>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapActions } from "vuex"
+import EmailDialog from '../components/common/dialog/EmailDialog.vue'
 
 export default {
 
-
+  components: {
+    EmailDialog
+  },
   methods: {
     ...mapActions(["smtp", "SIGNUP"]),
     submit() {
@@ -96,17 +104,20 @@ export default {
           gender: this.gender,
           birth: this.birth,
           region: this.region,
-          age: this.age,
+          age: "23",
         };
         axios
           .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
           .then((res) => {
             console.log(res);
             this.SIGNUP(params);
-            this.$router.push({
-              name: 'EmailCheck',
-              params: { email: this.email },
-            });
+            // dialog 보여주기
+
+            this.showDialog('가입에 성공했뜸');
+            // this.$router.push({
+            //   name: 'EmailCheck',
+            //   params: { email: this.email },
+            // });
           })
           .catch((err) => {
             console.error(err);
@@ -147,6 +158,10 @@ export default {
       console.log('회원가입 양식을 모두 채워주세요.');
       return false;
     },
+    showDialog(message) {
+      this.dialog.activation = true;
+      this.dialog.content.text = message;
+    }
 
   },
 
@@ -161,9 +176,13 @@ export default {
         gender: '',
         birth: '',
         remember: false,
-        region: '',
+        region: 'national',
         nickname: '',
         age: '',
+        dialog: {
+          content: { title: '할롱', text: '', yes: '확인'},
+          activation: false,
+        },
     }
   },
 };

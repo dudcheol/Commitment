@@ -7,11 +7,14 @@
 
       <template #text>
         <div class="con-form" @keyup.enter="confirm">
+          <div class="email_input">
           <vs-input v-model="email" placeholder="Email">
             <template #icon>
               @
             </template>
           </vs-input>
+          </div>
+          <div class="password_input">
           <vs-input
             type="password"
             v-model="pass"
@@ -21,6 +24,7 @@
               <i class="bx bxs-lock"></i>
             </template>
           </vs-input>
+          </div>
           <div class="flex">
             <vs-checkbox v-model="remember">아이디 저장</vs-checkbox>
             <a href="#">비밀번호를 잊어버리셨나요?</a>
@@ -28,9 +32,7 @@
         </div>
 
         <div class="footer-dialog">
-          <vs-button block @click="confirm" :loading="loading"
-         
-          >
+          <vs-button block @click="confirm" :loading="loading">
             로그인
           </vs-button>
 
@@ -88,61 +90,91 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-  getColor(vsColor, alpha = 1)
-      unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
-  getVar(var)
-      unquote("var(--vs-"+var+")")
-  .login_form
-    display flex
-    justify-content center
-    position: absolute;
-    left: 50%
-    top: 50%
-    transform: translate( -50%, -50% )
-.vs-card-content
-    width 50vmax
-    @media screen and (min-width: 600px)
-        width 30vmax
+<style  scoped>
+vs-input {
+  width: 300px !important
+}
+/* 
+input#vs-input--7 {
+  width: 400px !important
+}  */
+.email_input {
+  display: flex;
+  justify-content: center;
+  margin: 10px 10px;
+}
 
-  .not-margin
-    margin 3px
-    font-weight normal
-    padding 10px
-  .con-form
-    width 100%
-    .flex
-      display flex
-      align-items center
-      justify-content space-between
-      a
-        font-size .8rem
-        opacity .7
-        &:hover
-          opacity 1
-    .vs-checkbox-label
-      font-size .8rem
-    .vs-input-content
-      margin 10px 10px
-      width calc(100%)
-      .vs-input
-        width 100%
-  .footer-dialog
-    display flex
-    align-items center
-    justify-content center
-    flex-direction column
-    width calc(100%)
-    .new
-      margin 0px
-      margin-top 20px
-      padding: 0px
-      font-size .7rem
-      a
-        color getColor('primary') !important
-        margin-left 6px
-        &:hover
-          text-decoration underline
-    .vs-button
-      margin 0px
+.password_input {
+  display: flex;
+  justify-content: center;
+  margin: 10px 10px;
+}
+
+.login_form {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate( -50%, -50% ) }
+
+
+
+.vs-card-content {
+    width: 50vmax }
+    /* @media screen and (min-width: 600px)
+        width 30vmax } */
+
+.not-margin {
+  margin: 3px;
+  font-weight: normal;
+  padding: 10px; 
+  display: flex;
+  justify-content: center;
+  }
+
+.con-form
+  { width: 100% 
+  }
+.con-form  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    }
+.con-form .flex a {
+      font-size: .8rem;
+      opacity: 0.7 }
+.con-form .flex a:hover
+{
+        opacity: 1  }
+
+
+.vs-checkbox-label
+    {font-size: .8rem}
+.vs-input-content
+    {margin: 10px 10px}
+  
+.footer-dialog 
+  {display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: calc(100%);
+  }
+
+.new
+  { margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+    font-size: .7rem }
+
+.footer-dialog .new a {
+      margin-left: 6px }
+.footer-dialog .new a:hover{
+        text-decoration: underline}
+
+  .vs-button {
+
+    margin: 0px }
+
 </style>
