@@ -6,7 +6,7 @@
       cols="12"
       md="3"
     >
-      <v-sheet rounded="xl" class="mb-4 px-4 pt-6" style="width:100%">
+      <v-sheet rounded="xl" class="mb-4 px-4 pt-3" style="width:100%">
         <div class="d-flex align-center">
           <div class="font-weight-black mr-2 display-1">
             {{ commitRange[0] == 0.5 && commitRange[1] == 10 ? '모든 커밋' : address }}
@@ -35,6 +35,7 @@
         ></v-range-slider>
       </v-sheet>
       <GmapMap
+        ref="map"
         :center="{ lat: pos.lat, lng: pos.lng }"
         :zoom="mapZoom"
         :options="mapOptions"
@@ -42,6 +43,18 @@
         style="width:100%; min-height:300px; overflow: hidden; border-radius:24px"
         v-if="pos"
       >
+        <GmapMarker :key="pos" :position="{ lat: pos.lat, lng: pos.lng }" :clickable="true" />
+        <GmapCircle
+          :key="pos"
+          :center="{ lat: pos.lat, lng: pos.lng }"
+          :radius="commitRange[1] * 1000"
+          :visible="true"
+          :options="{
+            fillColor: 'blue',
+            fillOpacity: '0.3',
+            strokeOpacity: '0',
+          }"
+        ></GmapCircle>
       </GmapMap>
       <no-data-card
         :icon="'emoticon-confused-outline'"
@@ -87,17 +100,18 @@ export default {
       commitRange: [0, 10],
       commitMinRange: 0.5,
       commitMaxRange: 10,
-      mapZoom: 15,
       mapOptions: {
-        zoomControl: false,
+        zoomControl: true,
         mapTypeControl: false,
         scaleControl: false,
         streetViewControl: false,
         rotateControl: false,
-        fullscreenControl: false,
+        fullscreenControl: true,
         disableDefaultUi: false,
         draggable: false,
+        maxZoom: 15,
       },
+      map: null,
     };
   },
   computed: {
@@ -136,6 +150,21 @@ export default {
       }
       return '';
     },
+    mapZoom() {
+      if (this.commitRange[1] >= 9) {
+        return 10;
+      } else if (this.commitRange[1] >= 5) {
+        return 11;
+      } else if (this.commitRange[1] >= 2.5) {
+        return 12;
+      } else if (this.commitRange[1] >= 1.5) {
+        return 13;
+      } else if (this.commitRange[1] >= 1) {
+        return 14;
+      } else if (this.commitRange[1] >= 0.5) {
+        return 15;
+      } else return 10;
+    },
   },
   created() {
     likeBoardList(
@@ -152,6 +181,11 @@ export default {
         );
       }
     );
+  },
+  mounted() {
+    this.$refs.map.$mapPromise.then((map) => {
+      this.map = map;
+    });
   },
 };
 </script>
