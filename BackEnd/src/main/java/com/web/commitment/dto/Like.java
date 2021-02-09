@@ -38,16 +38,13 @@ public class Like {
 	@Column(name="sns_id")
 	private int snsId;
 	
-	@Column(name="writer")
-	private String writer;
-	
 	@ManyToOne
 	@JoinColumn(name = "sns_id",insertable=false, updatable=false)
 	private Board board;
 
 	@Override
 	public String toString() {
-		return "Like [id=" + id + ", email=" + email + ", snsId=" + snsId + ", writer=" + writer + ", board=" + board
+		return "Like [id=" + id + ", email=" + email + ", snsId=" + snsId + ",  board=" + board
 				+ "]";
 	}
 }

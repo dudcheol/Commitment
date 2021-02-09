@@ -51,13 +51,6 @@ public class LikeController {
 		return likeDao.findAllByEmail(email, pageable); // snsId로 게시글 불러오는 것까
 	}
 
-	@GetMapping("/like/totalreceived")
-	@ApiOperation(value = "좋아요 총 받은 개수")
-	public int likeTotal(@RequestParam String email){
-	
-		return likeDao.countByWriter(email);
-	}
-
 	@GetMapping("/like/received")
 	@ApiOperation(value = "해당 게시글 좋아요 받은 개수")
 	public int likeCount(@RequestParam int id){
