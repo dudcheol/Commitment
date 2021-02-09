@@ -93,7 +93,7 @@ const routes = [
     component: Permission,
   },
   {
-    path: '/signup/emailcheck',
+    path: '/user/mailCheck',
     name: 'EmailCheck',
     component: EmailCheck,
   },
