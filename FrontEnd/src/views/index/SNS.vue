@@ -9,7 +9,7 @@
       <v-sheet rounded="xl" class="mb-4 px-4 pt-3" style="width:100%">
         <div class="d-flex align-center">
           <div class="font-weight-black mr-2 display-1">
-            {{ commitRange[0] == 0.5 && commitRange[1] == 10 ? '모든 커밋' : address }}
+            {{ commitRange[0] == 0.5 && commitRange[1] == 30 ? '모든 커밋' : address }}
           </div>
           <div class="blue-grey darken-1 px-1 rounded-lg white--text font-weight-bold" rounded="lg">
             <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
@@ -32,22 +32,28 @@
           color="blue-grey lighten-3"
           thumb-color="blue-grey lighten-1"
           track-color="blue-grey lighten-5"
+          @mouseup="changeRange"
         ></v-range-slider>
       </v-sheet>
       <GmapMap
         ref="map"
-        :center="{ lat: pos.lat, lng: pos.lng }"
+        :center="mapCenter ? mapCenter : { lat: pos.lat, lng: pos.lng }"
         :zoom="mapZoom"
         :options="mapOptions"
         map-type-id="terrain"
         style="width:100%; min-height:300px; overflow: hidden; border-radius:24px"
         v-if="pos"
       >
-        <GmapMarker :key="pos" :position="{ lat: pos.lat, lng: pos.lng }" :clickable="true" />
+        <GmapMarker
+          v-for="(marker, index) in markers"
+          :key="marker + index"
+          :position="marker"
+          :clickable="true"
+        />
         <GmapCircle
           :key="pos"
           :center="{ lat: pos.lat, lng: pos.lng }"
-          :radius="commitRange[1] * 1000"
+          :radius="commitRange[1] == 30 ? 0 : commitRange[1] * 1000"
           :visible="true"
           :options="{
             fillColor: 'blue',
@@ -66,16 +72,26 @@
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
-        <div v-if="feedDatas.length == 0">
-          <no-data-card
-            :icon="'emoticon-frown-outline'"
-            :text="'주변에 커밋이 없어요. 가장 먼저 커밋을 남겨보세요!'"
-            class="mt-4"
-          ></no-data-card>
+        <div class="mt-4" v-for="data in feedDatas" :key="data">
+          <main-card :data="data"></main-card>
         </div>
-        <div v-else class="card mt-4" v-for="item in feedDatas" :key="item">
-          <main-card :data="item"></main-card>
-        </div>
+        <infinite-loading
+          :identifier="infiniteId"
+          @infinite="infiniteHandler"
+          ref="InfiniteLoading"
+          spinner="circles"
+        >
+          <div slot="no-more" class="mt-4">
+            <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
+          </div>
+          <!-- <div slot="spinner"></div> -->
+          <div slot="no-results" class="mt-4">
+            <NoDataCard
+              :icon="'emoticon-outline'"
+              :text="'반경 내 커밋이 없어요. 가장 먼저 커밋을 남겨보세요!'"
+            ></NoDataCard>
+          </div>
+        </infinite-loading>
       </v-col>
     </v-row>
   </v-container>
@@ -83,35 +99,38 @@
 
 <script>
 import MainCard from '../../components/common/card/MainCard';
-import { likeBoardList } from '../../api/like';
 import { mapGetters } from 'vuex';
 import NoDataCard from '../../components/common/card/NoDataCard.vue';
+import { totalRadiusBoardList } from '../../api/board';
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   components: {
     MainCard,
     NoDataCard,
+    InfiniteLoading,
   },
   data() {
     return {
       feedDatas: [],
-      date: '7',
       options: '1',
-      commitRange: [0, 10],
+      commitRange: [0, 30],
       commitMinRange: 0.5,
-      commitMaxRange: 10,
+      commitMaxRange: 30,
       mapOptions: {
-        zoomControl: true,
+        zoomControl: false,
         mapTypeControl: false,
         scaleControl: false,
         streetViewControl: false,
         rotateControl: false,
-        fullscreenControl: true,
+        fullscreenControl: false,
         disableDefaultUi: false,
-        draggable: false,
+        draggable: true,
         maxZoom: 15,
       },
-      map: null,
+      pageNumber: 0,
+      markers: [],
+      infiniteId: +new Date(),
     };
   },
   computed: {
@@ -151,7 +170,12 @@ export default {
       return '';
     },
     mapZoom() {
-      if (this.commitRange[1] >= 9) {
+      if (this.commitRange[1] == 30) {
+        return 6;
+      }
+      if (this.commitRange[1] >= 18) {
+        return 9;
+      } else if (this.commitRange[1] >= 9) {
         return 10;
       } else if (this.commitRange[1] >= 5) {
         return 11;
@@ -163,29 +187,48 @@ export default {
         return 14;
       } else if (this.commitRange[1] >= 0.5) {
         return 15;
-      } else return 10;
+      } else return 9;
     },
   },
-  created() {
-    likeBoardList(
-      this.user.email,
-      (response) => {
-        console.log('%cLikes.vue line:146 response', 'color: #007acc;', response);
-        this.feedDatas = response.data.content;
-      },
-      (error) => {
-        console.log(
-          '%cerror Likes.vue line:95 ',
-          'color: red; display: block; width: 100%;',
-          error
-        );
-      }
-    );
-  },
-  mounted() {
-    this.$refs.map.$mapPromise.then((map) => {
-      this.map = map;
-    });
+  methods: {
+    infiniteHandler($state) {
+      console.log('%cSNS.vue line:189 commitRange[1]', 'color: #007acc;', this.commitRange[1]);
+      totalRadiusBoardList(
+        this.pos.lat,
+        this.pos.lng,
+        this.commitRange[1] == 30 ? 0 : this.commitRange[1],
+        this.pageNumber,
+        5,
+        (response) => {
+          const res = response.data.content;
+          console.log('%cSNS.vue line:198 res', 'color: #007acc;', res);
+          if (res.length) {
+            this.feedDatas.push(...res);
+            for (let i = 0; i < res.length; i++) {
+              this.markers.push({
+                lat: parseFloat(res[i].commit.lat),
+                lng: parseFloat(res[i].commit.lng),
+              });
+            }
+            this.pageNumber += 1;
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        },
+        (error) => {
+          console.log('%cSNS.vue line:197 error', 'color: #007acc;', error);
+        }
+      );
+    },
+    changeRange() {
+      console.log('%cSNS.vue line:220 reset', 'color: #007acc;');
+      this.feedDatas = [];
+      this.markers = [];
+      this.pageNumber = 0;
+      this.$refs.map.panTo({ lat: this.pos.lat, lng: this.pos.lng });
+      this.infiniteId += 1;
+    },
   },
 };
 </script>

@@ -3,13 +3,13 @@
     <div class="px-4 pt-4">
       <div class="d-flex flex-row" style="height:40px">
         <div class="flex-grow-0">
-          <vs-avatar circle size="40">
-            <img :src="data.user.profile" alt="" />
-          </vs-avatar>
+          <v-avatar v-if="data.user.profile" circle size="40">
+            <img :src="data.user.profile.file_path" />
+          </v-avatar>
         </div>
         <div class="flex-grow-1 ml-2">
           <h3>{{ data.user.nickname }}</h3>
-          <p class="text-caption">{{ data.address }}</p>
+          <p class="text-caption">{{ data.commit.address }}</p>
         </div>
         <div class="flex-grow-0 align-center" v-if="user.email != data.email">
           <v-btn text rounded color="primary" :ripple="false"><strong>팔로우</strong></v-btn>
@@ -49,7 +49,7 @@
       {{ data.content }}
     </div>
 
-    <v-img :src="data.image[0]" height="auto" class="mt-2"> </v-img>
+    <v-img v-if="data.image[0]" :src="data.image[0].filePath" height="auto" class="mt-2"> </v-img>
 
     <div class="px-4 pt-1 pb-3">
       <div class="d-flex flex-row justify-space-between">
@@ -57,14 +57,14 @@
           <v-chip-group>
             <v-chip
               v-for="tag in data.tag"
-              :key="tag"
+              :key="tag.id"
               color="#f5f5f5"
               text-color="#808080"
               label
               :ripple="false"
               small
             >
-              {{ tag }}
+              {{ tag.content }}
             </v-chip>
           </v-chip-group>
         </div>
