@@ -31,7 +31,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.commitment.dao.BadgeDao;
 import com.web.commitment.dao.UserDao;
+import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
 import com.web.commitment.service.JwtService;

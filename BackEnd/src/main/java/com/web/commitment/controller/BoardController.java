@@ -164,11 +164,11 @@ public class BoardController {
 	public Page<Board> loadRadiusSns(@RequestParam String lat,@RequestParam String lng,
 			@RequestParam(required = true, defaultValue = "0") double radius, final Pageable pageable) {
 
-		if (radius == 0) {
+//		if (radius.equals("0") || radius == null) {
+		if (radius != 0) {
 			// 모든 게시물(open1인 것만)
 			return boardDao.findAll(pageable);
 		}
 		return boardDao.radiusCommitId(lat, lng, radius, pageable);
 	}
-
 }
