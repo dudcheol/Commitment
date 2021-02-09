@@ -40,13 +40,4 @@ public class FollowingBoardController {
     public Page<Board> totalboard(@RequestParam String email,Pageable pageable) {
     	return boardDao.findtotalByEmail(email,pageable);
     }
-    
-//    // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
-//    @GetMapping("sns/followmap") 
-//    @ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
-//    public Page<User> followmap(@RequestParam String email,Pageable pageable){
-//    	return userDao.findfollowMapByEmail(email, pageable);
-//    }
-
-    
 }
