@@ -27,11 +27,11 @@ public class TagController {
 	@Autowired
 	TagDao tagDao;
 	
-	@PostMapping("/tag/{id}")
+	@PostMapping("/tag")
     @ApiOperation(value = "해시태그 작성 & 수정 & 삭제")
-    public String tag(@PathVariable String id, @RequestBody Tag[] tag) {
+    public String tag(@RequestBody Tag[] tag) {
 		
-		List<Tag> tags = tagDao.findAllBySnsId(id);
+		List<Tag> tags = tagDao.findBySnsId(tag[0].getSnsId());
 		System.out.println(tags.size());
 		for (int i = 0; i < tags.size(); i++) {
 			System.out.println(tags.get(i).getContent());
