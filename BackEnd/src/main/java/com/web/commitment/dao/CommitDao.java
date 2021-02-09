@@ -88,5 +88,8 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	Page<Commit> commitOnly(@Param("email")String email, Pageable pageable);
 
 	Commit findCommitById(String id);
+	
+	@Query(value = "select cnt(*) from commit where user_email=:email", nativeQuery = true)
+	int commitCnt(@Param("email")String email);
 
 }

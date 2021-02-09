@@ -23,10 +23,10 @@ public class Profile {
 	private String email;
 
 	@Column(name = "file_path")
-	private String file_path;
+	private String filePath;
 
 	@Column(name = "file_name")
-	private String file_name;
+	private String fileName;
 	
 
 }
