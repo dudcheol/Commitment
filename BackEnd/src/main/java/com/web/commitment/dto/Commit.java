@@ -27,7 +27,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @DynamicInsert
 @DynamicUpdate
 public class Commit {
@@ -66,6 +65,9 @@ public class Commit {
 	
 	@Column(name="local_y")
 	private String localY;
+	
+	@Column(name="address")
+	private String address;
 
 //	@OneToMany(mappedBy = "commitId" )
 //	private List<Board> board;

@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin
 @RestController
 public class ProfileController {
+
     @Autowired
     private ProfileDao profileDao;
     @Autowired
@@ -80,45 +81,46 @@ public Object follow(@RequestParam(required = true) final String email) {
     return user;
 }
 @GetMapping("/profile/followerCnt")
-@ApiOperation(value = "팔로워 리스트")
+@ApiOperation(value = "팔로워 수")
 public int followCnt(@RequestParam(required = true) String email) {
     return followDao.followCnt(email);
 }
 
-@PostMapping(path = "/profile/upload")
-@ApiOperation(value = "프로필 업로드 및 수정")
-@Transactional
-public Map<String, String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile files,
-        @RequestParam(value = "email", required = true) String email) throws IOException {
-    String originalFilename = files.getOriginalFilename();
-    String saveFileName = UUID.randomUUID().toString()
-            + originalFilename.substring(originalFilename.lastIndexOf('.'));
+	@PostMapping(path = "/profile/upload")
+	@ApiOperation(value = "프로필 업로드 및 수정")
+	@Transactional
+	public Map<String, String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile files,
+			@RequestParam(value = "email", required = true) String email) throws IOException {
+		String originalFilename = files.getOriginalFilename();
+		String saveFileName = UUID.randomUUID().toString()
+				+ originalFilename.substring(originalFilename.lastIndexOf('.'));
 
-    String s3Path = "profile";
-    String url = s3Uploader.upload(files, s3Path, saveFileName);// 사진 업로드
-    
-    Profile profile = profileDao.findProfileByEmail(email);// 이미 프로필 사진이 존재하는가?
-    if (profile == null) {
-        profile = new Profile();
-        profile.setEmail(email);
-    } else {// 원래 프로필 사진 지우기
-        s3Uploader.deletefile(profile.getFile_name());
-    }
+		String s3Path = "profile";
+		String url = s3Uploader.upload(files, s3Path, saveFileName);// 사진 업로드
+		
+		Profile profile = profileDao.findProfileByEmail(email);// 이미 프로필 사진이 존재하는가?
+		if (profile == null) {
+			profile = new Profile();
+			profile.setEmail(email);
+		} else {// 원래 프로필 사진 지우기
+			s3Uploader.deletefile(profile.getFile_name());
+		}
 
-    profile.setFile_name(saveFileName);
-    profile.setFile_path(url);
-    
-    System.out.println(profile);
-    profileDao.save(profile);
-    Map<String, String> result = new HashMap<>();
-    result.put("url", profile.getFile_path());// 사진 url 리턴
-    return result;
-}
-//    @ApiOperation(value = "프로필 사진 불러오기")
-//    public String image(String email) {
-//        Profile profile = profileDao.findProfileByEmail(email);
-//        return profile.getFile_path();
-//    }
+		profile.setFile_name(saveFileName);
+		profile.setFile_path(url);
+		
+		System.out.println(profile);
+		profileDao.save(profile);
+		Map<String, String> result = new HashMap<>();
+		result.put("url", profile.getFile_path());// 사진 url 리턴
+		return result;
+	}
+
+//	@ApiOperation(value = "프로필 사진 불러오기")
+//	public String image(String email) {
+//		Profile profile = profileDao.findProfileByEmail(email);
+//		return profile.getFile_path();
+//	}
 
 }
 

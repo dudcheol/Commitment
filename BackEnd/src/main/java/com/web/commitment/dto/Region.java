@@ -19,7 +19,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Region {
 	@Id
 	@Column(name="name")
