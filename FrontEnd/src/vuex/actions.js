@@ -1,8 +1,7 @@
 import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp } from '../api/account';
 import { latlngToAddress } from '../api/commit';
 import router from '../router';
-// import axios from 'axios'
-// import axios from '../api/index.js'
+// import axios from 'axios';
 
 export default {
   async LOGIN(context, user) {
@@ -10,8 +9,8 @@ export default {
     await login(
       user,
       (response) => {
+        context.commit('LOGIN', response.data.data);
         if (response.data.data === 'success') {
-          // context.commit('LOGIN', response.data);
           localStorage.setItem('auth-token', response.data['auth-token']);
           setAuthTokenToHeader(response.data['auth-token']);
           context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
@@ -29,11 +28,10 @@ export default {
       token,
       (response) => {
         let user = response.data.user;
-        user.badgeCnt = response.data.user.badge;
+        user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
         context.commit('GET_MEMBER_INFO', { token, user });
-        console.log('%cactions.js line:34 response.data', 'color: #007acc;', response.data);
       },
       (error) => {
         console.log('%cactions.js line:26 error', 'color: #007acc;', error);
@@ -58,7 +56,6 @@ export default {
           context.dispatch('LATLNG_TO_ADDRESS', latlng);
         },
         (error) => {
-          // if (error.code == error.PERMISSION_DENIED) {
           console.log(
             '%cerror actions.js line:60 ',
             'color: red; display: block; width: 100%;',
@@ -67,7 +64,6 @@ export default {
           router.replace('/permission');
           context.commit('CURRENT_LATLNG', null);
           context.commit('LATLNG_TO_ADDRESS', null);
-          // }
         }
       );
     } else {

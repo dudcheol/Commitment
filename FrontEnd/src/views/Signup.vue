@@ -104,7 +104,7 @@ export default {
           gender: this.gender,
           birth: this.birth,
           region: this.region,
-          age: "23",
+          age: this.age,
         };
         // 여기 고치기
         axios

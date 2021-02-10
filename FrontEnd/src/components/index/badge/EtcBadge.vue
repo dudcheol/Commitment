@@ -33,7 +33,7 @@
           </template>
         </vs-card>
         <p class="badgeName">
-          커밋홀릭
+          전국 커밋
         </p>
         <p class="badgeDescription">
           커밋 100% 최초 달성!
@@ -50,7 +50,7 @@
             <div class="bookmark">
               <div class="bookmarkButton">
                 <v-progress-circular
-                  :value="40"
+                  :value="commitper"
                   color="grey"
                   size="20"
                 ></v-progress-circular>
@@ -62,12 +62,12 @@
           </template>
           <template #text>
             <p>
-              획득까지 60% 남았어요!
+              획득까지 {{100-commitper}}% 남았어요!
             </p>
           </template>
         </vs-card>
         <p class="badgeName">
-          커밋홀릭
+          전국 커밋
         </p>
         <p class="badgeDescription">
           커밋 100% 최초 달성!
@@ -332,12 +332,29 @@
 </template>
 
 <script>
+import { commitrate} from "../../../api/Badge.js";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       num: 4,
       num2: 4,
+      commitper: 0,
     };
+  },
+  computed: {
+    ...mapGetters({ user: ["getUserInfo"] }),
+  },
+  mounted() {
+    commitrate(
+      this.user.email,
+      (response) => {
+        this.commitper=response.data.totalCommit;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
 };
 </script>

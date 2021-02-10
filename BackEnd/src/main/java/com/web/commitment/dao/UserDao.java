@@ -12,13 +12,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
-
 import org.springframework.stereotype.Repository;
-
-import com.web.commitment.dto.Board;
-import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.User;
 
 @Repository

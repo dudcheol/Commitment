@@ -5,7 +5,7 @@ import store from '../vuex/store';
 import Index from '../views/Index.vue';
 import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
-import Detail from '@/views/index/Detail.vue';
+import Detail from '../views/index/Detail.vue';
 import Permission from '../views/Permission.vue';
 import EmailCheck from '../views/EmailCheck.vue';
 

@@ -13,6 +13,7 @@ import ScrollBar from '@morioh/v-perfect-scrollbar';
 import ScrollAnimation from './directive/scrollanimation.js'
 
 Vue.directive('scrollanimation', ScrollAnimation)
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.config.productionTip = false;
 
@@ -22,11 +23,16 @@ Vue.use(VueRouter);
 Vue.use(VueHorizontalTimeline);
 Vue.use(ScrollBar);
 
-Vue.use(Vuesax, {
-})
-Vue.use(VueRouter)
+Vue.use(Vuesax, {});
+Vue.use(VueRouter);
 Vue.use(VueHorizontalTimeline);
 Vue.use(ScrollBar);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDq5jEL1HSwZ9dDUxhUJ_G5U_f8KvMF6ys',
+    libraries: 'places',
+  },
+});
 
 new Vue({
   vuetify,
