@@ -36,7 +36,7 @@ import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.UserLogin;
+import com.web.commitment.dto.UserDto;
 import com.web.commitment.service.JwtService;
 
 import io.swagger.annotations.ApiOperation;
@@ -68,7 +68,7 @@ public class UserController {
 //        	jwt.io에서 확인
 //			로그인 성공했다면 토큰을 생성한다.
 			User user = userOpt.get();
-			UserLogin userDto= new UserLogin(user);
+			UserDto userDto= new UserDto(user);
 			String token = jwtService.create(userDto);
 //			logger.trace("로그인 토큰정보 : {}", token);
 
