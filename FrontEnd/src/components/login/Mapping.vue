@@ -6,16 +6,25 @@
 
 <script>
 export default {
-    created() {
+    data() {
+      return {
+        nObjectCnt: 0,
+        ObjectArray : [
+          1,2,3,4,
+        ],
 
+      };
     },
     methods: {
+      obtimeOut() {
+
+      },
       ShowDefaultRotate() {
-          // let obTimeOut;
           // let ObjectArray = new Array();
           // ObjectArray[1] = "image01.jpg";
 
           // let nObjectCnt = 0;
+        // const obTimeOut;
 
         this.nObjectCnt++;
 
