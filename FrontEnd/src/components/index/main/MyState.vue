@@ -15,7 +15,7 @@
             <div class="d-flex flex-row">
               <div class="flex-grow-0">
                 <v-avatar v-if="user.profile" circle size="40">
-                  <img :src="user.profile.file_path" />
+                  <img :src="user.profile.filePath" />
                 </v-avatar>
                 <v-avatar
                   v-else
