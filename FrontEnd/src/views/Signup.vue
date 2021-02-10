@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import { mapActions } from "vuex"
 import EmailDialog from '../components/common/dialog/EmailDialog.vue'
 
@@ -92,13 +92,13 @@ export default {
     EmailDialog
   },
   methods: {
-    ...mapActions(["smtp", "SIGNUP"]),
+    ...mapActions(["SIGNUP"]),
     submit() {
       if (this.check()) {
-        const params = {
+        const userData = {
           email: this.email,
           nickname: this.nickname,
-          password: this.password,
+          pass: this.password,
           tel: this.tel,
           mystory: this.mystory,
           gender: this.gender,
@@ -107,23 +107,30 @@ export default {
           age: this.age,
         };
         // 여기 고치기
-        axios
-          .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
-          .then((res) => {
-            console.log(res);
-            this.SIGNUP(params);
-            // dialog 보여주기
+        const result = this.SIGNUP(userData);
+        if (result) {
+          this.showDialog('가입에 성공했습니다')
+        } else {
+          console.log('가입에 실패했습니다')
+        }
+        // this.SIGNUP(params);
+        // axios
+        //   .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
+        //   .then((res) => {
+        //     console.log(res);
+        //     this.SIGNUP(params);
+        //     // dialog 보여주기
 
-            this.showDialog('가입에 성공했뜸');
-            // this.$router.push({
-            //   name: 'EmailCheck',
-            //   params: { email: this.email },
-            // });
-          })
-          .catch((err) => {
-            console.error(err);
-            console.log('가입에 실패하셨습니다.');
-          });
+        //     this.showDialog('가입에 성공했뜸');
+        //     // this.$router.push({
+        //     //   name: 'EmailCheck',
+        //     //   params: { email: this.email },
+        //     // });
+        //   })
+        //   .catch((err) => {
+        //     console.error(err);
+        //     console.log('가입에 실패하셨습니다.');
+        //   });
       } else {
         console.log("항목중에서 하나 실패했으니깐 조심해보자");
       }

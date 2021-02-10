@@ -89,24 +89,39 @@ export default {
       }
     );
   },
-  SIGNUP: (context, payload) => {
+  SIGNUP (context, payload) {
+    console.log("SIGNUP actionjs line93")
+    // payload가 user 정보가 담겨져있음
+    console.log(payload)
+    let result = false;
     signup(
       payload,
       (response) => {
-        context.commit('SIGNUP', response.data)
-        context.dispatch("SMTP", payload);
+        const userdata = {
+          email: payload.email,
+
+        }
+        console.log("mydata is" + userdata);
+        context.commit('SIGNUP', userdata);
+        // 여기서 다시 SMTP 호출하고싶은경우?
+        context.dispatch('SMTP', response.data);
         console.log("SIGNUP ACTIONSJS ACTIVATE")
+        result = true;
       },
       (error) => {
         console.log("Signup Error" + error)
+        result= false;
+        console.log("SIGNUP actionjs line107")
       }
-
     );
+    return result    
   },
-  SMTP: (context, payload) => {
+  SMTP (context, payload){
     smtp(
+      console.log("SMTP payload" + payload),
       payload,
       (response) => {
+        console.log("SMTP response success" + response.data)
         context.commit("SMTP", response.data)
       },
       (error) => {
@@ -119,7 +134,7 @@ export default {
     // axios
     //   .post("https://i4a308.p.ssafy.io:8080/account/signup", payload)
     //   .then((response) => {
-    //     console.log("회원가입 : " + response.data.length);
+    //     console.log("회원가입 : " + response.data);
     //     store.dispatch("SMTP",payload);
     //   })
     //   .catch((response, error) => {

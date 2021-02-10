@@ -32,16 +32,27 @@ function logout() {
 }
 
 // 이메일, 닉네임, 비밀번호, 전화, 나의한마디, 성별, 생일, 지역, 나이 
-function signup ( email, nickname, password, tel, mystory, gender, birth, region, age, success, fail) {
+function signup ( userInfo, success, fail) {
+  console.log("accountjs" )
+  // const userinfo = {
+  //   email
+  // }
+  // email, nickname, pass, tel, mystory, gender, birth, region, age
   instance
-  .post('account/signup', { email, nickname, password, tel, mystory, gender, age, birth, region })
+  .post('account/signup', userInfo )
   .then(success)
   .catch(fail);
+  
 }
 
-function smtp( email, success, fail) {
-  instance
-  .get('account/smtp', { params: { email } })
+async function smtp(userInfo, success, fail) {
+  
+  // const params = {
+  //   email: userInfo.email,
+  // };
+  
+  await instance
+  .get('account/smtp', userInfo)
   .then(success)
   .catch(fail);
 }
