@@ -1,62 +1,92 @@
 <template>
   <div class="login_form">
-    <vs-card>
+    <vs-card class='card'>
       <template #title>
-        <h4 class="not-margin"><b>Commmitment</b> 회원가입</h4>
+        <h3 class="not-margin d-flex justify-center"><b>Commmitment</b> 회원가입</h3>
       </template>
         <!-- 이메일 지역 닉네임 비밀번호 전화번호 나이 성별 이메일 인증여부-->
       <template #text>
+        <div class="d-flex flex-column justify-center">
+          <div class="d-flex justify-center">
+          <vs-avatar>
+        <img src="" alt="">
+          </vs-avatar>  
+          </div>
+        <v-file-input
+              
+          accept="image/png, image/jpeg, image/bmp"
+          placeholder="사진을 골라주세요"
+          prepend-icon="mdi-camera"
+        ></v-file-input>
+        </div>  
         <div class="con-form">
-          이메일
-          <vs-input icon-after v-model="email" placeholder="Email">
+
+
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-4">
+              📧 이메일 
+            </div>
+          <vs-input v-model="email" placeholder="Email">
             <template #icon>
               @
             </template>
           </vs-input>
-          비밀번호
-          <vs-input type="password" v-model="password" icon-after placeholder="Password">
+          </div>
+
+          <div class="d-flex">
+            <div class="d-flex align-center mr-3">
+              🔒 비밀번호
+            </div>
+          <vs-input type="password" v-model="password"  placeholder="Password">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
           </vs-input>
-          비밀번호 확인
-          <vs-input type="password" v-model="passwordConfirm" icon-after placeholder="Password">
+          </div>
+
+          
+
+
+          🔒 비밀번호 확인
+          <vs-input type="password" v-model="passwordConfirm"  placeholder="Password">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
           </vs-input>
-          닉네임
-          <vs-input icon-after v-model="nickname" placeholder="3글자이상">
+          😀 닉네임
+          <vs-input v-model="nickname" placeholder="3글자이상">
             <template #icon>
               <i class="bx bx-user"></i>
             </template>
           </vs-input>
-          한줄소개
-          <vs-input icon-after v-model="mystory" placeholder="한줄소개">
+          🏷️ 한줄소개
+          <vs-input  v-model="mystory" placeholder="한줄소개">
             <template #icon>
               <i class="bx bx-comment-detail"></i>
             </template>
           </vs-input>          
-          전화번호
-          <vs-input icon-after v-model="tel" placeholder="전화번호">
+          📞 전화번호
+          <vs-input  v-model="tel" placeholder="전화번호">
             <template #icon>
               <i class="bx bx-phone"></i>
             </template>
           </vs-input>
-          성별
-          <div>
-            <vs-select placeholder="Select" v-model="gender">
-              <vs-option label="Man" value="man">
-                Man
-              </vs-option>
-              <vs-option label="Woman" value="woman">
-                Woman
-              </vs-option>
-            </vs-select>
+          
+          🧑‍🤝‍🧑 성별
+          <div class="d-flex justify-center">
+          <vs-select placeholder="Select" v-model="gender">
+            <vs-option label="Man" value="man">
+              Man
+            </vs-option>
+            <vs-option label="Woman" value="woman">
+              Woman
+            </vs-option>
+          </vs-select>
           </div>
-          생일
-          <vs-input type="date" v-model="birth" icon-after> </vs-input>
-          나이
+
+          🧁 생일
+          <vs-input type="date" v-model="birth" > </vs-input>
+          🍂 나이
           <vs-input type="number" v-model="age" />
 
 
@@ -196,67 +226,79 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-  getColor(vsColor, alpha = 1)
-      unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")
-  getVar(var)
-      unquote("var(--vs-"+var+")")
-  .login_form
-    display flex
-    justify-content center
-    position: absolute;
-    left: 50%
-    top: 50%
-    transform: translate( -50%, -50% )
-.vs-card__title
-    margin-top 10px
-    margin-bottom 20px
-.vs-card-content
-    margin-top 2px
-    margin-bottom 10px
-    width 40vmax
-    @media screen and (min-width: 600px)
-        width 30vmax
+<style scoped>
 
-  .not-margin
-    margin 0px
-    font-weight normal
-    padding 10px
-  .con-form
-    width 100%
-    .flex
-      display flex
-      align-items center
-      justify-content space-between
-      a
-        font-size .8rem
-        opacity .7
-        &:hover
-          opacity 1
-    .vs-checkbox-label
-      font-size .8rem
-    .vs-input-content
-      margin 10px 0px
-      width calc(100%)
-      .vs-input
-        width 100%
-  .footer-dialog
-    display flex
-    align-items center
-    justify-content center
-    flex-direction column
-    margin-top 10px
-    width calc(100%)
-    .new
-      margin 0px
-      margin-top 20px
-      padding: 0px
-      font-size .7rem
-      a
-        color getColor('primary') !important
-        margin-left 6px
-        &:hover
-          text-decoration underline
-    .vs-button
-      margin 0px
+.login_form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate( -50%, -50% ) 
+    }
+
+.vs-input {
+  width: 100% !important
+}
+
+.card {
+  min-width: 30vmax !important;
+  }
+
+.vs-card__title {
+    margin-top: 10px;
+    margin-bottom: 20px; }
+
+.vs-card-content {
+    margin-top: 2px;
+    margin-bottom: 10px; }
+
+
+.not-margin {
+  margin: 0px;
+  font-weight: normal;
+  padding: 10px; }
+
+
+.con-form
+  { display: flex;
+    flex-direction: column;
+  
+  }
+.con-form .flex  a
+        {font-size: .8rem;
+        opacity: .7}
+.con-form .flex  a:hover { opacity: 1}
+          
+.vs-checkbox-label{font-size: .8rem;}
+  
+.vs-input-content{ margin: 10px 0px;
+  width: calc(100%);}
+     
+.vs-input--has-icont {
+  background-color: green !important;
+}
+        
+.footer-dialog{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 10px;
+  width: calc(100%);
+}
+
+.new{
+  margin: 0px;
+  margin-top: 20px;
+  padding: 0px;
+  font-size: .7rem; }
+.new a {
+  margin-left: 6px
+}
+
+.new a:hover {
+  text-decoration: underline
+}
+    
+.vs-button{    margin: 0px}
+
 </style>
