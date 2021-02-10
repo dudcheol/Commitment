@@ -1,6 +1,7 @@
 package com.web.commitment.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -32,6 +33,8 @@ public class BoardDto {
 	private Commit commit;
 	
 	private UserDto user;
+	
+	private List<Image> image = new ArrayList<Image>();
 
 	private List<Tag> tag;
 
