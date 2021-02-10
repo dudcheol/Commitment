@@ -19,10 +19,10 @@
           :rotate="180"
           :size="100"
           :width="15"
-          :value=this.badgeper
+          :value=user.badgeCnt/9*100
           color="pink"
         >
-          {{ this.badgeper }}
+          {{ user.badgeCnt }}
         </v-progress-circular>
       </div>
     </v-list-item>
@@ -43,9 +43,7 @@ export default {
    computed: {
     ...mapGetters({ user: ["getUserInfo"] }),
   },
-  mounted() {
-    this.badgeper=this.user.badgeCnt/9;
-  }
+  
 };
 </script>
 
