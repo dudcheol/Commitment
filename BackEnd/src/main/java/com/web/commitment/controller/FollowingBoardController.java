@@ -44,7 +44,7 @@ public class FollowingBoardController {
 			BoardDto target = new BoardDto();
 			BeanUtils.copyProperties(origin, target);
 			UserDto userDto=new UserDto(origin.getUser());
-			target.setUserDto(userDto);
+			target.setUser(userDto);
 			boardDtos.add(target);
 		}
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
