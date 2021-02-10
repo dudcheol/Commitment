@@ -42,9 +42,9 @@ public class BoardDto {
 	
 	private List<Image> image = new ArrayList<Image>();
 
-	private List<Tag> tag;
+	private List<Tag> tag = new ArrayList<Tag>();
 
-	private List<Comment> comment;
+	private List<Comment> comment = new ArrayList<Comment>();
 
-	private List<LikeDto> like;
+	private List<LikeDto> like = new ArrayList<LikeDto>();
 }

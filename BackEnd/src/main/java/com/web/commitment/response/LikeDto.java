@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 import com.web.commitment.dto.Like;
 
+import lombok.Data;
+@Data
 public class LikeDto {
 	private String email; // 좋아요 누른 사람의 이메일
 

@@ -45,13 +45,17 @@ public class FollowingBoardController {
 		for (Board origin : boards) {
 			BoardDto target = new BoardDto();
 			BeanUtils.copyProperties(origin, target);
-			UserDto userDto=new UserDto(origin.getUser());
-			List<LikeDto> likes=new ArrayList<LikeDto>();
-			for(Like l:origin.getLike()) {
-				LikeDto likeDto=new LikeDto(l);
-				likes.add(likeDto);
+			UserDto userDto = new UserDto(origin.getUser());
+			
+			if (origin.getLike() != null) {
+				List<LikeDto> likes = new ArrayList<LikeDto>();
+				for (Like l : origin.getLike()) {
+					LikeDto likeDto = new LikeDto(l);
+					likes.add(likeDto);
+				}
+				target.setLike(likes);
 			}
-			target.setLike(likes);
+			
 			target.setUser(userDto);
 			boardDtos.add(target);
 		}
@@ -67,10 +71,10 @@ public class FollowingBoardController {
 		for (Board origin : boards) {
 			BoardDto target = new BoardDto();
 			BeanUtils.copyProperties(origin, target);
-			UserDto userDto=new UserDto(origin.getUser());
-			List<LikeDto> likes=new ArrayList<LikeDto>();
-			for(Like l:origin.getLike()) {
-				LikeDto likeDto=new LikeDto(l);
+			UserDto userDto = new UserDto(origin.getUser());
+			List<LikeDto> likes = new ArrayList<LikeDto>();
+			for (Like l : origin.getLike()) {
+				LikeDto likeDto = new LikeDto(l);
 				likes.add(likeDto);
 			}
 			target.setLike(likes);
