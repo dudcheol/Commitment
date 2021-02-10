@@ -33,7 +33,7 @@
           </template>
         </vs-card>
         <p class="badgeName">
-          커밋홀릭
+          전국 커밋
         </p>
         <p class="badgeDescription">
           커밋 100% 최초 달성!
@@ -50,7 +50,7 @@
             <div class="bookmark">
               <div class="bookmarkButton">
                 <v-progress-circular
-                  :value="40"
+                  :value="commitper"
                   color="grey"
                   size="20"
                 ></v-progress-circular>
@@ -62,12 +62,12 @@
           </template>
           <template #text>
             <p>
-              획득까지 60% 남았어요!
+              획득까지 {{100-commitper}}% 남았어요!
             </p>
           </template>
         </vs-card>
         <p class="badgeName">
-          커밋홀릭
+          전국 커밋
         </p>
         <p class="badgeDescription">
           커밋 100% 최초 달성!
@@ -340,7 +340,6 @@ export default {
       num: 4,
       num2: 4,
       commitper: 0,
-      badgeper: 0,
     };
   },
   computed: {
