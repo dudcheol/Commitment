@@ -1,5 +1,6 @@
 package com.web.commitment.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,4 +92,6 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 
 	@Query(value = "select cnt(*) from commit where user_email=:email", nativeQuery = true)
 	int commitCnt(@Param("email")String email);
+
+	
 }

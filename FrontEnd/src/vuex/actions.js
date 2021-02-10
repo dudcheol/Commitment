@@ -28,7 +28,7 @@ export default {
       token,
       (response) => {
         let user = response.data.user;
-        user.badgeCnt = response.data.user.badge;
+        user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
         context.commit('GET_MEMBER_INFO', { token, user });
