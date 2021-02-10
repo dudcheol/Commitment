@@ -42,11 +42,6 @@ public class Badge {
 	@Column(name = "third_ranking")
 	int thirdRanking;
 	
-	@Column(name = "hidden_commit")
-	int hiddenCommit;
-	
-	@Column(name = "first_location")
-	int firstLocation;
 	
 	@Column(name = "dokdo")
 	int dokdo;

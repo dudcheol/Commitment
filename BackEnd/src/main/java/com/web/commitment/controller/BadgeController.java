@@ -39,9 +39,9 @@ public class BadgeController {
 	public int badgeCnt(@RequestParam String email) {
 		int count = 0;
 		Badge b = badgedao.findBadgeByUserEmail(email);
-		count += b.getFirstCommit() + b.getDokdo() + b.getFirstLocation() + b.getFirstRanking() + b.getGangwondo()
-				+ b.getGwanju() + b.getGyenggido() + b.getHiddenCommit() + b.getNumFollower() + b.getNumFollowing()
-				+ b.getSecondRanking() + b.getSeoul() + b.getThirdRanking() + b.getTotalCommit() + b.getUlssan();
+		count += b.getFirstCommit() + b.getDokdo() + b.getFirstRanking() + b.getGangwondo()
+				+ b.getGwanju() + b.getGyeonggido() + b.getNumFollower() + b.getNumFollowing()
+				+ b.getSecondRanking() + b.getSeoul() + b.getThirdRanking() + b.getTotalCommit() + b.getUlsan();
 
 		return count;
 	}
