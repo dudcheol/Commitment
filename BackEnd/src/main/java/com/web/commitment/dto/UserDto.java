@@ -3,7 +3,7 @@ package com.web.commitment.dto;
 import lombok.Data;
 
 @Data
-public class UserLogin {
+public class UserDto {
 	private String email;
 	private String pass;
 	private String nickname;
@@ -19,7 +19,7 @@ public class UserLogin {
 	private String region_name;
 	private Profile profile;
 	
-	public UserLogin(User user) {
+	public UserDto(User user) {
 		super();
 		this.email = user.getEmail();
 		this.pass = user.getPass();

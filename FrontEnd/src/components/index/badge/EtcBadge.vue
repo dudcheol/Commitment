@@ -22,7 +22,7 @@
                 </vs-button>
               </div>
               <div class="bookmarkDescription">
-                <h4>발로 그린 지도!</h4>
+                <h4>여행의 시작</h4>
               </div>
             </div>
           </template>
@@ -33,17 +33,17 @@
           </template>
         </vs-card>
         <p class="badgeName">
-          전국 커밋
+          첫 커밋
         </p>
         <p class="badgeDescription">
-          커밋 100% 최초 달성!
+          첫 커밋 기록!
         </p>
       </vs-col>
       <vs-col :w="num2">
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../assets/img/badge/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
