@@ -3,7 +3,13 @@
     <vs-card @click="goToMyPage">
       <template #title>
         <div>
-          <component :is="mapType" :size="5" :borderRadius="5" :spacing="1"></component>
+          <component
+            :is="mapType"
+            :size="5"
+            :borderRadius="5"
+            :spacing="1"
+            :datas="datas"
+          ></component>
         </div>
       </template>
       <template #text>
@@ -66,6 +72,7 @@ export default {
         userCommitMap(
           this.user.email,
           (response) => {
+            console.log('%cProfileSummary.vue line:69 response', 'color: #007acc;', response);
             this.datas.push(...response.data.commitXY);
           },
           (error) => {
