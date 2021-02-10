@@ -21,11 +21,18 @@
       <div class="con-content dialog">
         <div class="d-flex flex-row">
           <div class="d-flex align-center">
-            <vs-avatar circle>
-              <img
-                src="https://cdnweb01.wikitree.co.kr/webdata/editor/202009/16/img_20200916152758_395c9c8b.webp"
-              />
-            </vs-avatar>
+            <v-avatar v-if="user.profile" circle size="44">
+              <img :src="user.profile.file_path" />
+            </v-avatar>
+            <v-avatar
+              v-else
+              circle
+              size="44"
+              color="blue-grey"
+              class="font-weight-medium display-2"
+            >
+              <v-icon color="white">mdi-emoticon-happy</v-icon>
+            </v-avatar>
           </div>
           <div class="flex-column pl-2">
             <h3>{{ user.nickname }}</h3>
