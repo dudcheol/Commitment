@@ -1,38 +1,66 @@
 <template>
   <v-sheet class="mx-auto" max-width="800" color="transparent">
+    <no-data-card
+      v-if="empFollower"
+      :icon="'heart-circle-outline'"
+      :text="'다른 사람을 팔로우 해보세요. 팔로우한 사람의 실시간 커밋지도를 확인할 수 있습니다.'"
+    ></no-data-card>
     <v-slide-group v-model="model" class="" show-arrows>
-      <v-slide-item v-for="item in items" :key="item" v-slot="{ toggle }">
+      <v-slide-item v-for="item in commitMpas" :key="item" v-slot="{ toggle }">
         <v-card
-          :color="item.region ? 'white' : 'rgb(224,229,231)'"
-          class="ma-1 d-flex justify-center flex-column justify-space-between"
+          v-if="item.user"
+          :color="white"
+          class="ma-1"
           height="200"
-          width="150"
+          width="180"
           @click="toggle"
           rounded="lg"
           :ripple="false"
-          :elevation="item.region ? 1 : 0"
-          :disabled="!item.region"
-          :style="`cursor:${item.region ? 'pointer' : 'default'}`"
+          :elevation="1"
+          :style="`cursor:${item.user.region_name ? 'pointer' : 'default'}`"
         >
           <div class="d-flex align-center mt-2 ml-2">
-            <vs-avatar circle size="36" color="rgb(232,234,238)">
-              <!-- <img :src="imgsrc" alt="" /> -->
-            </vs-avatar>
+            <v-avatar v-if="item.user.profile" circle size="40">
+              <img :src="item.user.profile.filePath" />
+            </v-avatar>
+            <v-avatar
+              v-else
+              circle
+              size="40"
+              color="blue-grey"
+              class="font-weight-medium display-2"
+            >
+              <v-icon color="white">mdi-emoticon-happy</v-icon>
+            </v-avatar>
             <div class="pl-1">
-              <div>{{ item.nickname }}</div>
-              <div class="caption">{{ regionKr(item.region) }}</div>
+              <div>{{ item.user.nickname }}</div>
+              <div class="caption">{{ regionKr(item.user.region_name) }}</div>
             </div>
           </div>
-          <div class="d-flex justify-center">
+          <div class="d-flex justify-center align-center" style="height:150px">
             <component
-              :is="mapType[0]"
-              :size="2"
-              :borderRadius="1.5"
+              :is="item.user.region_name"
+              :size="mapSize(item.user.region_name)"
+              :borderRadius="1"
               :spacing="0.5"
-              :datas="item.datas"
-              :key="item.datas"
+              :datas="item.commit"
+              :key="item.commit"
             ></component>
           </div>
+        </v-card>
+        <v-card
+          v-else
+          height="200"
+          width="180"
+          color="rgb(224,229,231)"
+          class="ma-1"
+          elevation="0"
+          rounded="lg"
+        >
+          <div
+            class="rounded-circle blue-grey lighten-4 ma-2"
+            style="width:40px; height:40px"
+          ></div>
         </v-card>
       </v-slide-item>
     </v-slide-group>
@@ -40,35 +68,30 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { followCommitMap } from '../../../api/commit';
+import NoDataCard from '../../common/card/NoDataCard.vue';
 export default {
+  components: {
+    national: () => import('../../../components/common/map/MapNational'),
+    busan: () => import('../../../components/common/map/MapBusan'),
+    gangwon: () => import('../../../components/common/map/MapGangwon'),
+    gwangju: () => import('../../../components/common/map/MapGwangju'),
+    gyeonggi: () => import('../../../components/common/map/MapGyeonggi'),
+    seoul: () => import('../../../components/common/map/MapSeoul'),
+    ulsan: () => import('../../../components/common/map/MapUlsan'),
+    NoDataCard,
+  },
   data() {
     return {
       mapType: [],
-      items: [
-        {
-          mapType: null,
-          region: 'busan',
-          datas: [[4, 4, 1]],
-          nickname: 'nickname',
-        },
-        {},
-        {},
-        {},
-        {},
-      ],
+      commitMpas: [],
       nickname: 'nickname',
+      empFollower: false,
     };
   },
   computed: {
-    loader() {
-      return () =>
-        import(
-          `../../../components/common/map/Map${this.items[0].region.replace(/\b[a-z]/, (letter) =>
-            letter.toUpperCase()
-          )}`
-        );
-      // import(`../../../components/common/map/MapNational`);
-    },
+    ...mapGetters({ user: ['getUserInfo'] }),
   },
   methods: {
     regionKr(region) {
@@ -89,18 +112,38 @@ export default {
           return '대한민국 울산';
       }
     },
+    mapSize(region) {
+      switch (region) {
+        case 'national':
+          return 3;
+        case 'seoul':
+          return 3;
+        default:
+          return 2;
+      }
+    },
   },
   mounted() {
-    this.loader()
-      .then(() => {
-        this.mapType[0] = () => this.loader();
-      })
-      .catch(() => {
+    followCommitMap(
+      this.user.email,
+      (response) => {
+        if (response.data.length == 0) {
+          this.empFollower = true;
+        } else {
+          this.commitMpas.push(...response.data);
+          for (let i = 0; i < 5 - response.data.length; i++) {
+            this.commitMpas.push({});
+          }
+        }
+      },
+      (error) => {
         console.log(
-          '%cerror FollowerMap.vue line:68 커밋지도 가져오기 실패',
-          'color: red; display: block; width: 100%;'
+          '%cerror FollowerMap.vue line:103 ',
+          'color: red; display: block; width: 100%;',
+          error
         );
-      });
+      }
+    );
   },
 };
 </script>
