@@ -17,6 +17,7 @@ public class UserLogin {
 	private String authkey;
 	private String auth;
 	private String region_name;
+	private Profile profile;
 	
 	public UserLogin(User user) {
 		super();
@@ -33,6 +34,7 @@ public class UserLogin {
 		this.authkey = user.getAuthkey();
 		this.auth = user.getAuth();
 		this.region_name = user.getRegion_name();
+		this.profile=user.getProfile();
 	}
 	
 	
