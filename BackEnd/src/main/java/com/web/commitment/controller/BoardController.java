@@ -161,17 +161,10 @@ public class BoardController {
 	// 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
 	@GetMapping("/sns/radius")
 	@ApiOperation(value = "설정한 반경 내 모든 유저의 게시글(open 1인 것만)")
-	public Page<Board> loadRadiusSns(@RequestParam(required = true) String email,
-			@RequestParam(required = true, defaultValue = "0") Integer radius, final Pageable pageable) {
-
-		// 유저의 현재 위치 구하기
-		User user = userDao.getUserByEmail(email);
-
-		String lat = user.getLat();
-		String lng = user.getLng();
-
-//		if (radius.equals("0") || radius == null) {
-		if (radius != 0) {
+	public Page<Board> loadRadiusSns(@RequestParam String lat, @RequestParam String lng,
+			@RequestParam(required = false, defaultValue = "0") double radius, final Pageable pageable) {
+		
+		if (radius == 0) {
 			// 모든 게시물(open1인 것만)
 			return boardDao.findAll(pageable);
 		}

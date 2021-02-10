@@ -42,7 +42,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	@Query(value = "SELECT * FROM commit c, sns s where c.id=s.commit_id and c.open=1 and ( 6371 * acos( cos( radians(:curlat) ) * cos( radians( c.lat ) ) *"
 			+ " cos( radians( c.lng ) - radians(:curlng) ) + sin( radians(:curlat) ) * sin( radians( c.lat ) ) ) )<=:radius order by s.created_at desc", nativeQuery = true)
 	Page<Board> radiusCommitId(@Param("curlat") String curlat, @Param("curlng") String curlng,
-			@Param("radius") Integer radius, Pageable pageable);
+			@Param("radius") double radius, Pageable pageable);
 
 	
 	@Query(value = "select * from sns s,commit c "
