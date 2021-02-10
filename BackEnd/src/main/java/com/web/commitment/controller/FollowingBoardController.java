@@ -40,6 +40,19 @@ public class FollowingBoardController {
 	@ApiOperation(value = "팔로잉 한 사람의 게시글만 불러오기")
 	public Page<BoardDto> mypage(@RequestParam String email, Pageable pageable) {
 		Page<Board> boards = boardDao.findBoardByEmailSort(email, pageable);
+		List<BoardDto> boardDtos =clean(boards);
+		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
+	}
+
+	@GetMapping("/sns/totalboard")
+	@ApiOperation(value = "팔로잉 & 내가 쓴 게시글")
+	public Page<BoardDto> totalboard(@RequestParam String email, Pageable pageable) {
+		Page<Board> boards = boardDao.findtotalByEmail(email, pageable);
+		List<BoardDto> boardDtos = clean(boards);
+		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
+	}
+	//유저의 전체  커밋 내역이 게시물마다 계속 출력되어 최적화 작업..
+	public List<BoardDto> clean(Page<Board> boards){
 		List<BoardDto> boardDtos = new ArrayList<BoardDto>();
 
 		for (Board origin : boards) {
@@ -59,28 +72,6 @@ public class FollowingBoardController {
 			target.setUser(userDto);
 			boardDtos.add(target);
 		}
-		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
-	}
-
-	@GetMapping("/sns/totalboard")
-	@ApiOperation(value = "팔로잉 & 내가 쓴 게시글")
-	public Page<BoardDto> totalboard(@RequestParam String email, Pageable pageable) {
-		Page<Board> boards = boardDao.findtotalByEmail(email, pageable);
-		List<BoardDto> boardDtos = new ArrayList<BoardDto>();
-
-		for (Board origin : boards) {
-			BoardDto target = new BoardDto();
-			BeanUtils.copyProperties(origin, target);
-			UserDto userDto = new UserDto(origin.getUser());
-			List<LikeDto> likes = new ArrayList<LikeDto>();
-			for (Like l : origin.getLike()) {
-				LikeDto likeDto = new LikeDto(l);
-				likes.add(likeDto);
-			}
-			target.setLike(likes);
-			target.setUser(userDto);
-			boardDtos.add(target);
-		}
-		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
+		return boardDtos;
 	}
 }
