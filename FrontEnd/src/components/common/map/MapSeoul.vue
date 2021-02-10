@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="line" v-for="(line, i) in MAP" :key="i">
+  <div class="pl-6">
+    <div class="line" v-for="(line, i) in MAP" :key="i" style="white-space: nowrap">
       <div
         :style="style"
         :class="[cellStyle, drawCellColor(cell)]"

@@ -25,4 +25,18 @@ function emptyCommit(email, success, fail) {
     .catch(fail);
 }
 
-export { latlngToAddress, addCommit, emptyCommit, READ_PERMISSION_DENIED, READ_PERMISSION_OK };
+function followCommitMap(email, success, fail) {
+  instance
+    .get('sns/followmap', { params: { email } })
+    .then(success)
+    .catch(fail);
+}
+
+export {
+  followCommitMap,
+  latlngToAddress,
+  addCommit,
+  emptyCommit,
+  READ_PERMISSION_DENIED,
+  READ_PERMISSION_OK,
+};
