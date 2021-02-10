@@ -10,8 +10,8 @@ export default {
     await login(
       user,
       (response) => {
+        context.commit('LOGIN', response.data.data);
         if (response.data.data === 'success') {
-          // context.commit('LOGIN', response.data);
           localStorage.setItem('auth-token', response.data['auth-token']);
           setAuthTokenToHeader(response.data['auth-token']);
           context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);

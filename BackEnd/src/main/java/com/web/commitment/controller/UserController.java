@@ -31,9 +31,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.commitment.dao.BadgeDao;
 import com.web.commitment.dao.UserDao;
+import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
+import com.web.commitment.dto.UserLogin;
 import com.web.commitment.service.JwtService;
 
 import io.swagger.annotations.ApiOperation;
@@ -58,13 +61,15 @@ public class UserController {
 			@RequestParam(required = true) final String pass) {
 		Optional<User> userOpt = userDao.findUserByEmailAndPass(email, pass);
 		ResponseEntity response = null;
+		
 		Map<String, Object> resultMap = new HashMap<>();
 
 		if (userOpt.isPresent()) {
 //        	jwt.io에서 확인
 //			로그인 성공했다면 토큰을 생성한다.
 			User user = userOpt.get();
-			String token = jwtService.create(user);
+			UserLogin userDto= new UserLogin(user);
+			String token = jwtService.create(userDto);
 //			logger.trace("로그인 토큰정보 : {}", token);
 
 			resultMap.put("auth-token", token);
@@ -102,6 +107,7 @@ public class UserController {
 			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
 					
 			status = HttpStatus.ACCEPTED;
+			
 		} catch (RuntimeException e) {
 //			logger.error("정보조회 실패 : {}", e);
 			resultMap.put("message", e.getMessage());

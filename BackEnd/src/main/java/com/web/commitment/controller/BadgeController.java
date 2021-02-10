@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.BadgeDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.FollowDao;
+<<<<<<< HEAD
+=======
+import com.web.commitment.dao.UserDao;
+>>>>>>> master
 import com.web.commitment.dto.Badge;
 
 import io.swagger.annotations.ApiOperation;
@@ -28,13 +32,15 @@ public class BadgeController {
 	@Autowired
 	FollowDao followDao;
 	@Autowired
+	UserDao userDao;	
+	@Autowired
 	CommitController commitController;
 
 	@GetMapping("/badge/cnt")
 	@ApiOperation(value = "뱃지 갯수")
 	public int badgeCnt(@RequestParam String email) {
 		int count = 0;
-		Badge b = badgedao.badgeCnt();
+		Badge b = badgedao.findBadgeByUserEmail(email);
 		count += b.getFirstCommit() + b.getDokdo() + b.getFirstLocation() + b.getFirstRanking() + b.getGangwondo()
 				+ b.getGwanju() + b.getGyenggido() + b.getHiddenCommit() + b.getNumFollower() + b.getNumFollowing()
 				+ b.getSecondRanking() + b.getSeoul() + b.getThirdRanking() + b.getTotalCommit() + b.getUlssan();
@@ -92,4 +98,78 @@ public class BadgeController {
 		return map;
 	}
 	
+	@GetMapping("badge/check")
+	@ApiOperation(value = "뱃지 달성 체크")
+	public Map<String, String> badgeCheck(@RequestParam String email) {
+		Badge b=badgedao.findBadgeByUserEmail(email);
+		Map<String,String> map=new HashMap<String,String>();
+	    
+	    if(commitDao.commitCnt(email)==1&&b.getFirstCommit()==0) {
+	        b.setFirstCommit(1);
+	        map.put("badge","첫번째 커밋");
+	        map.put("msg","처음으로 커밋을 하셨네요!! 커밋먼트와 함께 여행을 떠나요~~");
+	        map.put("result", "yes");
+	    }else if(followDao.followingCnt(email)==1&&b.getNumFollowing()==0) {
+	        b.setNumFollowing(1);
+	        map.put("badge","첫번째 팔로잉");
+	        map.put("msg","처음으로 팔로잉을 하셨네요!!");
+	        map.put("result", "yes");
+	    }else if(commitController.commitCount(email,"national").size()==1056){
+	        b.setTotalCommit(1);
+	        badgedao.save(b);
+	        map.put("badge","전국 커밋");
+	        map.put("msg","축하드려요!! 전국 커밋 완료!!!");
+	        map.put("result", "yes");
+	    
+	    } else if(userDao.getDokdoCommit(email) == 1 && b.getDokdo() == 0) {
+	    	b.setDokdo(1);
+			badgedao.save(b);
+			
+			map.put("badge", "첫 번째로 서울에 독도하셨습니다!");
+			map.put("msg", "첫 번째 커밋: 독도");
+			map.put("result", "yes");
+		
+	    } else if(userDao.getSeoulCommit(email) >= 1 && b.getSeoul() == 0) {
+			b.setSeoul(1);
+			badgedao.save(b);
+			
+			map.put("badge", "첫 번째로 서울에 커밋하셨습니다!");
+			map.put("msg", "첫 번째 커밋: 서울");
+			map.put("result", "yes");
+		} else if(userDao.getGangwondoCommit(email) >= 1 && b.getGangwondo() == 0) {
+			b.setGangwondo(1);
+			badgedao.save(b);
+			
+			map.put("badge", "첫 번째로 강원도에 커밋하셨습니다!");
+			map.put("msg", "첫 번째 커밋: 강원도");
+			map.put("result", "yes");
+		
+		} else if(userDao.getGwangjuCommit(email) >= 1 && b.getGwanju() == 0) {
+			b.setGwanju(1);
+			badgedao.save(b);
+			
+			map.put("badge", "첫 번째로 광주에 커밋하셨습니다!");
+			map.put("msg", "첫 번째 커밋: 광주");
+			map.put("result", "yes");
+		
+		} else if(userDao.getGyeonggidoCommit(email) >= 1 && b.getGyenggido() == 0) {
+				b.setGyenggido(1);
+				badgedao.save(b);
+				
+				map.put("badge", "첫 번째로 경기도에 커밋하셨습니다!");
+				map.put("msg", "첫 번째 커밋: 경기도");
+				map.put("result", "yes");
+		
+		} else if(userDao.getUlsanCommit(email) >= 1 && b.getUlssan() == 0) {
+				b.setUlssan(1);
+				badgedao.save(b);
+				
+				map.put("badge", "첫 번째로 울산에 커밋하셨습니다!");
+				map.put("msg", "첫 번째 커밋: 울산");
+				map.put("result", "yes");
+		} else
+			map.put("result", "no");
+	    
+	    return map;
+	}
 }

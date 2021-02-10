@@ -36,4 +36,5 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 	
 	@Query(value = "select max(id) from follow", nativeQuery = true)
 	String findByLastFollow();
+
 }

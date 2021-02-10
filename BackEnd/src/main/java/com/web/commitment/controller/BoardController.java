@@ -170,11 +170,11 @@ public class BoardController {
 		String lat = user.getLat();
 		String lng = user.getLng();
 
-		if (radius == 0) {
+//		if (radius.equals("0") || radius == null) {
+		if (radius != 0) {
 			// 모든 게시물(open1인 것만)
 			return boardDao.findAll(pageable);
 		}
 		return boardDao.radiusCommitId(lat, lng, radius, pageable);
 	}
-
 }
