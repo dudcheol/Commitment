@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.commitment.dao.BadgeDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.FollowDao;
-<<<<<<< HEAD
-=======
+
 import com.web.commitment.dao.UserDao;
->>>>>>> master
 import com.web.commitment.dto.Badge;
 
 import io.swagger.annotations.ApiOperation;
@@ -72,31 +70,6 @@ public class BadgeController {
 		return "success";
 	}
 	
-	@GetMapping("/badge/check")
-	@ApiOperation(value = "뱃지 달성 체크")
-	public Map<String,String> badgeCheck(@RequestParam String email) {
-		Badge b=badgedao.findBadgeByUserEmail(email);
-		Map<String,String> map=new HashMap<String,String>();
-		if(commitDao.commitCnt(email)==1&&b.getFirstCommit()==0) {
-			b.setFirstCommit(1);
-			map.put("badge","첫번째 커밋");
-			map.put("msg","처음으로 커밋을 하셨네요!! 커밋먼트와 함께 여행을 떠나요~~");
-			map.put("result", "yes");
-		}else if(followDao.followingCnt(email)==1&&b.getNumFollowing()==0) {
-			b.setNumFollowing(1);
-			map.put("badge","첫번째 팔로잉");
-			map.put("msg","처음으로 팔로잉을 하셨네요!!");
-			map.put("result", "yes");
-		}else if(commitController.commitCount(email,"national").size()==1056){
-			b.setTotalCommit(1);
-			badgedao.save(b);
-			map.put("badge","전국 커밋");
-			map.put("msg","축하드려요!! 전국 커밋 완료!!!");
-			map.put("result", "yes");
-		}
-		badgedao.save(b);
-		return map;
-	}
 	
 	@GetMapping("badge/check")
 	@ApiOperation(value = "뱃지 달성 체크")
