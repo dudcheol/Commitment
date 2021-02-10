@@ -13,4 +13,7 @@ public interface BadgeDao extends JpaRepository<Badge, String> {
 
 
 	Badge findBadgeByUserEmail(String email);
+
+
+//	Badge findBadgeByUserEmail(String email);
 }
