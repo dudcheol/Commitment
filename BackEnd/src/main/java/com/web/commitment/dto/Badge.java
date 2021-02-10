@@ -30,7 +30,7 @@ public class Badge {
 	@Column(name = "num_following")
 	int numFollowing;
 	
-	@Column(name = "num_follower")
+	@Column(name = "num_follwer")
 	int numFollower;
 	
 	@Column(name = "first_ranking")
@@ -42,11 +42,6 @@ public class Badge {
 	@Column(name = "third_ranking")
 	int thirdRanking;
 	
-	@Column(name = "hidden_commit")
-	int hiddenCommit;
-	
-	@Column(name = "first_location")
-	int firstLocation;
 	
 	@Column(name = "dokdo")
 	int dokdo;
@@ -60,10 +55,10 @@ public class Badge {
 	@Column(name = "gwanju")
 	int gwanju;
 	
-	@Column(name = "gyenggido")
-	int gyenggido;
+	@Column(name = "gyeonggido")
+	int gyeonggido;
 	
-	@Column(name = "ulssan")
-	int ulssan;
+	@Column(name = "ulsan")
+	int ulsan;
 
 }
