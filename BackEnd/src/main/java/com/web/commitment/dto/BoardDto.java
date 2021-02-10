@@ -31,7 +31,7 @@ public class BoardDto {
 	
 	private Commit commit;
 	
-	private UserDto userDto;
+	private UserDto user;
 
 	private List<Tag> tag;
 
