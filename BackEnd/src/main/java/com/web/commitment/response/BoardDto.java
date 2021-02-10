@@ -1,4 +1,4 @@
-package com.web.commitment.dto;
+package com.web.commitment.response;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.web.commitment.dto.Comment;
+import com.web.commitment.dto.Commit;
+import com.web.commitment.dto.Image;
+import com.web.commitment.dto.Like;
+import com.web.commitment.dto.Tag;
 
 import lombok.Data;
 
@@ -40,5 +46,5 @@ public class BoardDto {
 
 	private List<Comment> comment;
 
-	private List<Like> like;
+	private List<LikeDto> like;
 }

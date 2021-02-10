@@ -36,7 +36,7 @@ import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.UserDto;
+import com.web.commitment.response.UserDto;
 import com.web.commitment.service.JwtService;
 
 import io.swagger.annotations.ApiOperation;

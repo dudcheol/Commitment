@@ -1,4 +1,7 @@
-package com.web.commitment.dto;
+package com.web.commitment.response;
+
+import com.web.commitment.dto.Profile;
+import com.web.commitment.dto.User;
 
 import lombok.Data;
 

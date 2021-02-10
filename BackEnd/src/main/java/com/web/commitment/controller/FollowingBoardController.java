@@ -17,10 +17,12 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
-import com.web.commitment.dto.BoardDto;
 import com.web.commitment.dto.FollowCommitMap;
+import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.UserDto;
+import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.LikeDto;
+import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -44,6 +46,12 @@ public class FollowingBoardController {
 			BoardDto target = new BoardDto();
 			BeanUtils.copyProperties(origin, target);
 			UserDto userDto=new UserDto(origin.getUser());
+			List<LikeDto> likes=new ArrayList<LikeDto>();
+			for(Like l:origin.getLike()) {
+				LikeDto likeDto=new LikeDto(l);
+				likes.add(likeDto);
+			}
+			target.setLike(likes);
 			target.setUser(userDto);
 			boardDtos.add(target);
 		}
@@ -52,7 +60,23 @@ public class FollowingBoardController {
 
 	@GetMapping("/sns/totalboard")
 	@ApiOperation(value = "팔로잉 & 내가 쓴 게시글")
-	public Page<Board> totalboard(@RequestParam String email, Pageable pageable) {
-		return boardDao.findtotalByEmail(email, pageable);
+	public Page<BoardDto> totalboard(@RequestParam String email, Pageable pageable) {
+		Page<Board> boards = boardDao.findtotalByEmail(email, pageable);
+		List<BoardDto> boardDtos = new ArrayList<BoardDto>();
+
+		for (Board origin : boards) {
+			BoardDto target = new BoardDto();
+			BeanUtils.copyProperties(origin, target);
+			UserDto userDto=new UserDto(origin.getUser());
+			List<LikeDto> likes=new ArrayList<LikeDto>();
+			for(Like l:origin.getLike()) {
+				LikeDto likeDto=new LikeDto(l);
+				likes.add(likeDto);
+			}
+			target.setLike(likes);
+			target.setUser(userDto);
+			boardDtos.add(target);
+		}
+		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 }

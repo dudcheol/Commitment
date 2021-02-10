@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.UserDto;
+import com.web.commitment.response.UserDto;
 
 import io.jsonwebtoken.*;
 
