@@ -121,15 +121,15 @@ public class BadgeController {
 			map.put("msg", "첫 번째 커밋: 광주");
 			map.put("result", "yes");
 
-		} else if (userDao.getGyeonggidoCommit(email) >= 1 && b.getGyenggido() == 0) {
-			b.setGyenggido(1);
+		} else if (userDao.getGyeonggidoCommit(email) >= 1 && b.getGyeonggido() == 0) {
+			b.setGyeonggido(1);
 
 			map.put("badge", "처음으로 경기도에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 경기도");
 			map.put("result", "yes");
 
-		} else if (userDao.getUlsanCommit(email) >= 1 && b.getUlssan() == 0) {
-			b.setUlssan(1);
+		} else if (userDao.getUlsanCommit(email) >= 1 && b.getUlsan() == 0) {
+			b.setUlsan(1);
 
 			map.put("badge", "처음으로 울산에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 울산");

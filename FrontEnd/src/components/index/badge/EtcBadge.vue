@@ -332,12 +332,30 @@
 </template>
 
 <script>
+import { commitrate} from "../../../api/Badge.js";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       num: 4,
       num2: 4,
+      commitper: 0,
+      badgeper: 0,
     };
+  },
+  computed: {
+    ...mapGetters({ user: ["getUserInfo"] }),
+  },
+  mounted() {
+    commitrate(
+      this.user.email,
+      (response) => {
+        this.commitper=response.data.totalCommit;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
 };
 </script>

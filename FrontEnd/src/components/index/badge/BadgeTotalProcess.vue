@@ -19,10 +19,10 @@
           :rotate="180"
           :size="100"
           :width="15"
-          :value="70"
+          :value=this.badgeper
           color="pink"
         >
-          70
+          {{ this.badgeper }}
         </v-progress-circular>
       </div>
     </v-list-item>
@@ -30,14 +30,22 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: 'CommitNow',
   data() {
     return {
       interval: {},
       value: 0,
+      badgeper: 0,
     };
   },
+   computed: {
+    ...mapGetters({ user: ["getUserInfo"] }),
+  },
+  mounted() {
+    this.badgeper=this.user.badgeCnt/9;
+  }
 };
 </script>
 
