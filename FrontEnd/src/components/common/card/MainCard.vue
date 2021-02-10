@@ -6,10 +6,15 @@
           <v-avatar v-if="data.user.profile" circle size="40">
             <img :src="data.user.profile.file_path" />
           </v-avatar>
+          <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
+            <v-icon color="white">mdi-emoticon-happy</v-icon>
+          </v-avatar>
         </div>
         <div class="flex-grow-1 ml-2">
           <h3>{{ data.user.nickname }}</h3>
-          <p class="text-caption">{{ data.commit.address }}</p>
+          <p class="text-caption">
+            {{ data.commit.address }}
+          </p>
         </div>
         <div class="flex-grow-0 align-center" v-if="user.email != data.email">
           <v-btn text rounded color="primary" :ripple="false"><strong>팔로우</strong></v-btn>
