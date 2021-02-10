@@ -31,19 +31,19 @@ public class RankingController {
 	FollowDao followDao;
 	
 	@GetMapping("/rank/total")
-	@ApiOperation(value = "커밋랭킹")
+	@ApiOperation(value = "전체커밋랭킹")
 	public List<Ranking> commitRank() {
 		List<Ranking> list = commitDao.commitRank();
 		return list;
 	}
 	@GetMapping("/rank/aweek")
-	@ApiOperation(value = "주간랭킹")
+	@ApiOperation(value = "주간커밋랭킹")
 	public List<Ranking> commitWeekRank() {
 		List<Ranking> list = commitDao.commitWeekRank();
 		return list;
 	}
 	@GetMapping("/rank/month")
-	@ApiOperation(value = "월간랭킹")
+	@ApiOperation(value = "월간커밋랭킹")
 	public List<Ranking> commitMonthRank() {
 		List<Ranking> list = commitDao.commitMonthRank();
 		return list;
