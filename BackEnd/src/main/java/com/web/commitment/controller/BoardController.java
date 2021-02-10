@@ -180,15 +180,14 @@ public class BoardController {
 	// 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
 	@GetMapping("/sns/radius")
 	@ApiOperation(value = "설정한 반경 내 모든 유저의 게시글(open 1인 것만)")
-	public Page<BoardDto> loadRadiusSns(@RequestParam String lat, @RequestParam String lng,
+	public Page<Board> loadRadiusSns(@RequestParam String lat, @RequestParam String lng,
 			@RequestParam(required = false, defaultValue = "0") double radius, final Pageable pageable) {
-		Page<Board> boards;
+
 		if (radius == 0) {
 			// 모든 게시물(open1인 것만)
-			boards= boardDao.findAll(pageable);
+			return boardDao.findAll(pageable);
 		}
-		boards= boardDao.radiusCommitId(lat, lng, radius, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
-		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
+		return boardDao.radiusCommitId(lat, lng, radius, pageable);
+
 	}
 }
