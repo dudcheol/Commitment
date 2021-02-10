@@ -86,8 +86,8 @@
           <!-- <div slot="spinner"></div> -->
           <div slot="no-results" class="mt-4">
             <NoDataCard
-              :icon="'emoticon-outline'"
-              :text="'반경 내 커밋이 없어요. 가장 먼저 커밋을 남겨보세요!'"
+              :icon="'hand-heart-outline'"
+              :text="'찜한 커밋이 없어요. 다른 사람들의 커밋에 좋아요를 남겨보세요!'"
             ></NoDataCard>
           </div>
         </infinite-loading>

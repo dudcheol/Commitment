@@ -32,7 +32,15 @@ function followCommitMap(email, success, fail) {
     .catch(fail);
 }
 
+function userCommitMap(email, success, fail) {
+  instance
+    .get('commit/usermap', { params: { email } })
+    .then(success)
+    .catch(fail);
+}
+
 export {
+  userCommitMap,
   followCommitMap,
   latlngToAddress,
   addCommit,
