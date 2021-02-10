@@ -1,20 +1,12 @@
 <template>
 <div>
   <div>
-
     <!-- <v-img v-scrollanimation
       :width="window.width"
       src="../assets/img/login/koreatower.jpg"
-    ></v-img>
-
-    <div v-scrollanimation>
-    <v-img
-      :aspect-ratio="16/9"
-      :width="window.width"
-      src="../assets/img/login/koreatower.jpg"
-    ></v-img>
-    </div> -->
+    ></v-img> -->
     <Logo id="logo"></Logo>
+    
     <div id="videoBd">
     <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
       <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4">

@@ -106,6 +106,7 @@ export default {
           region: this.region,
           age: "23",
         };
+        // 여기 고치기
         axios
           .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
           .then((res) => {
