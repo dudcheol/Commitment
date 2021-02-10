@@ -22,7 +22,7 @@
         <div class="d-flex flex-row">
           <div class="d-flex align-center">
             <v-avatar v-if="user.profile" circle size="44">
-              <img :src="user.profile.file_path" />
+              <img :src="user.profile.filePath" />
             </v-avatar>
             <v-avatar
               v-else

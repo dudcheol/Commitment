@@ -4,7 +4,7 @@
       <div class="d-flex flex-row" style="height:40px">
         <div class="flex-grow-0">
           <v-avatar v-if="data.user.profile" circle size="40">
-            <img :src="data.user.profile.file_path" />
+            <img :src="data.user.profile.filePath" />
           </v-avatar>
           <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
             <v-icon color="white">mdi-emoticon-happy</v-icon>
