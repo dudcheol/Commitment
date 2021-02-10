@@ -234,13 +234,13 @@ public class CommitController {
 	@ApiOperation(value = "유저의 대표지도 불러오기")
 	public Map<String,Object> userMap(@RequestParam(required = true) final String email) {
 		Optional<User> userOpt=userDao.findByEmail(email);
-		List<String[]> list = new ArrayList<>();
 		Map<String,Object> map=new HashMap<String,Object>();
 		
 		if (userOpt.isPresent()) {
 			User user=userOpt.get();
 			String region=user.getRegion_name();
-			commitDao.findAllByEmailAndRegion(email,region).forEach(commit -> list.add(new String[] { commit.getLocalX(), commit.getLocalY() }));
+			List<int[]> list=commitCount(email,region);
+			
 			map.put("commitXY",list);
 			map.put("region",region);
 			map.put("data","success");
