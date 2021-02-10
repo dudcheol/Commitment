@@ -14,9 +14,18 @@
           <v-col>
             <div class="d-flex flex-row">
               <div class="flex-grow-0">
-                <vs-avatar circle size="40">
-                  <img src="https://picsum.photos/200/300" alt="" />
-                </vs-avatar>
+                <v-avatar v-if="user.profile" circle size="40">
+                  <img :src="user.profile.file_path" />
+                </v-avatar>
+                <v-avatar
+                  v-else
+                  circle
+                  size="40"
+                  color="blue-grey"
+                  class="font-weight-medium display-2"
+                >
+                  <v-icon color="white">mdi-emoticon-happy</v-icon>
+                </v-avatar>
               </div>
               <div class="flex-grow-1 ml-2">
                 <v-chip
