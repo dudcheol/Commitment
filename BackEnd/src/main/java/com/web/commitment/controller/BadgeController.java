@@ -98,7 +98,7 @@ public class BadgeController {
 	    	b.setDokdo(1);
 			badgedao.save(b);
 			
-			map.put("badge", "첫 번째로 서울에 독도하셨습니다!");
+			map.put("badge", "처음으로  독도에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 독도");
 			map.put("result", "yes");
 		
@@ -106,14 +106,14 @@ public class BadgeController {
 			b.setSeoul(1);
 			badgedao.save(b);
 			
-			map.put("badge", "첫 번째로 서울에 커밋하셨습니다!");
+			map.put("badge", "처음으로 서울에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 서울");
 			map.put("result", "yes");
 		} else if(userDao.getGangwondoCommit(email) >= 1 && b.getGangwondo() == 0) {
 			b.setGangwondo(1);
 			badgedao.save(b);
 			
-			map.put("badge", "첫 번째로 강원도에 커밋하셨습니다!");
+			map.put("badge", "처음으로 강원도에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 강원도");
 			map.put("result", "yes");
 		
@@ -121,7 +121,7 @@ public class BadgeController {
 			b.setGwanju(1);
 			badgedao.save(b);
 			
-			map.put("badge", "첫 번째로 광주에 커밋하셨습니다!");
+			map.put("badge", "처음으로 광주에 커밋하셨습니다!");
 			map.put("msg", "첫 번째 커밋: 광주");
 			map.put("result", "yes");
 		
@@ -129,7 +129,7 @@ public class BadgeController {
 				b.setGyenggido(1);
 				badgedao.save(b);
 				
-				map.put("badge", "첫 번째로 경기도에 커밋하셨습니다!");
+				map.put("badge", "처음으로 경기도에 커밋하셨습니다!");
 				map.put("msg", "첫 번째 커밋: 경기도");
 				map.put("result", "yes");
 		
@@ -137,7 +137,7 @@ public class BadgeController {
 				b.setUlssan(1);
 				badgedao.save(b);
 				
-				map.put("badge", "첫 번째로 울산에 커밋하셨습니다!");
+				map.put("badge", "처음으로 울산에 커밋하셨습니다!");
 				map.put("msg", "첫 번째 커밋: 울산");
 				map.put("result", "yes");
 		} else
