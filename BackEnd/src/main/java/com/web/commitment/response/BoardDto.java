@@ -46,5 +46,5 @@ public class BoardDto {
 
 	private List<Comment> comment = new ArrayList<Comment>();
 
-	private List<LikeDto> like = new ArrayList<LikeDto>();
+	private List<LikeBoardDto> like = new ArrayList<LikeBoardDto>();
 }
