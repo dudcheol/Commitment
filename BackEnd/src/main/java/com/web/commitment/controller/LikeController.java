@@ -1,9 +1,13 @@
 package com.web.commitment.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.LikeDao;
+import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Like;
+import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.LikeBoardDto;
+import com.web.commitment.response.LikeDto;
+import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -23,6 +32,8 @@ public class LikeController {
 
 	@Autowired
 	LikeDao likeDao;
+	@Autowired	
+	FollowingBoardController followingBoardController;
 	
 	@PostMapping("/like")
     @ApiOperation(value = "좋아요 누르기 & 취소")
@@ -46,9 +57,38 @@ public class LikeController {
 	
 	@GetMapping("/like")
 	@ApiOperation(value = "게시글 좋아요 목록 불러오기")
-	public Page<Like> likeList(@RequestParam String email, final Pageable pageable){
-	
-		return likeDao.findAllByEmail(email, pageable); // snsId로 게시글 불러오는 것까
+	public Page<LikeDto> likeList(@RequestParam String email, final Pageable pageable){
+		Page<Like> likes = likeDao.findAllByEmailOrderByCreatedAtDesc(email, pageable);
+		System.out.println(likes.getSize());
+		List<LikeDto> likeDtos=new ArrayList<LikeDto>();
+		
+		for (Like likeorigin: likes) {
+			LikeDto like=new LikeDto();
+			BeanUtils.copyProperties(likeorigin, like);
+			
+			//board 최적화(commit내역 제거)
+			Board origin=likeorigin.getBoard();
+			BoardDto target = new BoardDto();
+			
+			BeanUtils.copyProperties(origin, target);
+			
+			UserDto userDto = new UserDto(origin.getUser());
+			//userDto 저장
+			target.setUser(userDto);
+			
+			if (origin.getLike() != null) {//좋아요가 존재한다면
+				List<LikeBoardDto> likeBoards = new ArrayList<LikeBoardDto>();
+				for (Like l : origin.getLike()) {
+					LikeBoardDto likeDto = new LikeBoardDto(l);
+					likeBoards.add(likeDto);
+				}
+				target.setLike(likeBoards);
+			}
+			//boardDto 저장
+			like.setBoard(target);
+			likeDtos.add(like);
+		}
+		return new PageImpl<LikeDto>(likeDtos, pageable, likes.getTotalElements());
 	}
 
 	@GetMapping("/like/totalreceived")
