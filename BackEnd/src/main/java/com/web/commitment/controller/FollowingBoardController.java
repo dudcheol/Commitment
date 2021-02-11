@@ -21,7 +21,7 @@ import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
 import com.web.commitment.response.BoardDto;
-import com.web.commitment.response.LikeDto;
+import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
@@ -57,13 +57,14 @@ public class FollowingBoardController {
 
 		for (Board origin : boards) {
 			BoardDto target = new BoardDto();
+			//같은 속성 복사. 다른속성이 있을경우에는 따로 set해줘야함
 			BeanUtils.copyProperties(origin, target);
 			UserDto userDto = new UserDto(origin.getUser());
 			
 			if (origin.getLike() != null) {
-				List<LikeDto> likes = new ArrayList<LikeDto>();
+				List<LikeBoardDto> likes = new ArrayList<LikeBoardDto>();
 				for (Like l : origin.getLike()) {
-					LikeDto likeDto = new LikeDto(l);
+					LikeBoardDto likeDto = new LikeBoardDto(l);
 					likes.add(likeDto);
 				}
 				target.setLike(likes);
