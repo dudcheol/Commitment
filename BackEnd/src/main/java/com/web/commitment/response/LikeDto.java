@@ -10,13 +10,10 @@ public class LikeDto {
 
 	private String email; // 좋아요 누른 사람의 이메일
 
-	public LikeDto(Like like) {
-		this.email = like.getEmail();
-	}
-
 	private int snsId;
 	
 	private String createdAt;
 	
 	private BoardDto board;
+
 }
