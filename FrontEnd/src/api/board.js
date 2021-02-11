@@ -30,11 +30,4 @@ function totalRadiusBoardList(lat, lng, radius, page, size, success, fail) {
     .catch(fail);
 }
 
-function writeSNS(param, success, fail){
-  instance
-    .post('/sns', {params: {param}})
-    .then(success)
-    .catch(fail);
-}
-
 export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList };
