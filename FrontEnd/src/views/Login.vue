@@ -16,7 +16,7 @@
   <div class="login_form">
     <vs-card>
       <template #title>
-        <h4 class="not-margin"><b>Commmitment</b> 오신것을 환영합니다</h4>
+        <h4 class="not-margin">Welcome to Commitment</h4>
       </template>
 
       <template #text>
@@ -28,7 +28,7 @@
             </template>
           </vs-input>
           </div>
-          <div class="password_input">
+          <div class="password_input mb-5">
           <vs-input
             type="password"
             v-model="pass"
@@ -39,10 +39,10 @@
             </template>
           </vs-input>
           </div>
-          <div class="flex">
+          <!-- <div class="flex">
             <vs-checkbox v-model="remember">아이디 저장</vs-checkbox>
             <a href="#">비밀번호를 잊어버리셨나요?</a>
-          </div>
+          </div> -->
         </div>
 
         <div class="footer-dialog">

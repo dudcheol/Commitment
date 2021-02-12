@@ -25,7 +25,7 @@
             <div class="d-flex align-center mr-4">
               📧 이메일 
             </div>
-          <vs-input v-model="email" placeholder="Email">
+          <vs-input v-model="email" placeholder="이메일">
             <template #icon>
               @
             </template>
@@ -36,7 +36,7 @@
             <div class="d-flex align-center mr-3">
               🔒 비밀번호
             </div>
-          <vs-input type="password" v-model="password"  placeholder="Password">
+          <vs-input type="password" v-model="password"  placeholder="비밀번호">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
@@ -47,7 +47,7 @@
             <div class="d-flex align-center mr-3">
                🔒 비밀번호 확인
             </div>
-          <vs-input type="password" v-model="passwordConfirm"  placeholder="Password">
+          <vs-input type="password" v-model="passwordConfirm"  placeholder="비밀번호 확인">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
@@ -58,7 +58,7 @@
             <div class="d-flex align-center mr-3">
                😀 닉네임
             </div>
-          <vs-input v-model="nickname" placeholder="3글자이상">
+          <vs-input v-model="nickname" placeholder="3글자이상 작성해주세요">
             <template #icon>
               <i class="bx bx-user"></i>
             </template>
@@ -69,7 +69,7 @@
             <div class="d-flex align-center mr-3">
                 🏷️ 한줄소개
             </div>
-          <vs-input  v-model="mystory" placeholder="한줄소개">
+          <vs-input  v-model="mystory" placeholder="나만의 한줄 소개 !">
             <template #icon>
               <i class="bx bx-comment-detail"></i>
             </template>
@@ -92,7 +92,7 @@
                 🧑‍🤝‍🧑 성별
             </div>
           <div class="d-flex justify-center">
-          <vs-select placeholder="Select" v-model="gender">
+          <vs-select placeholder="당신의 성별은?" v-model="gender">
             <vs-option label="Man" value="man">
               Man
             </vs-option>
@@ -101,14 +101,6 @@
             </vs-option>
           </vs-select>
           </div>
-          </div>
-
-
-          <div class="d-flex mb-4">
-            <div class="d-flex align-center mr-3">
-               🧁 생일
-            </div>
-          <vs-input type="date" v-model="birth" > </vs-input>
           </div>
 
           <div class="d-flex mb-4">
@@ -201,15 +193,15 @@ export default {
         this.passwordConfirm
       ) {
         if (!emailRule.test(this.email)) {
-          console.log('이메일 형식에 맞게 작성해주세요.');
+         this.showDialog('이메일 형식에 맞게 작성해주세요.');
           return false;
         }
         if (!passRule.test(this.password)) {
-          console.log('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
+          this.showDialog('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
           return;
         }
         if (this.password !== this.passwordConfirm) {
-          console.log('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
+          this.showDialog('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
           return false;
         }
         // if (!this.isTerm) {
@@ -218,7 +210,7 @@ export default {
         // }
         return true;
       }
-      console.log('회원가입 양식을 모두 채워주세요.');
+      this.showDialog('회원가입 양식을 모두 채워주세요.');
       return false;
     },
     showDialog(message) {
@@ -243,7 +235,7 @@ export default {
         nickname: '',
         age: '',
         dialog: {
-          content: { title: '할롱', text: '', yes: '확인'},
+          content: { title: 'Commitment', text: '', yes: '확인'},
           activation: false,
         },
     }
