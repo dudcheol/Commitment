@@ -11,6 +11,8 @@ import VueHorizontalTimeline from 'vue-horizontal-timeline'; //타임라인
 import VueRouter from 'vue-router';
 import ScrollBar from '@morioh/v-perfect-scrollbar';
 import * as VueGoogleMaps from 'vue2-google-maps';
+import firebase from 'firebase/app';
+import { FIREBASE_CONFIG } from './config';
 
 Vue.config.productionTip = false;
 
@@ -36,3 +38,5 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+firebase.initializeApp(FIREBASE_CONFIG);

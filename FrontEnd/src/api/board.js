@@ -24,8 +24,9 @@ function totalBoadList(param, success, fail) {
 }
 
 function totalRadiusBoardList(lat, lng, radius, page, size, success, fail) {
+  const sort = 'createdAt,desc';
   instance
-    .get('sns/radius', { params: { lat, lng, radius, page, size } })
+    .get('sns/radius', { params: { lat, lng, radius, sort, page, size } })
     .then(success)
     .catch(fail);
 }

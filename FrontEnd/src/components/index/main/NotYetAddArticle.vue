@@ -14,6 +14,7 @@
             v-for="item in empCommits"
             :key="item"
             :username="item.address"
+            :only-address="true"
             style="height:35px; width:100%"
             class="mb-2"
           ></commit-card>

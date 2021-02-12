@@ -4,25 +4,10 @@
       <img src="../../../assets/img/commitnow/LiveMonitoring.gif" style="max-width:16px;" />
       <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
     </div> -->
+    <h1>{{ test }}</h1>
     <v-expansion-panels v-model="panel" accordion flat class="mb-2 rounded-lg" multiple>
       <v-expansion-panel size="x-small" style="background-color:transparent">
         <v-expansion-panel-header>
-          <!-- <div class="d-flex align-center">
-            <span class="font-weight-black mr-2">
-              반경
-            </span>
-            <v-chip small>
-              <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
-                >{{ commitMinRange }} km 이내</span
-              >
-              <span v-else-if="commitRange[0] > commitMinRange || commitRange[1] < commitMaxRange">
-                {{ commitRange[0] }} ~ {{ commitRange[1] }} km
-              </span>
-              <span v-else>
-                전체
-              </span>
-            </v-chip>
-          </div> -->
           <div class="d-flex align-center">
             <img
               src="../../../assets/img/commitnow/LiveMonitoring.gif"
@@ -33,17 +18,9 @@
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <!-- <v-range-slider
-            v-model="commitRange"
-            step="0.5"
-            :min="commitMinRange"
-            :max="commitMaxRange"
-          ></v-range-slider>
-          <span class="text-caption">슬라이더로 반경을 조절할 수 있어요</span> -->
           <commit-card
             v-for="(item, index) in nowCommits"
             :key="index"
-            :img="'https://picsum.photos/200/300'"
             :username="item.username"
             :address="item.address"
             class="mb-2"
@@ -54,37 +31,20 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <!-- <commit-card
-      v-for="(item, index) in nowCommits"
-      :key="index"
-      :img="'https://picsum.photos/200/300'"
-      :username="item.username"
-      :address="item.address"
-      class="mb-2"
-    ></commit-card>
-    <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
-      ><strong>더보기</strong></v-btn
-    > -->
   </div>
 </template>
 
 <script>
+import firebase from 'firebase/app';
+import 'firebase/database';
 import CommitCard from '../../common/card/CommitCard.vue';
+
 export default {
   components: { CommitCard },
   name: 'CommitNow',
   data() {
     return {
-      nowCommits: [
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-        { username: 'username', address: '서울특별시 강남구 테헤란로 123-1' },
-      ],
-      commitRange: [0, 10],
-      commitMinRange: 0.5,
-      commitMaxRange: 10,
+      nowCommits: [],
     };
   },
   computed: {
@@ -100,6 +60,25 @@ export default {
           return [];
       }
     },
+  },
+  created() {
+    firebase
+      .database()
+      .ref('noti/all')
+      .orderByChild('createdAt')
+      .limitToLast(10)
+      .on('value', (snap) => {
+        let res = snap.val();
+        this.nowCommits = [];
+        for (const idx in res) {
+          res[idx].id = idx;
+          this.nowCommits.unshift({
+            username: res[idx].from,
+            address: res[idx].dataId,
+            img: res[idx].profile,
+          });
+        }
+      });
   },
 };
 </script>
