@@ -19,9 +19,8 @@
           prepend-icon="mdi-camera"
         ></v-file-input>
         </div>  
+
         <div class="con-form">
-
-
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-4">
               📧 이메일 
@@ -33,7 +32,7 @@
           </vs-input>
           </div>
 
-          <div class="d-flex">
+          <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
               🔒 비밀번호
             </div>
@@ -44,35 +43,54 @@
           </vs-input>
           </div>
 
-          
-
-
-          🔒 비밀번호 확인
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+               🔒 비밀번호 확인
+            </div>
           <vs-input type="password" v-model="passwordConfirm"  placeholder="Password">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
           </vs-input>
-          😀 닉네임
+          </div>
+      
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+               😀 닉네임
+            </div>
           <vs-input v-model="nickname" placeholder="3글자이상">
             <template #icon>
               <i class="bx bx-user"></i>
             </template>
           </vs-input>
-          🏷️ 한줄소개
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+                🏷️ 한줄소개
+            </div>
           <vs-input  v-model="mystory" placeholder="한줄소개">
             <template #icon>
               <i class="bx bx-comment-detail"></i>
             </template>
-          </vs-input>          
-          📞 전화번호
-          <vs-input  v-model="tel" placeholder="전화번호">
+          </vs-input>   
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+                📞 전화번호
+            </div>
+          <vs-input v-model="tel" placeholder="전화번호">
             <template #icon>
               <i class="bx bx-phone"></i>
             </template>
-          </vs-input>
-          
-          🧑‍🤝‍🧑 성별
+          </vs-input>  
+          </div>
+
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+                🧑‍🤝‍🧑 성별
+            </div>
           <div class="d-flex justify-center">
           <vs-select placeholder="Select" v-model="gender">
             <vs-option label="Man" value="man">
@@ -83,15 +101,22 @@
             </vs-option>
           </vs-select>
           </div>
+          </div>
 
-          🧁 생일
+
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+               🧁 생일
+            </div>
           <vs-input type="date" v-model="birth" > </vs-input>
-          🍂 나이
-          <vs-input type="number" v-model="age" />
+          </div>
 
-
-
-
+          <div class="d-flex mb-4">
+            <div class="d-flex align-center mr-3">
+                🍂 나이
+            </div>
+           <vs-input type="number" v-model="age" />
+          </div>
 
         </div>
              <!-- <input v-model="isTerm" type="checkbox" id="term" />
@@ -132,7 +157,7 @@ export default {
           tel: this.tel,
           mystory: this.mystory,
           gender: this.gender,
-          birth: this.birth,
+          // birth: this.birth,
           region: this.region,
           age: this.age,
         };
