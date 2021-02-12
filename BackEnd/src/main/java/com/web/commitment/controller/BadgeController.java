@@ -173,7 +173,7 @@ public class BadgeController {
 	@ApiOperation(value = "전국 커밋 달성률")
 	public Map<String, Double> totalRate(@RequestParam String email) {
 		Map<String, Double> map = new HashMap<String, Double>();
-		double rate=(double)commitController.commitCount(email, "national").size()/(double)1056*100;
+		double rate=(double)commitController.commitCount(email, "national").size()/(double)277*100;
 		map.put("totalCommit",Math.round(rate*10)/10.0);
 		return map;
 	}
