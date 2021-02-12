@@ -59,22 +59,22 @@ public interface UserDao extends JpaRepository<User, String> {
 			+ "order by c.created_at desc", nativeQuery = true)
 	List<User> findAllByFollowing(@Param("email") String email);
 
-	@Query(value = "select count(*) from user u, commit c where c.user_email=:email u.email=c.user_email and c.national_x=9 and c.national_y=32", nativeQuery = true)
+	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.national_x=9 and c.national_y=32", nativeQuery = true)
 	int getDokdoCommit(String email);
 
-	@Query(value = "select count(*) from user u, commit c where c.user_email=:email u.email=c.user_email and c.region_name='seoul'", nativeQuery = true)
+	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.region_name='seoul'", nativeQuery = true)
 	int getSeoulCommit(String email);
 	
-	@Query(value = "select count(*) from user u, commit c where c.user_email=:email u.email=c.user_email and c.region_name='gwangju'", nativeQuery = true)
+	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.region_name='gwangju'", nativeQuery = true)
 	int getGwangjuCommit(String email);
 	
-	@Query(value = "select count(*) from user u, commit c where c.user_email=:email u.email=c.user_email and c.region_name='gyeonggi'", nativeQuery = true)
+	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.region_name='gyeonggi'", nativeQuery = true)
 	int getGyeonggidoCommit(String email);
 	
-	@Query(value = "select count(*) from user u, commit c where c.user_email=:email u.email=c.user_email and c.region_name='ulsan'", nativeQuery = true)
+	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.region_name='ulsan'", nativeQuery = true)
 	int getUlsanCommit(String email);
 	
-	@Query(value = "select count(*) from user u, commit c where c.user_email=:email u.email=c.user_email and c.region_name='gangwon'", nativeQuery = true)
+	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.region_name='gangwon'", nativeQuery = true)
 	int getGangwondoCommit(String email);
 
 }
