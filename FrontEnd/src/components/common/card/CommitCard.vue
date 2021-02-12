@@ -12,7 +12,7 @@
       <v-avatar circle size="36" v-if="img">
         <img :src="img" />
       </v-avatar>
-      <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2"
+      <v-avatar v-else circle size="36" color="blue-grey" class="font-weight-medium display-2"
         ><v-icon color="white">mdi-emoticon-happy</v-icon></v-avatar
       >
     </div>

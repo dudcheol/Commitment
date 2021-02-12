@@ -23,6 +23,7 @@
             :key="index"
             :username="item.username"
             :address="item.address"
+            :img="item.img"
             class="mb-2"
           ></commit-card>
           <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
@@ -69,6 +70,7 @@ export default {
       .limitToLast(10)
       .on('value', (snap) => {
         let res = snap.val();
+        console.log('%cCommitNow.vue line:72 res', 'color: #007acc;', res);
         this.nowCommits = [];
         for (const idx in res) {
           res[idx].id = idx;
