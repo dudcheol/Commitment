@@ -60,7 +60,7 @@ public class User {
 	@Column(name = "lng")
 	private String lng;
 
-	@Column(name = "badge")
+	@Column(name = "badge_name")
 	private String badge;
 
 //	@JsonIgnore // json 보낼떄 무시(굳이 보낼 필요 없음)
