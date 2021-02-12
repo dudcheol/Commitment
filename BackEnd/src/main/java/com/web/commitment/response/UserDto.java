@@ -22,23 +22,4 @@ public class UserDto {
 	private String region_name;
 	private Profile profile;
 	
-	public UserDto(User user) {
-		super();
-		this.email = user.getEmail();
-		this.pass = user.getPass();
-		this.nickname = user.getNickname();
-		this.tel = user.getTel();
-		this.age = user.getAge();
-		this.gender = user.getGender();
-		this.mystory = user.getMystory();
-		this.lat = user.getLat();
-		this.lng = user.getLng();
-		this.badge = user.getBadge();
-		this.authkey = user.getAuthkey();
-		this.auth = user.getAuth();
-		this.region_name = user.getRegion_name();
-		this.profile=user.getProfile();
-	}
-	
-	
 }

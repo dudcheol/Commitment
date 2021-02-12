@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +48,7 @@ public class UserController {
 	@Autowired
 	UserDao userDao;
 	@Autowired
-	ProfileController profileController;
+	FollowController followController;
 	@Autowired
 	CommitController commitController;
 	@Autowired
@@ -68,7 +69,8 @@ public class UserController {
 //        	jwt.io에서 확인
 //			로그인 성공했다면 토큰을 생성한다.
 			User user = userOpt.get();
-			UserDto userDto= new UserDto(user);
+			UserDto userDto= new UserDto();
+			BeanUtils.copyProperties(user, userDto);
 			String token = jwtService.create(userDto);
 //			logger.trace("로그인 토큰정보 : {}", token);
 
@@ -103,7 +105,7 @@ public class UserController {
 			resultMap.putAll(jwtService.get(req.getHeader("auth-token")));
 			Map<String,String> s=(Map<String, String>) resultMap.get("user");
 			resultMap.put("commitCnt",commitController.totalCommitNum(s.get("email")));
-			resultMap.put("followerCnt",profileController.followCnt(s.get("email")));
+			resultMap.put("followerCnt",followController.followCnt(s.get("email")));
 			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
 					
 			status = HttpStatus.ACCEPTED;
