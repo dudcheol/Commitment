@@ -45,14 +45,14 @@ function signup ( userInfo, success, fail) {
   
 }
 
-async function smtp(userInfo, success, fail) {
+function smtp(userInfo, success, fail) {
   
-  // const params = {
-  //   email: userInfo.email,
-  // };
-  
-  await instance
-  .get('account/smtp', userInfo)
+  const params = {
+    email: userInfo
+  };
+  console.log(userInfo)
+  instance
+  .get('account/smtp', {params})
   .then(success)
   .catch(fail);
 }

@@ -97,19 +97,19 @@ export default {
     signup(
       payload,
       (response) => {
-        const userdata = {
-          email: payload.email,
-
-        }
-        console.log("mydata is" + userdata);
-        context.commit('SIGNUP', userdata);
+        // const userdata = {
+        //   email: payload.email,
+        // }
+        // var jsonObj = JSON.parse(response);
+        console.log("mydata is" , response);
+        context.commit('SIGNUP', payload);
         // 여기서 다시 SMTP 호출하고싶은경우?
         context.dispatch('SMTP', response.data);
         console.log("SIGNUP ACTIONSJS ACTIVATE")
         result = true;
       },
       (error) => {
-        console.log("Signup Error" + error)
+        console.log("Signup Error" , error)
         result= false;
         console.log("SIGNUP actionjs line107")
       }
@@ -117,11 +117,11 @@ export default {
     return result    
   },
   SMTP (context, payload){
+    console.log("SMTP payload" , payload),
     smtp(
-      console.log("SMTP payload" + payload),
-      payload,
+      payload.email,
       (response) => {
-        console.log("SMTP response success" + response.data)
+        console.log("SMTP response success" , response.data)
         context.commit("SMTP", response.data)
       },
       (error) => {

@@ -19,7 +19,7 @@ export default {
   },
   SIGNUP(state, payload) {
     state.userInfo = { payload };
-    console.log("SIGNUP mutationjs" + payload)
+    console.log("SIGNUP mutationjs" , payload)
   },
   SMTP(state, payload) {
     state.userInfo = { payload };
