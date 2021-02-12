@@ -44,7 +44,7 @@ public class BoardDto {
 
 	private List<Tag> tag = new ArrayList<Tag>();
 
-	private List<Comment> comment = new ArrayList<Comment>();
+	private List<CommentBoardDto> comment = new ArrayList<CommentBoardDto>();
 
 	private List<LikeBoardDto> like = new ArrayList<LikeBoardDto>();
 }

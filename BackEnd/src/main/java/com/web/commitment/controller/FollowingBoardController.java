@@ -17,10 +17,12 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
 import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.CommentBoardDto;
 import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.UserDto;
 
@@ -59,18 +61,31 @@ public class FollowingBoardController {
 			BoardDto target = new BoardDto();
 			//같은 속성 복사. 다른속성이 있을경우에는 따로 set해줘야함
 			BeanUtils.copyProperties(origin, target);
-			UserDto userDto = new UserDto(origin.getUser());
+			//commit내역제외한 user 저장
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(origin.getUser(), userDto);
+			target.setUser(userDto);
 			
 			if (origin.getLike() != null) {
 				List<LikeBoardDto> likes = new ArrayList<LikeBoardDto>();
 				for (Like l : origin.getLike()) {
-					LikeBoardDto likeDto = new LikeBoardDto(l);
+					LikeBoardDto likeDto = new LikeBoardDto();
+					BeanUtils.copyProperties(l, likeDto);
 					likes.add(likeDto);
 				}
 				target.setLike(likes);
 			}
+			if (origin.getComment() != null) {
+				List<CommentBoardDto> comments = new ArrayList<CommentBoardDto>();
+				for (Comment c : origin.getComment()) {
+					CommentBoardDto commentDto = new CommentBoardDto();
+					BeanUtils.copyProperties(c, commentDto);
+					comments.add(commentDto);
+				}
+				target.setComment(comments);
+			}
 			
-			target.setUser(userDto);
+			
 			boardDtos.add(target);
 		}
 		return boardDtos;
