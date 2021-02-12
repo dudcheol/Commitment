@@ -2,7 +2,7 @@
   <v-card class="mx-auto" elevation="0" rounded="xl" style="max-width:680px">
     <div class="px-4 pt-4">
       <div class="d-flex flex-row" style="height:40px">
-        <div class="flex-grow-0">
+        <div class="flex-grow-0 cursor-pointer" @click="clickProfile">
           <v-avatar v-if="data.user.profile" circle size="40">
             <img :src="data.user.profile.filePath" />
           </v-avatar>
@@ -11,7 +11,9 @@
           </v-avatar>
         </div>
         <div class="flex-grow-1 ml-2">
-          <h3>{{ data.user.nickname }}</h3>
+          <h3>
+            <span class="cursor-pointer" @click="clickProfile">{{ data.user.nickname }}</span>
+          </h3>
           <p class="text-caption">
             {{ data.commit.address }}
           </p>
@@ -51,7 +53,7 @@
     </div>
 
     <div class="px-6 pt-4">
-      {{ data.content }}
+      <h3 class="font-weight-regular">{{ data.content }}</h3>
     </div>
 
     <v-carousel
@@ -69,34 +71,37 @@
       ></v-carousel-item>
     </v-carousel>
 
-    <v-img v-if="data.image.length == 1" :src="data.image[0].filePath" height="auto" class="mt-2">
+    <v-img
+      v-if="data.image.length == 1"
+      :src="data.image[0].filePath"
+      height="auto"
+      class="mt-2"
+      max-height="680px"
+    >
     </v-img>
 
     <div class="px-4 pt-1 pb-3">
-      <div class="d-flex flex-row justify-space-between">
-        <div class="align-self-center">
-          <v-chip-group>
-            <v-chip
-              v-for="tag in data.tag"
-              :key="tag.id"
-              color="#f5f5f5"
-              text-color="#808080"
-              label
-              :ripple="false"
-              small
-            >
-              {{ tag.content }}
-            </v-chip>
-          </v-chip-group>
-        </div>
-        <div class="d-flex flex-row">
-          <vs-button icon color="danger" flat :active="active == 2" @click="active = 2">
-            <i class="bx bxs-heart"></i>{{ data.like.length }}
-          </vs-button>
-          <vs-button icon color="dark" flat :active="active == 2" @click="active = 2">
-            <i class="bx bxs-message"></i>{{ data.comment.length }}
-          </vs-button>
-        </div>
+      <div class="align-self-center">
+        <v-chip-group>
+          <v-chip
+            v-for="tag in data.tag"
+            :key="tag.id"
+            color="blue-grey lighten-5"
+            text-color="blue-grey lighten-1"
+            :ripple="false"
+            small
+          >
+            {{ tag.content }}
+          </v-chip>
+        </v-chip-group>
+      </div>
+      <div class="d-flex flex-row justify-end">
+        <vs-button icon color="danger" flat :active="active == 2" @click="active = 2">
+          <i class="bx bxs-heart"></i>{{ data.like.length }}
+        </vs-button>
+        <vs-button icon color="dark" flat @click="clickCard">
+          <i class="bx bxs-message"></i>{{ data.comment.length }}
+        </vs-button>
       </div>
     </div>
   </v-card>
@@ -117,7 +122,19 @@ export default {
   computed: {
     ...mapGetters({ user: ['getUserInfo'] }),
   },
+  methods: {
+    clickCard() {
+      this.$router.push({ name: 'Detail', params: { id: this.data.id } });
+    },
+    clickProfile() {
+      this.$router.push({ name: 'MyPage', params: { email: this.data.email } });
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>
