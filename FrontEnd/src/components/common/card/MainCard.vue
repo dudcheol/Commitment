@@ -54,7 +54,23 @@
       {{ data.content }}
     </div>
 
-    <v-img v-if="data.image[0]" :src="data.image[0].filePath" height="auto" class="mt-2"> </v-img>
+    <v-carousel
+      v-if="data.image.length > 1"
+      class="mt-2"
+      hide-delimiter-background
+      :continuous="false"
+      :ripple="false"
+    >
+      <v-carousel-item
+        v-for="(item, i) in data.image"
+        :key="i"
+        :src="item.filePath"
+        :ripple="false"
+      ></v-carousel-item>
+    </v-carousel>
+
+    <v-img v-if="data.image.length == 1" :src="data.image[0].filePath" height="auto" class="mt-2">
+    </v-img>
 
     <div class="px-4 pt-1 pb-3">
       <div class="d-flex flex-row justify-space-between">
