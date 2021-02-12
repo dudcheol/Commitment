@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.commitment.dao.BadgeDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
@@ -106,7 +105,7 @@ public class UserController {
 			Map<String,String> s=(Map<String, String>) resultMap.get("user");
 			resultMap.put("commitCnt",commitController.totalCommitNum(s.get("email")));
 			resultMap.put("followerCnt",followController.followCnt(s.get("email")));
-			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
+//			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
 					
 			status = HttpStatus.ACCEPTED;
 			
@@ -140,7 +139,7 @@ public class UserController {
 		System.out.println(user);
 		userDao.save(user);
 
-		badgeController.badgeReset(request.getEmail());//뱃지 리셋
+//		badgeController.badgeReset(request.getEmail());//뱃지 리셋
 		return user;
 	}
 
