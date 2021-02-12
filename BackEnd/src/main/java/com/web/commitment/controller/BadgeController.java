@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +17,6 @@ import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.UserBadgeDao;
 import com.web.commitment.dao.UserDao;
-import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.UserBadge;
 
