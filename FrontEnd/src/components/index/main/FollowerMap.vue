@@ -4,6 +4,7 @@
       v-if="empFollower"
       :icon="'heart-circle-outline'"
       :text="'다른 사람을 팔로우 해보세요. 팔로우한 사람의 실시간 커밋지도를 확인할 수 있습니다.'"
+      class="mt-md-4"
     ></no-data-card>
     <v-slide-group v-model="model" class="" show-arrows>
       <v-slide-item v-for="item in commitMpas" :key="item" v-slot="{ toggle }">

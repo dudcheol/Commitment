@@ -199,6 +199,7 @@ export default {
         this.commitRange[1] == 30 ? 0 : this.commitRange[1],
         this.pageNumber,
         5,
+        this.commitRange[1] == 30 ? 'createdAt,desc' : 'created_at,desc',
         (response) => {
           const res = response.data.content;
           console.log('%cSNS.vue line:198 res', 'color: #007acc;', res);

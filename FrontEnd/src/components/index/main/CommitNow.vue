@@ -76,6 +76,7 @@ export default {
             username: res[idx].from,
             address: res[idx].dataId,
             img: res[idx].profile,
+            email: res[idx].userEmail,
           });
         }
       });
