@@ -1,4 +1,5 @@
 import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp } from '../api/account';
+import { boardDetail } from '../api/board';
 import { latlngToAddress } from '../api/commit';
 import router from '../router';
 // import axios from 'axios';
@@ -148,5 +149,16 @@ export default {
     );
     return result;
   },
-
+  BOARDDETAIL(context, payload) {
+    boardDetail(
+      payload,
+      (response) => {
+        // context.commit('BOARDDETAIL', payload);
+        console.log(response.data)
+      },
+      (error) => {
+        console.log(error)
+      } 
+    )
+  }
 };

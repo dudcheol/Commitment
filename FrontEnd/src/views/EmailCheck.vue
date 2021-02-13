@@ -13,7 +13,7 @@
 
         <template #footer>
           <div class="footer-dialog">
-            <vs-button block>
+            <vs-button block @click="mainlink">
               Home
             </vs-button>
           </div>
@@ -34,6 +34,9 @@ export default {
   created() {
   },
   methods: {
+    mainlink() {
+       this.$router.push({ name: 'Login' })
+    },
   },
 };
 </script>

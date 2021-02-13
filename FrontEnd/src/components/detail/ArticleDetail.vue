@@ -100,6 +100,10 @@ export default {
     title: 'Gwanghwa..moon.. always 짜릿',
     content:
       '열기구타고 두둥실? 택도없는소리~ 광화문에서 한복입고 사진찍어주는건 언제나 짜릿하다뀨..',
+    commentCreateData: {
+    postId: null,
+    content: null
+    },
   }),
   /////
   // computed: {
@@ -107,20 +111,48 @@ export default {
   //     return this.events
   //   },
   // },
+  created() {
+    this.commentCreateData.postId = this.$route.params['postId']
+    this.findPost(this.commentCreateData.postId)
+    this.fetchComments(this.commentCreateData.postId)
+    // this.findBook(this.selectedPost.book.id)
+  },
 
   methods: {
-    comment() {
-      // time 나오는 방식 수정
-      // const time = (new Date()).toTimeString()
-      // this.events.push({
-      //   id: this.nonce++,
-      //   text: this.input,
-      //   time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (contents) => {
-      //     return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
-      //   }),
-      // })
-      // this.input = null
-    },
+    comment() {},
+  //      computed: {
+  // hiComments: function () {
+  //   return this.comments
+  // }
+  // },
+  // methods: {
+  //   setToken: function () {
+  //     const token = localStorage.getItem('jwt')
+  //     const config = {
+  //       headers: {
+  //         Authorization: `JWT ${token}`
+  //       }
+  //     }
+  //     return config
+  //   },
+  //   getComments: function () {
+  //     const config = this.setToken()
+  //     const movie = this.$route.query.movie
+  //     axios.get(`${SERVER_URL}/nowplaying/${movie.id}/comment_list/`, config)
+  //       .then(response => {
+  //         this.comments = response.data
+  //       })
+  //       .catch(error => console.log(error))
+  //   },
+  //   writeComment(){
+  //     this.getComments()
+  //   }
+  // },
+  // created: function () {
+  //   this.getComments()
+  // }
+
+    
   },
 };
 </script>
