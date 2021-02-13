@@ -2,6 +2,7 @@ package com.web.commitment.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class FollowController {
 
 
 	@GetMapping("/profile/follow")
-	@ApiOperation(value = "팔로우 하기")
+	@ApiOperation(value = "팔로우 하기&취소")
 	public Object follow(@RequestParam(required = true) final String from,
 			@RequestParam(required = true) final String to) {
 		FollowId followid = new FollowId();
@@ -38,11 +39,12 @@ public class FollowController {
 		followid.setToUser(to);
 		Follow follow = new Follow();
 		follow.setFollowid(followid);
-
-//        Follow follow = new Follow();
-//        follow.setFromUser(from);
-//        follow.setToUser(to);
-		followDao.save(follow);
+		Optional<Follow> option=followDao.findFollowByFromAndTo(from,to);
+//		System.out.println(option.get());
+		if(option.isPresent()) 
+			followDao.delete(option.get());
+		else
+			followDao.save(follow);
 
 		final BasicResponse result = new BasicResponse();
 		result.status = true;
@@ -59,7 +61,6 @@ public class FollowController {
 		int index = 0;
 		for (Follow f : list) {
 			user.add(userDao.getUserByEmail(f.getFollowid().getToUser()));
-//            user.add(userDao.getUserByEmail(f.getToUser()));
 			System.out.println(user.get(index++));
 		}
 
