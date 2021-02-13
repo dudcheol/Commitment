@@ -131,6 +131,25 @@ export default {
     )
 
   },
+  async GOOGLE_LOGIN(context, user) {
+    let result = false;
+    await login(
+      user,
+      (response) => {
+        context.commit('GOOGLE_LOGIN', response.data.data);
+        if (response.data.data === 'success') {
+          localStorage.setItem('auth-token', response.data['auth-token']);
+          setAuthTokenToHeader(response.data['auth-token']);
+          context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
+          result = true;
+        }
+      },
+      (error) => {
+        console.log('%cactions.js line:13 error', 'color: #007acc;', error);
+      }
+    );
+    return result;
+  },
     // axios
     //   .post("https://i4a308.p.ssafy.io:8080/account/signup", payload)
     //   .then((response) => {

@@ -23,5 +23,6 @@ export default {
   },
   SMTP(state, payload) {
     state.userInfo = { payload };
-  }
+  },
+  
 };
