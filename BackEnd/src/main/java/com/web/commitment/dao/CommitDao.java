@@ -35,7 +35,9 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking, count(*) cnt"
 			+ " from user u, commit c"
 			+ " where u.email=c.user_email "
-			+ "group by c.user_email", nativeQuery = true)
+			+ " group by c.user_email"
+			+ " order by ranking"
+			, nativeQuery = true)
 	List<Ranking> commitRank();
 
 	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
@@ -55,27 +57,27 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	List<Ranking> followingRank(@Param("email") String email);
 
 	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='seoul' " + "group by c.user_email", nativeQuery = true)
+			+ " where u.email=c.user_email and c.region_name='seoul' " + "group by c.user_email order by ranking", nativeQuery = true)
 	List<Ranking> seoulRank();
 
 	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gyeonggi' " + "group by c.user_email", nativeQuery = true)
+			+ " where u.email=c.user_email and c.region_name='gyeonggi' " + "group by c.user_email order by ranking", nativeQuery = true)
 	List<Ranking> gyeonggiRank();
 
 	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gangwon' " + "group by c.user_email", nativeQuery = true)
+			+ " where u.email=c.user_email and c.region_name='gangwon' " + "group by c.user_email order by ranking", nativeQuery = true)
 	List<Ranking> gangwonRank();
 
 	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gwangju' " + "group by c.user_email", nativeQuery = true)
+			+ " where u.email=c.user_email and c.region_name='gwangju' " + "group by c.user_email order by ranking", nativeQuery = true)
 	List<Ranking> gwangjuRank();
 
 	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='ulsan' " + "group by c.user_email", nativeQuery = true)
+			+ " where u.email=c.user_email and c.region_name='ulsan' " + "group by c.user_email order by ranking", nativeQuery = true)
 	List<Ranking> ulsanRank();
 
 	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='busan' " + "group by c.user_email", nativeQuery = true)
+			+ " where u.email=c.user_email and c.region_name='busan' " + "group by c.user_email order by ranking", nativeQuery = true)
 	List<Ranking> busanRank();
 
 	// 커밋 시간제한
