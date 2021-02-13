@@ -136,4 +136,18 @@ export default {
         router.push('/error');
       });
   },
+  START_TIMER: (store) => {
+    store.commit(
+      'START_TIMER',
+      setInterval(() => store.dispatch('COUNTDOWN'), 1000)
+    );
+    store.commit('COMMITBTN_STATE_CHANGER', false);
+  },
+  STOP_TIMER: (store) => {
+    store.commit('STOP_TIMER');
+    store.commit('COMMITBTN_STATE_CHANGER', true);
+  },
+  COUNTDOWN: (store) => {
+    store.commit('TOTAL_TIME');
+  },
 };

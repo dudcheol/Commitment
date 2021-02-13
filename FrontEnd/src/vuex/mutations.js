@@ -17,4 +17,24 @@ export default {
   LATLNG_TO_ADDRESS(state, payload) {
     state.currentAddress = payload;
   },
+  START_TIMER(state, payload) {
+    state.timer = payload;
+    state.totalTime = 1 * 60 * 10;
+  },
+  COMMITBTN_STATE_CHANGER(state, payload) {
+    state.commitBtnState = payload;
+  },
+  STOP_TIMER(state) {
+    clearInterval(state.timer);
+    state.timer = null;
+  },
+  TOTAL_TIME(state) {
+    if (state.totalTime >= 1) {
+      state.totalTime--;
+    } else {
+      state.totalTime = 0;
+    }
+    state.minutes = Math.floor(state.totalTime / 60);
+    state.seconds = state.totalTime - state.minutes * 60;
+  },
 };

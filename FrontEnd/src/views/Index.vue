@@ -83,10 +83,14 @@
       :ripple="false"
       @click="commit"
       :loading="!latlng || commitLoading"
-      :disabled="!latlng || commitLoading"
+      :disabled="!latlng || commitLoading || commitTimeout"
       elevation="10"
     >
-      <v-icon dark x-large>{{ commitBtnIcon }}</v-icon>
+      <div v-if="commitTimeout">
+        <v-icon dark>mdi-lock</v-icon>
+        <div>{{ min }}:{{ sec }}</div>
+      </div>
+      <v-icon v-else dark x-large>{{ commitBtnIcon }}</v-icon>
     </v-btn>
     <Dialog
       :alert="commitAlert"
@@ -125,7 +129,24 @@ export default {
       latlng: ['getCurrentLatlng'],
       user: ['getUserInfo'],
       address: ['getCurrentAddress'],
+      minutes: ['getMinutes'],
+      seconds: ['getSeconds'],
+      totalTime: ['getTotalTime'],
     }),
+    min() {
+      return (this.minutes < 10 ? '0' : '') + this.minutes;
+    },
+    sec() {
+      return (this.seconds < 10 ? '0' : '') + this.seconds;
+    },
+  },
+  watch: {
+    totalTime(val) {
+      if (val == 0) {
+        this.STOP_TIMER();
+        this.commitTimeout = false;
+      }
+    },
   },
   data() {
     return {
@@ -154,12 +175,18 @@ export default {
       openWriteDialog: false,
       commitRegion: '',
       commitDatas: '',
+      commitTimeout: false,
     };
   },
   methods: {
-    ...mapActions(['CURRENT_LATLNG']),
+    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER']),
     commit() {
+      if (this.minutes != 0 || this.seconds != 0) {
+        return;
+      }
+      this.START_TIMER();
       this.commitLoading = true;
+      this.commitTimeout = true;
       addCommit(
         this.user.email,
         this.latlng.lat,

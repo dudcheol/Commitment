@@ -13,6 +13,12 @@ const state = {
   authToken: null,
   currentLatlng: null,
   currentAddress: SEARCHING_POSITION_TEXT,
+  title: 'Timer',
+  timer: null,
+  totalTime: 0,
+  commitBtnState: true,
+  minutes: 0,
+  seconds: 0,
 };
 
 export default new Vuex.Store({
