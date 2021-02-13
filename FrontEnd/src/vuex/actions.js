@@ -127,9 +127,7 @@ export default {
       (error) => {
         console.log("SMTP ERROR" + error)
       }
-
     )
-
   },
   async GOOGLE_LOGIN(context, user) {
     let result = false;
@@ -150,30 +148,5 @@ export default {
     );
     return result;
   },
-    // axios
-    //   .post("https://i4a308.p.ssafy.io:8080/account/signup", payload)
-    //   .then((response) => {
-    //     console.log("회원가입 : " + response.data);
-    //     store.dispatch("SMTP",payload);
-    //   })
-    //   .catch((response, error) => {
-    //     console.log("잘못됐음" + response.status);
-    //     console.log(error);
-    //   });
-    // }, 
 
-    // SMTP: (store, payload) => {
-    //   console.log(payload);
-    //   axios
-    //     .get('https://i4a308.p.ssafy.io:8080/account/smtp?email=' + payload.email)
-    //     .then((response) => {
-    //       console.log("smtp : " + response.data.length);
-    //     })
-    //     .catch((response, error) => {
-    //       console.log("FAIL : " + response.status);
-    //       console.log(error);
-    //       alert("이메일 발송 실패: 유효하지 않은 이메일 입니다.");
-    //       store.dispatch("DELETE",payload.email);
-    //     });
-    // },
 };

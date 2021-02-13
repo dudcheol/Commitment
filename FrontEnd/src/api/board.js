@@ -30,4 +30,11 @@ function totalRadiusBoardList(lat, lng, radius, page, size, success, fail) {
     .catch(fail);
 }
 
-export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList };
+function BoardDetail ( id, param, success, fail) { 
+  instance
+  .get(`sns/${id}`, { params: { param }})
+  .then(success)
+  .catch(fail)
+}
+
+export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList, BoardDetail};
