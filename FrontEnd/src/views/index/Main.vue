@@ -62,9 +62,9 @@ export default {
     dynamicPosition() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return '';
+          return 'overflow-sm-style';
         case 'sm':
-          return '';
+          return 'overflow-sm-style';
         case 'md':
           return 'overflow-style';
         case 'lg':
@@ -103,5 +103,8 @@ export default {
   position: fixed;
   overflow-y: scroll;
   max-height: calc(100vh - 64px);
+}
+.overflow-sm-style {
+  overflow: hidden;
 }
 </style>
