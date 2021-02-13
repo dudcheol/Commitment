@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <div id="videoBd">
+    <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
+      <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4">
+    </video>
+    </div>
   <div class="login_form">
     <vs-card class='card'>
       <template #title>
@@ -23,7 +29,8 @@
         <div class="con-form">
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-4">
-              📧 이메일 
+              📧  
+              <div class="signup_text">이메일</div>
             </div>
           <vs-input v-model="email" placeholder="이메일">
             <template #icon>
@@ -34,7 +41,8 @@
 
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-              🔒 비밀번호
+              🔒 
+               <div class="signup_text">비밀번호</div>
             </div>
           <vs-input type="password" v-model="password"  placeholder="비밀번호">
             <template #icon>
@@ -45,7 +53,8 @@
 
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-               🔒 비밀번호 확인
+               🔒 
+               <div class="signup_text">비밀번호 확인</div>
             </div>
           <vs-input type="password" v-model="passwordConfirm"  placeholder="비밀번호 확인">
             <template #icon>
@@ -56,7 +65,8 @@
       
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-               😀 닉네임
+               😀 
+               <div class="signup_text">닉네임</div>
             </div>
           <vs-input v-model="nickname" placeholder="3글자이상 작성해주세요">
             <template #icon>
@@ -67,7 +77,8 @@
 
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-                🏷️ 한줄소개
+                🏷️ 
+              <div class="signup_text">한줄소개</div>
             </div>
           <vs-input  v-model="mystory" placeholder="나만의 한줄 소개 !">
             <template #icon>
@@ -78,7 +89,8 @@
 
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-                📞 전화번호
+                📞 
+              <div class="signup_text">전화번호</div>
             </div>
           <vs-input v-model="tel" placeholder="전화번호">
             <template #icon>
@@ -89,7 +101,8 @@
 
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-                🧑‍🤝‍🧑 성별
+                🧑‍🤝‍🧑 
+              <div class="signup_text">성별</div>
             </div>
           <div class="d-flex justify-center">
           <vs-select placeholder="당신의 성별은?" v-model="gender">
@@ -105,7 +118,8 @@
 
           <div class="d-flex mb-4">
             <div class="d-flex align-center mr-3">
-                🍂 나이
+                🍂 
+              <div class="signup_text">나이</div>
             </div>
            <vs-input type="number" v-model="age" />
           </div>
@@ -125,6 +139,7 @@
     :content="dialog.content"
     :dialog="dialog.activation"
   > </EmailDialog>
+  </div>
   </div>
 </template>
 
@@ -158,28 +173,10 @@ export default {
         if (result) {
           this.showDialog('가입에 성공했습니다')
         } else {
-          console.log('가입에 실패했습니다')
+          this.showDialog('가입에 실패하였습니다')
         }
-        // this.SIGNUP(params);
-        // axios
-        //   .post('https://i4a308.p.ssafy.io:8080/account/signup', params)
-        //   .then((res) => {
-        //     console.log(res);
-        //     this.SIGNUP(params);
-        //     // dialog 보여주기
-
-        //     this.showDialog('가입에 성공했뜸');
-        //     // this.$router.push({
-        //     //   name: 'EmailCheck',
-        //     //   params: { email: this.email },
-        //     // });
-        //   })
-        //   .catch((err) => {
-        //     console.error(err);
-        //     console.log('가입에 실패하셨습니다.');
-        //   });
       } else {
-        console.log("항목중에서 하나 실패했으니깐 조심해보자");
+        this.showDialog("모든 항목을 기입해주세요");
       }
     },
 
@@ -245,12 +242,15 @@ export default {
 
 <style scoped>
 
+/* image가 안들어가짐 */
+
+
 .login_form {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate( -50%, -50% ) 
-    }
+}
 
 .vs-input {
   width: 100% !important
@@ -316,6 +316,46 @@ export default {
   text-decoration: underline
 }
     
-.vs-button{    margin: 0px}
+.vs-button{ margin: 0px}
+
+#videoBd  {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+ }
+#videoBG {
+  position: fixed;
+  z-index: 0;
+}
+@media (min-aspect-ratio: 16/9) {
+      #videoBG {
+          width: 100%;
+          height: auto;
+      }
+  }
+
+@media (max-aspect-ratio: 16/9) {
+      #videoBG {
+          width: auto;
+          height: 100%;
+      }
+  }
+
+@media (max-width: 700px) {
+      .signup_text {
+        display: none;
+      }
+
+      #videoBG {
+          display: none;
+      }
+      #videoBd {
+        background: url('../assets/img/login/poster.jpg') no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+}
 
 </style>
