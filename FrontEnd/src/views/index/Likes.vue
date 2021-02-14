@@ -71,16 +71,26 @@
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
-        <div v-if="feedDatas.length == 0">
-          <no-data-card
-            :icon="'emoticon-neutral-outline'"
-            :text="'좋아요한 커밋이 없어요'"
-            class="mt-4"
-          ></no-data-card>
+        <div class="mt-4" v-for="data in feedDatas" :key="data">
+          <main-card :data="data.board"></main-card>
         </div>
-        <div v-else class="card mt-4" v-for="item in feedDatas" :key="item">
-          <main-card :data="item"></main-card>
-        </div>
+        <infinite-loading
+          :identifier="infiniteId"
+          @infinite="infiniteHandler"
+          ref="InfiniteLoading"
+          spinner="circles"
+        >
+          <div slot="no-more" class="mt-4">
+            <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
+          </div>
+          <!-- <div slot="spinner"></div> -->
+          <div slot="no-results" class="mt-4">
+            <NoDataCard
+              :icon="'hand-heart-outline'"
+              :text="'찜한 커밋이 없어요. 다른 사람들의 커밋에 좋아요를 남겨보세요!'"
+            ></NoDataCard>
+          </div>
+        </infinite-loading>
       </v-col>
     </v-row>
   </v-container>
@@ -91,17 +101,20 @@ import MainCard from '../../components/common/card/MainCard';
 import { likeBoardList } from '../../api/like';
 import { mapGetters } from 'vuex';
 import NoDataCard from '../../components/common/card/NoDataCard.vue';
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
   components: {
     MainCard,
     NoDataCard,
+    InfiniteLoading,
   },
   data() {
     return {
       feedDatas: [],
       date: '7',
       options: '1',
+      pageNumber: 0,
     };
   },
   computed: {
@@ -137,21 +150,59 @@ export default {
       return '';
     },
   },
-  created() {
-    likeBoardList(
-      this.user.email,
-      (response) => {
-        console.log('%cLikes.vue line:146 response', 'color: #007acc;', response);
-        this.feedDatas = response.data.content;
-      },
-      (error) => {
-        console.log(
-          '%cerror Likes.vue line:95 ',
-          'color: red; display: block; width: 100%;',
-          error
-        );
-      }
-    );
+  methods: {
+    infiniteHandler($state) {
+      likeBoardList(
+        this.user.email,
+        this.pageNumber,
+        5,
+        (response) => {
+          console.log('%cLikes.vue line:146 response', 'color: #007acc;', response);
+          if (response.data.content.length) {
+            this.feedDatas.push(...response.data.content);
+            this.pageNumber += 1;
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        },
+        (error) => {
+          console.log(
+            '%cerror Likes.vue line:95 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+
+      // totalRadiusBoardList(
+      //   this.pos.lat,
+      //   this.pos.lng,
+      //   this.commitRange[1] == 30 ? 0 : this.commitRange[1],
+      //   this.pageNumber,
+      //   5,
+      //   (response) => {
+      //     const res = response.data.content;
+      //     console.log('%cSNS.vue line:198 res', 'color: #007acc;', res);
+      //     if (res.length) {
+      //       this.feedDatas.push(...res);
+      //       for (let i = 0; i < res.length; i++) {
+      //         this.markers.push({
+      //           lat: parseFloat(res[i].commit.lat),
+      //           lng: parseFloat(res[i].commit.lng),
+      //         });
+      //       }
+      //       this.pageNumber += 1;
+      //       $state.loaded();
+      //     } else {
+      //       $state.complete();
+      //     }
+      //   },
+      //   (error) => {
+      //     console.log('%cSNS.vue line:197 error', 'color: #007acc;', error);
+      //   }
+      // );
+    },
   },
 };
 </script>
@@ -162,67 +213,4 @@ export default {
   overflow-y: scroll;
   max-height: calc(100vh - 64px);
 }
-/* .grid-container {
-  display: grid;
-  grid-template-columns: 1.5fr 3fr 1.5fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    'category card .'
-    '. card .';
-}
-
-.card_list {
-  grid-area: card;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.card_list .card {
-  width: 100%;
-}
-
-.category {
-  grid-area: category;
-  display: grid;
-  justify-items: center;
-}
-
-.v-sheet.v-card {
-  display: grid;
-  width: 80%;
-  border-radius: 10px;
-  height: min-content;
-}
-
-@media (max-width: 450px) {
-  .grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-      'category'
-      'card';
-  }
-
-  .card_list {
-    grid-area: card;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .card_list .card {
-    width: 100%;
-  }
-
-  .category {
-    grid-area: category;
-    display: grid;
-    justify-items: center;
-    height: min-content;
-  }
-} */
 </style>

@@ -1,4 +1,4 @@
- package com.web.commitment.controller;
+package com.web.commitment.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +32,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web.commitment.dao.BadgeDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
+import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.UserLogin;
+import com.web.commitment.request.LoginRequest;
+import com.web.commitment.response.UserDto;
 import com.web.commitment.service.JwtService;
 
 import io.swagger.annotations.ApiOperation;
@@ -47,7 +49,7 @@ public class UserController {
 	@Autowired
 	UserDao userDao;
 	@Autowired
-	ProfileController profileController;
+	FollowController followController;
 	@Autowired
 	CommitController commitController;
 	@Autowired
@@ -55,20 +57,36 @@ public class UserController {
 	@Autowired
 	private JwtService jwtService;
 
-	@GetMapping("/account/login")
+	@PostMapping("/account/login")
 	@ApiOperation(value = "로그인")
-	public Object login(@RequestParam(required = true) final String email,
-			@RequestParam(required = true) final String pass) {
-		Optional<User> userOpt = userDao.findUserByEmailAndPass(email, pass);
+	public Object login(@RequestBody LoginRequest request) {
+		Optional<User> userOpt;
 		ResponseEntity response = null;
-		
 		Map<String, Object> resultMap = new HashMap<>();
+		System.out.println("login");
+		if (request.getToken() != null) {// 소셜 로그인 일경우
+			userOpt = userDao.findByEmail(request.getEmail());
+			User user = new User();
+
+			if (!userOpt.isPresent()) {// db에 없는 경우
+				user.setEmail(request.getEmail());
+				user.setNickname(request.getName());
+				userDao.save(user);// 회원가입시킴
+			}
+			Profile profile = new Profile();
+			profile.setEmail(request.getEmail());
+			profile.setFilePath(request.getImage());
+			
+		}
+		
+		userOpt = userDao.findUserByEmailAndPass(request.getEmail(), request.getPass());
 
 		if (userOpt.isPresent()) {
 //        	jwt.io에서 확인
 //			로그인 성공했다면 토큰을 생성한다.
 			User user = userOpt.get();
-			UserLogin userDto= new UserLogin(user);
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(user, userDto);
 			String token = jwtService.create(userDto);
 //			logger.trace("로그인 토큰정보 : {}", token);
 
@@ -81,15 +99,11 @@ public class UserController {
 			resultMap.put("age", user.getAge());
 			resultMap.put("gender", user.getGender());
 			resultMap.put("mystory", user.getMystory());
-			System.out.println("su");
-			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
-		} else {
-			resultMap.put("data", "fail");
-			System.out.println("f");
-			response = new ResponseEntity<>(resultMap, HttpStatus.OK);
+			return new ResponseEntity<>(resultMap, HttpStatus.OK);
 		}
-
-		return response;
+		resultMap.put("data", "fail");
+		
+		return new ResponseEntity<>(resultMap, HttpStatus.OK);
 	}
 
 	@GetMapping("/account/info")
@@ -101,13 +115,13 @@ public class UserController {
 		try {
 			// 사용자에게 전달할 정보이다.
 			resultMap.putAll(jwtService.get(req.getHeader("auth-token")));
-			Map<String,String> s=(Map<String, String>) resultMap.get("user");
-			resultMap.put("commitCnt",commitController.totalCommitNum(s.get("email")));
-			resultMap.put("followerCnt",profileController.followCnt(s.get("email")));
-			resultMap.put("badgeCnt",badgeController.badgeCnt(s.get("email")));
-					
+			Map<String, String> s = (Map<String, String>) resultMap.get("user");
+			resultMap.put("commitCnt", commitController.totalCommitNum(s.get("email")));
+			resultMap.put("followerCnt", followController.followCnt(s.get("email")));
+			resultMap.put("badgeCnt", badgeController.badgeCnt(s.get("email")));
+
 			status = HttpStatus.ACCEPTED;
-			
+
 		} catch (RuntimeException e) {
 //			logger.error("정보조회 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
@@ -121,7 +135,7 @@ public class UserController {
 	@Transactional
 	public User signup(@Valid @RequestBody User request) {
 		User user = userDao.findUserByEmail(request.getEmail());// 수정
-		
+
 		if (user == null)// 가입
 			user = request;
 		else {
@@ -132,16 +146,14 @@ public class UserController {
 			user.setAge(request.getAge());
 			user.setGender(request.getGender());
 			user.setMystory(request.getMystory());
-			//지역은 회원가입후 현재 위치 설정에서  받아옴
+			// 지역은 회원가입후 현재 위치 설정에서 받아옴
 		}
 
 		System.out.println(user);
 		userDao.save(user);
 
-		badgeController.badgeReset(request.getEmail());//뱃지 리셋
 		return user;
 	}
-
 
 	@DeleteMapping("/account/delete")
 	@ApiOperation(value = "회원탈퇴")

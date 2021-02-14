@@ -35,4 +35,8 @@ export default {
 .v-slider__track-background {
   border-radius: 6px;
 }
+/* Commit Map Style */
+.line {
+  white-space: nowrap;
+}
 </style>

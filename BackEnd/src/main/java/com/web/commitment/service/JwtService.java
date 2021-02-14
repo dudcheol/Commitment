@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.web.commitment.dto.User;
-import com.web.commitment.dto.UserLogin;
+import com.web.commitment.response.UserDto;
 
 import io.jsonwebtoken.*;
 
@@ -21,7 +21,7 @@ public class JwtService {
 	private Long expireMin = 30L;
 
 //	로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.
-	public String create(UserLogin user) {
+	public String create(UserDto user) {
 		JwtBuilder jwtBuilder = Jwts.builder();
 //		JWT Token = Header + Payload + Signature
 		

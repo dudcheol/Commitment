@@ -3,7 +3,13 @@
     <vs-card @click="goToMyPage">
       <template #title>
         <div>
-          <component :is="mapType" :size="5" :borderRadius="5" :spacing="1"></component>
+          <component
+            :is="mapType"
+            :size="5"
+            :borderRadius="5"
+            :spacing="1"
+            :datas="datas"
+          ></component>
         </div>
       </template>
       <template #text>
@@ -30,12 +36,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { userCommitMap } from '../../../api/commit';
 export default {
   data: () => ({
     commitCnt: 12,
     badgeCnt: 7,
     followerCnt: 210,
     mapType: null,
+    datas: [],
   }),
   methods: {
     goToMyPage() {
@@ -61,6 +69,20 @@ export default {
     this.loader()
       .then(() => {
         this.mapType = () => this.loader();
+        userCommitMap(
+          this.user.email,
+          (response) => {
+            console.log('%cProfileSummary.vue line:69 response', 'color: #007acc;', response);
+            this.datas.push(...response.data.commitXY);
+          },
+          (error) => {
+            console.log(
+              '%cerror ProfileSummary.vue line:68 ',
+              'color: red; display: block; width: 100%;',
+              error
+            );
+          }
+        );
       })
       .catch(() => {
         console.log('%cProfileSummary.vue line:61 지도를 불러오는데 실패함', 'color: #007acc;');

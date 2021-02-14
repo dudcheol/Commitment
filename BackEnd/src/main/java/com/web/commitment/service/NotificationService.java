@@ -104,11 +104,17 @@ public class NotificationService {
 		String postId = nextNotiRef.getKey(); // 현재 알람의 키값을 가져옴
 		
 		DatabaseReference saveNoti = notiRef.child(postId); // to의 아이디 값의 child node
-
+		User user = getUser(nickname);
+		if(user.getProfile() != null) {
+			notificationSaveDto.setProfile(user.getProfile().getFilePath());
+		}
+		
+		
 		if (type.equals("follow")) { // 팔로우
 			String lastId = followDao.findByLastFollow();
 			notificationSaveDto.setFollowId(lastId);
 			saveNoti.setValueAsync(notificationSaveDto);  // 정의된 경로(예: users/<user-id>/<username>)에 데이터를 쓰거나 대체합니다.
+			
 			
 		} else if (type.equals("like")) { // 좋아요
 			String lastId = likeDao.findByLastLike();
@@ -121,7 +127,6 @@ public class NotificationService {
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else if (type.equals("commit")) { // 실시간 커밋
-			User user = getUser(nickname);
 			notificationSaveDto.setUserEmail(user.getEmail());
 			saveNoti.setValueAsync(notificationSaveDto);
 			

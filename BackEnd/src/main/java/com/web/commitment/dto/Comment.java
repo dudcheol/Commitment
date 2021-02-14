@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -46,14 +48,14 @@ public class Comment {
 	@Column(name="depth")
 	private int depth;
 
-//	// 그룹 내 순서
-//	@Column(name="seq")
-//	private int seq;
-	
 	// 원글에 대한 답글인지, 답글에 대한 답글인지 구분
 	@Column(name="parent")
 	private String parent;
 	
 	@Column(name="created_at")
 	private LocalDateTime createdAt;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_email",insertable=false, updatable=false)
+	private User user;
 }

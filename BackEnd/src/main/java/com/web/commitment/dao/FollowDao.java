@@ -16,8 +16,11 @@ import com.web.commitment.dto.User;
 @Repository
 public interface FollowDao extends JpaRepository<Follow, String> {
 	@Modifying
+	@Query(value = "select * from follow f where f.follow_from=:email", nativeQuery = true)
+	List<Follow> FindFollowListByEmail(@Param("email") String email);
+	@Modifying
 	@Query(value = "select * from follow f where f.follow_to=:email", nativeQuery = true)
-	List<Follow> FindFollowByEmail(@Param("email") String email);
+	List<Follow> FindFollowerListByEmail(@Param("email") String email);
 
 	// 랭킹 관련
 	@Query(value = "select follow.follow_to email, rank() over (order by count(*) desc) ranking, count(*) cnt from follow "
@@ -37,4 +40,6 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 	@Query(value = "select max(id) from follow", nativeQuery = true)
 	String findByLastFollow();
 
+	@Query(value = "select * from follow f where f.follow_to=:to and f.follow_from=:from", nativeQuery = true)
+	Optional<Follow> findFollowByFromAndTo(@Param("from") String from,@Param("to") String to);
 }

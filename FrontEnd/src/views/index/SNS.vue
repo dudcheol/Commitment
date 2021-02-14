@@ -1,12 +1,12 @@
 <template>
   <v-container fluid class="blue-grey lighten-5">
     <v-col
-      class="mt-4 pa-0 d-flex justify-center flex-column"
+      class="mt-4 pa-0 pl-lg-16 d-flex justify-center flex-column align-center"
       :class="dynamicPosition"
       cols="12"
       md="3"
     >
-      <v-sheet rounded="xl" class="mb-4 px-4 pt-3" style="width:100%">
+      <v-sheet rounded="xl" class="mb-4 px-4 pt-3" style="width:100%; max-width:680px">
         <div class="d-flex align-center">
           <div class="font-weight-black mr-2 display-1">
             {{ commitRange[0] == 0.5 && commitRange[1] == 30 ? '모든 커밋' : address }}
@@ -41,7 +41,7 @@
         :zoom="mapZoom"
         :options="mapOptions"
         map-type-id="terrain"
-        style="width:100%; min-height:300px; overflow: hidden; border-radius:24px"
+        style="width:100%; max-width:680px; min-height:300px; overflow: hidden; border-radius:24px"
         v-if="pos"
       >
         <GmapMarker

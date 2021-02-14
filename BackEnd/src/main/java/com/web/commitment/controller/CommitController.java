@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -228,6 +229,25 @@ public class CommitController {
 					.forEach(commit -> list.add(new String[] { commit.getLat(), commit.getLng() }));
 		}
 		return list;
+	}
+	@GetMapping("/commit/usermap")
+	@ApiOperation(value = "유저의 대표지도 불러오기")
+	public Map<String,Object> userMap(@RequestParam(required = true) final String email) {
+		Optional<User> userOpt=userDao.findByEmail(email);
+		Map<String,Object> map=new HashMap<String,Object>();
+		
+		if (userOpt.isPresent()) {
+			User user=userOpt.get();
+			String region=user.getRegion_name();
+			List<int[]> list=commitCount(email,region);
+			
+			map.put("commitXY",list);
+			map.put("region",region);
+			map.put("data","success");
+			return map;
+		}
+		map.put("data","없는 이메일 입니다.");
+		return map;
 	}
 	
 	@GetMapping("/commit/noboard")

@@ -22,7 +22,7 @@
                 </vs-button>
               </div>
               <div class="bookmarkDescription">
-                <h4>발로 그린 지도!</h4>
+                <h4>여행의 시작</h4>
               </div>
             </div>
           </template>
@@ -33,24 +33,24 @@
           </template>
         </vs-card>
         <p class="badgeName">
-          커밋홀릭
+          첫 커밋
         </p>
         <p class="badgeDescription">
-          커밋 100% 최초 달성!
+          첫 커밋 기록!
         </p>
       </vs-col>
       <vs-col :w="num2">
         <vs-card type="5" class="etccard">
           <template #img>
             <v-avatar size="100">
-              <img src="../../../assets/img/badge/lock2.png" alt="John" />
+              <img src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
             <div class="bookmark">
               <div class="bookmarkButton">
                 <v-progress-circular
-                  :value="40"
+                  :value="commitper"
                   color="grey"
                   size="20"
                 ></v-progress-circular>
@@ -62,12 +62,12 @@
           </template>
           <template #text>
             <p>
-              획득까지 60% 남았어요!
+              획득까지 {{100-commitper}}% 남았어요!
             </p>
           </template>
         </vs-card>
         <p class="badgeName">
-          커밋홀릭
+          전국 커밋
         </p>
         <p class="badgeDescription">
           커밋 100% 최초 달성!
@@ -332,12 +332,29 @@
 </template>
 
 <script>
+import { commitrate} from "../../../api/Badge.js";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       num: 4,
       num2: 4,
+      commitper: 0,
     };
+  },
+  computed: {
+    ...mapGetters({ user: ["getUserInfo"] }),
+  },
+  mounted() {
+    commitrate(
+      this.user.email,
+      (response) => {
+        this.commitper=response.data.totalCommit;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
 };
 </script>
