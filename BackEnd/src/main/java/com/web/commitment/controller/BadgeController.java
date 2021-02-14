@@ -127,13 +127,13 @@ public class BadgeController {
 			userBadgeDao.save(userbadge);
 			gets.add(map);
 		}
-		if (userDao.getGwangjuCommit(email) >= 1 && !badges.contains("gwangju")) {
+		if (userDao.getGwangjuCommit(email) >= 1 && !badges.contains("busan")) {
 			UserBadge userbadge = new UserBadge();
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
-			userbadge.setName("gwangju");
-			map.put("badge", "처음으로 광주에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 광주");
+			userbadge.setName("busan");
+			map.put("badge", "처음으로 부산에 커밋하셨습니다!");
+			map.put("msg", "첫 번째 커밋: 부산");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
