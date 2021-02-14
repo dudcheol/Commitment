@@ -61,7 +61,7 @@ export default {
             },
             (response) => {
               if (response.data.content.length > 0) {
-                this.feedDatas = this.feedDatas.concat(response.data.content[0]);
+                this.feedDatas = this.feedDatas.concat(response.data.content);
                 $state.loaded();
                 this.pageNumber++;
               } else {

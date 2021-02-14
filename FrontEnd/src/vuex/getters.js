@@ -20,4 +20,7 @@ export default {
   getSeconds(state) {
     return state.seconds;
   },
+  getFollowingList(state) {
+    return state.following;
+  },
 };

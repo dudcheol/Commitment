@@ -10,6 +10,7 @@ const SEARCHING_POSITION_TEXT = '위치 찾는 중...';
 
 const state = {
   userInfo: {},
+  following: [],
   authToken: null,
   currentLatlng: null,
   currentAddress: SEARCHING_POSITION_TEXT,

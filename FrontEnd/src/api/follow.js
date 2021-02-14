@@ -23,4 +23,10 @@ function getFollowerCnt(email, success, fail) {
     .catch(fail);
 }
 
-export { follow, getFollowerList, getFollowerCnt };
+async function getFollowingList(email, success, fail) {
+  await instance
+    .get('profile/following', { params: { email } })
+    .then(success)
+    .catch(fail);
+}
+export { follow, getFollowerList, getFollowerCnt, getFollowingList };

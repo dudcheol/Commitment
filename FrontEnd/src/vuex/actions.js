@@ -2,6 +2,7 @@ import { findByToken, login, setAuthTokenToHeader, logout } from '../api/account
 import { latlngToAddress } from '../api/commit';
 import router from '../router';
 import axios from 'axios';
+import { getFollowingList } from '../api/follow';
 
 export default {
   async LOGIN(context, user) {
@@ -31,6 +32,7 @@ export default {
         user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
+        context.dispatch('GET_FOLLOWING_LIST', user.email);
         context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
@@ -150,5 +152,20 @@ export default {
   },
   COUNTDOWN: (store) => {
     store.commit('TOTAL_TIME');
+  },
+  GET_FOLLOWING_LIST: (store, payload) => {
+    getFollowingList(
+      payload,
+      (response) => {
+        store.commit('GET_FOLLOWING_LIST', response.data);
+      },
+      (error) => {
+        console.log(
+          '%cerror actions.js line:38 ',
+          'color: red; display: block; width: 100%;',
+          error
+        );
+      }
+    );
   },
 };

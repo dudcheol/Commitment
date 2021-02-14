@@ -37,4 +37,7 @@ export default {
     state.minutes = Math.floor(state.totalTime / 60);
     state.seconds = state.totalTime - state.minutes * 60;
   },
+  GET_FOLLOWING_LIST(state, payload) {
+    state.following = payload;
+  },
 };
