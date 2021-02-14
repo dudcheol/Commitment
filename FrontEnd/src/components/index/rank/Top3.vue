@@ -57,7 +57,13 @@
 </template>
 <script>
 export default {
-  data: () => ({ valueOne: '', valueTwo: '' }),
+  data: () => ({ 
+    props:['area'],//props속성이름
+    mounted(){
+      console.log("받음"+this.$props.send)
+
+    }
+   }),
 };
 </script>
 

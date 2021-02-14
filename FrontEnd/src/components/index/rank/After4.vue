@@ -26,10 +26,10 @@
           <vs-td>
           {{ tr.nickname }}
           </vs-td>
-          <vs-td class="percentage">
+          <vs-td class="percentageSmall">
           {{ tr.count }}%
           </vs-td>
-          <vs-td class="percentage">
+          <vs-td class="percentageSmall">
             <vs-button
               icon
               border
@@ -106,7 +106,7 @@ export default {
   color:#2196F3;
   /* font-weight: bold; */
 }
-.percentage{
+.percentageSmall{
   color:#1976D2;
   font-size:large;
   /* font-weight: bold; */
