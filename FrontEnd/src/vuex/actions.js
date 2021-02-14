@@ -42,6 +42,7 @@ export default {
     context.commit('LOGOUT');
     localStorage.removeItem('auth-token');
     logout();
+    router.replace('/login');
   },
   CURRENT_LATLNG(context) {
     if ('geolocation' in navigator) {

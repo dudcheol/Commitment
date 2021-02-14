@@ -127,7 +127,7 @@ export default {
       this.$router.push({ name: 'Detail', params: { id: this.data.id } });
     },
     clickProfile() {
-      this.$router.push({ name: 'MyPage', params: { email: this.data.email } });
+      this.$router.push({ name: 'MyPage', params: { email: this.data.user.nickname } });
     },
   },
 };
