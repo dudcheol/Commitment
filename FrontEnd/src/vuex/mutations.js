@@ -17,4 +17,16 @@ export default {
   LATLNG_TO_ADDRESS(state, payload) {
     state.currentAddress = payload;
   },
+  SIGNUP(state, payload) {
+    state.userInfo = { payload };
+    console.log("SIGNUP mutationjs" , payload)
+  },
+  SMTP(state, payload) {
+    state.userInfo = { payload };
+  },
+  BOARDDETAIL(state, payload){
+    state.boardDetail = payload;
+    console.log("mutationjs", payload)
+  }
+  
 };
