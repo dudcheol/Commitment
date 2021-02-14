@@ -96,7 +96,7 @@
         </v-chip-group>
       </div>
       <div class="d-flex flex-row justify-end">
-        <vs-button icon color="danger" flat :active="active == 2" @click="active = 2">
+        <vs-button icon color="danger" flat>
           <i class="bx bxs-heart"></i>{{ data.like.length }}
         </vs-button>
         <vs-button icon color="dark" flat @click="clickCard">

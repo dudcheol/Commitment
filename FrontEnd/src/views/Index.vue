@@ -9,7 +9,7 @@
 
       <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
       <v-tabs centered color="grey darken-1" class="tabs_list">
-        <v-tab v-for="item in items" :key="item" :to="item.route">
+        <v-tab v-for="(item, index) in items" :key="'tabMidIcon' + index" :to="item.route">
           <v-icon>
             {{ item.icon }}
           </v-icon>
@@ -24,8 +24,8 @@
           dark
           color="blue darken-2"
           class="mr-3"
-          v-for="item in right_items"
-          :key="item"
+          v-for="(item, index) in right_items"
+          :key="'tabRightIcon' + index"
         >
           <v-icon>{{ item.icon }}</v-icon>
         </v-btn>
@@ -47,7 +47,14 @@
             </v-icon>
           </v-btn>
         </template>
-        <v-btn fab dark x-small color="blue" v-for="item in right_items" :key="item">
+        <v-btn
+          fab
+          dark
+          x-small
+          color="blue"
+          v-for="(item, index) in right_items"
+          :key="'tabRightIcon_sm' + index"
+        >
           <v-icon>{{ item.icon }}</v-icon>
         </v-btn>
       </v-speed-dial>
@@ -123,7 +130,7 @@ import Dialog from '../components/common/dialog/Dialog.vue';
 import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 export default {
   components: { Dialog, CommitComplete },
-  name: 'MainPage',
+  name: 'Index',
   computed: {
     ...mapGetters({
       latlng: ['getCurrentLatlng'],

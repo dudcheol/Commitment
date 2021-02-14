@@ -1,10 +1,5 @@
 <template>
   <div class="d-flex flex-column ml-lg-16">
-    <!-- <div class="d-flex align-center mb-2">
-      <img src="../../../assets/img/commitnow/LiveMonitoring.gif" style="max-width:16px;" />
-      <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
-    </div> -->
-    <h1>{{ test }}</h1>
     <v-expansion-panels v-model="panel" accordion flat class="mb-2 rounded-lg" multiple>
       <v-expansion-panel size="x-small" style="background-color:transparent">
         <v-expansion-panel-header>
@@ -66,11 +61,9 @@ export default {
     firebase
       .database()
       .ref('noti/all')
-      .orderByChild('createdAt')
       .limitToLast(10)
       .on('value', (snap) => {
         let res = snap.val();
-        console.log('%cCommitNow.vue line:72 res', 'color: #007acc;', res);
         this.nowCommits = [];
         for (const idx in res) {
           res[idx].id = idx;

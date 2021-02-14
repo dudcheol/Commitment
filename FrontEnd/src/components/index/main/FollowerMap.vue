@@ -6,11 +6,15 @@
       :text="'다른 사람을 팔로우 해보세요. 팔로우한 사람의 실시간 커밋지도를 확인할 수 있습니다.'"
       class="mt-md-4"
     ></no-data-card>
-    <v-slide-group v-model="model" class="" show-arrows>
-      <v-slide-item v-for="item in commitMpas" :key="item" v-slot="{ toggle }">
+    <v-slide-group show-arrows>
+      <v-slide-item
+        v-for="(item, index) in commitMpas"
+        :key="'followMap' + index"
+        v-slot="{ toggle }"
+      >
         <v-card
           v-if="item.user"
-          :color="white"
+          color="white"
           class="ma-1"
           height="200"
           width="180"
@@ -45,7 +49,7 @@
               :borderRadius="1"
               :spacing="0.5"
               :datas="item.commit"
-              :key="item.commit"
+              :key="'commitMap' + index"
             ></component>
           </div>
         </v-card>

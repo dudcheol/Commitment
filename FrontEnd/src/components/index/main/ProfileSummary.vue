@@ -47,7 +47,6 @@ export default {
   }),
   methods: {
     goToMyPage() {
-      console.log('%cIndex.vue line:5', 'color: #007acc;');
       this.$router.push({ name: 'MyPage' });
     },
   },
@@ -72,7 +71,6 @@ export default {
         userCommitMap(
           this.user.email,
           (response) => {
-            console.log('%cProfileSummary.vue line:69 response', 'color: #007acc;', response);
             this.datas.push(...response.data.commitXY);
           },
           (error) => {

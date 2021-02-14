@@ -4,7 +4,7 @@
     color="white"
     elevation="0"
     large
-    rounded="circle"
+    rounded
     :ripple="false"
     block
   >

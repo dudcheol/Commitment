@@ -71,15 +71,10 @@
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
-        <div class="mt-4" v-for="data in feedDatas" :key="data">
+        <div class="mt-4" v-for="(data, index) in feedDatas" :key="'likesFeedData' + index">
           <main-card :data="data.board"></main-card>
         </div>
-        <infinite-loading
-          :identifier="infiniteId"
-          @infinite="infiniteHandler"
-          ref="InfiniteLoading"
-          spinner="circles"
-        >
+        <infinite-loading @infinite="infiniteHandler" ref="InfiniteLoading" spinner="circles">
           <div slot="no-more" class="mt-4">
             <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
           </div>
@@ -157,7 +152,6 @@ export default {
         this.pageNumber,
         5,
         (response) => {
-          console.log('%cLikes.vue line:146 response', 'color: #007acc;', response);
           if (response.data.content.length) {
             this.feedDatas.push(...response.data.content);
             this.pageNumber += 1;
@@ -174,34 +168,6 @@ export default {
           );
         }
       );
-
-      // totalRadiusBoardList(
-      //   this.pos.lat,
-      //   this.pos.lng,
-      //   this.commitRange[1] == 30 ? 0 : this.commitRange[1],
-      //   this.pageNumber,
-      //   5,
-      //   (response) => {
-      //     const res = response.data.content;
-      //     console.log('%cSNS.vue line:198 res', 'color: #007acc;', res);
-      //     if (res.length) {
-      //       this.feedDatas.push(...res);
-      //       for (let i = 0; i < res.length; i++) {
-      //         this.markers.push({
-      //           lat: parseFloat(res[i].commit.lat),
-      //           lng: parseFloat(res[i].commit.lng),
-      //         });
-      //       }
-      //       this.pageNumber += 1;
-      //       $state.loaded();
-      //     } else {
-      //       $state.complete();
-      //     }
-      //   },
-      //   (error) => {
-      //     console.log('%cSNS.vue line:197 error', 'color: #007acc;', error);
-      //   }
-      // );
     },
   },
 };

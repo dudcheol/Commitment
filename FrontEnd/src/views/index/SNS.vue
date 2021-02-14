@@ -37,7 +37,7 @@
       </v-sheet>
       <GmapMap
         ref="map"
-        :center="mapCenter ? mapCenter : { lat: pos.lat, lng: pos.lng }"
+        :center="{ lat: pos.lat, lng: pos.lng }"
         :zoom="mapZoom"
         :options="mapOptions"
         map-type-id="terrain"
@@ -46,12 +46,11 @@
       >
         <GmapMarker
           v-for="(marker, index) in markers"
-          :key="marker + index"
+          :key="'marker' + index"
           :position="marker"
           :clickable="true"
         />
         <GmapCircle
-          :key="pos"
           :center="{ lat: pos.lat, lng: pos.lng }"
           :radius="commitRange[1] == 30 ? 0 : commitRange[1] * 1000"
           :visible="true"
@@ -72,7 +71,7 @@
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
-        <div class="mt-4" v-for="data in feedDatas" :key="data">
+        <div class="mt-4" v-for="(data, index) in feedDatas" :key="'snsFeedData' + index">
           <main-card :data="data"></main-card>
         </div>
         <infinite-loading
@@ -192,7 +191,6 @@ export default {
   },
   methods: {
     infiniteHandler($state) {
-      console.log('%cSNS.vue line:189 commitRange[1]', 'color: #007acc;', this.commitRange[1]);
       totalRadiusBoardList(
         this.pos.lat,
         this.pos.lng,
@@ -202,7 +200,6 @@ export default {
         this.commitRange[1] == 30 ? 'createdAt,desc' : 'created_at,desc',
         (response) => {
           const res = response.data.content;
-          console.log('%cSNS.vue line:198 res', 'color: #007acc;', res);
           if (res.length) {
             this.feedDatas.push(...res);
             for (let i = 0; i < res.length; i++) {
@@ -223,7 +220,6 @@ export default {
       );
     },
     changeRange() {
-      console.log('%cSNS.vue line:220 reset', 'color: #007acc;');
       this.feedDatas = [];
       this.markers = [];
       this.pageNumber = 0;
