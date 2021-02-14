@@ -37,4 +37,11 @@ function writeBoard(param, success, fail) {
     .catch(fail);
 }
 
-export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList, writeBoard };
+function imageUpload(param, snsId, success, fail) {
+  instance
+    .post(`image/${snsId}`, param)
+    .then(success)
+    .catch(fail);
+}
+
+export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList, writeBoard, imageUpload };
