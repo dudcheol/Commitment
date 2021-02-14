@@ -44,7 +44,7 @@
       "
       @confirm-ok="confirmOk"
     ></commit-complete>
-    <write-dialog :web="openWriteDialog" @close="openWriteDialog = !openWriteDialog"></write-dialog>
+    <write-dialog :web="writeDialog" @close="closeWriteDialog"></write-dialog>
   </v-app>
 </template>
 
@@ -66,7 +66,8 @@ export default {
       minutes: ['getMinutes'],
       seconds: ['getSeconds'],
       totalTime: ['getTotalTime'],
-      commitDialog: ['getWriteDialogState'],
+      writeDialog: ['getWriteDialogState'],
+      commitDialog: ['getCommitDialogState'],
     }),
     min() {
       return (this.minutes < 10 ? '0' : '') + this.minutes;
@@ -82,6 +83,11 @@ export default {
         this.commitTimeout = false;
       }
     },
+    commitDialog(val) {
+      if (val) {
+        this.commit();
+      }
+    },
   },
   data() {
     return {
@@ -92,11 +98,9 @@ export default {
       confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
       alertTitle: '커밋실패😰',
       alertContent: '동일한 위치는 하루에 1번만 커밋할 수 있습니다',
-      openWriteDialog: false,
       commitRegion: '',
       commitDatas: '',
       commitTimeout: false,
-      write: false,
     };
   },
   methods: {
@@ -117,7 +121,7 @@ export default {
             this.commitRegion = response.data.region;
             this.commitDatas = [[response.data.localX, response.data.localY, 3]];
             this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
-            this.$store.commit('WRITE_DIALOG', true);
+            this.$store.commit('COMMIT_DIALOG', true);
             this.openNotification(4000);
           } else {
             this.alertContent = `[ ${this.address} ] 에서 이미 커밋하셨습니다. 1시간 뒤에 다시 시도해주세요.`;
@@ -147,12 +151,15 @@ export default {
       });
     },
     confirmOk() {
-      this.$store.commit('WRITE_DIALOG', false);
-      this.openWriteDialog = true;
+      this.$store.commit('COMMIT_DIALOG', false);
+      this.$store.commit('WRITE_DIALOG', true);
     },
     closeCommitComplete() {
-      this.$store.commit('WRITE_DIALOG', false);
+      this.$store.commit('COMMIT_DIALOG', false);
       this.GET_EMPCOMMIT_LIST(this.user.email);
+    },
+    closeWriteDialog() {
+      this.$store.commit('WRITE_DIALOG', false);
     },
   },
   created() {

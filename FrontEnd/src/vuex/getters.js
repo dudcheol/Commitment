@@ -29,4 +29,7 @@ export default {
   getWriteDialogState(state) {
     return state.writeDialog;
   },
+  getCommitDialogState(state) {
+    return state.commitDialog;
+  },
 };

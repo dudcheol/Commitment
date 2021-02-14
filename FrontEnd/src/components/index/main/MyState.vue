@@ -44,11 +44,15 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-overlay absolute :value="totalTime != 0" color="blue-grey lighten-3">
+      <v-overlay absolute :value="totalTime != 0 || !latlng" color="blue-grey lighten-3">
         <v-sheet color="white" class="blue-grey--text pa-3" rounded="lg" elevation="3">
-          <v-icon color="blue-grey">mdi-lock</v-icon>
-          <strong>{{ min }}:{{ sec }}</strong> 후에 커밋할 수 있어요</v-sheet
-        >
+          <span v-if="latlng">
+            <v-icon color="blue-grey">mdi-lock</v-icon>
+            <strong>{{ min }}:{{ sec }}</strong> 후에 커밋할 수 있어요</span
+          >
+          <span v-else
+            ><v-progress-circular indeterminate color="blue-grey"></v-progress-circular></span
+        ></v-sheet>
       </v-overlay>
     </v-card>
   </div>
@@ -59,6 +63,7 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
+      latlng: ['getCurrentLatlng'],
       address: ['getCurrentAddress'],
       user: ['getUserInfo'],
       totalTime: ['getTotalTime'],
@@ -74,7 +79,7 @@ export default {
   },
   methods: {
     click() {
-      this.$store.commit('WRITE_DIALOG', true);
+      this.$store.commit('COMMIT_DIALOG', true);
     },
   },
 };

@@ -55,4 +55,7 @@ export default {
   WRITE_DIALOG(state, payload) {
     state.writeDialog = payload;
   },
+  COMMIT_DIALOG(state, payload) {
+    state.commitDialog = payload;
+  },
 };
