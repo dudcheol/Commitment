@@ -42,13 +42,14 @@ export default {
   },
   SIGNUP(state, payload) {
     state.userInfo = { payload };
-    console.log("SIGNUP mutationjs" , payload)
   },
   SMTP(state, payload) {
     state.userInfo = { payload };
   },
-  BOARDDETAIL(state, payload){
+  BOARDDETAIL(state, payload) {
     state.boardDetail = payload;
-    console.log("mutationjs", payload)
-  }
+  },
+  ADD_EMPCOMMIT(state, payload) {
+    state.empCommits = payload;
+  },
 };

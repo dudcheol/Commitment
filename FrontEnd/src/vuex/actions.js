@@ -7,7 +7,7 @@ import {
   smtp,
   googleLogin,
 } from '../api/account';
-import { latlngToAddress } from '../api/commit';
+import { emptyCommit, latlngToAddress } from '../api/commit';
 import { boardDetail } from '../api/board';
 import router from '../router';
 import { getFollowingList } from '../api/follow';
@@ -41,6 +41,7 @@ export default {
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
         context.dispatch('GET_FOLLOWING_LIST', user.email);
+        context.dispatch('GET_EMPCOMMIT_LIST', user.email);
         context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
@@ -198,6 +199,21 @@ export default {
       },
       (error) => {
         console.log(error);
+      }
+    );
+  },
+  GET_EMPCOMMIT_LIST(store, payload) {
+    emptyCommit(
+      payload,
+      (response) => {
+        store.commit('ADD_EMPCOMMIT', response.data.content);
+      },
+      (error) => {
+        console.log(
+          '%cerror actions.js line:224 ',
+          'color: red; display: block; width: 100%;',
+          error
+        );
       }
     );
   },

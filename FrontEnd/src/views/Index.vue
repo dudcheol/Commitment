@@ -39,6 +39,7 @@
       :region="commitRegion"
       :datas="commitDatas"
       @close="
+        closeCommitComplete();
         commitConfirm = false;
         commitLoading = false;
       "
@@ -97,7 +98,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER']),
+    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER', 'GET_EMPCOMMIT_LIST']),
     commit() {
       if (this.minutes != 0 || this.seconds != 0) {
         return;
@@ -150,6 +151,9 @@ export default {
     },
     closeWrite() {
       this.openWriteDialog = false;
+    },
+    closeCommitComplete() {
+      this.GET_EMPCOMMIT_LIST(this.user.email);
     },
   },
   created() {
