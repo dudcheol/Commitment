@@ -62,34 +62,49 @@
           auto-grow
         ></v-textarea>
       </div>
-      <div class="image-box">
-        <label for="file">
-          <b-row
-            class="file-preview-container"
-            style="overflow: auto; max-height: 120px"
-          >
-            <div
-              v-for="(file, index) in files"
-              :key="index"
-              class="file-preview-wrapper"
-            >
-              <div
-                class="file-close-button"
-                @click="fileDeleteButton"
-                :name="file.number"
-              ></div>
-              <img
-                :src="file.preview"
-                style="
+      <!-- <div
+        v-for="(file, index) in files"
+        :key="index"
+        class="file-preview-wrapper"
+      >
+        <div
+          class="file-close-button"
+          @click="fileDeleteButton"
+          :name="file.number"
+        ></div>
+        <img
+          :src="file.preview"
+          style="
                     width: 100px;
                     height: 100px;
                     border-radius: 15px;
                     margin-left: 20px;
                   "
-              />
-            </div>
-          </b-row>
-        </label>
+        />
+      </div> -->
+
+      <div class="file-preview-container">
+        <div
+          v-for="(file, index) in files"
+          :key="index"
+          class="file-preview-wrapper"
+        >
+          <div
+            class="file-close-button"
+            @click="fileDeleteButton"
+            :name="file.number"
+          >
+            X
+          </div>
+          <img
+            :src="file.preview"
+            style="
+                    width: 100x;
+                    height: 100px;
+                    border-radius: 5px;
+                  "
+          />
+        </div>
       </div>
       <template #footer>
         <div class="d-flex align-center">
@@ -159,7 +174,7 @@ export default {
   data() {
     return {
       board: {
-        email: 'test@test.com', // 얘 왜 user.email하면 인식 못하지?
+        email: 'test@test.com',
         title: 'title',
         commitId: '176', // 넘겨받기
         location: 'national', // 넘겨받기
@@ -283,6 +298,10 @@ export default {
 .file-preview-wrapper {
   padding: 10px;
   position: center;
+}
+
+.file-preview-content-container {
+  height: 100%;
 }
 
 .file-preview-wrapper > img {

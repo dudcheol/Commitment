@@ -179,13 +179,23 @@ public class BadgeController {
 	}
 	@GetMapping("badge/user")
 	@ApiOperation(value = "대표 뱃지 설정")
-	public String totalRate(@RequestParam String email,@RequestParam String badge) {
+	public String setmybadge(@RequestParam String email,@RequestParam String badge) {
 		Optional<User> option=userDao.findByEmail(email);
 		if(option.isPresent()) {
 			User user=option.get();
 			user.setBadge(badge);
 			userDao.save(user);
 			return "success";
+		}
+		return "이메일이 없습니다";
+	}
+	@GetMapping("badge/mybadge")
+	@ApiOperation(value = "대표 뱃지 불러오기")
+	public String mybadge(@RequestParam String email) {
+		Optional<User> option=userDao.findByEmail(email);
+		if(option.isPresent()) {
+			User user=option.get();
+			return user.getBadge();
 		}
 		return "이메일이 없습니다";
 	}

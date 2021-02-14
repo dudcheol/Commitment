@@ -11,9 +11,10 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <commit-card
-            v-for="item in empCommits"
-            :key="item"
+            v-for="(item, index) in empCommits"
+            :key="'emtCommit' + index"
             :username="item.address"
+            :only-address="true"
             style="height:35px; width:100%"
             class="mb-2"
           ></commit-card>
@@ -62,11 +63,9 @@ export default {
         const res = response.data.content;
         for (let i = 0; i < res.length; i++) {
           const item = res[i];
-          console.log('%cNotYetAddArticle.vue line:65 item', 'color: #007acc;', item);
           latlngToAddress(
             { lat: item.lat, lng: item.lng },
             (response2) => {
-              console.log('%cNotYetAddArticle.vue line:68 response2', 'color: #007acc;', response2);
               item['address'] = response2.data;
               this.empCommits.push(item);
             },

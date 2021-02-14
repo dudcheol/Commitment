@@ -8,7 +8,7 @@
       </v-btn-toggle>
     </div>
 
-    <div class="mt-4" v-for="data in feedDatas" :key="data">
+    <div class="mt-4" v-for="(data, index) in feedDatas" :key="'mainCard' + index">
       <main-card :data="data"></main-card>
     </div>
     <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="circles">
@@ -60,13 +60,8 @@ export default {
               page: this.pageNumber,
             },
             (response) => {
-              console.log(
-                '%cAllArticle.vue line:58 response.data',
-                'color: #007acc;',
-                response.data
-              );
               if (response.data.content.length > 0) {
-                this.feedDatas = this.feedDatas.concat(response.data.content[0]);
+                this.feedDatas = this.feedDatas.concat(response.data.content);
                 $state.loaded();
                 this.pageNumber++;
               } else {
