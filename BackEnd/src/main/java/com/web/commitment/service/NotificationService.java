@@ -166,7 +166,7 @@ public class NotificationService {
 		else if(type.equals("like"))
 			isIn = likeDao.findById(objectId).isPresent();
 		else if(type.equals("follow"))
-			isIn = followDao.findById(objectId).isPresent();
+			isIn = followDao.findByFollowId(objectId).isPresent();
 		
 		System.out.println(isIn);
 		if (isIn) {

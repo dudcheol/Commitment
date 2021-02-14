@@ -42,4 +42,7 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 
 	@Query(value = "select * from follow f where f.follow_to=:to and f.follow_from=:from", nativeQuery = true)
 	Optional<Follow> findFollowByFromAndTo(@Param("from") String from,@Param("to") String to);
+	
+	@Query(value = "select * from follow f where f.id=:id", nativeQuery = true)
+	Optional<Follow> findByFollowId(@Param("id") String id);
 }

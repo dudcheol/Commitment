@@ -44,9 +44,14 @@ public class FollowController {
 		followid.setToUser(to);
 		Follow follow = new Follow();
 		follow.setFollowid(followid);
-		Optional<Follow> option=followDao.findFollowByFromAndTo(from,to);
+		Optional<Follow> option = followDao.findFollowByFromAndTo(from, to);
 
 		if(option.isPresent()) {
+			// 팔 취시 알림 삭제
+			User toUser = userDao.getUserByEmail(to);
+			System.out.println(option.get().getFollowid().getId());
+			notificationController.deleteCancelNotification("follow", toUser.getNickname(), option.get().getFollowid().getId());
+			
 			followDao.delete(option.get());
 		} else {
 			followDao.save(follow);
