@@ -66,10 +66,6 @@ export default {
    z-index: 0;
 }
 
-.article {
-  grid-area: article;
-}
-
 .google_map .back_button {
   display: block;
   position: absolute;
@@ -78,14 +74,13 @@ export default {
   z-index: 1;
 }
 
-.my_location {
-  font-size: 15px;
-  background: rgba(220, 220, 220, 0.5);
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+@media (max-width: 450px) {
+  .google_map .back_button {
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    z-index: 1;
+  } 
 }
-
 </style>

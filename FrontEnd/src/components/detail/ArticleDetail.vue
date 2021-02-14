@@ -1,17 +1,23 @@
 <template>
   <div class="grid-container-article-detail">
-    <v-sheet class="mx-auto" elevation="1" rounded="xl" max-width="800">
+    <v-sheet class="mx-auto" elevation="1" rounded="xl" max-width="600">
       <div class="d-flex">
         <div class="avatar mt-4">
-          <v-avatar size="100">
+          <v-avatar v-if="boardData.profileimag" circle size="40">
             <img :src="boardData.profileimage" />
           </v-avatar>
+          <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
+            <v-icon color="white">mdi-emoticon-happy</v-icon>
+          </v-avatar>
         </div>
-        <div class="username flex-grow-1 ml-8 mt-4">
+        <div v-if="boardData.username" class="username flex-grow-1 ml-8 mt-4">
           <b> {{ boardData.username }}</b>
 
-          <div class="introduction">
+          <div v-if="boardData.mystory" class="mystory__div">
             {{ boardData.mystory }}
+          </div>
+          <div v-else class="mystory__div">
+            자기소개가 없습니다
           </div>
         </div>
 
@@ -21,7 +27,7 @@
       </div>
 
       <div class="picture mt-4">
-        <v-carousel>
+        <v-carousel v-if="boardData.contentimage">
           <v-carousel-item
             v-for="(item, i) in boardData.contentimage"
             :key="i"
@@ -30,6 +36,9 @@
             transition="fade-transition"
           ></v-carousel-item>
         </v-carousel>
+        <v-card v-else>
+          이미지가 없습니다
+        </v-card>
       </div>
       <div class="buttons mt-2">
         <vs-button icon color="danger">
@@ -40,16 +49,13 @@
           <i class="bx bxs-comment"></i>
         </vs-button>
 
-        <vs-button icon color="success" gradient>
-          <i class="bx bxs-purchase-tag"></i>
-        </vs-button>
       </div>
 
       <div class="article ml-4 mt-4">
-        <div class="mb-3" :title="title">
+        <div class="mb-3">
           {{ boardData.title }}
         </div>
-        <div class="mt-3" :content="content">
+        <div class="mt-3" >
           {{ boardData.content }}
         </div>
       </div>
@@ -58,18 +64,23 @@
           <v-chip v-for="(tag, i) in boardData.tag" :key="i">{{ tag.content }} </v-chip>
         </v-chip-group>
       </div>
-      <div class="created_at ml-4">
-        <div class="d-flex ">
-          <v-avatar>
-            <img
-              src="https://image.kkday.com/v2/image/get/w_960%2Cc_fit%2Cq_55%2Ct_webp/s1.kkday.com/product_218/20191118021303_4pR1Q/jpg"
-              alt=""
-            />
-          </v-avatar>
-          <div class="ml-4 d-flex align-center">
-            <b>Jorge Watson</b>
+
+        <div class="comment_list mt-4">
+          <div v-if="boardData.comment" class="ml-4 d-flex" >
+            <v-avatar>
+              <img
+                src="https://image.kkday.com/v2/image/get/w_960%2Cc_fit%2Cq_55%2Ct_webp/s1.kkday.com/product_218/20191118021303_4pR1Q/jpg"
+                alt=""
+              />
+            </v-avatar>
+              <b>Jorge Watson</b>
+          </div>
+          <div v-else>
+          
+            댓글이 없습니다
           </div>
         </div>
+
         <div class="ml-15 ml-4">
           <!-- 댓글 생성하는곳, 일단은 댓글 갯수 유뮤찾고 거기에 인풋까지 -->
           {{ boardDetail }}
@@ -80,55 +91,42 @@
             <vs-input border></vs-input>
           </div>
         </div>
-      </div>
+
     </v-sheet>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
 
   created() {
     this.boardData.id = this.$route.params['id'];
+    console.log("created", this.boardData.id)
   },
   computed: {
-    ...mapState(['boardDetail']),
+    ...mapGetters(['getBoardDetail']),
   },
 
   methods: {
-    ...mapActions(['BOARDDETAIL']),
-    initDetail() {
-      
-      // this.BOARDDETAIL(this.boardData.id);
-      // this.boardData.title = this.boardDetail.title;
-      // this.boardData.content = this.boardDetail.content;
-      // this.boardData.username = this.boardDetail.user.nickname;
-      // this.boardData.mystory = this.boardDetail.user.mystory;
-      // this.boardData.profileimage = this.boardDetail.user.profile.filePath;
-      // this.boardData.contentimage = this.boardDetail.image;
-      // this.boardData.tag = this.boardDetail.tag;
-    
-    },
   },
 
-  mounted() {
-    console.log('mounted, boardData');
-    this.initDetail()
-    this.BOARDDETAIL(this.boardData.id);
-    this.boardData.title = this.boardDetail.title;
-    this.boardData.content = this.boardDetail.content;
-    this.boardData.username = this.boardDetail.user.nickname;
-    this.boardData.mystory = this.boardDetail.user.mystory;
-    this.boardData.profileimage = this.boardDetail.user.profile.filePath;
-    this.boardData.contentimage = this.boardDetail.image;
-    this.boardData.tag = this.boardDetail.tag;
-    this.boardData.comment = this.boardDetail.comment;
-
-  },
+  // mounted() {
+  //   console.log('mounted', this.boardData);
+  //   this.BOARDDETAIL(this.boardData.id);
+  //   if (this.boardDetail.title) {
+  //   this.boardData.title = this.boardDetail.title; }
+  //   this.boardData.content = this.boardDetail.content;
+  //   this.boardData.username = this.boardDetail.user.nickname;
+  //   this.boardData.mystory = this.boardDetail.user.mystory;
+  //   this.boardData.profileimage = this.boardDetail.user.profile.filePath;
+  //   this.boardData.contentimage = this.boardDetail.image;
+  //   this.boardData.tag = this.boardDetail.tag;
+  //   this.boardData.comment = this.boardDetail.comment;
+  //   console.log('mounted after', this.boardData);
+  // },
   data: () => ({
     width: 200,
-    events: [],
     input: null,
     boardData: {
       id: '',
@@ -150,6 +148,7 @@ export default {
 </script>
 
 <style scoped>
+
 .picture {
   display: flex;
   justify-content: center;
@@ -175,24 +174,14 @@ export default {
   font-size: 0.8em;
 }
 
-.created_at {
-  grid-area: created_at;
-}
-
 .buttons {
-  grid-area: buttons;
   display: flex;
   justify-content: flex-end;
 }
 
 .article {
-  grid-area: article;
   display: flex;
   flex-direction: column;
-}
-
-.hashtag {
-  grid-area: hashtag;
 }
 
 .hastag v-chip {
@@ -200,19 +189,14 @@ export default {
 }
 
 .follow_btn {
-  grid-area: follow_btn;
   max-height: 50%;
-  display: grid;
+  display: flex;
   align-self: center;
   justify-self: end;
 }
 
 .span.v-chip.v-chip--no-color.theme--light.v-size--default {
   margin: 4px;
-}
-
-v-sheet {
-  width: 80vw !important;
 }
 
 @media (max-width: 450px) {
