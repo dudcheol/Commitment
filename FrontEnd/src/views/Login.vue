@@ -1,10 +1,6 @@
 <template>
 <div>
   <div>
-    <!-- <v-img v-scrollanimation
-      :width="window.width"
-      src="../assets/img/login/koreatower.jpg"
-    ></v-img> -->
     <Logo id="logo"></Logo>
     
     <div id="videoBd">
@@ -39,27 +35,24 @@
             </template>
           </vs-input>
           </div>
-          <!-- <div class="flex">
-            <vs-checkbox v-model="remember">아이디 저장</vs-checkbox>
-            <a href="#">비밀번호를 잊어버리셨나요?</a>
-          </div> -->
-          <div>
+
+          <div class="google__button mb-4">
             <GoogleLogin
             :params="params"
             :onSuccess="GoogleLoginSuccess"
             :renderParams="renderParams"
 
-            >구글로그인</GoogleLogin>
+            ></GoogleLogin>
           </div>
-          <div>
+          <!-- <div>
             <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
-          </div>
+          </div> -->
             <!-- :onFailure="GoogleLoginFailure" -->
         </div>
 
         <div class="footer-dialog">
           <vs-button block @click="confirm" :loading="loading">
-            로그인
+            Login
           </vs-button>
 
           <div class="new">아직 처음이신가요? <a @click="signuplink">회원가입</a></div>
@@ -107,8 +100,8 @@ export default {
       cliend_id: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com'
     },
     renderParams: {
-      width: 250,
-      height: 50,
+      width: 240,
+      height: 40,
       longtitle: true
     },
     clientId: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com',
@@ -121,7 +114,7 @@ export default {
       window.removeEventListener('resize', this.handleResize);
   },
   methods: {
-    ...mapActions(['LOGIN']),
+    ...mapActions(['LOGIN', 'GOOGLE_LOGIN']),
     async confirm() {
       this.loading = true;
 
@@ -148,48 +141,49 @@ export default {
 
     async GoogleLoginSuccess(googleUser) {
       this.loading = true;
-
-      const result = await this.GOOGLE_LOGIN({
-        email: googleUser.getBasicProfile().getEmail(),
-
-      });
-      console.log(googleUser)
-      console.log(googleUser.getBasicProfile())
       const profile = googleUser.getBasicProfile();
-      // nickname tel age gender
-      console.log('ID Token: ', googleUser.getAuthResponse().id_token); // 실제 토큰
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail());
+      console.log('google login start')
+      const result = await this.GOOGLE_LOGIN(
+        {
+        email: googleUser.getBasicProfile().getEmail(),
+        pass: null,
+        image: profile.getImageUrl(),
+        token: googleUser.getAuthResponse().id_token,
+        name: profile.getName(),
+      });
+      // console.log(googleUser)
+      // console.log(googleUser.getBasicProfile())
+      // // nickname tel age gender
+      // console.log('ID Token: ', googleUser.getAuthResponse().id_token); // 실제 토큰
+      // console.log('Name: ' + profile.getName());
+      // console.log('Image URL: ' + profile.getImageUrl());
+      // console.log('Email: ' + profile.getEmail());
       this.loading = false;
+      console.log(result)
       if (!result) {
         this.alert = true;
       } else {
         this.$router.push({ name: 'Main' });
       }
-
-      // if (localStorage.getItem('JWT_token')) return alert('이미 로그인됨');
-      // Google.GoogleLoginSuccess(googleUser);
-      console.log(googleUser.getBasicProfile())
-      
     },
     GoogleLoginFailure() {
-   
     },
-    OnGoogleAuthSuccess (idToken) {
-      console.log(idToken)
-      // Receive the idToken and make your magic with the backend
-    },
-    OnGoogleAuthFail (error) {
-      console.log(error)
-    }
+    // OnGoogleAuthSuccess (idToken) {
+    //   console.log(idToken)
+    //   // Receive the idToken and make your magic with the backend
+    // },
+    // OnGoogleAuthFail (error) {
+    //   console.log(error)
+    // }
   },
 };
 </script>
 
-
 <style scoped>
+.google__button {
+  display: flex;
+  justify-content: center;
+}
 .login_form {
   position: fixed;
   top: 10%;
@@ -311,6 +305,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   width: calc(100%);
+  font-size: 1.5em;
   }
 
 .new

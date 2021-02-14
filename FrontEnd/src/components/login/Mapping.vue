@@ -1,6 +1,9 @@
 <template>
   <div>
-
+    <div>
+      <img id = "image_id" src = "image01.jpg">
+    </div>
+   
   </div>
 </template>
 
