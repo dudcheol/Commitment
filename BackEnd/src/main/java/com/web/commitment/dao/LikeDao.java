@@ -15,7 +15,7 @@ import com.web.commitment.dto.Ranking;
 @Repository
 public interface LikeDao extends JpaRepository<Like, String> {
 
-	Optional<Like> findByEmailAndSnsId(String email, int snsId);
+	Optional<Like> findByEmailAndSnsId(String email, String snsId);
 
 	Page<Like> findAllByEmail(String email, Pageable pabeable);
 

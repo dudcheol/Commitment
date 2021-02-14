@@ -4,14 +4,17 @@
     color="white"
     elevation="0"
     large
-    rounded="circle"
+    rounded
     :ripple="false"
     block
   >
-    <div class="mr-2" v-if="img">
-      <vs-avatar circle size="36">
-        <img :src="img" alt="" />
-      </vs-avatar>
+    <div class="mr-2" v-if="!onlyAddress">
+      <v-avatar circle size="36" v-if="img">
+        <img :src="img" />
+      </v-avatar>
+      <v-avatar v-else circle size="36" color="blue-grey" class="font-weight-medium display-2"
+        ><v-icon color="white">mdi-emoticon-happy</v-icon></v-avatar
+      >
     </div>
     <div class="text-start font-weight-bold">
       <div class="d-block text-truncate">{{ username }}</div>
@@ -24,13 +27,12 @@
 
 <script>
 export default {
-  props: ['username', 'address', 'img'],
+  props: ['username', 'address', 'img', 'only-address'],
 };
 </script>
 
 <style scoped>
-.theme--light.v-btn:hover::before {
-  opacity: 0.08;
-  background-color: skyblue;
+.theme--light.v-btn:hover::before{
+  background-color: lightblue !important
 }
 </style>

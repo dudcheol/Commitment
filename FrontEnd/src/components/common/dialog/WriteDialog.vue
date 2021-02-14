@@ -37,7 +37,12 @@
           <div class="flex-column pl-2">
             <h3>{{ user.nickname }}</h3>
             <div>
-              <vs-select placeholder="공개설정" v-model="value" style="width:85px" size="small">
+              <vs-select
+                placeholder="공개설정"
+                v-model="board.value"
+                style="width:85px"
+                size="small"
+              >
                 <vs-option label="공개" value="1">
                   공개
                 </vs-option>
@@ -53,24 +58,81 @@
           flat
           name="input-7-4"
           :label="user.nickname + '님, 여기는 어떤 곳인가요?'"
+          v-model="board.content"
           auto-grow
         ></v-textarea>
+      </div>
+      <!-- <div
+        v-for="(file, index) in files"
+        :key="index"
+        class="file-preview-wrapper"
+      >
+        <div
+          class="file-close-button"
+          @click="fileDeleteButton"
+          :name="file.number"
+        ></div>
+        <img
+          :src="file.preview"
+          style="
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 15px;
+                    margin-left: 20px;
+                  "
+        />
+      </div> -->
+
+      <div class="file-preview-container">
+        <div
+          v-for="(file, index) in files"
+          :key="index"
+          class="file-preview-wrapper"
+        >
+          <div
+            class="file-close-button"
+            @click="fileDeleteButton"
+            :name="file.number"
+          >
+            X
+          </div>
+          <img
+            :src="file.preview"
+            style="
+                    width: 100x;
+                    height: 100px;
+                    border-radius: 5px;
+                  "
+          />
+        </div>
       </div>
       <template #footer>
         <div class="d-flex align-center">
           <h3>게시물에 추가</h3>
+
           <div class="d-flex flex-row ml-auto">
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#00c853"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
-              <i class="bx bxs-photo-album"></i>
-            </vs-button>
+            <div class="image-box">
+              <label for="file">
+                <vs-button
+                  size="l"
+                  circle
+                  icon
+                  color="#00c853"
+                  flat
+                  :active="active == 5"
+                  @click="active = 5"
+                >
+                  <input
+                    type="file"
+                    id="file"
+                    ref="files"
+                    @change="selectPhoto"
+                    multiple
+                  />
+                  <i class="bx bxs-photo-album"> </i>
+                </vs-button>
+              </label>
+            </div>
             <vs-button
               size="l"
               circle
@@ -95,7 +157,9 @@
             </vs-button>
           </div>
         </div>
-        <vs-button block flat class="mx-0"><h2>Commit</h2></vs-button>
+        <vs-button block flat class="mx-0" @click="write()"
+          ><h2>Commit</h2></vs-button
+        >
       </template>
     </vs-dialog>
   </div>
@@ -103,17 +167,97 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { writeBoard, imageUpload } from '../../../api/board';
+
 export default {
   props: ['mobile', 'web'],
   data() {
     return {
-      value: '1',
+      board: {
+        email: 'test@test.com',
+        title: 'title',
+        commitId: '176', // 넘겨받기
+        location: 'national', // 넘겨받기
+        content: '',
+        value: '1',
+      },
+      snsId: '48',
+      images: {
+        file: [],
+      },
+      ////
+      files: [], //업로드용 파일
+      filesPreview: [],
+      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
     };
   },
   computed: {
     ...mapGetters({ user: ['getUserInfo'], address: ['getCurrentAddress'] }),
   },
   methods: {
+    write() {
+      writeBoard(
+        this.board,
+        (response) => {
+          console.log(response);
+          // this.snsId = response.data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      this.images.file = this.files;
+      console.log(this.images.file);
+      var frm = new FormData();
+      for (var i = 0; i < this.images.file.length; i++) {
+        console.log(this.images.file[i]);
+        frm.append('file', this.images.file[i].file);
+      }
+
+      for (var pair of frm.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+
+      console.log(this.mystory);
+      imageUpload(
+        frm,
+        this.snsId,
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    selectPhoto() {
+      //하나의 배열로 넣기
+      let num = -1;
+      for (let i = 0; i < this.$refs.files.files.length; i++) {
+        this.files = [
+          ...this.files,
+          //이미지 업로드
+          {
+            //실제 파일
+            file: this.$refs.files.files[i],
+            //이미지 프리뷰
+            preview: URL.createObjectURL(this.$refs.files.files[i]),
+            //삭제및 관리를 위한 number
+            number: i,
+          },
+        ];
+        num = i;
+      }
+      this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
+
+      console.log(this.files); // 콘솔에 배열 찍기
+    },
+    fileDeleteButton(e) {
+      const name = e.target.getAttribute('name');
+      this.files = this.files.filter((data) => data.number !== Number(name));
+    },
+
     close() {
       this.$emit('close');
     },
@@ -125,5 +269,57 @@ export default {
 .dialog {
   width: calc(100vw - 56px);
   max-width: 700px;
+}
+
+.image-box {
+  margin-top: 0px;
+  padding-bottom: 0px;
+}
+
+.image-box input[type='file'] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.image-box label {
+  display: inline-block;
+  padding: 0px 0px;
+  /* color: #fff; */
+  vertical-align: middle;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.file-preview-wrapper {
+  padding: 10px;
+  position: center;
+}
+
+.file-preview-content-container {
+  height: 100%;
+}
+
+.file-preview-wrapper > img {
+  position: center;
+  width: 400px;
+  height: 400px;
+  z-index: 10;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  height: 56px;
+  width: 100%;
+  z-index: 999;
+  background-color: white;
+}
+#container {
+  min-height: 100vh;
 }
 </style>
