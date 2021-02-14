@@ -4,14 +4,12 @@
       <div class="d-flex">
         <div class="avatar mt-4">
           <vs-avatar size="100" circle>
-            <img
-              :src=boardData.profileimage
-            />
+            <img :src="boardData.profileimage" />
           </vs-avatar>
         </div>
         <div class="username flex-grow-1 ml-8 mt-4">
           <b> {{ boardData.username }}</b>
-          
+
           <div class="introduction">
             {{ boardData.mystory }}
           </div>
@@ -24,13 +22,13 @@
 
       <div class="picture mt-4">
         <v-carousel>
-            <v-carousel-item
-              v-for="(item,i) in boardData.contentimage"
-              :key="i"
-              :src="item.filePath"
-              reverse-transition="fade-transition"
-              transition="fade-transition"
-            ></v-carousel-item>
+          <v-carousel-item
+            v-for="(item, i) in boardData.contentimage"
+            :key="i"
+            :src="item.filePath"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          ></v-carousel-item>
         </v-carousel>
       </div>
       <div class="buttons mt-2">
@@ -56,10 +54,8 @@
         </div>
       </div>
       <div class="hashtag ml-3 mt-4">
-        <v-chip-group >
-          <v-chip v-for="(tag ,i) in boardData.tag"
-            :key="i">{{ tag.content }}
-          </v-chip>
+        <v-chip-group>
+          <v-chip v-for="(tag, i) in boardData.tag" :key="i">{{ tag.content }} </v-chip>
         </v-chip-group>
       </div>
       <div class="created_at ml-4">
@@ -105,7 +101,7 @@ export default {
       title: '',
       content: '',
       tag: [],
-      comment: [],  
+      comment: [],
     },
     // commentCreateData: {
     // id: null,
@@ -114,30 +110,28 @@ export default {
   }),
   created() {
     // 일단 여기는 냅두기
-    // this.boardData.id = this.$route.params['id']
-    console.log("created line 120", this.boardData)
+    this.boardData.id = this.$route.params['id'];
+    console.log('created line 120', this.boardData);
   },
   computed: {
     ...mapState(['boardDetail']),
-    
   },
 
   methods: {
-    ...mapActions(['BOARDDETAIL']),   
+    ...mapActions(['BOARDDETAIL']),
   },
 
-  mounted(){
-    console.log("mounted, boardData")
-    this.BOARDDETAIL(this.boardData.id)
-    this.boardData.title = this.boardDetail.title
-    this.boardData.content = this.boardDetail.content
-    this.boardData.username = this.boardDetail.user.nickname
-    this.boardData.mystory = this.boardDetail.user.mystory
-    this.boardData.profileimage = this.boardDetail.user.profile.filePath
-    this.boardData.contentimage = this.boardDetail.image
-    this.boardData.tag = this.boardDetail.tag
+  mounted() {
+    console.log('mounted, boardData');
+    this.BOARDDETAIL(this.boardData.id);
+    this.boardData.title = this.boardDetail.title;
+    this.boardData.content = this.boardDetail.content;
+    this.boardData.username = this.boardDetail.user.nickname;
+    this.boardData.mystory = this.boardDetail.user.mystory;
+    this.boardData.profileimage = this.boardDetail.user.profile.filePath;
+    this.boardData.contentimage = this.boardDetail.image;
+    this.boardData.tag = this.boardDetail.tag;
   },
-
 };
 </script>
 

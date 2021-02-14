@@ -34,7 +34,7 @@ public class FirebaseInitialize {
 
 			FirebaseOptions options = new FirebaseOptions.Builder()
 			  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-			  .setDatabaseUrl("https://asder36-default-rtdb.firebaseio.com")
+			  .setDatabaseUrl("https://commitment-27df4-default-rtdb.firebaseio.com")
 			  .build();
 			
 			FirebaseApp.initializeApp(options);

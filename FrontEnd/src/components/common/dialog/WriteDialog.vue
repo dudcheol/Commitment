@@ -60,37 +60,13 @@
         <div class="d-flex align-center">
           <h3>게시물에 추가</h3>
           <div class="d-flex flex-row ml-auto">
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#00c853"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
+            <vs-button size="l" circle icon color="#00c853" flat>
               <i class="bx bxs-photo-album"></i>
             </vs-button>
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#ffd600"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
+            <vs-button size="l" circle icon color="#ffd600" flat>
               <i class="bx bxs-smile"></i>
             </vs-button>
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#304ffe"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
+            <vs-button size="l" circle icon color="#304ffe" flat>
               <i class="bx bxs-purchase-tag"></i>
             </vs-button>
           </div>

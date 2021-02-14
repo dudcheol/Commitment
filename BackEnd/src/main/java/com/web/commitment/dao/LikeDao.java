@@ -32,4 +32,6 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	@Query(value = "select max(id) from save", nativeQuery = true)
 	String findByLastLike();
 
+	Page<Like> findAllByEmailOrderByCreatedAtDesc(String email, Pageable pageable);
+
 }

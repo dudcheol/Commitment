@@ -14,7 +14,7 @@ function login(user, success, fail) {
   };
 
   return instance
-    .get('account/login', { params })
+    .post('account/login', params)
     .then(success)
     .catch(fail);
 }

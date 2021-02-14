@@ -1,7 +1,16 @@
-import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp, googleLogin } from '../api/account';
+import {
+  findByToken,
+  login,
+  setAuthTokenToHeader,
+  logout,
+  signup,
+  smtp,
+  googleLogin,
+} from '../api/account';
 import { latlngToAddress } from '../api/commit';
-import { boardDetail } from '../api/board'
+import { boardDetail } from '../api/board';
 import router from '../router';
+import { getFollowingList } from '../api/follow';
 
 export default {
   async LOGIN(context, user) {
@@ -31,6 +40,7 @@ export default {
         user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
+        context.dispatch('GET_FOLLOWING_LIST', user.email);
         context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
@@ -42,6 +52,7 @@ export default {
     context.commit('LOGOUT');
     localStorage.removeItem('auth-token');
     logout();
+    router.replace('/login');
   },
   CURRENT_LATLNG(context) {
     if ('geolocation' in navigator) {
@@ -89,10 +100,10 @@ export default {
       }
     );
   },
-  SIGNUP (context, payload) {
-    console.log("SIGNUP actionjs line93")
+  SIGNUP(context, payload) {
+    console.log('SIGNUP actionjs line93');
     // payload가 user 정보가 담겨져있음
-    console.log(payload)
+    console.log(payload);
     let result = false;
     signup(
       payload,
@@ -101,64 +112,93 @@ export default {
         //   email: payload.email,
         // }
         // var jsonObj = JSON.parse(response);
-        console.log("mydata is" , response);
+        console.log('mydata is', response);
         context.commit('SIGNUP', payload);
         // 여기서 다시 SMTP 호출하고싶은경우?
         context.dispatch('SMTP', response.data);
-        console.log("SIGNUP ACTIONSJS ACTIVATE")
+        console.log('SIGNUP ACTIONSJS ACTIVATE');
         result = true;
       },
       (error) => {
-        console.log("Signup Error" , error)
-        result= false;
-        console.log("SIGNUP actionjs line107")
+        console.log('Signup Error', error);
+        result = false;
+        console.log('SIGNUP actionjs line107');
       }
     );
-    return result    
+    return result;
   },
-  SMTP (context, payload){
-    console.log("SMTP payload" , payload),
-    smtp(
-      payload.email,
-      (response) => {
-        console.log("SMTP response success" , response.data)
-        context.commit("SMTP", response.data)
-      },
-      (error) => {
-        console.log("SMTP ERROR" + error)
-      }
-    )
+  SMTP(context, payload) {
+    console.log('SMTP payload', payload),
+      smtp(
+        payload.email,
+        (response) => {
+          console.log('SMTP response success', response.data);
+          context.commit('SMTP', response.data);
+        },
+        (error) => {
+          console.log('SMTP ERROR' + error);
+        }
+      );
   },
   async GOOGLE_LOGIN(context, payload) {
-    console.log("google login actionjs ")
+    console.log('google login actionjs ');
     var socialresult = false;
     await googleLogin(
       payload,
       (response) => {
-        console.log("response success mydata is" , response);
+        console.log('response success mydata is', response);
         localStorage.setItem('auth-token', response.data['auth-token']);
         setAuthTokenToHeader(response.data['auth-token']);
         context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
         socialresult = true;
       },
       (error) => {
-        console.log("google login Error" , error)
+        console.log('google login Error', error);
         socialresult = false;
       }
     );
-    console.log(socialresult)
-    return socialresult
+    console.log(socialresult);
+    return socialresult;
+  },
+  START_TIMER: (store) => {
+    store.commit(
+      'START_TIMER',
+      setInterval(() => store.dispatch('COUNTDOWN'), 1000)
+    );
+    store.commit('COMMITBTN_STATE_CHANGER', false);
+  },
+  STOP_TIMER: (store) => {
+    store.commit('STOP_TIMER');
+    store.commit('COMMITBTN_STATE_CHANGER', true);
+  },
+  COUNTDOWN: (store) => {
+    store.commit('TOTAL_TIME');
+  },
+  GET_FOLLOWING_LIST: (store, payload) => {
+    getFollowingList(
+      payload,
+      (response) => {
+        store.commit('GET_FOLLOWING_LIST', response.data);
+      },
+      (error) => {
+        console.log(
+          '%cerror actions.js line:38 ',
+          'color: red; display: block; width: 100%;',
+          error
+        );
+      }
+    );
   },
   BOARDDETAIL(context, payload) {
     boardDetail(
       payload,
-      (response) =>{
-        console.log("actionsjs boardDetail", response.data)
-        context.commit("BOARDDETAIL", response.data)
+      (response) => {
+        console.log('actionsjs boardDetail', response.data);
+        context.commit('BOARDDETAIL', response.data);
       },
       (error) => {
-        console.log(error)
+        console.log(error);
       }
-    )
-  }
+    );
+  },
 };

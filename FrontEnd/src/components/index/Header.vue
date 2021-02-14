@@ -1,0 +1,466 @@
+<template>
+  <v-app-bar app color="white" flat hide-on-scroll>
+    <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
+      <v-avatar size="35">
+        <img src="../../assets/img/main/commitment_logo.jpg" alt="logo" />
+      </v-avatar>
+    </v-btn>
+
+    <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
+    <v-tabs centered color="grey darken-1" class="tabs_list">
+      <v-tab
+        v-for="(item, index) in items"
+        :key="'tabMidIcon' + index"
+        :to="item.route"
+        :ripple="false"
+      >
+        <v-icon>
+          {{ item.icon }}
+        </v-icon>
+      </v-tab>
+    </v-tabs>
+
+    <div class="d-none d-sm-flex ml-auto">
+      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+        <v-avatar v-if="user.profile" circle size="40">
+          <img :src="user.profile.filePath" />
+        </v-avatar>
+        <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
+          <v-icon color="white">mdi-emoticon-happy</v-icon>
+        </v-avatar>
+      </v-btn>
+
+      <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
+        <template v-slot:badge>
+          {{ noti.length }}
+        </template>
+        <v-menu offset-y rounded="lg">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              elevation="0"
+              small
+              text
+              :ripple="false"
+              color="primary"
+              class="mr-3"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>{{ right_items[1].icon }}</v-icon>
+            </v-btn>
+          </template>
+          <div class="pa-3 white">
+            <h2 class="px-2">알림</h2>
+            <v-list class="pa-0" dense nav>
+              <v-list-item-group>
+                <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
+                  알림이 없습니다
+                </div>
+                <v-list-item
+                  v-for="(item, index) in noti"
+                  :key="'noti' + index"
+                  class="px-2"
+                  :ripple="false"
+                  @click="clickNoti(item)"
+                >
+                  <v-list-item-icon>
+                    <v-icon
+                      v-text="notiMsg[item.type].icon"
+                      :color="notiMsg[item.type].color"
+                    ></v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title
+                    ><strong>{{ item.from }}</strong
+                    >{{ notiMsg[item.type].content }}</v-list-item-title
+                  >
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </div>
+        </v-menu>
+      </v-badge>
+
+      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+        <v-icon>{{ right_items[2].icon }}</v-icon>
+      </v-btn>
+
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+        @click="LOGOUT"
+      >
+        <v-icon>{{ right_items[3].icon }}</v-icon>
+      </v-btn>
+    </div>
+
+    <v-speed-dial
+      class="d-flex d-sm-none ml-auto"
+      v-model="fab"
+      direction="bottom"
+      transition="slide-x-reverse-transition"
+    >
+      <template v-slot:activator>
+        <v-btn x-small text color="primary" fab>
+          <v-icon v-if="fab">
+            mdi-close
+          </v-icon>
+          <v-icon v-else>
+            mdi-menu
+          </v-icon>
+        </v-btn>
+      </template>
+
+      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+        <v-avatar v-if="user.profile" circle size="40">
+          <img :src="user.profile.filePath" />
+        </v-avatar>
+        <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
+          <v-icon color="white">mdi-emoticon-happy</v-icon>
+        </v-avatar>
+      </v-btn>
+
+      <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
+        <template v-slot:badge>
+          {{ noti.length }}
+        </template>
+        <v-menu offset-y rounded="lg">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              elevation="0"
+              small
+              text
+              :ripple="false"
+              color="primary"
+              class="mr-3"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>{{ right_items[1].icon }}</v-icon>
+            </v-btn>
+          </template>
+          <div class="pa-3 white">
+            <h2 class="px-2">알림</h2>
+            <v-list class="pa-0" dense nav>
+              <v-list-item-group color="primary">
+                <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
+                  알림이 없습니다
+                </div>
+                <v-list-item
+                  v-for="(item, index) in noti"
+                  :key="'noti' + index"
+                  class="px-2"
+                  :ripple="false"
+                  @click="clickNoti(item)"
+                >
+                  <v-list-item-icon>
+                    <v-icon
+                      v-text="notiMsg[item.type].icon"
+                      :color="notiMsg[item.type].color"
+                    ></v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title
+                    ><strong>{{ item.from }}</strong
+                    >{{ notiMsg[item.type].content }}</v-list-item-title
+                  >
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </div>
+        </v-menu>
+      </v-badge>
+
+      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+        <v-icon>{{ right_items[2].icon }}</v-icon>
+      </v-btn>
+
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+        @click="LOGOUT"
+      >
+        <v-icon>{{ right_items[3].icon }}</v-icon>
+      </v-btn>
+    </v-speed-dial>
+
+    <div class="search-box">
+      <div>
+        <input type="text" name="" class="search-txt" placeholder="Search" />
+        <a class="search-btn" href="#">
+          <v-icon color="white">mdi-magnify</v-icon>
+        </a>
+      </div>
+      <div class="result-box">
+        <div class="result-list">
+          <li>hello</li>
+          <li>it's me</li>
+          <li>I've</li>
+          <li>been</li>
+          <li>wandering</li>
+        </div>
+      </div>
+    </div>
+  </v-app-bar>
+</template>
+
+<script>
+import firebase from 'firebase/app';
+import 'firebase/database';
+import { mapActions, mapGetters } from 'vuex';
+import { clickNoti } from '../../api/noti';
+export default {
+  data() {
+    return {
+      fab: false,
+      items: [
+        { icon: 'mdi-home', route: '/' },
+        { icon: 'mdi-map-marker', route: '/sns' },
+        { icon: 'mdi-medal', route: '/rank' },
+        { icon: 'mdi-heart', route: 'likes' },
+      ],
+      right_items: [
+        { icon: 'mdi-emoticon-happy' },
+        { icon: 'mdi-bell' },
+        { icon: 'mdi-cog' },
+        { icon: 'mdi-logout' },
+      ],
+      noti: [],
+      notiMsg: {
+        follow: {
+          icon: 'mdi-account',
+          content: '님이 회원님을 팔로우하셨습니다',
+          color: 'primary',
+        },
+        like: { icon: 'mdi-heart', content: '님이 게시글에 좋아요를 남겼습니다', color: 'error' },
+        comment: {
+          icon: 'mdi-comment',
+          content: '님이 게시글에 댓글을 남겼습니다',
+          color: 'blue-grey',
+        },
+      },
+    };
+  },
+  computed: {
+    ...mapGetters({ user: ['getUserInfo'] }),
+  },
+  methods: {
+    ...mapActions(['LOGOUT']),
+    watchNoti() {
+      firebase
+        .database()
+        .ref(`noti/${this.user.nickname}`)
+        .on('value', (snap) => {
+          let res = snap.val();
+          this.noti = [];
+          for (const idx in res) {
+            res[idx].id = idx;
+            this.noti.unshift(res[idx]);
+          }
+        });
+    },
+    clickNoti(noti) {
+      switch (noti.type) {
+        case 'follow':
+          this.$router.push({ name: 'MyPage', params: { id: noti.dataId } });
+          break;
+        case 'like':
+          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+          break;
+        case 'comment':
+          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+          break;
+      }
+      clickNoti(
+        noti.id,
+        this.user.nickname,
+        () => {
+          console.log('%cHeader.vue line:273 알림삭제', 'color: #007acc;');
+        },
+        (error) => {
+          console.log(
+            '%cerror Header.vue line:282 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+  },
+  created() {
+    this.watchNoti();
+  },
+};
+</script>
+
+<style>
+.search-box {
+  position: absolute;
+  left: 6%;
+  background: #cfd8dc;
+  height: 40px;
+  border-radius: 40px;
+  margin-top: 4px;
+  z-index: 2px;
+}
+
+.search-box .result-box {
+  /* padding: 10px 0px; */
+  font-size: 1em;
+  border-radius: 20px;
+}
+
+.result-box li {
+  list-style: none;
+  padding: 10px 15px;
+  width: 100%;
+  cursor: default;
+  display: none;
+  border: none;
+}
+
+.result-list {
+  background-color: rgba(236, 239, 241);
+  margin-top: 40px;
+  border-radius: 0px 0px 20px 20px;
+}
+
+.search-box:hover > .result-box li {
+  display: block;
+}
+
+.result-box li:hover {
+  background: white;
+  border-radius: 20px;
+}
+
+.search-box:hover {
+  border-radius: 20px 20px 0px 0px;
+}
+
+.search-box:hover > .search-txt {
+  width: 150px;
+  padding: 0 6px;
+}
+
+.search-box:hover > .search-btn {
+  color: black;
+}
+
+.search-box .search-btn {
+  float: right;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #cfd8dc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
+  color: white;
+  cursor: pointer;
+}
+
+.search-btn > v-icon {
+  font-size: 30px;
+}
+
+.search-txt {
+  border: none;
+  background: none;
+  outline: none;
+  float: left;
+  margin-top: 9px;
+  margin-left: 14px;
+  padding: 0;
+  color: black;
+  font-size: 14px;
+  transition: 0.4s;
+  width: 150px;
+  font-weight: bold;
+}
+
+.tabs_list {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+v-speed-dial {
+  z-index: 0 !important;
+}
+
+@media (max-width: 1200px) {
+  .search-box {
+    position: absolute;
+    left: 10px;
+    background: #cfd8dc;
+    border-radius: 40px;
+    background-color: white;
+  }
+
+  .search-box:hover {
+    width: 25vw;
+    background-color: #cfd8dc;
+  }
+
+  .search-box:hover > .search-txt {
+    width: 100vw;
+    padding: 0 6px;
+    margin-top: 8px;
+  }
+
+  .search-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    color: white;
+    cursor: pointer;
+  }
+
+  .search-box:hover > .search-btn {
+    background: #cfd8dc;
+  }
+
+  .search-btn > v-icon {
+    font-size: 30px;
+  }
+
+  .search-txt {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: #263238;
+    font-size: 16px;
+    transition: 0.4s;
+    width: 0px;
+    font-weight: bold;
+  }
+}
+
+@media (max-width: 450px) {
+  .v-tab {
+    min-width: 10vw !important;
+  }
+
+  .search-box:hover {
+    width: 80vw;
+  }
+}
+</style>

@@ -24,7 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name="save")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties
@@ -44,6 +44,9 @@ public class Like {
 	
 	@Column(name="writer")
 	private String writer;
+	
+	@Column(name="created_at")
+	private String createdAt;
 	
 	@ManyToOne
 	@JoinColumn(name = "sns_id",insertable=false, updatable=false)
