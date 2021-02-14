@@ -18,7 +18,7 @@
         </template>
         <div class="con-content">
           <commit-card
-            v-for="(item, index) in nowCommits"
+            v-for="(item, index) in follwers"
             :key="index"
             :img="'https://i.picsum.photos/id/499/200/300.jpg?hmac=KWCVeuvGZEdEyxpon_0lUlQ2hJzA3Tli3AQTLM5RLXA'"
             :nickname="item.nickname"
@@ -40,44 +40,7 @@ import CommitCard from '../../index/mypage/FollowLists';
         input1: '',
         input2: '',
         checkbox1: false,
-        nowCommits: [
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
-        { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
+        follwers: [
         { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
         { nickname: 'nickname', intro: 'hellohellohellohellohellohello' },
       ],

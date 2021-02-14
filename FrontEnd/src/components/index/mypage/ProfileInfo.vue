@@ -3,10 +3,8 @@
 <div class="d-flex justify-center">
 <!-- top -->
             <div class="top" :justify="dynamicJustify">
-                <div class="profileImg">
-                    <v-list-item-avatar size="130">
-                                <img src="https://smallstartour.com/wp-content/uploads/2020/05/SA_page3_top1080x700-compressor.jpg" alt="picture">
-                    </v-list-item-avatar>
+                <div>
+                    <ProfileImgChange/>
                 </div>
                 <v-card
                     class="mx-auto"
@@ -14,10 +12,12 @@
                     :width="width"
                 >
                     <v-card-title>
-                        26 | 여성
+                        {{user.age}} | 
+                        <span v-if="user.gender=='man'">남성</span>
+                        <span v-else-if="user.gender=='woman'">여성</span>
                     </v-card-title>
                     <v-card-subtitle>
-                        닉네임
+                        {{user.nickname}}
                     </v-card-subtitle>
                     <div class="detail_left">
                         <v-spacer></v-spacer>
@@ -42,7 +42,7 @@
                             @click="active = 2"
                             class="button"
                         >
-                            <i class="bx bxs-magic-wand"> 커밋 30</i> 
+                            <i class="bx bxs-magic-wand"> 커밋 {{user.cnt}}</i> 
                         </vs-button>
                         <Follower/>
                         
@@ -60,7 +60,7 @@
                     <div v-show="show">
 
                         <v-card-text>
-                        I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+                        {{user.tel}}
                         </v-card-text>
                         
                     </div>
@@ -71,20 +71,28 @@
 </div>
 
 </template>
-<script>
+<script scoped>
+import { mapGetters } from 'vuex';
 import Follower from '../../common/dialog/Follower'
 import ProfileEdit from '../../common/dialog/ProfileEdit'
+import ProfileImgChange from '../../common/dialog/ProfileImgChange'
+import {searchUserByEmail} from '../../../api/account'
 export default {
     components: {
           Follower,
           ProfileEdit,
+          ProfileImgChange,
     },
     data: () => ({
-        valueOne: '', 
-        valueTwo: '',
         show: false,
+        cnt:0,
+        imgSrc:'https://smallstartour.com/wp-content/uploads/2020/05/SA_page3_top1080x700-compressor.jpg',
+        userInfo:[],
         }),
     computed:{
+        ...mapGetters({
+            user:['getUserInfo'],
+        }),
         width () {
             switch (this.$vuetify.breakpoint.name) {
             case 'xs': return '200px'
@@ -95,12 +103,58 @@ export default {
             }
             return 700
         },
+    },
+    methods:{
+        doMouseOver(){
+            // this.imgSrc = "https://www.pngitem.com/pimgs/m/242-2427082_transparent-telegram-icon-png-facebook-twitter-linkedin-instagram.png";
+        },
+        doMouseLeave(){
+            this.imgSrc = "https://smallstartour.com/wp-content/uploads/2020/05/SA_page3_top1080x700-compressor.jpg";
+        },
+        profileImgChange(){
+
+        }
+    },
+    created(){
+
+        // console.log(email);
+        searchUserByEmail(
+            {keyword : this.user.email},
+            (response)=>{
+                console.log("성공22"+this.user.email);
+                const content = response.data.content;
+                this.userInfo.push(content);
+                console.log("여기"); 
+                console.log(content)
+                console.log(content.profile);
+                console.log(content.profile.filePath); 
+                console.log("------")
+                this.imgSrc = content.profile.filePath;
+                console.log("imgsrc"+this.imgSrc);
+                console.log(response.data.content);
+            },
+            (error)=>{
+                console.log("create에러"+error);
+            }
+        )
     }
 }
 </script>
 
 
 <style scoped>
+
+.profileImg{
+    /* background-color:rgba(0,0,0,.7); */
+    /* width:100%;
+    height:100%; */
+    /* position:absolute; */
+    opacity:1;
+    transition:opacity 0.5s;
+}
+.profileImg:hover {
+     opacity:0.5;
+}
         .badgeImg{
             width: 35%;
             text-align: center;

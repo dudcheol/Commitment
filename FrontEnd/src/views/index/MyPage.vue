@@ -90,7 +90,7 @@
                 </v-row>
                 </v-container>
                 <div class="bottom2">
-                  
+                    <Timeline />
                 </div>
             </v-main>
         </v-app>
@@ -106,6 +106,7 @@ import MapGyeonggi from '../../components/common/map/MapGyeonggi'
 import MapGangwon from '../../components/common/map/MapGangwon'
 import MapUlsan from '../../components/common/map/MapUlsan'
 import MapGwangju from '../../components/common/map/MapGwangju'
+import Timeline from '../../components/index/mypage/Timeline'
 
 export default {
   name: 'MyPage',
@@ -119,33 +120,33 @@ export default {
         MapGangwon,
         MapUlsan,
         MapGwangju,
-
+        Timeline,
     },
     data: () => ({
-                benched: 100,
-                items: [
-                    'mdi-home', 'mdi-web', 'mdi-apple-keyboard-control', 'mdi-account',
-                ], 
-                times:[
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                 ],
-                colors: [
-                'indigo',
-                'warning',
-                'pink darken-2',
-                'red lighten-1',
-                'deep-purple accent-4',
-                ],
-                value1: 1,
-                picked: 1,
-            }),
+        benched: 100,
+        items: [
+            'mdi-home', 'mdi-web', 'mdi-apple-keyboard-control', 'mdi-account',
+        ], 
+        times:[
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            { title: 'nickname', content: 'hellohellohellohellohellohello' },
+            ],
+        colors: [
+        'indigo',
+        'warning',
+        'pink darken-2',
+        'red lighten-1',
+        'deep-purple accent-4',
+        ],
+        value1: 1,
+        picked: 1,
+    }),
     computed: {
         items () {
             return Array.from({ length: this.length }, (k, v) => v + 1)
