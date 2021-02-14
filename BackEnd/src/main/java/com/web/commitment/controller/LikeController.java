@@ -71,7 +71,10 @@ public class LikeController {
 				if(!notificationController.saveNotification(fromUser.getNickname(), request).equals("success"))
 					return "fail save noti";
 			} else {
-				// 좋아요 취소 시 알림 삭제
+				// 좋아요 취소 시 알림부터 삭제
+				Optional<Board> toUser = boardDao.findById(like.getSnsId());
+				notificationController.deleteCancelNotification("like", toUser.get().getUser().getNickname(), isLike.get().getId());
+
 				likeDao.deleteById(isLike.get().getId());
 			}
 		   	return "success";

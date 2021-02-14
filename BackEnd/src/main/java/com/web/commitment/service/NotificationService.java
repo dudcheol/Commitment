@@ -168,6 +168,7 @@ public class NotificationService {
 		else if(type.equals("follow"))
 			isIn = followDao.findById(objectId).isPresent();
 		
+		System.out.println(isIn);
 		if (isIn) {
 			final FirebaseDatabase database = FirebaseDatabase.getInstance();
 			DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
@@ -176,6 +177,8 @@ public class NotificationService {
 			notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(DataSnapshot snapshot) {
+					System.out.println(snapshot);
+					
 					exFindData: for (DataSnapshot data : snapshot.getChildren()) {
 						String postKey = data.getKey();
 						for (DataSnapshot value : data.getChildren()) {
