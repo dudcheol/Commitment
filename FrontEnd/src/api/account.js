@@ -57,17 +57,12 @@ function smtp(userInfo, success, fail) {
   .catch(fail);
 }
 
-function googleLogin(user, success, fail) {
-  // instance.defaults.headers['access-token'] = window.localStorage.getItem('access-token');
-  const params = {
-    email: user.email,
-    
-  };
-
-  return instance
-    .get('account/login', { params })
-    .then(success)
-    .catch(fail);
+async function googleLogin( userInfo, success, fail) {
+  console.log(userInfo)
+  await instance
+  .post('account/login', userInfo )
+  .then(success)
+  .catch(fail);
 }
 
 export { login, findByToken, setAuthTokenToHeader, logout, signup, smtp, googleLogin };

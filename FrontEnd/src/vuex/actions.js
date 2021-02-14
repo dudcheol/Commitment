@@ -1,5 +1,4 @@
-import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp } from '../api/account';
-import { boardDetail } from '../api/board';
+import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp, googleLogin } from '../api/account';
 import { latlngToAddress } from '../api/commit';
 import router from '../router';
 // import axios from 'axios';
@@ -130,35 +129,29 @@ export default {
       }
     )
   },
-  async GOOGLE_LOGIN(context, user) {
-    let result = false;
-    await login(
-      user,
-      (response) => {
-        context.commit('GOOGLE_LOGIN', response.data.data);
-        if (response.data.data === 'success') {
-          localStorage.setItem('auth-token', response.data['auth-token']);
-          setAuthTokenToHeader(response.data['auth-token']);
-          context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
-          result = true;
-        }
-      },
-      (error) => {
-        console.log('%cactions.js line:13 error', 'color: #007acc;', error);
-      }
-    );
-    return result;
-  },
-  BOARDDETAIL(context, payload) {
-    boardDetail(
+  async GOOGLE_LOGIN(context, payload) {
+    console.log("google login actionjs ")
+    // console.log(payload)
+    var socialresult = false;
+    await googleLogin(
       payload,
       (response) => {
-        // context.commit('BOARDDETAIL', payload);
-        console.log(response.data)
+        // context.commit('SIGNUP', payload);
+        console.log("response success mydata is" , response);
+        localStorage.setItem('auth-token', response.data['auth-token']);
+        setAuthTokenToHeader(response.data['auth-token']);
+        context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
+        socialresult = true;
+        console.log(socialresult)
+
       },
       (error) => {
-        console.log(error)
-      } 
-    )
-  }
+        console.log("google login Error" , error)
+        socialresult = false;
+
+      }
+    );
+    console.log(socialresult)
+    return socialresult
+  },
 };
