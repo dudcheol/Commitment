@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommentDao;
 import com.web.commitment.dao.UserDao;
+import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Comment;
+import com.web.commitment.dto.User;
 //import com.web.commitment.dto.Token;
+import com.web.commitment.dto.Notification.NotificationReqDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -27,25 +31,39 @@ public class CommentController {
 
 	@Autowired
 	CommentDao commentDao;
+	@Autowired
+	NotificationController notificationController;
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	BoardDao boardDao;
 	
 	@PostMapping("/comment")
     @ApiOperation(value = "댓글 작성 & 수정")
     public String writeComment(@RequestBody Comment comment) throws IOException {
 		
-//		NotificationController.Push(data, 0);
-		
 		// id가 있으면 
 		// 댓글은 여러 개 작성 가능
     	try { 
-    		if(comment.getParent()!=null) { // 부모 댓글이 있으면
+    		if(!comment.getParent().equals("0")) { // 부모 댓글이 있으면
     			Optional<Comment> parent = commentDao.findById(comment.getParent());
     			System.out.println(parent.get().getDepth());
     			comment.setDepth(parent.get().getDepth() + 1);
     		}
 			commentDao.save(comment);
+			
+			User fromUser = userDao.findUserByEmail(comment.getEmail());
+			System.out.println(comment.getSnsId());
+			Optional<Board> toUser = boardDao.findById(comment.getSnsId());
+			NotificationReqDto request = new NotificationReqDto();
+			request.setTo(toUser.get().getUser().getNickname());
+			request.setDataId(comment.getSnsId());
+			request.setIsRead(false);
+			request.setType("comment");
+			
+			notificationController.saveNotification(fromUser.getNickname(), request);
 			return "success";
 			
     	} catch(Exception e) {

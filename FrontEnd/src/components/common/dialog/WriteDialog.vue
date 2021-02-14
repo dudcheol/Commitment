@@ -37,11 +37,16 @@
           <div class="flex-column pl-2">
             <h3>{{ user.nickname }}</h3>
             <div>
-              <vs-select placeholder="공개설정" v-model="value" style="width:85px" size="small">
-                <vs-option label="공개" value="1">
+              <vs-select
+                placeholder="공개설정"
+                v-model="board.value"
+                style="width:85px"
+                size="small"
+              >
+                <vs-option label="공개" board.value="1">
                   공개
                 </vs-option>
-                <vs-option label="비공개" value="2">
+                <vs-option label="비공개" board.value="2">
                   비공개
                 </vs-option>
               </vs-select>
@@ -53,6 +58,7 @@
           flat
           name="input-7-4"
           :label="user.nickname + '님, 여기는 어떤 곳인가요?'"
+          v-model="content"
           auto-grow
         ></v-textarea>
       </div>
@@ -95,7 +101,9 @@
             </vs-button>
           </div>
         </div>
-        <vs-button block flat class="mx-0"><h2>Commit</h2></vs-button>
+        <vs-button block flat class="mx-0" @click="write()"
+          ><h2>Commit</h2></vs-button
+        >
       </template>
     </vs-dialog>
   </div>
@@ -103,17 +111,38 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { writeBoard } from '../../../api/board';
+
 export default {
   props: ['mobile', 'web'],
   data() {
     return {
-      value: '1',
+      board: {
+        email: user.email, // 넘겨받기
+        title: 'title',
+        commitId: '', // 넘겨받기
+        location: '', // 넘겨받기
+        content: '',
+        value: '1',
+      },
     };
   },
   computed: {
     ...mapGetters({ user: ['getUserInfo'], address: ['getCurrentAddress'] }),
   },
   methods: {
+    write() {
+      writeBoard(
+        this.board,
+        (response) => {
+          console.log(this.board);
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     close() {
       this.$emit('close');
     },
