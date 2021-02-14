@@ -3,7 +3,6 @@ package com.web.commitment.config;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 
 import org.springframework.stereotype.Service;
 

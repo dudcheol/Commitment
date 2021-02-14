@@ -12,6 +12,5 @@ public class NotificationReqDto {
     private String dataId;
     private Boolean isRead;
     private String type;
-
 }
 

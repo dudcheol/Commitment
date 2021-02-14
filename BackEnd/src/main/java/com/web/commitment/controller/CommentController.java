@@ -51,12 +51,10 @@ public class CommentController {
 	@ApiOperation(value = "댓글 작성 & 수정")
 	public String writeComment(@RequestBody Comment comment) throws IOException {
 
-//		NotificationController.Push(data, 0);
-
 		// id가 있으면
 		// 댓글은 여러 개 작성 가능
 		try {
-			if (comment.getParent() != null) { // 부모 댓글이 있으면
+			if (!comment.getParent().equals("0")) { // 부모 댓글이 있으면
 				Optional<Comment> parent = commentDao.findById(comment.getParent());
 				System.out.println(parent.get().getDepth());
 				comment.setDepth(parent.get().getDepth() + 1);
@@ -64,7 +62,6 @@ public class CommentController {
 			commentDao.save(comment);
 			
 			User fromUser = userDao.findUserByEmail(comment.getEmail());
-			System.out.println(comment.getSnsId());
 			Optional<Board> toUser = boardDao.findById(comment.getSnsId());
 			NotificationReqDto request = new NotificationReqDto();
 			request.setTo(toUser.get().getUser().getNickname());
@@ -72,8 +69,9 @@ public class CommentController {
 			request.setIsRead(false);
 			request.setType("comment");
 			
-			notificationController.saveNotification(fromUser.getNickname(), request);
-			return "success";
+			if(notificationController.saveNotification(fromUser.getNickname(), request).equals("success"))
+				return "success";
+			return "fail save noti";
 
 		} catch (Exception e) {
 			e.printStackTrace();
