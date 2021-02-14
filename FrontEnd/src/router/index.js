@@ -7,6 +7,7 @@ import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
 import Permission from '../views/Permission.vue';
 import EmailCheck from '../views/EmailCheck.vue';
+import Detail from '../views/index/Detail.vue'
 
 // 필수
 Vue.use(Router);
@@ -68,12 +69,6 @@ const routes = [
         beforeEnter: requireAuth(),
         component: () => import('../views/index/Badge.vue'),
       },
-      {
-        path: 'detail',
-        name: 'Detail',
-        beforeEnter: requireAuth(),
-        component: () => import('../views/index/Detail.vue'),
-      },
     ],
   },
   {
@@ -90,6 +85,11 @@ const routes = [
     path: '/permission',
     name: 'Permission',
     component: Permission,
+  },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: Detail,
   },
   {
     path: '/user/mailCheck',
