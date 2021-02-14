@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.LikeDao;
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.Like;
 import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.CommentBoardDto;
 import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.LikeDto;
 import com.web.commitment.response.UserDto;
@@ -72,20 +74,33 @@ public class LikeController {
 			
 			BeanUtils.copyProperties(origin, target);
 			
-			UserDto userDto = new UserDto(origin.getUser());
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(origin.getUser(), userDto);
+			target.setUser(userDto);
 			//userDto 저장
 			target.setUser(userDto);
 			
 			if (origin.getLike() != null) {//좋아요가 존재한다면
 				List<LikeBoardDto> likeBoards = new ArrayList<LikeBoardDto>();
 				for (Like l : origin.getLike()) {
-					LikeBoardDto likeDto = new LikeBoardDto(l);
+					LikeBoardDto likeDto = new LikeBoardDto();
+					BeanUtils.copyProperties(l, likeDto);
 					likeBoards.add(likeDto);
 				}
 				target.setLike(likeBoards);
 			}
-			//boardDto 저장
+			
+			if (origin.getComment() != null) {//댓글 있다면
+				List<CommentBoardDto> comments = new ArrayList<CommentBoardDto>();
+				for (Comment c : origin.getComment()) {
+					CommentBoardDto commentDto = new CommentBoardDto();
+					BeanUtils.copyProperties(c, commentDto);
+					comments.add(commentDto);
+				}
+				target.setComment(comments);
+			}
 			like.setBoard(target);
+			//boardDto 저장
 			likeDtos.add(like);
 		}
 		return new PageImpl<LikeDto>(likeDtos, pageable, likes.getTotalElements());

@@ -1,5 +1,7 @@
 package com.web.commitment.response;
 
+import com.web.commitment.dto.Like;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +15,5 @@ public class LikeDto {
 	private String createdAt;
 	
 	private BoardDto board;
+
 }

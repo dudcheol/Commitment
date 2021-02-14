@@ -40,4 +40,15 @@ export default {
   GET_FOLLOWING_LIST(state, payload) {
     state.following = payload;
   },
+  SIGNUP(state, payload) {
+    state.userInfo = { payload };
+    console.log("SIGNUP mutationjs" , payload)
+  },
+  SMTP(state, payload) {
+    state.userInfo = { payload };
+  },
+  BOARDDETAIL(state, payload){
+    state.boardDetail = payload;
+    console.log("mutationjs", payload)
+  }
 };

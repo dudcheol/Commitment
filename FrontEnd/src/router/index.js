@@ -5,7 +5,6 @@ import store from '../vuex/store';
 import Index from '../views/Index.vue';
 import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
-import Detail from '../views/index/Detail.vue';
 import Permission from '../views/Permission.vue';
 import EmailCheck from '../views/EmailCheck.vue';
 
@@ -68,6 +67,12 @@ const routes = [
         beforeEnter: requireAuth(),
         component: () => import('../views/index/Badge.vue'),
       },
+      {
+        path: 'detail',
+        name: 'Detail',
+        beforeEnter: requireAuth(),
+        component: () => import('../views/index/Detail.vue'),
+      },
     ],
   },
   {
@@ -79,12 +84,6 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
-  },
-  {
-    path: '/detail',
-    name: 'Detail',
-    beforeEnter: requireAuth(),
-    component: Detail,
   },
   {
     path: '/permission',

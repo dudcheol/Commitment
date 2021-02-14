@@ -20,6 +20,7 @@ const state = {
   commitBtnState: true,
   minutes: 0,
   seconds: 0,
+  boardDetail: null,
 };
 
 export default new Vuex.Store({

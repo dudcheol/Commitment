@@ -13,10 +13,4 @@ import lombok.Data;
 @Data
 public class LikeBoardDto {
 	private String email; // 좋아요 누른 사람의 이메일
-
-	public LikeBoardDto(Like like) {
-		super();
-		this.email = like.getEmail();
-	}
-	
 }
