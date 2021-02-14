@@ -38,6 +38,7 @@ import SelectZone from '../../components/index/main/ProfileSummary';
 import MainBadge from '../../components/index/badge/MainBadge';
 import EtcBadge from '../../components/index/badge/EtcBadge';
 import BadgeTotalProcess from '../../components/index/badge/BadgeTotalProcess';
+
 export default {
   name: 'Badge',
 
@@ -45,7 +46,7 @@ export default {
     SelectZone,
     MainBadge,
     EtcBadge,
-    BadgeTotalProcess,
+    BadgeTotalProcess ,
   },
 
   data: () => ({
