@@ -43,10 +43,10 @@
                 style="width:85px"
                 size="small"
               >
-                <vs-option label="공개" board.value="1">
+                <vs-option label="공개" value="1">
                   공개
                 </vs-option>
-                <vs-option label="비공개" board.value="2">
+                <vs-option label="비공개" value="2">
                   비공개
                 </vs-option>
               </vs-select>
@@ -58,7 +58,7 @@
           flat
           name="input-7-4"
           :label="user.nickname + '님, 여기는 어떤 곳인가요?'"
-          v-model="content"
+          v-model="board.content"
           auto-grow
         ></v-textarea>
       </div>
@@ -118,10 +118,10 @@ export default {
   data() {
     return {
       board: {
-        email: user.email, // 넘겨받기
+        email: 'test@test.com', // 얘 왜 user.email하면 인식 못하지?
         title: 'title',
-        commitId: '', // 넘겨받기
-        location: '', // 넘겨받기
+        commitId: '176', // 넘겨받기
+        location: 'national', // 넘겨받기
         content: '',
         value: '1',
       },
