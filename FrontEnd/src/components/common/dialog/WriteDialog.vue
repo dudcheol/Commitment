@@ -166,6 +166,7 @@ export default {
         content: '',
         value: '1',
       },
+      snsId: '48',
       uploaded: false,
       images: {
         file: [],
@@ -184,8 +185,8 @@ export default {
       writeBoard(
         this.board,
         (response) => {
-          console.log(this.board);
           console.log(response);
+          this.snsId = response.data;
         },
         (error) => {
           console.log(error);
