@@ -2,6 +2,8 @@ import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp, googleL
 import { latlngToAddress } from '../api/commit';
 import { boardDetail } from '../api/board'
 import router from '../router';
+import axios from 'axios';
+import { getFollowingList } from '../api/follow';
 
 export default {
   async LOGIN(context, user) {
@@ -31,6 +33,7 @@ export default {
         user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
+        context.dispatch('GET_FOLLOWING_LIST', user.email);
         context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
@@ -42,6 +45,7 @@ export default {
     context.commit('LOGOUT');
     localStorage.removeItem('auth-token');
     logout();
+    router.replace('/login');
   },
   CURRENT_LATLNG(context) {
     if ('geolocation' in navigator) {
@@ -148,6 +152,35 @@ export default {
     );
     console.log(socialresult)
     return socialresult
+  },
+  START_TIMER: (store) => {
+    store.commit(
+      'START_TIMER',
+      setInterval(() => store.dispatch('COUNTDOWN'), 1000)
+    );
+    store.commit('COMMITBTN_STATE_CHANGER', false);
+  },
+  STOP_TIMER: (store) => {
+    store.commit('STOP_TIMER');
+    store.commit('COMMITBTN_STATE_CHANGER', true);
+  },
+  COUNTDOWN: (store) => {
+    store.commit('TOTAL_TIME');
+  },
+  GET_FOLLOWING_LIST: (store, payload) => {
+    getFollowingList(
+      payload,
+      (response) => {
+        store.commit('GET_FOLLOWING_LIST', response.data);
+      },
+      (error) => {
+        console.log(
+          '%cerror actions.js line:38 ',
+          'color: red; display: block; width: 100%;',
+          error
+        );
+      }
+    );
   },
   BOARDDETAIL(context, payload) {
     boardDetail(

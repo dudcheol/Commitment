@@ -29,7 +29,6 @@ const requireAuth = () => async (to, from, next) => {
 const routes = [
   {
     path: '/', // 경로
-    name: 'Index', // 해당 경로의 이름
     beforeEnter: requireAuth(),
     component: Index, // 이동할 컴포넌트
     children: [

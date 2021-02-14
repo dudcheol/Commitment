@@ -14,6 +14,8 @@ import ScrollAnimation from './directive/scrollanimation.js'
 
 Vue.directive('scrollanimation', ScrollAnimation)
 import * as VueGoogleMaps from 'vue2-google-maps';
+import firebase from 'firebase/app';
+import { FIREBASE_CONFIG } from './config';
 import { LoaderPlugin } from 'vue-google-login';
 
 Vue.config.productionTip = false;
@@ -44,3 +46,5 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+firebase.initializeApp(FIREBASE_CONFIG);
