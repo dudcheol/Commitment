@@ -113,7 +113,12 @@ public class CommentController {
 		Optional<Comment> comment = commentDao.findById(id);
 
 		try {
+			System.out.println(comment.isPresent());
 			if (comment.isPresent()) {
+				Optional<Board> toUser = boardDao.findById(comment.get().getSnsId());
+				// 댓글 삭제시 알림 삭제
+				notificationController.deleteCancelNotification("comment", toUser.get().getUser().getNickname(), id);
+				
 				commentDao.delete(comment.get());
 			}
 
