@@ -63,7 +63,7 @@ public class UserController {
 		Optional<User> userOpt;
 		ResponseEntity response = null;
 		Map<String, Object> resultMap = new HashMap<>();
-
+		System.out.println("login");
 		if (request.getToken() != null) {// 소셜 로그인 일경우
 			userOpt = userDao.findByEmail(request.getEmail());
 			User user = new User();
@@ -76,7 +76,7 @@ public class UserController {
 			Profile profile = new Profile();
 			profile.setEmail(request.getEmail());
 			profile.setFilePath(request.getImage());
-			return new ResponseEntity<>(resultMap, HttpStatus.OK);
+			
 		}
 		
 		userOpt = userDao.findUserByEmailAndPass(request.getEmail(), request.getPass());
@@ -102,6 +102,7 @@ public class UserController {
 			return new ResponseEntity<>(resultMap, HttpStatus.OK);
 		}
 		resultMap.put("data", "fail");
+		
 		return new ResponseEntity<>(resultMap, HttpStatus.OK);
 	}
 
