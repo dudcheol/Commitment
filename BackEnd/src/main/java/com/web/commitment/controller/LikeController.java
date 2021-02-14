@@ -16,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.LikeDao;
+import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.Like;
+import com.web.commitment.dto.User;
+import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.BoardDto;
 import com.web.commitment.response.CommentBoardDto;
 import com.web.commitment.response.LikeBoardDto;
@@ -34,8 +38,15 @@ public class LikeController {
 
 	@Autowired
 	LikeDao likeDao;
+	@Autowired
+	UserDao userDao;
+	@Autowired
+	BoardDao boardDao;
+	
 	@Autowired	
 	FollowingBoardController followingBoardController;
+	@Autowired
+	NotificationController notificationController;
 	
 	@PostMapping("/like")
     @ApiOperation(value = "좋아요 누르기 & 취소")
@@ -45,10 +56,24 @@ public class LikeController {
 		Optional<Like> isLike = likeDao.findByEmailAndSnsId(like.getEmail(), like.getSnsId());
 		
 		try {
-			if(!isLike.isPresent())
+			if(!isLike.isPresent()) {
 				likeDao.save(like);
-			else
+				
+				// 실시간 알림 저장
+				NotificationReqDto request = new NotificationReqDto();
+				User fromUser = userDao.findUserByEmail(like.getEmail());
+				Optional<Board> toUser = boardDao.findById(like.getSnsId());
+				request.setIsRead(false);
+				request.setTo(toUser.get().getUser().getNickname());
+				request.setType("like");
+				request.setDataId(like.getSnsId());
+				
+				if(!notificationController.saveNotification(fromUser.getNickname(), request).equals("success"))
+					return "fail save noti";
+			} else {
+				// 좋아요 취소 시 알림 삭제
 				likeDao.deleteById(isLike.get().getId());
+			}
 		   	return "success";
 		
 		} catch(Exception e) {
