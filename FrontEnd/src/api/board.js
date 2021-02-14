@@ -30,9 +30,9 @@ function totalRadiusBoardList(lat, lng, radius, page, size, success, fail) {
     .catch(fail);
 }
 
-function boardDetail ( id, param, success, fail) { 
+function boardDetail ( id, success, fail) { 
   instance
-  .get(`sns/${id}`, { params: { param }})
+  .get(`sns/${id}`)
   .then(success)
   .catch(fail)
 }

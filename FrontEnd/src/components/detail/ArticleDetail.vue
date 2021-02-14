@@ -5,15 +5,15 @@
         <div class="avatar mt-4">
           <vs-avatar size="100" circle>
             <img
-              src="https://i.pinimg.com/originals/df/30/85/df30856a75229609c25dc94767ebde7b.jpg"
-              alt=""
+              :src=boardData.profileimage
             />
           </vs-avatar>
         </div>
         <div class="username flex-grow-1 ml-8 mt-4">
-          <b> {{ username }}</b>
+          <b> {{ boardData.username }}</b>
+          
           <div class="introduction">
-            {{ introduction }}
+            {{ boardData.mystory }}
           </div>
         </div>
 
@@ -23,16 +23,16 @@
       </div>
 
       <div class="picture mt-4">
-        <v-img
-          max-height="600"
-          src="https://cdn.crowdpic.net/detail-thumb/thumb_d_897F820200BBD76525D17D2830783B8D.jpg"
-          :aspect-ratio="16 / 9"
-          :width="width"
-        >
-        </v-img>
+        <v-carousel>
+            <v-carousel-item
+              v-for="(item,i) in boardData.contentimage"
+              :key="i"
+              :src="item.filePath"
+              reverse-transition="fade-transition"
+              transition="fade-transition"
+            ></v-carousel-item>
+        </v-carousel>
       </div>
-
-      <!-- <div class="created_at ml-4">2hours ago</div> -->
       <div class="buttons mt-2">
         <vs-button icon color="danger">
           <i class="bx bxs-heart"></i>
@@ -49,17 +49,17 @@
 
       <div class="article ml-4 mt-4">
         <div class="mb-3" :title="title">
-          {{ title }}
+          {{ boardData.title }}
         </div>
         <div class="mt-3" :content="content">
-          {{ content }}
+          {{ boardData.content }}
         </div>
       </div>
       <div class="hashtag ml-3 mt-4">
-        <v-chip-group>
-          <v-chip>#서울</v-chip>
-          <v-chip>#광화문</v-chip>
-          <v-chip>#당일여행</v-chip>
+        <v-chip-group >
+          <v-chip v-for="(tag ,i) in boardData.tag"
+            :key="i">{{ tag.content }}
+          </v-chip>
         </v-chip-group>
       </div>
       <div class="created_at ml-4">
@@ -75,7 +75,8 @@
           </div>
         </div>
         <div class="ml-15 ml-4">
-          Oh~ I like your picture! Check the link in our bio
+          <!-- 댓글 생성하는곳, 일단은 댓글 갯수 유뮤찾고 거기에 인풋까지 -->
+          {{ boardDetail }}
           <div class="d-flex">
             <vs-button icon color="primary" relief class="mt-4">
               <i class="bx bxs-paper-plane"></i> Reply
@@ -89,71 +90,54 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 export default {
   data: () => ({
     width: 200,
     events: [],
     input: null,
-    nonce: 1,
-    username: '강아지',
-    introduction: '여행을 좋아하는 프로여행러',
-    title: 'Gwanghwa..moon.. always 짜릿',
-    content:
-      '열기구타고 두둥실? 택도없는소리~ 광화문에서 한복입고 사진찍어주는건 언제나 짜릿하다뀨..',
-    commentCreateData: {
-    postId: null,
-    content: null
+    boardData: {
+      id: '13',
+      profileimage: '',
+      contentimage: [],
+      username: '',
+      mystory: '',
+      title: '',
+      content: '',
+      tag: [],
+      comment: [],  
     },
+    // commentCreateData: {
+    // id: null,
+    // content: null,
+    // },
   }),
-  /////
-  // computed: {
-  //   timeline () {
-  //     return this.events
-  //   },
-  // },
   created() {
-    this.commentCreateData.postId = this.$route.params['postId']
-    this.findPost(this.commentCreateData.postId)
-    this.fetchComments(this.commentCreateData.postId)
-    // this.findBook(this.selectedPost.book.id)
+    // 일단 여기는 냅두기
+    // this.boardData.id = this.$route.params['id']
+    console.log("created line 120", this.boardData)
+  },
+  computed: {
+    ...mapState(['boardDetail']),
+    
   },
 
   methods: {
-    comment() {},
-  //      computed: {
-  // hiComments: function () {
-  //   return this.comments
-  // }
-  // },
-  // methods: {
-  //   setToken: function () {
-  //     const token = localStorage.getItem('jwt')
-  //     const config = {
-  //       headers: {
-  //         Authorization: `JWT ${token}`
-  //       }
-  //     }
-  //     return config
-  //   },
-  //   getComments: function () {
-  //     const config = this.setToken()
-  //     const movie = this.$route.query.movie
-  //     axios.get(`${SERVER_URL}/nowplaying/${movie.id}/comment_list/`, config)
-  //       .then(response => {
-  //         this.comments = response.data
-  //       })
-  //       .catch(error => console.log(error))
-  //   },
-  //   writeComment(){
-  //     this.getComments()
-  //   }
-  // },
-  // created: function () {
-  //   this.getComments()
-  // }
-
-    
+    ...mapActions(['BOARDDETAIL']),   
   },
+
+  mounted(){
+    console.log("mounted, boardData")
+    this.BOARDDETAIL(this.boardData.id)
+    this.boardData.title = this.boardDetail.title
+    this.boardData.content = this.boardDetail.content
+    this.boardData.username = this.boardDetail.user.nickname
+    this.boardData.mystory = this.boardDetail.user.mystory
+    this.boardData.profileimage = this.boardDetail.user.profile.filePath
+    this.boardData.contentimage = this.boardDetail.image
+    this.boardData.tag = this.boardDetail.tag
+  },
+
 };
 </script>
 

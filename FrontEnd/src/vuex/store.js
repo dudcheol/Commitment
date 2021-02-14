@@ -13,6 +13,7 @@ const state = {
   authToken: null,
   currentLatlng: null,
   currentAddress: SEARCHING_POSITION_TEXT,
+  boardDetail: null,
 };
 
 export default new Vuex.Store({

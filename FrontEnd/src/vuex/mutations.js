@@ -24,5 +24,9 @@ export default {
   SMTP(state, payload) {
     state.userInfo = { payload };
   },
+  BOARDDETAIL(state, payload){
+    state.boardDetail = payload;
+    console.log("mutationjs", payload)
+  }
   
 };

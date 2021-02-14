@@ -1,7 +1,7 @@
 import { findByToken, login, setAuthTokenToHeader, logout, signup, smtp, googleLogin } from '../api/account';
 import { latlngToAddress } from '../api/commit';
+import { boardDetail } from '../api/board'
 import router from '../router';
-// import axios from 'axios';
 
 export default {
   async LOGIN(context, user) {
@@ -131,27 +131,34 @@ export default {
   },
   async GOOGLE_LOGIN(context, payload) {
     console.log("google login actionjs ")
-    // console.log(payload)
     var socialresult = false;
     await googleLogin(
       payload,
       (response) => {
-        // context.commit('SIGNUP', payload);
         console.log("response success mydata is" , response);
         localStorage.setItem('auth-token', response.data['auth-token']);
         setAuthTokenToHeader(response.data['auth-token']);
         context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
         socialresult = true;
-        console.log(socialresult)
-
       },
       (error) => {
         console.log("google login Error" , error)
         socialresult = false;
-
       }
     );
     console.log(socialresult)
     return socialresult
   },
+  BOARDDETAIL(context, payload) {
+    boardDetail(
+      payload,
+      (response) =>{
+        console.log("actionsjs boardDetail", response.data)
+        context.commit("BOARDDETAIL", response.data)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 };
