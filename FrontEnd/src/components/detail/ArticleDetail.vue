@@ -1,11 +1,11 @@
 <template>
   <div class="grid-container-article-detail">
-    <v-sheet class="mx-auto" elevation="1" rounded="xl">
+    <v-sheet class="mx-auto" elevation="1" rounded="xl" max-width="800">
       <div class="d-flex">
         <div class="avatar mt-4">
-          <vs-avatar size="100" circle>
+          <v-avatar size="100">
             <img :src="boardData.profileimage" />
-          </vs-avatar>
+          </v-avatar>
         </div>
         <div class="username flex-grow-1 ml-8 mt-4">
           <b> {{ boardData.username }}</b>
@@ -60,12 +60,12 @@
       </div>
       <div class="created_at ml-4">
         <div class="d-flex ">
-          <vs-avatar>
+          <v-avatar>
             <img
               src="https://image.kkday.com/v2/image/get/w_960%2Cc_fit%2Cq_55%2Ct_webp/s1.kkday.com/product_218/20191118021303_4pR1Q/jpg"
               alt=""
             />
-          </vs-avatar>
+          </v-avatar>
           <div class="ml-4 d-flex align-center">
             <b>Jorge Watson</b>
           </div>
@@ -88,12 +88,50 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 export default {
+
+  created() {
+    this.boardData.id = this.$route.params['id'];
+  },
+  computed: {
+    ...mapState(['boardDetail']),
+  },
+
+  methods: {
+    ...mapActions(['BOARDDETAIL']),
+    initDetail() {
+      
+      // this.BOARDDETAIL(this.boardData.id);
+      // this.boardData.title = this.boardDetail.title;
+      // this.boardData.content = this.boardDetail.content;
+      // this.boardData.username = this.boardDetail.user.nickname;
+      // this.boardData.mystory = this.boardDetail.user.mystory;
+      // this.boardData.profileimage = this.boardDetail.user.profile.filePath;
+      // this.boardData.contentimage = this.boardDetail.image;
+      // this.boardData.tag = this.boardDetail.tag;
+    
+    },
+  },
+
+  mounted() {
+    console.log('mounted, boardData');
+    this.initDetail()
+    this.BOARDDETAIL(this.boardData.id);
+    this.boardData.title = this.boardDetail.title;
+    this.boardData.content = this.boardDetail.content;
+    this.boardData.username = this.boardDetail.user.nickname;
+    this.boardData.mystory = this.boardDetail.user.mystory;
+    this.boardData.profileimage = this.boardDetail.user.profile.filePath;
+    this.boardData.contentimage = this.boardDetail.image;
+    this.boardData.tag = this.boardDetail.tag;
+    this.boardData.comment = this.boardDetail.comment;
+
+  },
   data: () => ({
     width: 200,
     events: [],
     input: null,
     boardData: {
-      id: '13',
+      id: '',
       profileimage: '',
       contentimage: [],
       username: '',
@@ -108,30 +146,6 @@ export default {
     // content: null,
     // },
   }),
-  created() {
-    // 일단 여기는 냅두기
-    this.boardData.id = this.$route.params['id'];
-    console.log('created line 120', this.boardData);
-  },
-  computed: {
-    ...mapState(['boardDetail']),
-  },
-
-  methods: {
-    ...mapActions(['BOARDDETAIL']),
-  },
-
-  mounted() {
-    console.log('mounted, boardData');
-    this.BOARDDETAIL(this.boardData.id);
-    this.boardData.title = this.boardDetail.title;
-    this.boardData.content = this.boardDetail.content;
-    this.boardData.username = this.boardDetail.user.nickname;
-    this.boardData.mystory = this.boardDetail.user.mystory;
-    this.boardData.profileimage = this.boardDetail.user.profile.filePath;
-    this.boardData.contentimage = this.boardDetail.image;
-    this.boardData.tag = this.boardDetail.tag;
-  },
 };
 </script>
 
@@ -197,60 +211,11 @@ export default {
   margin: 4px;
 }
 
+v-sheet {
+  width: 80vw !important;
+}
+
 @media (max-width: 450px) {
-  .grid-container-article-detail {
-    display: grid;
-    grid-template-columns: 0.1fr 1fr 1fr 1fr;
-    grid-template-rows: 35vh max-content max-content max-content max-content max-content max-content;
-    gap: 5px 0px;
-    grid-template-areas:
-      'picture '
-      'avatar username . follow_btn'
-      'avatar username . follow_btn'
-      'buttons buttons buttons buttons'
-      'article article article article'
-      'hashtag hashtag hashtag hashtag'
-      'created_at created_at created_at created_at';
-  }
 
-  .picture {
-    display: flex;
-    justify-content: center;
-    grid-area: picture;
-  }
-
-  .avatar {
-    grid-area: avatar;
-    align-self: center;
-    justify-self: start;
-  }
-
-  .username {
-    grid-area: username;
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    justify-self: start;
-  }
-
-  .created_at {
-    grid-area: created_at;
-  }
-
-  .buttons {
-    grid-area: buttons;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .article {
-    grid-area: article;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hashtag {
-    grid-area: hashtag;
-  }
 }
 </style>
