@@ -62,21 +62,62 @@
           auto-grow
         ></v-textarea>
       </div>
+      <div class="image-box">
+        <label for="file">
+          <b-row
+            class="file-preview-container"
+            style="overflow: auto; max-height: 120px"
+          >
+            <div
+              v-for="(file, index) in files"
+              :key="index"
+              class="file-preview-wrapper"
+            >
+              <div
+                class="file-close-button"
+                @click="fileDeleteButton"
+                :name="file.number"
+              ></div>
+              <img
+                :src="file.preview"
+                style="
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 15px;
+                    margin-left: 20px;
+                  "
+              />
+            </div>
+          </b-row>
+        </label>
+      </div>
       <template #footer>
         <div class="d-flex align-center">
           <h3>게시물에 추가</h3>
+
           <div class="d-flex flex-row ml-auto">
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#00c853"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
-              <i class="bx bxs-photo-album"></i>
-            </vs-button>
+            <div class="image-box">
+              <label for="file">
+                <vs-button
+                  size="l"
+                  circle
+                  icon
+                  color="#00c853"
+                  flat
+                  :active="active == 5"
+                  @click="active = 5"
+                >
+                  <input
+                    type="file"
+                    id="file"
+                    ref="files"
+                    @change="selectPhoto"
+                    multiple
+                  />
+                  <i class="bx bxs-photo-album"> </i>
+                </vs-button>
+              </label>
+            </div>
             <vs-button
               size="l"
               circle
@@ -125,6 +166,14 @@ export default {
         content: '',
         value: '1',
       },
+      uploaded: false,
+      images: {
+        file: [],
+      },
+      ////
+      files: [], //업로드용 파일
+      filesPreview: [],
+      uploadImageIndex: 0, // 이미지 업로드를 위한 변수
     };
   },
   computed: {
@@ -143,6 +192,63 @@ export default {
         }
       );
     },
+    selectPhoto() {
+      console.log(this.$refs.files.files);
+
+      //하나의 배열로 넣기
+      let num = -1;
+      for (let i = 0; i < this.$refs.files.files.length; i++) {
+        this.files = [
+          ...this.files,
+          //이미지 업로드
+          {
+            //실제 파일
+            file: this.$refs.files.files[i],
+            //이미지 프리뷰
+            preview: URL.createObjectURL(this.$refs.files.files[i]),
+            //삭제및 관리를 위한 number
+            number: i,
+          },
+        ];
+        num = i;
+      }
+      this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
+      console.log(this.files);
+      this.uploaded = true;
+    },
+    imageAddUpload() {
+      console.log(this.$refs.files.files);
+
+      // this.files = [...this.files, this.$refs.files.files];
+      //하나의 배열로 넣기c
+      let num = -1;
+      for (let i = 0; i < this.$refs.files.files.length; i++) {
+        console.log(this.uploadImageIndex);
+        this.files = [
+          ...this.files,
+          //이미지 업로드
+          {
+            //실제 파일
+            file: this.$refs.files.files[i],
+            //이미지 프리뷰
+            preview: URL.createObjectURL(this.$refs.files.files[i]),
+            //삭제및 관리를 위한 number
+            number: i + this.uploadImageIndex,
+          },
+        ];
+        num = i;
+      }
+      this.uploadImageIndex = this.uploadImageIndex + num + 1;
+
+      console.log(this.files);
+      // console.log(this.filesPreview);
+    },
+    fileDeleteButton(e) {
+      const name = e.target.getAttribute('name');
+      this.files = this.files.filter((data) => data.number !== Number(name));
+      // console.log(this.files);
+    },
+
     close() {
       this.$emit('close');
     },
@@ -154,5 +260,53 @@ export default {
 .dialog {
   width: calc(100vw - 56px);
   max-width: 700px;
+}
+
+.image-box {
+  margin-top: 0px;
+  padding-bottom: 0px;
+}
+
+.image-box input[type='file'] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
+
+.image-box label {
+  display: inline-block;
+  padding: 0px 0px;
+  /* color: #fff; */
+  vertical-align: middle;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.file-preview-wrapper {
+  padding: 10px;
+  position: center;
+}
+
+.file-preview-wrapper > img {
+  position: center;
+  width: 400px;
+  height: 400px;
+  z-index: 10;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  height: 56px;
+  width: 100%;
+  z-index: 999;
+  background-color: white;
+}
+#container {
+  min-height: 100vh;
 }
 </style>
