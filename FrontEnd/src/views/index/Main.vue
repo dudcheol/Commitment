@@ -21,7 +21,7 @@
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
           <FollowerMap class="mb-4 my-lg-6" />
-          <MyState :openWriteDialog="openWriteDialog" @close-write="closeWrite" />
+          <MyState />
           <AllArticle class="my-4" />
         </div>
       </v-col>
@@ -38,7 +38,6 @@ import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
 import ProfileSummary from '../../components/index/main/ProfileSummary';
 
 export default {
-  props: ['openWriteDialog'],
   components: {
     AllArticle,
     FollowerMap,
@@ -46,17 +45,6 @@ export default {
     CommitNow,
     NotYetAddArticle,
     ProfileSummary,
-  },
-  watch: {
-    openWriteDialog: {
-      immediate: true,
-      handler(val) {
-        this.openWriteDialog = val;
-      },
-    },
-  },
-  data() {
-    return {};
   },
   computed: {
     dynamicPosition() {
@@ -88,11 +76,6 @@ export default {
           return 'center';
       }
       return '';
-    },
-  },
-  methods: {
-    closeWrite() {
-      this.$emit('close-write');
     },
   },
 };

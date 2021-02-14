@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <Header></Header>
     <v-main class="blue-grey lighten-5">
-      <router-view :openWriteDialog="openWriteDialog" @close-write="closeWrite"></router-view>
+      <router-view></router-view>
     </v-main>
     <v-btn
       fab
@@ -33,18 +33,18 @@
       "
     ></Dialog>
     <commit-complete
-      :confirm="commitConfirm"
+      :confirm="commitDialog"
       :confirmContent="confirmContent"
       :confirmTitle="confirmTitle"
       :region="commitRegion"
       :datas="commitDatas"
       @close="
         closeCommitComplete();
-        commitConfirm = false;
         commitLoading = false;
       "
       @confirm-ok="confirmOk"
     ></commit-complete>
+    <write-dialog :web="openWriteDialog" @close="openWriteDialog = !openWriteDialog"></write-dialog>
   </v-app>
 </template>
 
@@ -54,8 +54,9 @@ import { mapActions, mapGetters } from 'vuex';
 import Dialog from '../components/common/dialog/Dialog.vue';
 import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 import Header from '../components/index/Header.vue';
+import WriteDialog from '../components/common/dialog/WriteDialog.vue';
 export default {
-  components: { Dialog, CommitComplete, Header },
+  components: { Dialog, CommitComplete, Header, WriteDialog },
   name: 'Index',
   computed: {
     ...mapGetters({
@@ -65,6 +66,7 @@ export default {
       minutes: ['getMinutes'],
       seconds: ['getSeconds'],
       totalTime: ['getTotalTime'],
+      commitDialog: ['getWriteDialogState'],
     }),
     min() {
       return (this.minutes < 10 ? '0' : '') + this.minutes;
@@ -85,7 +87,6 @@ export default {
     return {
       commitBtnIcon: 'mdi-map-marker-check',
       commitLoading: false,
-      commitConfirm: false,
       commitAlert: false,
       confirmTitle: '커밋완료🥳',
       confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
@@ -95,14 +96,13 @@ export default {
       commitRegion: '',
       commitDatas: '',
       commitTimeout: false,
+      write: false,
     };
   },
   methods: {
     ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER', 'GET_EMPCOMMIT_LIST']),
     commit() {
-      if (this.minutes != 0 || this.seconds != 0) {
-        return;
-      }
+      if (this.totalTime != 0) return;
       this.START_TIMER();
       this.commitLoading = true;
       this.commitTimeout = true;
@@ -117,7 +117,7 @@ export default {
             this.commitRegion = response.data.region;
             this.commitDatas = [[response.data.localX, response.data.localY, 3]];
             this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
-            this.commitConfirm = true;
+            this.$store.commit('WRITE_DIALOG', true);
             this.openNotification(4000);
           } else {
             this.alertContent = `[ ${this.address} ] 에서 이미 커밋하셨습니다. 1시간 뒤에 다시 시도해주세요.`;
@@ -147,12 +147,11 @@ export default {
       });
     },
     confirmOk() {
+      this.$store.commit('WRITE_DIALOG', false);
       this.openWriteDialog = true;
     },
-    closeWrite() {
-      this.openWriteDialog = false;
-    },
     closeCommitComplete() {
+      this.$store.commit('WRITE_DIALOG', false);
       this.GET_EMPCOMMIT_LIST(this.user.email);
     },
   },

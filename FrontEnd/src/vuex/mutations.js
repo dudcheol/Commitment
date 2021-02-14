@@ -52,4 +52,7 @@ export default {
   ADD_EMPCOMMIT(state, payload) {
     state.empCommits = payload;
   },
+  WRITE_DIALOG(state, payload) {
+    state.writeDialog = payload;
+  },
 };

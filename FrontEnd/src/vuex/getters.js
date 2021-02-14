@@ -26,4 +26,7 @@ export default {
   getEmpCommitList(state) {
     return state.empCommits;
   },
+  getWriteDialogState(state) {
+    return state.writeDialog;
+  },
 };

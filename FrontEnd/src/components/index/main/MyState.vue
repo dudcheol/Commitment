@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-center">
-    <v-sheet rounded="xl" class="mid-size px-3">
+    <v-card rounded="xl" class="px-3" max-width="680" width="680" elevation="0">
       <v-container class="my-2">
         <v-row>
           <v-col>
@@ -31,7 +31,7 @@
                 <v-chip
                   large
                   style="height:40px; width:100%; cursor:pointer"
-                  @click="write = true"
+                  @click="click"
                   color="blue-grey lighten-5"
                   text-color="blue-grey darken-2"
                   :ripple="false"
@@ -44,37 +44,37 @@
           </v-col>
         </v-row>
       </v-container>
-      <write-dialog :web="write" @close="closeWrite"></write-dialog>
-    </v-sheet>
+      <v-overlay absolute :value="totalTime != 0" color="blue-grey lighten-3">
+        <v-sheet color="white" class="blue-grey--text pa-3" rounded="lg" elevation="3">
+          <v-icon color="blue-grey">mdi-lock</v-icon>
+          <strong>{{ min }}:{{ sec }}</strong> 후에 커밋할 수 있어요</v-sheet
+        >
+      </v-overlay>
+    </v-card>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import WriteDialog from '../../common/dialog/WriteDialog.vue';
 export default {
-  props: ['openWriteDialog'],
-  watch: {
-    openWriteDialog: {
-      immediate: true,
-      handler(val) {
-        this.write = val;
-      },
+  computed: {
+    ...mapGetters({
+      address: ['getCurrentAddress'],
+      user: ['getUserInfo'],
+      totalTime: ['getTotalTime'],
+      minutes: ['getMinutes'],
+      seconds: ['getSeconds'],
+    }),
+    min() {
+      return (this.minutes < 10 ? '0' : '') + this.minutes;
+    },
+    sec() {
+      return (this.seconds < 10 ? '0' : '') + this.seconds;
     },
   },
-  data() {
-    return {
-      write: this.openWriteDialog,
-    };
-  },
-  computed: {
-    ...mapGetters({ address: ['getCurrentAddress'], user: ['getUserInfo'] }),
-  },
-  components: { WriteDialog },
   methods: {
-    closeWrite() {
-      this.write = false;
-      this.$emit('close-write');
+    click() {
+      this.$store.commit('WRITE_DIALOG', true);
     },
   },
 };
