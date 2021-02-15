@@ -10,7 +10,7 @@
       cols="3"
     >
       <div class="col" ontouchstart="this.classList.toggle('hover');">
-        <div class="container">
+        <div class="container" @click=moveToDetail(item.id)>
           <div class="front" :style="{ backgroundImage: 'url(' + item.image[0].filePath + ')' }">
           </div>
           <div class="back">
@@ -45,21 +45,15 @@ export default {
             (response)=>{
                 const content = response.data.content[0];
                 this.email = content.email;
-                // console.log("emaieeeeel",this.email);
                 timelineInfo(
                   this.email,
                   (response)=>{
                       const res = response.data;
-                      // console.log("res",res);
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
-                        // console.log("item",item);
-                        // console.log("img",item.image);
-                        // console.log("img0",item.image[0]);
                         if(item.image[0]==null){
                           continue;
                         }
-                        // console.log("filePath",item.image[0].filePath);
                         this.boardList.push(item);
                       }
                   },
@@ -73,6 +67,12 @@ export default {
             }
         )
     },
+    methods:{
+      moveToDetail(data){
+        console.log("이동할 게시글 id ",data);
+        this.$router.push({ name: 'Detail', params: { id: this.data.id } });
+      }
+    }
 };
 </script>
 
