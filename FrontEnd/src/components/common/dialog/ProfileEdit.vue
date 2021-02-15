@@ -18,18 +18,33 @@
           </h3>
         </template>
         <div class="con-content">
-          <div>
-            <v-file-input
-              label="File input"
-              filled
-              prepend-icon="mdi-camera"
-            ></v-file-input>
-          </div>
-          <!-- 
-           -->
           <div class="con-form">
+            대표지도
+            <vs-select placeholder="Select" v-model="value">
+              <vs-option label="national" value="national">
+                전국
+              </vs-option>
+              <vs-option label="seoul" value="seoul">
+                서울
+              </vs-option>
+              <vs-option label="gyeonggi" value="gyeonggi">
+                경기
+              </vs-option>
+              <vs-option label="busan" value="busan">
+                부산
+              </vs-option>
+              <vs-option label="gangwon" value="gangwon">
+                강원
+              </vs-option>
+              <vs-option label="gwangju" value="gwangju">
+                광주
+              </vs-option>
+              <vs-option label="ulsan" value="ulsan">
+                울산
+              </vs-option>
+            </vs-select>
             이메일
-            <vs-input icon-before v-model="email" placeholder="Email" class="wide">
+            <vs-input icon-before v-model="email" placeholder="Email" readonly>
               <template #icon>
                 @
               </template>
@@ -47,10 +62,11 @@
               </template>
             </vs-input>
             닉네임
-            <vs-input icon-before placeholder="3글자이상">
+            <vs-input icon-before placeholder="3글자이상" :value=nickname>
               <template #icon>
                 <i class="bx bx-user"></i>
               </template>
+              
             </vs-input>
             한줄소개
             <vs-input icon-before placeholder="한줄소개">
@@ -59,17 +75,15 @@
               </template>
             </vs-input>
             성별
-            <div>
-              <vs-select placeholder="Select" v-model="value">
-                <vs-option label="Vuesax" value="1">
-                  Man
-                </vs-option>
-                <vs-option label="Vue" value="2">
-                  Woman
-                </vs-option>
-              </vs-select>
-            </div>
-          생일
+            <vs-select placeholder="Select" v-model="value">
+              <vs-option label="Man" value="m">
+                Man
+              </vs-option>
+              <vs-option label="Woman" value="w">
+                Woman
+              </vs-option>
+            </vs-select>
+            생일
             <vs-input type="date" icon-after> </vs-input>
           </div>
 
@@ -84,17 +98,44 @@
     </div>
 </template>
 <script scoped>
-
+import { mapGetters } from 'vuex';
+import {searchUserByEmail} from '../../../api/account'
   export default {
     components: {  },
     data: () => ({
-    active: false,
-    value: '',
-    email: '',
-    password: '',
-    value2: '',
-    remember: false,
-  }),
+      active: false,
+      value: '',
+      email: '',
+      password: '',
+      nickname:'',
+      intro:'',
+      remember: false,
+      userInfo:[],
+    }),
+    computed:{
+      ...mapGetters({
+        user:['getUserInfo'],
+      })
+    },
+    created(){
+        // console.log(email);
+        searchUserByEmail(
+            {keyword : this.user.email},
+            (response)=>{
+                const profile = response.data.content;
+                const item = profile[0];
+                this.userInfo.push(item);
+                this.email=item.email;
+                this.nickname=item.nickname;
+                this.intro=item.mystory;
+                // console.log(item.nickname);
+            },
+            (error)=>{
+                console.log("edit에러"+error);
+            }
+        )
+
+    }
 
   }
 </script>
@@ -128,11 +169,6 @@
     width 100%
 
   }
-  .wide{
-        
-        
-  }
-    
     .flex
       display flex
       align-items center

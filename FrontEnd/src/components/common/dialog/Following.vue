@@ -1,14 +1,14 @@
 <template>
     <div class="center">
       <vs-button
-      color="white"
+            color="white"
             border
             :active="active == 2"
             @click="active=!active"
         >
-          <span class="texts">
-            <i class="bx bxs-heart"> 팔로워<span class="numbers"> {{this.followerCnt}}</span></i> 
-          </span>
+            <span class="texts">
+              <i class="bx bxs-heart"> 팔로잉<span class="numbers"> {{this.followingCnt}}</span></i> 
+            </span>
         </vs-button>
       <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="500px" height="500px">
         <template #header>
@@ -17,7 +17,7 @@
           </h3>
         </template>
         <div class="con-content">
-          <vs-table class="w-auto" width="300px" height="300px">
+          <vs-table class="w-auto" width="300px">
             <template #tbody>
               <vs-tr
                 :key="i"
@@ -54,15 +54,15 @@
               </vs-tr>
             </template>
           </vs-table>
-          <div class="whole">팔로워 모두 보기</div>
+          <div class="whole">팔로잉 모두 보기</div>
         </div>
       </vs-dialog>
     </div>
 </template>
 <script scoped>
 import { mapGetters } from 'vuex';
-import {searchFollowers} from '../../../api/follow'
-import {searchUserByNickname} from '../../../api/account'
+import {searchFollowings} from '../../../api/follow'
+import {searchUserByEmail, searchUserByNickname} from '../../../api/account'
 // import FollowListsWhole from '../../index/mypage/FollowLists';
   export default {
     // components: { FollowListsWhole },
@@ -74,7 +74,7 @@ import {searchUserByNickname} from '../../../api/account'
         id:'jimotme',//this.$route.params.id로 받은 현재 유저의 닉네임
         //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
         email:'',
-        followerCnt:0,
+        followingCnt:0,
       }
     },
     computed:{
@@ -83,20 +83,26 @@ import {searchUserByNickname} from '../../../api/account'
       })
     },
     created(){
+        searchUserByEmail(
+            // {keyword : this.email},
+            // (response)=>{
+            //     const content = response.data.content[0];
+            //     this.email=content.email;
+            // },
+            // (error)=>{
+            //     console.log("err"+error);
+            // }
+        ),
         searchUserByNickname(
             {keyword : this.id},
             (response)=>{
                 const content = response.data.content[0];
                 this.email = content.email;
-                searchFollowers(
+                searchFollowings(
                   this.email,
                   (response)=>{
                       const res = response.data;
-                      // console.log("--------");
-                      // console.log("email",this.email);
-                      // console.log("res",res);
-                      // console.log("--------");
-                      this.followerCnt = res.length;
+                      this.followingCnt = res.length;
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
                         // console.log(item);
@@ -128,6 +134,6 @@ import {searchUserByNickname} from '../../../api/account'
   margin-bottom: -15%;
 }
 .texts{
-  color:rgb(255, 30, 98);
+  color:dodgerblue;
 }
 </style>

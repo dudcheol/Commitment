@@ -1,0 +1,80 @@
+<template>
+  <v-row>
+    <v-col
+      v-for="item in boardList"
+      :key="item"
+      class="d-flex child-flex"
+      cols="4"
+    >
+      <v-img
+        :src="item.image[0].filePath"
+        :lazy-src="item.image[0].filePath"
+        aspect-ratio="1"
+        class="grey lighten-2"
+      >
+        <template v-slot:placeholder>
+          <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+          >
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+      </v-img>
+    </v-col>
+  </v-row>
+</template>
+
+
+<script scoped>
+import {searchUserByNickname} from '../../../api/account'
+import {timelineInfo} from '../../../api/timeline'
+export default {
+  data(){
+    return{
+      boardList:[],
+      id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
+      //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
+      email:'',
+    }
+  },
+    created(){
+        searchUserByNickname(
+            {keyword : this.id},
+            (response)=>{
+                const content = response.data.content[0];
+                this.email = content.email;
+                console.log("email",this.email);
+                timelineInfo(
+                  this.email,
+                  (response)=>{
+                      const res = response.data;
+                      console.log("res",res);
+                      for(let i=0;i<res.length;i++){
+                        const item = res[i];
+                        if(item.image[0]==null){
+                          continue;
+                        }
+                        this.boardList.push(item);
+                      }
+                  },
+                  (error)=>{
+                      console.log("timeline에러"+error);
+                  }
+                )
+            },
+            (error)=>{
+                console.log("timeMobile에러"+error);
+            }
+        )
+    },
+};
+</script>
+
+<style scoped>
+
+</style>

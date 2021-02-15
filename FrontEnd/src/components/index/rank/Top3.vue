@@ -57,7 +57,17 @@
 </template>
 <script>
 export default {
+<<<<<<< .merge_file_a21256
+  data: () => ({ 
+    props:['area'],//props속성이름
+    mounted(){
+      console.log("받음"+this.$props.send)
+
+    }
+   }),
+=======
   data: () => ({ valueOne: '', valueTwo: '' }),
+>>>>>>> .merge_file_a05492
 };
 </script>
 
@@ -105,5 +115,8 @@ export default {
 }
 .percentage{
   color: rgba(0, 0, 0, 0.589);
+}
+.three{
+  margin-top : 5%;
 }
 </style>

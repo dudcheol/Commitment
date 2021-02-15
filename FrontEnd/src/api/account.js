@@ -31,6 +31,28 @@ function logout() {
   instance.defaults.headers['auth-token'] = undefined;
 }
 
+
+function searchUserByEmail(keyword, success, fail){
+  instance
+      .get('search/email',{params:keyword})
+      .then(success)
+      .catch(fail);
+}
+
+function searchUserByNickname(keyword, success, fail){
+  instance
+      .get('search/nickname',{params:keyword})
+      .then(success)
+      .catch(fail);
+}
+
+function editProfile(param, success, fail){
+  instance
+      .post('profile/upload', param)
+      .then(success)
+      .catch(fail);
+}
+
 // 이메일, 닉네임, 비밀번호, 전화, 나의한마디, 성별, 생일, 지역, 나이 
 function signup ( userInfo, success, fail) {
   console.log("accountjs" )
@@ -65,4 +87,4 @@ async function googleLogin( userInfo, success, fail) {
   .catch(fail);
 }
 
-export { login, findByToken, setAuthTokenToHeader, logout, signup, smtp, googleLogin };
+export { login, findByToken, setAuthTokenToHeader, logout, signup, smtp, googleLogin, searchUserByEmail, searchUserByNickname, editProfile };
