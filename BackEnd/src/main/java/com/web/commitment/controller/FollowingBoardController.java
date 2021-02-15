@@ -51,6 +51,7 @@ public class FollowingBoardController {
 		List<BoardDto> boardDtos = clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
+	
 	//유저의 전체  커밋 내역이 게시물마다 계속 출력되어 최적화 작업..
 	public List<BoardDto> clean(Page<Board> boards){
 		List<BoardDto> boardDtos = new ArrayList<BoardDto>();

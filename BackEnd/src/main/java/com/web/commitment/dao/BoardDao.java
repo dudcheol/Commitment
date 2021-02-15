@@ -17,7 +17,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findAllByCommitId(String id);
 
-	List<Board> findBoardByEmail(String to);
+//	@Query(value = "select * from sns where user_email=:email order by created_at desc", nativeQuery = true)
+//	List<Board> findBoardByEmail(@Param("email") String email);
 	
 	@Query(value = "select * from sns s, commit c where s.commit_id=c.id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
 	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
@@ -69,6 +70,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email") String email, Pageable pageable);
+
 	
 	@Query(value = "select * from sns s, commit c "
 			+ "where c.id=s.commit_id and c.open=1 "
@@ -79,4 +81,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "where c.id=s.commit_id and c.open=1 "
 			+ "and c.local_x=:x and c.local_y=:y order by s.created_at desc", nativeQuery = true)
 	Page<Board> nationalsns(@Param("x") String x,@Param("y") String y, Pageable pageable);
+
+	@Query(value = "select max(id) from sns", nativeQuery = true)
+	String getMaxId();
+
 }
