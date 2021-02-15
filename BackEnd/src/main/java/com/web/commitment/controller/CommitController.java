@@ -176,11 +176,12 @@ public class CommitController {
 				commit.setRegion("national");
 				region = "전국";
 			}
+			
 			double[] arr = hm.get("전국");
 			int[] dot = mapIndex(arr, user.getLat(), user.getLng());// 전국
 			double[] local = hm.get(region);
 			int[] dot2 = mapIndex(local, user.getLat(), user.getLng());
-
+			
 			commit.setNationalX(String.valueOf(dot[0]));
 			commit.setNationalY(String.valueOf(dot[1]));
 			commit.setLocalX(String.valueOf(dot2[0]));
