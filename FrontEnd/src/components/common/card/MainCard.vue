@@ -43,6 +43,7 @@
                   :key="'MainCardEdit' + index"
                   :ripple="false"
                   dense
+                  @click="item.func"
                 >
                   <v-list-item-icon>
                     <v-icon
@@ -123,13 +124,14 @@
 import { mapActions, mapGetters } from 'vuex';
 import { like } from '../../../api/like';
 import { follow } from '../../../api/follow';
+import { removeBoard } from '../../../api/board';
 export default {
   props: ['data'],
   data() {
     return {
       etc: [
-        { icon: 'mdi-pencil-outline', text: '수정' },
-        { icon: 'mdi-trash-can-outline', text: '삭제' },
+        // { icon: 'mdi-pencil-outline', text: '수정', func: this.modify },
+        { icon: 'mdi-trash-can-outline', text: '삭제', func: this.remove },
       ],
       likeActive: false,
       hasFollowed: true,
@@ -210,6 +212,23 @@ export default {
       }
       return false;
     },
+    remove() {
+      removeBoard(
+        this.data.id,
+        (response) => {
+          console.log('%cMainCard.vue line:220 response', 'color: #007acc;', response);
+          this.$store.commit('BOARD_REFRESH');
+        },
+        (error) => {
+          console.log(
+            '%cerror MainCard.vue line:219 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+    modify() {},
   },
   created() {
     this.likeActive = this.checkLike();
