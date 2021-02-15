@@ -62,34 +62,36 @@
           auto-grow
         ></v-textarea>
       </div>
-      <div class="image-box">
-        <label for="file">
-          <b-row
-            class="file-preview-container"
-            style="overflow: auto; max-height: 120px"
-          >
-            <div
-              v-for="(file, index) in files"
-              :key="index"
-              class="file-preview-wrapper"
-            >
-              <div
-                class="file-close-button"
-                @click="fileDeleteButton"
-                :name="file.number"
-              ></div>
-              <img
-                :src="file.preview"
-                style="
+
+      <!-- <img
+          :src="file.preview"
+          style="
                     width: 100px;
                     height: 100px;
                     border-radius: 15px;
                     margin-left: 20px;
                   "
-              />
-            </div>
-          </b-row>
-        </label>
+        /> -->
+
+      <div class="file-preview-container">
+        <div
+          v-for="(file, index) in files"
+          :key="index"
+          class="file-preview-wrapper"
+        >
+          <div
+            class="file-close-button"
+            @click="fileDeleteButton"
+            :name="file.number"
+          >
+            X
+          </div>
+          <img
+            :src="file.preview"
+            style="border-radius: 5px; width: 100px;
+                    height: 100px;"
+          />
+        </div>
       </div>
       <template #footer>
         <div class="d-flex align-center">
@@ -98,6 +100,13 @@
           <div class="d-flex flex-row ml-auto">
             <div class="image-box">
               <label for="file">
+                <input
+                  type="file"
+                  id="file"
+                  ref="files"
+                  @change="selectPhoto"
+                  multiple
+                />
                 <vs-button
                   size="l"
                   circle
@@ -107,13 +116,6 @@
                   :active="active == 5"
                   @click="active = 5"
                 >
-                  <input
-                    type="file"
-                    id="file"
-                    ref="files"
-                    @change="selectPhoto"
-                    multiple
-                  />
                   <i class="bx bxs-photo-album"> </i>
                 </vs-button>
               </label>
@@ -283,6 +285,10 @@ export default {
 .file-preview-wrapper {
   padding: 10px;
   position: center;
+}
+
+.file-preview-content-container {
+  height: 100%;
 }
 
 .file-preview-wrapper > img {
