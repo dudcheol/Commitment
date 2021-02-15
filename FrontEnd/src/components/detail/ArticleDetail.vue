@@ -76,7 +76,6 @@
               <b>Jorge Watson</b>
           </div>
           <div v-else>
-          
             댓글이 없습니다
           </div>
         </div>
@@ -98,34 +97,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
+// import { boardDetail } from '../../api/board';
 export default {
-
-  created() {
-    this.boardData.id = this.$route.params['id'];
-    console.log("created", this.boardData.id)
-  },
-  computed: {
-    ...mapGetters(['getBoardDetail']),
-  },
-
-  methods: {
-  },
-
-  // mounted() {
-  //   console.log('mounted', this.boardData);
-  //   this.BOARDDETAIL(this.boardData.id);
-  //   if (this.boardDetail.title) {
-  //   this.boardData.title = this.boardDetail.title; }
-  //   this.boardData.content = this.boardDetail.content;
-  //   this.boardData.username = this.boardDetail.user.nickname;
-  //   this.boardData.mystory = this.boardDetail.user.mystory;
-  //   this.boardData.profileimage = this.boardDetail.user.profile.filePath;
-  //   this.boardData.contentimage = this.boardDetail.image;
-  //   this.boardData.tag = this.boardDetail.tag;
-  //   this.boardData.comment = this.boardDetail.comment;
-  //   console.log('mounted after', this.boardData);
-  // },
-  data: () => ({
+    data: () => ({
     width: 200,
     input: null,
     boardData: {
@@ -144,6 +118,32 @@ export default {
     // content: null,
     // },
   }),
+  created() {
+    this.boardData.id = this.$route.params['id'];
+    console.log("created", this.boardDetail)
+  },
+  computed: {
+    ...mapGetters(['getBoardDetail']),
+  },
+
+  methods: {
+  },
+
+  mounted() {
+    console.log('mounted', this.boardData);
+    this.BOARDDETAIL(this.boardDetail.id);
+    if (this.boardDetail.title) {
+    this.boardData.title = this.boardDetail.title; }
+    this.boardData.content = this.boardDetail.content;
+    this.boardData.username = this.boardDetail.user.nickname;
+    this.boardData.mystory = this.boardDetail.user.mystory;
+    this.boardData.profileimage = this.boardDetail.user.profile.filePath;
+    this.boardData.contentimage = this.boardDetail.image;
+    this.boardData.tag = this.boardDetail.tag;
+    this.boardData.comment = this.boardDetail.comment;
+    console.log('mounted after', this.boardData);
+  },
+
 };
 </script>
 
