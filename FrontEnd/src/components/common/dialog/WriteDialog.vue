@@ -62,8 +62,17 @@
           auto-grow
         ></v-textarea>
       </div>
-
-      <!-- <img
+      <!-- <div
+        v-for="(file, index) in files"
+        :key="index"
+        class="file-preview-wrapper"
+      >
+        <div
+          class="file-close-button"
+          @click="fileDeleteButton"
+          :name="file.number"
+        ></div>
+        <img
           :src="file.preview"
           style="
                     width: 100px;
@@ -71,7 +80,8 @@
                     border-radius: 15px;
                     margin-left: 20px;
                   "
-        /> -->
+        />
+      </div> -->
 
       <div class="file-preview-container">
         <div
@@ -88,8 +98,11 @@
           </div>
           <img
             :src="file.preview"
-            style="border-radius: 5px; width: 100px;
-                    height: 100px;"
+            style="
+                    width: 100x;
+                    height: 100px;
+                    border-radius: 5px;
+                  "
           />
         </div>
       </div>
@@ -100,13 +113,6 @@
           <div class="d-flex flex-row ml-auto">
             <div class="image-box">
               <label for="file">
-                <input
-                  type="file"
-                  id="file"
-                  ref="files"
-                  @change="selectPhoto"
-                  multiple
-                />
                 <vs-button
                   size="l"
                   circle
@@ -116,6 +122,13 @@
                   :active="active == 5"
                   @click="active = 5"
                 >
+                  <input
+                    type="file"
+                    id="file"
+                    ref="files"
+                    @change="selectPhoto"
+                    multiple
+                  />
                   <i class="bx bxs-photo-album"> </i>
                 </vs-button>
               </label>
@@ -161,7 +174,7 @@ export default {
   data() {
     return {
       board: {
-        email: 'test@test.com', // 얘 왜 user.email하면 인식 못하지?
+        email: 'test@test.com',
         title: 'title',
         commitId: '176', // 넘겨받기
         location: 'national', // 넘겨받기

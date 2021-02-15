@@ -11,4 +11,16 @@ export default {
   getCurrentAddress(state) {
     return state.currentAddress;
   },
+  getTotalTime(state) {
+    return state.totalTime;
+  },
+  getMinutes(state) {
+    return state.minutes;
+  },
+  getSeconds(state) {
+    return state.seconds;
+  },
+  getFollowingList(state) {
+    return state.following;
+  },
 };

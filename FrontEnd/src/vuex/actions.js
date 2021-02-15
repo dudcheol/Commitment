@@ -1,7 +1,16 @@
-import { findByToken, login, setAuthTokenToHeader, logout } from '../api/account';
+import {
+  findByToken,
+  login,
+  setAuthTokenToHeader,
+  logout,
+  signup,
+  smtp,
+  googleLogin,
+} from '../api/account';
 import { latlngToAddress } from '../api/commit';
+import { boardDetail } from '../api/board';
 import router from '../router';
-import axios from 'axios';
+import { getFollowingList } from '../api/follow';
 
 export default {
   async LOGIN(context, user) {
@@ -31,6 +40,7 @@ export default {
         user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
         user.followerCnt = response.data.followerCnt;
+        context.dispatch('GET_FOLLOWING_LIST', user.email);
         context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
@@ -42,6 +52,7 @@ export default {
     context.commit('LOGOUT');
     localStorage.removeItem('auth-token');
     logout();
+    router.replace('/login');
   },
   CURRENT_LATLNG(context) {
     if ('geolocation' in navigator) {
@@ -89,51 +100,105 @@ export default {
       }
     );
   },
-  SIGNUP: (store, payload) => {
+  SIGNUP(context, payload) {
+    console.log('SIGNUP actionjs line93');
+    // payload가 user 정보가 담겨져있음
     console.log(payload);
-    axios
-      .post('https://i4a308.p.ssafy.io:8080/account/signup', payload)
-      .then((response) => {
-        console.log('회원가입 : ' + response.data.length);
-        store.dispatch('SMTP', payload);
-      })
-      .catch((response, error) => {
-        console.log('잘못됐음' + response.status);
-        console.log(error);
-        // router.push("/error");
-      });
+    let result = false;
+    signup(
+      payload,
+      (response) => {
+        // const userdata = {
+        //   email: payload.email,
+        // }
+        // var jsonObj = JSON.parse(response);
+        console.log('mydata is', response);
+        context.commit('SIGNUP', payload);
+        // 여기서 다시 SMTP 호출하고싶은경우?
+        context.dispatch('SMTP', response.data);
+        console.log('SIGNUP ACTIONSJS ACTIVATE');
+        result = true;
+      },
+      (error) => {
+        console.log('Signup Error', error);
+        result = false;
+        console.log('SIGNUP actionjs line107');
+      }
+    );
+    return result;
   },
-  SMTP: (store, payload) => {
-    console.log(payload);
-    axios
-      .get('https://i4a308.p.ssafy.io:8080/account/smtp?email=' + payload.email)
-      .then((response) => {
-        console.log('smtp : ' + response.data.length);
-      })
-      .catch((response, error) => {
-        console.log('FAIL : ' + response.status);
-        console.log(error);
-        alert('이메일 발송 실패: 유효하지 않은 이메일 입니다.');
-        store.dispatch('DELETE', payload.email);
-      });
-  },
-  DELETE: (store, payload) => {
-    console.log(payload);
-    axios
-      .delete('/account/delete?email=' + payload)
-      .then((response) => {
-        console.log(response);
-        if (response.data.data == 'success') {
-          console.log('sc');
-          store.dispatch('logout');
-        } else {
-          console.log('fa');
+  SMTP(context, payload) {
+    console.log('SMTP payload', payload),
+      smtp(
+        payload.email,
+        (response) => {
+          console.log('SMTP response success', response.data);
+          context.commit('SMTP', response.data);
+        },
+        (error) => {
+          console.log('SMTP ERROR' + error);
         }
-      })
-      .catch((response, error) => {
-        console.log('FAIL : ' + response.status);
+      );
+  },
+  async GOOGLE_LOGIN(context, payload) {
+    console.log('google login actionjs ');
+    var socialresult = false;
+    await googleLogin(
+      payload,
+      (response) => {
+        console.log('response success mydata is', response);
+        localStorage.setItem('auth-token', response.data['auth-token']);
+        setAuthTokenToHeader(response.data['auth-token']);
+        context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
+        socialresult = true;
+      },
+      (error) => {
+        console.log('google login Error', error);
+        socialresult = false;
+      }
+    );
+    console.log(socialresult);
+    return socialresult;
+  },
+  START_TIMER: (store) => {
+    store.commit(
+      'START_TIMER',
+      setInterval(() => store.dispatch('COUNTDOWN'), 1000)
+    );
+    store.commit('COMMITBTN_STATE_CHANGER', false);
+  },
+  STOP_TIMER: (store) => {
+    store.commit('STOP_TIMER');
+    store.commit('COMMITBTN_STATE_CHANGER', true);
+  },
+  COUNTDOWN: (store) => {
+    store.commit('TOTAL_TIME');
+  },
+  GET_FOLLOWING_LIST: (store, payload) => {
+    getFollowingList(
+      payload,
+      (response) => {
+        store.commit('GET_FOLLOWING_LIST', response.data);
+      },
+      (error) => {
+        console.log(
+          '%cerror actions.js line:38 ',
+          'color: red; display: block; width: 100%;',
+          error
+        );
+      }
+    );
+  },
+  BOARDDETAIL(context, payload) {
+    boardDetail(
+      payload,
+      (response) => {
+        console.log('actionsjs boardDetail', response.data);
+        context.commit('BOARDDETAIL', response.data);
+      },
+      (error) => {
         console.log(error);
-        router.push('/error');
-      });
+      }
+    );
   },
 };

@@ -10,9 +10,16 @@ import 'boxicons/css/boxicons.min.css';
 import VueHorizontalTimeline from 'vue-horizontal-timeline'; //타임라인
 import VueRouter from 'vue-router';
 import ScrollBar from '@morioh/v-perfect-scrollbar';
+import ScrollAnimation from './directive/scrollanimation.js'
+
+Vue.directive('scrollanimation', ScrollAnimation)
 import * as VueGoogleMaps from 'vue2-google-maps';
+import firebase from 'firebase/app';
+import { FIREBASE_CONFIG } from './config';
+import { LoaderPlugin } from 'vue-google-login';
 
 Vue.config.productionTip = false;
+
 
 Vue.use(Vuesax, {});
 Vue.use(VueRouter);
@@ -29,6 +36,9 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places',
   },
 });
+Vue.use(LoaderPlugin, {
+  client_id: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com'
+});
 
 new Vue({
   vuetify,
@@ -36,3 +46,5 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
+
+firebase.initializeApp(FIREBASE_CONFIG);
