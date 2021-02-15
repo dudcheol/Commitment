@@ -1,18 +1,25 @@
 <template id="app-template">
   <div class="app">
     <br>
-    <input type="text" class="search" v-model="searchVal" placeholder=''>
+    <input type="text" class="search" 
+    placeholder=''
+    @input="onInput"
+    >
   </div>
 </template>
 
 <script>
+
   export default {
     data:()=>({
-      searchVal: "",
-      types: [],
+      message: "",
     }),
-    computed: {
-    },
+    methods:{
+      onInput(e){
+        this.message = e.target.value;
+        this.$emit('keyword',this.message);//e.target.valut는 부모의 inputValue
+      }
+    }
 };
 
 </script>

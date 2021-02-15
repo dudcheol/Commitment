@@ -242,6 +242,7 @@ export default {
       console.log(this.files); // 콘솔에 배열 찍기
     },
     fileDeleteButton(e) {
+      console.log(e.target.getAttribute('name'));
       const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
     },

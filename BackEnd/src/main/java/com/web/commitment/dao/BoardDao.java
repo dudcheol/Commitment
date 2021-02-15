@@ -17,7 +17,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findAllByCommitId(String id);
 
-	List<Board> findBoardByEmail(String to);
+//	@Query(value = "select * from sns where user_email=:email order by created_at desc", nativeQuery = true)
+//	List<Board> findBoardByEmail(@Param("email") String email);
 	
 	@Query(value = "select * from sns s, commit c where s.commit_id=c.id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
 	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
@@ -26,8 +27,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	Page<Board> findByTitleContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
 	// 랭킹관련
-	@Query(value = "select sns.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from sns "
-			+ "group by sns.user_email", nativeQuery = true)
+	@Query(value = "select sns.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, profile.file_path profile" + 
+			" from sns  left outer join profile on sns.user_email=profile.user_email group by sns.user_email", nativeQuery = true)
 	List<Ranking> boardRanking();
 	
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and s.user_email=:email order by s.created_at desc", nativeQuery = true)
@@ -70,6 +71,14 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email") String email, Pageable pageable);
 
-	@Query(value = "select max(id) from sns", nativeQuery = true)
-	String getMaxId();
+
+	@Query(value = "select * from sns s, commit c "
+			+ "where c.id=s.commit_id and c.open=1 "
+			+ "and c.region_name=:region and c.local_x=:x and c.local_y=:y order by s.created_at desc", nativeQuery = true)
+	Page<Board> locationsns(@Param("x") String x,@Param("y") String y,@Param("region") String region,Pageable pageable);
+
+	@Query(value = "select * from sns s, commit c "
+			+ "where c.id=s.commit_id and c.open=1 "
+			+ "and c.local_x=:x and c.local_y=:y order by s.created_at desc", nativeQuery = true)
+	Page<Board> nationalsns(@Param("x") String x,@Param("y") String y, Pageable pageable);
 }

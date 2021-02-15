@@ -40,12 +40,20 @@ function userCommitMap(email, success, fail) {
     .catch(fail);
 }
 
+function userCommitCount(email, success, fail) {
+  instance
+    .get('commit/total', { params: { email } })
+    .then(success)
+    .catch(fail);
+}
+
 export {
   userCommitMap,
   followCommitMap,
   latlngToAddress,
   addCommit,
   emptyCommit,
+  userCommitCount,
   READ_PERMISSION_DENIED,
   READ_PERMISSION_OK,
 };

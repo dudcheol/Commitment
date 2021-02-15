@@ -343,37 +343,37 @@
   </div>
 </template>
 <script>
-import { commitrate, badgeList, mybadge } from "../../../api/Badge.js";
-import Dialog from "../../common/dialog/Dialog.vue";
-import { mapGetters } from "vuex";
+import { commitrate, badgeList, mybadge } from '../../../api/badge';
+import Dialog from '../../common/dialog/Dialog.vue';
+import { mapGetters } from 'vuex';
 export default {
-  name: "EtcBadge",
+  name: 'EtcBadge',
   components: { Dialog },
   data() {
     return {
       num: 4,
       num2: 4,
-      mainbadge: "",
+      mainbadge: '',
       modalflag: false,
       commitper: 0,
       badges: [],
       badgesflag: [],
-      badgesDate: ["", "", "", "", "", "", "", "", ""],
+      badgesDate: ['', '', '', '', '', '', '', '', ''],
       badgename: [
-        "first_commit",
-        "total_commit",
-        "first_following",
-        "dokdo",
-        "seoul",
-        "gangwondo",
-        "busan",
-        "gyeonggido",
-        "ulsan",
+        'first_commit',
+        'total_commit',
+        'first_following',
+        'dokdo',
+        'seoul',
+        'gangwondo',
+        'busan',
+        'gyeonggido',
+        'ulsan',
       ],
     };
   },
   computed: {
-    ...mapGetters({ user: ["getUserInfo"] }),
+    ...mapGetters({ user: ['getUserInfo'] }),
   },
   mounted() {
     this.mainbadge = this.user.badge;
@@ -406,33 +406,33 @@ export default {
           false,
         ];
         for (let i = 0; i < this.badges.length; i++) {
-          if (this.badges[i].name == "first_commit") {
+          if (this.badges[i].name == 'first_commit') {
             this.badgesflag[0] = true;
-            badgedate[0] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "total_commit") {
+            badgedate[0] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'total_commit') {
             this.badgesflag[1] = true;
-            badgedate[1] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "first_following") {
+            badgedate[1] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'first_following') {
             this.badgesflag[2] = true;
-            badgedate[2] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "dokdo") {
+            badgedate[2] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'dokdo') {
             this.badgesflag[3] = true;
-            badgedate[3] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "seoul") {
+            badgedate[3] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'seoul') {
             this.badgesflag[4] = true;
-            badgedate[4] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "gangwondo") {
+            badgedate[4] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'gangwondo') {
             this.badgesflag[5] = true;
-            badgedate[5] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "busan") {
+            badgedate[5] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'busan') {
             this.badgesflag[6] = true;
-            badgedate[6] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "gyeonggido") {
+            badgedate[6] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'gyeonggido') {
             this.badgesflag[7] = true;
-            badgedate[7] = this.badges[i].createdAt.split(" ")[0];
-          } else if (this.badges[i].name == "ulsan") {
+            badgedate[7] = this.badges[i].createdAt.split(' ')[0];
+          } else if (this.badges[i].name == 'ulsan') {
             this.badgesflag[8] = true;
-            badgedate[8] = this.badges[i].createdAt.split(" ")[0];
+            badgedate[8] = this.badges[i].createdAt.split(' ')[0];
           }
         }
         this.badgesDate = badgedate;
@@ -456,7 +456,8 @@ export default {
       );
     },
     modalup(num) {
-      if (this.badgesflag[num]) {//획득한 뱃지라면 대표뱃지 설정가능
+      if (this.badgesflag[num]) {
+        //획득한 뱃지라면 대표뱃지 설정가능
         this.modalflag = true;
         this.mainbadge = this.badgename[num];
       }

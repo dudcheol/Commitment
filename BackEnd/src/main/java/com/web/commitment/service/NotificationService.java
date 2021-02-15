@@ -122,7 +122,7 @@ public class NotificationService {
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else if (type.equals("comment")) { // 댓글
-			String lastId = commentDao.findByLastComment();
+			String lastId = commentDao.findLastComment(user.getEmail());
 			notificationSaveDto.setCommentId(lastId); // sns_id로 변경
 			saveNoti.setValueAsync(notificationSaveDto);
 			

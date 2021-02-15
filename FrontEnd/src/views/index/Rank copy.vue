@@ -16,7 +16,7 @@
                   <div class="profiles justify-center">
                     <div class="second">
                       <v-avatar size="80">
-                        <img :src="imgSrc2" alt="John" />
+                        <img src="http://news.samsungdisplay.com/wp-content/uploads/2018/08/8.jpg" alt="John" />
                       </v-avatar>
                       <h3 class="percentage">{{cnt2}}</h3>
                       <p class="nickname">{{nickname2}}</p>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="first">
                       <v-avatar size="100">
-                        <img :src="imgSrc1" alt="John" />
+                        <img src="https://www.gohawaii.com/sites/default/files/styles/image_gallery_bg_xl/public/hero-unit-images/12709.jpg?itok=RByMHmpc" alt="John" />
                       </v-avatar>
                       <h3 class="percentage">{{cnt1}}</h3>
                       <p class="nickname">{{nickname1}}</p>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="third">
                       <v-avatar size="80">
-                        <img :src="imgSrc3" alt="John" />
+                        <img src="https://images.chosun.com/resizer/nt--G8y3-98W0alOwx6Ws2UqDYI=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/V7QZJM2PAG6DDUWOIBWMW3ZHAI.jpg" alt="John" />
                       </v-avatar>
                       <h3 class="percentage">{{cnt3}}</h3>
                       <p class="nickname">{{nickname3}}</p>
@@ -68,7 +68,7 @@
               <SearchBar @keyword="onInputChange"/>
               <div class="frame">
                 <div class="tables">
-                  <vs-table class="w-auto text-center">
+                  <vs-table>
                     <template #tbody>
                       <vs-tr
                         :key="i"
@@ -84,8 +84,8 @@
                           size="50"  
                           >
                             <img
-                              :src="tr.profile"
-                              alt=""
+                              src="https://t1.daumcdn.net/cfile/tistory/251A1742591983A922"
+                              alt="John"
                             >
                           </v-avatar>
                         </vs-td>
@@ -95,13 +95,12 @@
                         <vs-td class="percentageSmall">
                         {{ tr.cnt }}
                         </vs-td>
-                        <vs-td class="temp">
+                        <vs-td class="percentageSmall">
                           <vs-button
                             icon
                             border
                             :active="active == 2"
                             @click="active = 2"
-                             class="temp2"
                           >
                             <i class='bx bxs-heart' ></i>
                           </vs-button>
@@ -109,7 +108,6 @@
                       </vs-tr>
                     </template>
                   </vs-table>
-
                 </div>
               </div>
             </div>
@@ -121,7 +119,7 @@
   </v-container>
 </template>
 
-<script scoped>
+<script>
 import SelectZone from '../../components/index/rank/SelectZone';
 import SearchBar from '../../components/index/rank/SearchBar';
 import {areaList, totalList, userFindList} from '../../api/rank';
@@ -140,20 +138,23 @@ export default {
     area:"total",
     users:[],
     nickname1:"",
-    imgSrc1:'',
-    imgSrc2:'',
-    imgSrc3:'',
   }),
   methods:{
     onInputChange (inputValue){
       this.users=[];
       this.keyword = inputValue;
+      // console.log("검색어 :"+inputValue);
       userFindList(
         {keyword:inputValue},
         (response)=>{
+          
+          // const res = response.data;
           const content = response.data.content;
+          // console.log("성공"+content);
           for(let i=0;i<response.data.content.length;i++){
             const item = content[i];
+            // console.log(item);
+            // console.log("...")
             this.users.push(item);
           }
         },
@@ -171,19 +172,13 @@ export default {
           const res = response.data;
           const temp1 = res[0];
           this.nickname1=temp1.nickname;
-          this.imgSrc1 = temp1.profile;
           this.cnt1 = temp1.cnt;
-
           const temp2 = res[1];
           this.nickname2=temp2.nickname;
-          this.imgSrc2 = temp2.profile;
           this.cnt2 = temp2.cnt;
-
           const temp3 = res[2];
           this.nickname3=temp3.nickname;
-          this.imgSrc3 = temp3.profile;
           this.cnt3 = temp3.cnt;
-
           for(let i=3;i<res.length;i++){
             const item = res[i];
             console.log(item);
@@ -200,29 +195,20 @@ export default {
     totalList(
       (response)=>{
         const res = response.data;
-        
         const temp1 = res[0];
         this.nickname1=temp1.nickname;
-        this.imgSrc1 = temp1.profile;
         this.cnt1 = temp1.cnt;
-
         const temp2 = res[1];
         this.nickname2=temp2.nickname;
-        this.imgSrc2 = temp2.profile;
         this.cnt2 = temp2.cnt;
-
         const temp3 = res[2];
         this.nickname3=temp3.nickname;
-        this.imgSrc3 = temp3.profile;
         this.cnt3 = temp3.cnt;
-
         for(let i=3;i<res.length;i++){
           const item = res[i];
           console.log(item);
           this.users.push(item);
-
         }
-
       },
       (error)=>{
         console.log("에러"+error);
@@ -241,12 +227,6 @@ export default {
 </script>
 
 <style scoped>
-.temp{
-  /* background-color:blue; */
-}
-.temp2{
-  margin-right: -20px;
-}
 .container {
   max-width: 1200px;
 }
@@ -264,6 +244,10 @@ export default {
 }
 .whitebox {
   background-color: white;
+}
+.frame{
+  display: flex;
+  justify-content: center;
 }
 .like{
   margin-top:-10%;
@@ -306,7 +290,7 @@ export default {
   color: rgba(0, 0, 0, 0.589);
 }
 .tables{
-  /* background-color: red; */
+  background-color: white;
   
 }
 .profiles{

@@ -28,6 +28,7 @@ import com.web.commitment.dto.User;
 
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.CommentDto;
+import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -81,25 +82,32 @@ public class CommentController {
 
 	@GetMapping("/comment")
 	@ApiOperation(value = "해당 게시글의 댓글 목록")
-	public Page<CommentDto> mypage(@RequestParam String sns_id,Pageable pageable) {
+	public Page<CommentDto> mypage(@RequestParam String sns_id, Pageable pageable) {
 
 		List<Comment> commentList = commentDao.findBySnsId(sns_id);
 		for (Comment comment : commentList) {
-			// 만약 부모 댓글이 db에 없다면 삭제하기
+			
 			// 부모 0인경우 제외
 			if (comment.getParent().equals("0"))
 				continue;
+			
+			// 만약 부모 댓글이 db에 없다면 삭제하기
 			Optional<Comment> parent = commentDao.findById(comment.getParent());
 			if (!parent.isPresent())
 				commentDao.delete(comment);
 		}
 
-		Page<Comment> finalComments = commentDao.findBySnsIdOrderByCreatedAt(sns_id,pageable);
+		Page<Comment> finalComments = commentDao.findBySnsIdOrderByCreatedAt(sns_id, pageable);
 		List<CommentDto> comments = new ArrayList<CommentDto>();
 
 		for (Comment origin : finalComments) {
 			CommentDto target = new CommentDto();
 			BeanUtils.copyProperties(origin, target);
+			
+			UserDto user = new UserDto();
+			user.setNickname(origin.getUser().getNickname());
+			user.setProfile(origin.getUser().getProfile());
+			target.setUser(user);
 			comments.add(target);
 		}
 
