@@ -71,10 +71,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email") String email, Pageable pageable);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6b6d24ab28120cff30a34bb553636c01215988e0
 	@Query(value = "select * from sns s, commit c "
 			+ "where c.id=s.commit_id and c.open=1 "
 			+ "and c.region_name=:region and c.local_x=:x and c.local_y=:y order by s.created_at desc", nativeQuery = true)
