@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class RankingController {
         List<RankingDto> dtolist=new ArrayList<RankingDto>();
         for(Ranking r:list) {
             RankingDto rankingDto=new RankingDto();
-            rankingDto.setRanking(r);
+            BeanUtils.copyProperties(r, rankingDto);
             Optional<Profile> optional=profileDao.findById(r.getEmail());
             if(optional.isPresent())    
                 rankingDto.setProfile(optional.get());
