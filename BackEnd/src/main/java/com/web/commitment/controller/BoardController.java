@@ -129,10 +129,11 @@ public class BoardController {
 	public int delete(@RequestParam String sns_id) {
 
 		Optional<Board> sns = boardDao.findById(sns_id);
-		System.out.println(sns);
 
 		try {
-			boardDao.delete(sns.get());
+			if(sns.isPresent()) 
+				boardDao.delete(sns.get());
+			
 			return 0;
 
 		} catch (Exception e) {
