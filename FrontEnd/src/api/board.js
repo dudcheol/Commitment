@@ -44,8 +44,8 @@ function imageUpload(param, snsId, success, fail) {
     .catch(fail);
 }
 
-async function boardDetail(id, success, fail) {
-  await instance
+function boardDetail(id, success, fail) {
+  instance
     .get(`sns/${id}`)
     .then(success)
     .catch(fail);
@@ -54,6 +54,13 @@ async function boardDetail(id, success, fail) {
 function removeBoard(sns_id, success, fail) {
   instance
     .delete('sns', { params: { sns_id } })
+    .then(success)
+    .catch(fail);
+}
+
+function BoardDetail(id, param, success, fail) {
+  instance
+    .get(`sns/${id}`, { params: { param } })
     .then(success)
     .catch(fail);
 }
@@ -67,4 +74,5 @@ export {
   boardDetail,
   writeBoard,
   imageUpload,
+  BoardDetail,
 };
