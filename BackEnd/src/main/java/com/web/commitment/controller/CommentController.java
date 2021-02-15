@@ -28,6 +28,7 @@ import com.web.commitment.dto.User;
 
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.CommentDto;
+import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -102,7 +103,11 @@ public class CommentController {
 		for (Comment origin : finalComments) {
 			CommentDto target = new CommentDto();
 			BeanUtils.copyProperties(origin, target);
-			target.setProfile(origin.getUser().getProfile());
+			
+			UserDto user = new UserDto();
+			user.setNickname(origin.getUser().getNickname());
+			user.setProfile(origin.getUser().getProfile());
+			target.setUser(user);
 			comments.add(target);
 		}
 
