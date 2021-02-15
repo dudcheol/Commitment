@@ -64,6 +64,7 @@ public class RankingController {
 	@ApiOperation(value = "좋아요 랭킹")
 	public List<Ranking> likeRank() {
 		List<Ranking> list = likeDao.likeRanking();
+		// file_path
 		return list;
 	}
 	@GetMapping("/rank/follower")

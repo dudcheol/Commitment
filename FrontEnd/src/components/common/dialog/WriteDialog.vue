@@ -62,26 +62,6 @@
           auto-grow
         ></v-textarea>
       </div>
-      <!-- <div
-        v-for="(file, index) in files"
-        :key="index"
-        class="file-preview-wrapper"
-      >
-        <div
-          class="file-close-button"
-          @click="fileDeleteButton"
-          :name="file.number"
-        ></div>
-        <img
-          :src="file.preview"
-          style="
-                    width: 100px;
-                    height: 100px;
-                    border-radius: 15px;
-                    margin-left: 20px;
-                  "
-        />
-      </div> -->
 
       <div class="file-preview-container">
         <div
@@ -111,17 +91,18 @@
           <h3>게시물에 추가</h3>
 
           <div class="d-flex flex-row ml-auto">
-            <div class="image-box">
-              <label for="file">
-                <vs-button
-                  size="l"
-                  circle
-                  icon
-                  color="#00c853"
-                  flat
-                  :active="active == 5"
-                  @click="active = 5"
-                >
+            <vs-button
+              id="reg1"
+              size="l"
+              circle
+              icon
+              color="#00c853"
+              flat
+              :active="active == 5"
+              @click="active = 5"
+            >
+              <div class="image-box">
+                <label for="file">
                   <input
                     type="file"
                     id="file"
@@ -130,9 +111,9 @@
                     multiple
                   />
                   <i class="bx bxs-photo-album"> </i>
-                </vs-button>
-              </label>
-            </div>
+                </label>
+              </div>
+            </vs-button>
             <vs-button
               size="l"
               circle
@@ -288,7 +269,7 @@ export default {
 .image-box label {
   display: inline-block;
   padding: 0px 0px;
-  /* color: #fff; */
+  color: #fff;
   vertical-align: middle;
   font-size: 15px;
   cursor: pointer;
@@ -304,12 +285,12 @@ export default {
   height: 100%;
 }
 
-.file-preview-wrapper > img {
+/* .file-preview-wrapper > img {
   position: center;
   width: 400px;
   height: 400px;
   z-index: 10;
-}
+} */
 
 .header-fixed {
   position: fixed;
