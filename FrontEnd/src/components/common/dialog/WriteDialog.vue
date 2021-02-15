@@ -170,6 +170,8 @@ export default {
       files: [], //업로드용 파일
       filesPreview: [],
       uploadImageIndex: 0, // 이미지 업로드를 위한 변수
+
+      start: 0,
     };
   },
   computed: {
@@ -214,7 +216,6 @@ export default {
     },
     selectPhoto() {
       //하나의 배열로 넣기
-      let num = -1;
       for (let i = 0; i < this.$refs.files.files.length; i++) {
         this.files = [
           ...this.files,
@@ -225,16 +226,17 @@ export default {
             //이미지 프리뷰
             preview: URL.createObjectURL(this.$refs.files.files[i]),
             //삭제및 관리를 위한 number
-            number: i,
+            number: this.start,
           },
         ];
-        num = i;
+        this.start++;
       }
-      this.uploadImageIndex = num + 1; //이미지 index의 마지막 값 + 1 저장
+      this.uploadImageIndex = this.start; //이미지 index의 마지막 값 + 1 저장
 
       console.log(this.files); // 콘솔에 배열 찍기
     },
     fileDeleteButton(e) {
+      console.log(e.target.getAttribute('name'));
       const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
     },

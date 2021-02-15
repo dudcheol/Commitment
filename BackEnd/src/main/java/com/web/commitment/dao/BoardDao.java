@@ -27,8 +27,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 	Page<Board> findByTitleContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
 
 	// 랭킹관련
-	@Query(value = "select sns.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from sns "
-			+ "group by sns.user_email", nativeQuery = true)
+	@Query(value = "select sns.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, profile.file_path profile" + 
+			" from sns  left outer join profile on sns.user_email=profile.user_email group by sns.user_email", nativeQuery = true)
 	List<Ranking> boardRanking();
 	
 	@Query(value = "select * from sns s,commit c where c.id=s.commit_id and s.user_email=:email order by s.created_at desc", nativeQuery = true)

@@ -25,8 +25,9 @@ public interface LikeDao extends JpaRepository<Like, String> {
 	
 	int countBySnsId(int id);
 	//랭킹 관련
-	@Query(value = "select save.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from save "
-			+ "group by save.user_email", nativeQuery = true)
+	@Query(value = "select save.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, profile.file_path profile" + 
+			" from save left outer join profile on save.user_email=profile.user_email" + 
+			" group by save.user_email", nativeQuery = true)
 	List<Ranking> likeRanking();
 	
 	@Query(value = "select max(id) from save", nativeQuery = true)

@@ -74,20 +74,36 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 			" order by ranking", nativeQuery = true)
 	List<Ranking> gyeonggiRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gangwon' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='gangwon'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> gangwonRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gwangju' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='gwangju'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> gwangjuRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='ulsan' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='ulsan'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> ulsanRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='busan' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='busan'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> busanRank();
 
 	// 커밋 시간제한

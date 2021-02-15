@@ -58,15 +58,13 @@ public class RankingController {
 		return list;
 	}
 	
-	// 아직
 	@GetMapping("/rank/board")
 	@ApiOperation(value = "게시글 수 랭킹")
 	public List<Ranking> boardRank() {
 		List<Ranking> list = boardDao.boardRanking();
 		return list;
 	}
-	
-	// 아직
+
 	@GetMapping("/rank/like")
 	@ApiOperation(value = "좋아요 랭킹")
 	public List<Ranking> likeRank() {
@@ -75,7 +73,6 @@ public class RankingController {
 		return list;
 	}
 	
-	// 아직
 	@GetMapping("/rank/follower")
 	@ApiOperation(value = "팔로워 수 랭킹")
 	public List<Ranking> followerRank() {
