@@ -1,143 +1,173 @@
 <template>
-    <div class="center">
-      <vs-button
-            icon
-            color="#78909C"
-            border
-            v-bind="attrs"
-            v-on="on"
-            :active="active == 2"
-            @click="active=!active"
-        >
-            <i class="bx bxs-cog"></i> 
-        </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
-        <template #header>
-          <h3>
-            프로필 수정
-          </h3>
-        </template>
-        <div class="con-content">
-          <div class="con-form">
-            대표지도
-            <vs-select placeholder="Select" v-model="value">
-              <vs-option label="national" value="national">
-                전국
-              </vs-option>
-              <vs-option label="seoul" value="seoul">
-                서울
-              </vs-option>
-              <vs-option label="gyeonggi" value="gyeonggi">
-                경기
-              </vs-option>
-              <vs-option label="busan" value="busan">
-                부산
-              </vs-option>
-              <vs-option label="gangwon" value="gangwon">
-                강원
-              </vs-option>
-              <vs-option label="gwangju" value="gwangju">
-                광주
-              </vs-option>
-              <vs-option label="ulsan" value="ulsan">
-                울산
-              </vs-option>
-            </vs-select>
-            이메일
-            <vs-input icon-before v-model="email" placeholder="Email" readonly>
-              <template #icon>
-                @
-              </template>
-            </vs-input>
-            비밀번호
-            <vs-input type="password" icon-before placeholder="Password">
-              <template #icon>
-                <i class="bx bx-lock-open-alt"></i>
-              </template>
-            </vs-input>
-            비밀번호 확인
-            <vs-input type="password" icon-before placeholder="Password">
-              <template #icon>
-                <i class="bx bx-lock-open-alt"></i>
-              </template>
-            </vs-input>
-            닉네임
-            <vs-input icon-before placeholder="3글자이상" :value=nickname>
-              <template #icon>
-                <i class="bx bx-user"></i>
-              </template>
-              
-            </vs-input>
-            한줄소개
-            <vs-input icon-before placeholder="한줄소개">
-              <template #icon>
-                <i class="bx bx-comment-detail"></i>
-              </template>
-            </vs-input>
-            성별
-            <vs-select placeholder="Select" v-model="value">
-              <vs-option label="Man" value="m">
-                Man
-              </vs-option>
-              <vs-option label="Woman" value="w">
-                Woman
-              </vs-option>
-            </vs-select>
-            생일
-            <vs-input type="date" icon-after> </vs-input>
-          </div>
-
-          <div class="footer-dialog">
-            <vs-button block>
-              수정
-            </vs-button>
-          </div>
-          <!--  -->
+  <div class="center">
+    <vs-button
+      icon
+      color="#78909C"
+      border
+      v-bind="attrs"
+      v-on="on"
+      :active="active == 2"
+      @click="active = !active"
+    >
+      <i class="bx bxs-cog"></i>
+    </vs-button>
+    <vs-dialog
+      blur
+      scroll
+      overflow-hidden
+      not-close
+      v-model="active"
+      width="400px"
+    >
+      <template #header>
+        <h3>
+          프로필 수정
+        </h3>
+      </template>
+      <div class="con-content">
+        <div class="con-form">
+          대표지도
+          <vs-select placeholder="Select" v-model="region">
+            <vs-option label="national" region="national">
+              전국
+            </vs-option>
+            <vs-option label="seoul" region="seoul">
+              서울
+            </vs-option>
+            <vs-option label="gyeonggi" region="gyeonggi">
+              경기
+            </vs-option>
+            <vs-option label="busan" region="busan">
+              부산
+            </vs-option>
+            <vs-option label="gangwon" region="gangwon">
+              강원
+            </vs-option>
+            <vs-option label="gwangju" region="gwangju">
+              광주
+            </vs-option>
+            <vs-option label="ulsan" region="ulsan">
+              울산
+            </vs-option>
+          </vs-select>
+          이메일
+          <vs-input icon-before v-model="email" placeholder="Email" readonly>
+            <template #icon>
+              @
+            </template>
+          </vs-input>
+          비밀번호
+          <vs-input
+            type="password"
+            icon-before
+            placeholder="Password"
+            v-model="pass"
+          >
+            <template #icon>
+              <i class="bx bx-lock-open-alt"></i>
+            </template>
+          </vs-input>
+          비밀번호 확인
+          <vs-input type="password" icon-before placeholder="Password">
+            <template #icon>
+              <i class="bx bx-lock-open-alt"></i>
+            </template>
+          </vs-input>
+          닉네임
+          <vs-input icon-before placeholder="3글자이상" v-model="nickname">
+            <template #icon>
+              <i class="bx bx-user"></i>
+            </template>
+          </vs-input>
+          한줄소개
+          <vs-input icon-before placeholder="한줄소개">
+            <template #icon>
+              <i class="bx bx-comment-detail"></i>
+            </template>
+          </vs-input>
+          성별
+          <vs-select placeholder="Select" v-model="value">
+            <vs-option label="Man" value="m">
+              Man
+            </vs-option>
+            <vs-option label="Woman" value="w">
+              Woman
+            </vs-option>
+          </vs-select>
         </div>
-      </vs-dialog>
-    </div>
+
+        <div class="footer-dialog">
+          <vs-button block @click="updateAccount()">
+            수정
+          </vs-button>
+        </div>
+        <!--  -->
+      </div>
+    </vs-dialog>
+  </div>
 </template>
 <script scoped>
 import { mapGetters } from 'vuex';
-import {searchUserByEmail} from '../../../api/account'
-  export default {
-    components: {  },
-    data: () => ({
-      active: false,
-      value: '',
-      email: '',
-      password: '',
-      nickname:'',
-      intro:'',
-      remember: false,
-      userInfo:[],
+import { searchUserByEmail, signup } from '../../../api/account';
+export default {
+  components: {},
+  data: () => ({
+    active: false,
+    value: '',
+    email: '',
+    password: '',
+    nickname: '',
+    intro: '',
+    region: '',
+    remember: false,
+    userInfo: [],
+  }),
+  computed: {
+    ...mapGetters({
+      user: ['getUserInfo'],
     }),
-    computed:{
-      ...mapGetters({
-        user:['getUserInfo'],
-      })
+  },
+  created() {
+    // console.log(email);
+    searchUserByEmail(
+      { keyword: this.user.email },
+      (response) => {
+        const profile = response.data.content;
+        const item = profile[0];
+        this.userInfo.push(item);
+        this.email = item.email;
+        this.nickname = item.nickname;
+        this.intro = item.mystory;
+        // console.log(item.nickname);
+      },
+      (error) => {
+        console.log('edit에러' + error);
+      }
+    );
+  },
+  method: {
+    updateAccount() {
+      const userData = {
+        email: this.email,
+        nickname: this.nickname,
+        pass: this.password,
+        tel: this.tel,
+        mystory: this.intro,
+        gender: this.value,
+        region: this.region,
+      };
+
+      console.log(userData);
+      // 여기 고치기
+      const result = signup(userData);
+      if (result) {
+        this.showDialog('가입에 성공했습니다');
+      } else {
+        this.showDialog('가입에 실패하였습니다');
+      }
     },
-    created(){
-        // console.log(email);
-        searchUserByEmail(
-            {keyword : this.user.email},
-            (response)=>{
-                const profile = response.data.content;
-                const item = profile[0];
-                this.userInfo.push(item);
-                this.email=item.email;
-                this.nickname=item.nickname;
-                this.intro=item.mystory;
-                // console.log(item.nickname);
-            },
-            (error)=>{
-                console.log("edit에러"+error);
-            }
-        )
-
-    }
-
-  }
+  },
+};
 </script>
 <style lang="stylus" scoped>
   getColor(vsColor, alpha = 1)
