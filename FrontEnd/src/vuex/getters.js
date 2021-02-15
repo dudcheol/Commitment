@@ -23,4 +23,7 @@ export default {
   getFollowingList(state) {
     return state.following;
   },
+  getBoardDetail(state) {
+    return state.boardDetail
+  }
 };

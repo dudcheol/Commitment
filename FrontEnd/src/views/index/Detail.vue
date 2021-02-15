@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container">
-    <div class="map">
+    <div class="google_map">
       <div class="back_button">
         <vs-button icon relief>
           <i class="bx bx-arrow-back"></i>
@@ -19,9 +19,7 @@
 import ArticleDetail from './../../components/detail/ArticleDetail';
 
 export default {
-  // data: () => ({
-  //   map: this.map,
-  // }),
+
   components: {
     ArticleDetail,
   },
@@ -58,68 +56,31 @@ export default {
 </script>
 
 <style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
-  grid-template-rows: min-content min-content;
-  gap: 5px 0px;
-  grid-template-areas:
-    'map map map map'
-    '. article article .';
-}
 
 .map {
-  grid-area: map;
   position: relative;
 }
 
 .kakao_map {
-  height: 30vh;
+  height: 35vh;
+   z-index: 0;
 }
 
-.article {
-  grid-area: article;
-}
-
-.map .back_button {
+.google_map .back_button {
   display: block;
   position: absolute;
   left: 25px;
   top: 20px;
-}
-
-.my_location {
-  font-size: 15px;
-  background: rgba(220, 220, 220, 0.5);
-  position: absolute;
   z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 450px) {
-  .grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: min-content min-content;
-    gap: 5px 0px;
-    grid-template-areas:
-      'map '
-      'article';
-  }
-
-  .map {
-    grid-area: map;
-    position: relative;
-  }
-
-  .kakao_map {
-    height: 30vh;
-  }
-
-  .article {
-    grid-area: article;
-  }
+  .google_map .back_button {
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    z-index: 1;
+  } 
 }
 </style>
