@@ -17,6 +17,7 @@ public class NotificationSaveDto {
     private String likeId; // like: 방금 한 좋아요 id
     private String followId; // follow: 방금 신청한 follow id
     private String userEmail;
+    private String profile; // 알림을 보낸 사람의 프로필 사진
 
     public NotificationSaveDto(String createdAt, String dataId, String fromUserNickname, Boolean isRead, String type){
         this.createdAt = createdAt;

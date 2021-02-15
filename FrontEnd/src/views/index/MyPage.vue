@@ -88,9 +88,15 @@
                         </div>
                     </v-col>
                 </v-row>
+                <v-row :justify="dynamicJustify"  class="px-3 px-lg-16 px-md-8 px-xl-16" id="pcHidden">
+                    <MyImagesMobile />
+                </v-row>
                 </v-container>
-                <div class="bottom2">
-                  
+                <div class="bottom2" id="mobileHidden">
+                    <Timeline />
+                </div>
+                <div class="bottom3" id="mobileHidden">
+                    <MyImagesPC />
                 </div>
             </v-main>
         </v-app>
@@ -106,6 +112,9 @@ import MapGyeonggi from '../../components/common/map/MapGyeonggi'
 import MapGangwon from '../../components/common/map/MapGangwon'
 import MapUlsan from '../../components/common/map/MapUlsan'
 import MapGwangju from '../../components/common/map/MapGwangju'
+import Timeline from '../../components/index/mypage/Timeline'
+import MyImagesPC from '../../components/index/mypage/MyImagesPC'
+import MyImagesMobile from '../../components/index/mypage/MyImagesMobile'
 
 export default {
   name: 'MyPage',
@@ -119,33 +128,25 @@ export default {
         MapGangwon,
         MapUlsan,
         MapGwangju,
-
+        Timeline,
+        MyImagesMobile,
+        MyImagesPC,
     },
     data: () => ({
-                benched: 100,
-                items: [
-                    'mdi-home', 'mdi-web', 'mdi-apple-keyboard-control', 'mdi-account',
-                ], 
-                times:[
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                    { title: 'nickname', content: 'hellohellohellohellohellohello' },
-                 ],
-                colors: [
-                'indigo',
-                'warning',
-                'pink darken-2',
-                'red lighten-1',
-                'deep-purple accent-4',
-                ],
-                value1: 1,
-                picked: 1,
-            }),
+        benched: 100,
+        items: [
+            'mdi-home', 'mdi-web', 'mdi-apple-keyboard-control', 'mdi-account',
+        ], 
+        colors: [
+        'indigo',
+        'warning',
+        'pink darken-2',
+        'red lighten-1',
+        'deep-purple accent-4',
+        ],
+        value1: 1,
+        picked: 1,
+    }),
     computed: {
         items () {
             return Array.from({ length: this.length }, (k, v) => v + 1)
@@ -164,68 +165,84 @@ export default {
             return 700
         },
     },
+    created(){
+        console.log('The params is: ' + this.$route.params);
+
+    }
 
 };
 </script>
 
 <style scoped>
-    .top{
-        align-content: center;
-    }
-    .tabs{
+@media screen and (max-width: 1000px) {
+    #mobileHidden { 
+        display: none; 
+    } 
+}
+@media screen and (min-width: 1000px) {
+    #pcHidden { 
+        display: none; 
+    } 
+}
+.top{
+    align-content: center;
+}
+.tabs{
 
-        align-items: center;
-        text-align: center;
-        justify-self: center;
-        background-color: lavender;
-    }
-    .radios{
-        display: flex;
-    }
-    .radiocontent{
-        white-space:nowrap;
-    }
-    .middle{
-        align-content: center;
-        display: flex;
+    align-items: center;
+    text-align: center;
+    justify-self: center;
+    background-color: lavender;
+}
+.radios{
+    display: flex;
+}
+.radiocontent{
+    white-space:nowrap;
+}
+.middle{
+    align-content: center;
+    display: flex;
 
-    }
-    .middle1 {
-        text-align: right;
-        margin-top:3%;
-    }
+}
+.middle1 {
+    text-align: right;
+    margin-top:3%;
+}
 
-    .middle2 {
-        margin-bottom:5%;
-        text-align: left;
-        background-color: lawngreen;
-    }
-    
-    .bottom {
-        height:30%;
-        width: 60%;
-        margin-top:30px;
-        margin-left: 20%;
+.middle2 {
+    margin-bottom:5%;
+    text-align: left;
+    background-color: lawngreen;
+}
+.bottom2{
 
-    }
-    .navbar_right {
-        display: flex;
-        width: min-content;
-    }
-    .search {
-        display: flex;
-        width: min-content;
-    }
-    .v-toolbar__content {
-        display: flex;
-        justify-content: space-between;
-    }
-    .v-tab {
-        width: 20px;
+}
+.bottom {
+    height:30%;
+    width: 60%;
+    margin-top:30px;
+    margin-left: 20%;
 
-    }
-    .v-list {
-        height: 300px;
-        overflow-y: auto;
-    }   
+}
+.navbar_right {
+    display: flex;
+    width: min-content;
+}
+.search {
+    display: flex;
+    width: min-content;
+}
+.v-toolbar__content {
+    display: flex;
+    justify-content: space-between;
+}
+.v-tab {
+    width: 20px;
+
+}
+.v-list {
+    height: 300px;
+    overflow-y: auto;
+}   
 </style>

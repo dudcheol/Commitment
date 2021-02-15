@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -156,7 +157,7 @@ public class CommitController {
 			if (region.equals("서울")) {
 				commit.setRegion("seoul");
 			} else if (region.equals("경기")) {
-				commit.setRegion("gyenggi");
+				commit.setRegion("gyeonggi");
 			} else if (region.equals("강원")) {
 				commit.setRegion("gangwon");
 			} else if (region.equals("광주")) {
@@ -180,7 +181,7 @@ public class CommitController {
 			commit.setNationalY(String.valueOf(dot[1]));
 			commit.setLocalX(String.valueOf(dot2[0]));
 			commit.setLocalY(String.valueOf(dot2[1]));
-//			System.out.println();
+			System.out.println(commit);
 			Commit c=commitDao.save(commit);
 			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 			c.setCreatedAt(format1.format(new Date()));
@@ -228,6 +229,25 @@ public class CommitController {
 					.forEach(commit -> list.add(new String[] { commit.getLat(), commit.getLng() }));
 		}
 		return list;
+	}
+	@GetMapping("/commit/usermap")
+	@ApiOperation(value = "유저의 대표지도 불러오기")
+	public Map<String,Object> userMap(@RequestParam(required = true) final String email) {
+		Optional<User> userOpt=userDao.findByEmail(email);
+		Map<String,Object> map=new HashMap<String,Object>();
+		
+		if (userOpt.isPresent()) {
+			User user=userOpt.get();
+			String region=user.getRegion_name();
+			List<int[]> list=commitCount(email,region);
+			
+			map.put("commitXY",list);
+			map.put("region",region);
+			map.put("data","success");
+			return map;
+		}
+		map.put("data","없는 이메일 입니다.");
+		return map;
 	}
 	
 	@GetMapping("/commit/noboard")

@@ -29,4 +29,14 @@ export default {
 ::-webkit-scrollbar-track {
   background-color: #eceff1;
 }
+.v-slider__track-container {
+  height: 12px !important;
+}
+.v-slider__track-background {
+  border-radius: 6px;
+}
+/* Commit Map Style */
+.line {
+  white-space: nowrap;
+}
 </style>

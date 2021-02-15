@@ -57,6 +57,7 @@
 </template>
 <script>
 export default {
+<<<<<<< .merge_file_a21256
   data: () => ({ 
     props:['area'],//props속성이름
     mounted(){
@@ -64,6 +65,9 @@ export default {
 
     }
    }),
+=======
+  data: () => ({ valueOne: '', valueTwo: '' }),
+>>>>>>> .merge_file_a05492
 };
 </script>
 

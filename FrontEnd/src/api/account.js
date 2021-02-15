@@ -14,7 +14,7 @@ function login(user, success, fail) {
   };
 
   return instance
-    .get('account/login', { params })
+    .post('account/login', params)
     .then(success)
     .catch(fail);
 }
@@ -31,4 +31,25 @@ function logout() {
   instance.defaults.headers['auth-token'] = undefined;
 }
 
-export { login, findByToken, setAuthTokenToHeader, logout };
+function searchUserByEmail(keyword, success, fail){
+  instance
+      .get('search/email',{params:keyword})
+      .then(success)
+      .catch(fail);
+}
+
+function searchUserByNickname(keyword, success, fail){
+  instance
+      .get('search/nickname',{params:keyword})
+      .then(success)
+      .catch(fail);
+}
+
+function editProfile(param, success, fail){
+  instance
+      .post('profile/upload', param)
+      .then(success)
+      .catch(fail);
+}
+
+export { login, findByToken, setAuthTokenToHeader, logout, searchUserByEmail, searchUserByNickname, editProfile };

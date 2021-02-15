@@ -197,6 +197,9 @@
     <ul>
         <a href="Document/Tech_Log/Video/Video_Proposal.md"><li>영상기획안</li></a>
     </ul>
+    <ul>
+        <a href="Document/Tech_Log/Video/Video_Proposal.md"><li>PPT</li></a>
+    </ul>
 </details>
 
 

@@ -35,56 +35,10 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class ProfileController {
 
-    @Autowired
-    private ProfileDao profileDao;
-    @Autowired
-    private FollowDao followDao;
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private S3Dao s3Uploader;
-
-@GetMapping("/profile/follow")
-@ApiOperation(value = "팔로우 하기")
-public Object follow(@RequestParam(required = true) final String from,
-        @RequestParam(required = true) final String to) {
-    FollowId followid = new FollowId();
-    followid.setFromUser(from);
-    followid.setToUser(to);
-    Follow follow = new Follow();
-    follow.setFollowid(followid);
-    
-//        Follow follow = new Follow();
-//        follow.setFromUser(from);
-//        follow.setToUser(to);
-        followDao.save(follow);
-
-    final BasicResponse result = new BasicResponse();
-    result.status = true;
-    result.data = "success";
-
-    return new ResponseEntity<>(result, HttpStatus.OK);
-}
-
-@GetMapping("/profile/follower")
-@ApiOperation(value = "팔로워 리스트")
-public Object follow(@RequestParam(required = true) final String email) {
-    List<Follow> list = followDao.FindFollowByEmail(email);
-    List<User> user = new ArrayList<User>();
-    int index = 0;
-    for (Follow f : list) {
-        user.add(userDao.getUserByEmail(f.getFollowid().getToUser()));
-//            user.add(userDao.getUserByEmail(f.getToUser()));
-            System.out.println(user.get(index++));
-        }
-
-    return user;
-}
-@GetMapping("/profile/followerCnt")
-@ApiOperation(value = "팔로워 수")
-public int followCnt(@RequestParam(required = true) String email) {
-    return followDao.followCnt(email);
-}
+	@Autowired
+	private ProfileDao profileDao;
+	@Autowired
+	private S3Dao s3Uploader;
 
 	@PostMapping(path = "/profile/upload")
 	@ApiOperation(value = "프로필 업로드 및 수정")
@@ -97,22 +51,22 @@ public int followCnt(@RequestParam(required = true) String email) {
 
 		String s3Path = "profile";
 		String url = s3Uploader.upload(files, s3Path, saveFileName);// 사진 업로드
-		
+
 		Profile profile = profileDao.findProfileByEmail(email);// 이미 프로필 사진이 존재하는가?
 		if (profile == null) {
 			profile = new Profile();
 			profile.setEmail(email);
 		} else {// 원래 프로필 사진 지우기
-			s3Uploader.deletefile(profile.getFile_name());
+			s3Uploader.deletefile(profile.getFileName());
 		}
 
-		profile.setFile_name(saveFileName);
-		profile.setFile_path(url);
-		
+		profile.setFileName(saveFileName);
+		profile.setFilePath(url);
+
 		System.out.println(profile);
 		profileDao.save(profile);
 		Map<String, String> result = new HashMap<>();
-		result.put("url", profile.getFile_path());// 사진 url 리턴
+		result.put("url", profile.getFilePath());// 사진 url 리턴
 		return result;
 	}
 
@@ -123,4 +77,3 @@ public int followCnt(@RequestParam(required = true) String email) {
 //	}
 
 }
-

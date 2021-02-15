@@ -17,15 +17,21 @@ import com.web.commitment.dto.User;
 public interface FollowDao extends JpaRepository<Follow, String> {
 	@Modifying
 	@Query(value = "select * from follow f where f.follow_from=:email", nativeQuery = true)
-	List<Follow> FindFollowByEmail(@Param("email") String email);
+	List<Follow> FindFollowListByEmail(@Param("email") String email);
+	@Modifying
+	@Query(value = "select * from follow f where f.follow_to=:email", nativeQuery = true)
+	List<Follow> FindFollowerListByEmail(@Param("email") String email);
 
 	// 랭킹 관련
 	@Query(value = "select follow.follow_to email, rank() over (order by count(*) desc) ranking, count(*) cnt from follow "
 			+ "group by follow.follow_to", nativeQuery = true)
 	List<Ranking> followerRank();
 
-	@Query(value = "select count(*) cnt from follow f where f.follow_from=:email", nativeQuery = true)
+	@Query(value = "select count(*) cnt from follow f where f.follow_to=:email", nativeQuery = true)
 	int followCnt(String email);
+	
+	@Query(value = "select count(*) cnt from follow f where f.follow_from=:email", nativeQuery = true)
+	int followingCnt(String email);
 
 	
 	@Query(value = "select count(*) from follow f where f.follow_to=:email and f.follow_from=:email2", nativeQuery = true)
@@ -33,4 +39,7 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 	
 	@Query(value = "select max(id) from follow", nativeQuery = true)
 	String findByLastFollow();
+
+	@Query(value = "select * from follow f where f.follow_to=:to and f.follow_from=:from", nativeQuery = true)
+	Optional<Follow> findFollowByFromAndTo(@Param("from") String from,@Param("to") String to);
 }
