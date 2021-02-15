@@ -202,7 +202,8 @@ public class CommitController {
 				request.setTo("all");
 				request.setType("commit");
 				
-				notificationController.saveNotification(user.getNickname(), request);
+				User fromUser = userDao.findUserByEmail(user.getEmail());
+				notificationController.saveNotification(fromUser.getNickname(), request);
 			}
 			
 			return c;
@@ -367,7 +368,6 @@ public class CommitController {
 		}
 
 		return "fail";
-
 	}
 	
     // 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
