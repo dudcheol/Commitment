@@ -12,6 +12,7 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.LikeDao;
+import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,7 @@ public class RankingController {
 	@ApiOperation(value = "전체커밋랭킹")
 	public List<Ranking> commitRank() {
 		List<Ranking> list = commitDao.commitRank();
+	
 		return list;
 	}
 	

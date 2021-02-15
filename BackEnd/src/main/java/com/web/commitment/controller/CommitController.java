@@ -306,9 +306,9 @@ public class CommitController {
 
 	@GetMapping("/commit/noboard")
 	@ApiOperation(value = "빈커밋")
-	public Page<Commit> commitOnly(@RequestParam String email, final Pageable pageable) {
+	public List<Commit> commitOnly(@RequestParam String email) {
 
-		return commitDao.commitOnly(email, pageable);
+		return commitDao.commitOnly(email);
 	}
 
 	// 위도경도-> 지역 이름 (서울,광주,경기....)

@@ -32,11 +32,14 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	List<Commit> findByEmail(String email);
 
 	// 랭킹관련
-	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking," + 
-			" count(*) cnt, p.file_path profile" + 
-			" from user u cross join commit c on u.email=c.user_email left outer join profile p on c.user_email=p.user_email" + 
-			" group by email" + 
-			" order by ranking", nativeQuery = true)
+//	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking," + 
+//			" count(*) cnt, p.*" + 
+//			" from user u cross join commit c on u.email=c.user_email left outer join profile p on c.user_email=p.user_email" + 
+//			" group by email" + 
+//			" order by ranking", nativeQuery = true)
+//	List<Ranking> commitRank();
+	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking, count(*) cnt, p.* from user u cross join commit\r\n" + 
+			" c on u.email=c.user_email left outer join profile p on c.user_email=p.user_email group by email order by ranking", nativeQuery = true)
 	List<Ranking> commitRank();
 
 	@Query(value = "select c.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile"
@@ -116,7 +119,7 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	int countByEmail(String email);
 	
 	@Query(value = "select * from commit c where user_email=:email and c.id not in (select distinct commit_id from sns) order by created_at desc", nativeQuery = true)
-	Page<Commit> commitOnly(@Param("email")String email, Pageable pageable);
+	List<Commit> commitOnly(@Param("email")String email);
 
 	Commit findCommitById(String id);
 
