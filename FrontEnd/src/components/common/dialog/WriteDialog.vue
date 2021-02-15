@@ -269,7 +269,7 @@ export default {
 .image-box label {
   display: inline-block;
   padding: 0px 0px;
-  /* color: #fff; */
+  color: #fff;
   vertical-align: middle;
   font-size: 15px;
   cursor: pointer;
@@ -285,12 +285,12 @@ export default {
   height: 100%;
 }
 
-.file-preview-wrapper > img {
+/* .file-preview-wrapper > img {
   position: center;
   width: 400px;
   height: 400px;
   z-index: 10;
-}
+} */
 
 .header-fixed {
   position: fixed;
