@@ -41,8 +41,8 @@ public class BoardController {
 
 	@Autowired
 	CommitDao commitDao;
-	
-	@Autowired	
+
+	@Autowired
 	FollowingBoardController followingBoardController;
 
 	@PostMapping("/sns")
@@ -73,8 +73,8 @@ public class BoardController {
 	@Transactional(readOnly = true)
 	public Page<BoardDto> mySns(@RequestParam final String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		Page<Board> boards=boardDao.findByEmail(email, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByEmail(email, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 //		return boardDto;
 	}
@@ -84,8 +84,8 @@ public class BoardController {
 	@ApiOperation(value = "다른 유저의 게시글 목록")
 	public Page<BoardDto> loadSns(@RequestParam String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		Page<Board> boards= boardDao.findAllByEmail(email, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findAllByEmail(email, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 
@@ -136,42 +136,42 @@ public class BoardController {
 
 	// 대소문자 구분 없이 검색! IgnoreCase
 	@GetMapping("/search/title")
-	@ApiOperation(value = "제목으로 검색")
+	@ApiOperation(value = "제목으로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByTitle(@RequestParam String keyword, final Pageable pageable) {
 
 		keyword = "%" + keyword + "%";
-		Page<Board> boards=boardDao.findByTitleContainingIgnoreCase(keyword, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByTitleContainingIgnoreCase(keyword, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 
 	@GetMapping("/search/content")
-	@ApiOperation(value = "내용으로 검색")
+	@ApiOperation(value = "내용으로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByContent(@RequestParam String keyword, final Pageable pageable) {
 
 		keyword = "%" + keyword + "%";
-		Page<Board> boards=boardDao.findByContentContainingIgnoreCase(keyword, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByContentContainingIgnoreCase(keyword, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
-		
+
 	}
 
 	@GetMapping("/search/tnc")
-	@ApiOperation(value = "제목 & 내용으로 검색")
+	@ApiOperation(value = "제목 & 내용으로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByTandC(@RequestParam String keyword, final Pageable pageable) {
 
-		Page<Board> boards=boardDao.findByTitleandContent("%" + keyword.toLowerCase() + "%", pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByTitleandContent("%" + keyword.toLowerCase() + "%", pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
-		
+
 	}
 
 	@GetMapping("/search/writer")
-	@ApiOperation(value = "글쓴이로 검색")
+	@ApiOperation(value = "글쓴이로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByWriter(@RequestParam String keyword, final Pageable pageable) {
 
-		Page<Board> boards=boardDao.findByEmailContainingIgnoreCase("%" + keyword.toLowerCase() + "%", pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByEmailContainingIgnoreCase("%" + keyword.toLowerCase() + "%", pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 
@@ -186,6 +186,20 @@ public class BoardController {
 			return boardDao.findAll(pageable);
 		}
 		return boardDao.radiusCommitId(lat, lng, radius, pageable);
+
+	}
+
+	@GetMapping("/sns/location")
+	@ApiOperation(value = "네모칸 안에 회원 전체 게시글 (open 1인 것만)")
+	public Page<BoardDto> locationsns(@RequestParam String x, @RequestParam String y, String region,final Pageable pageable) {
+		Page<Board> boards;
+		if(region.equals("national")) {
+			boards=boardDao.nationalsns(x,y, pageable);
+		}else {
+			boards=boardDao.locationsns(x,y,region, pageable);
+		}
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
+		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 
 	}
 }
