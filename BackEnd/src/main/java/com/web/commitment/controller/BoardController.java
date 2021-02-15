@@ -105,7 +105,6 @@ public class BoardController {
 	@DeleteMapping("/sns")
 	@ApiOperation(value = "게시글 삭제")
 	public String delete(@RequestParam String sns_id) {
-
 		try {
 			boardDao.deleteById(sns_id);
 			return "success";
