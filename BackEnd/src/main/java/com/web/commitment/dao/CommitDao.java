@@ -97,5 +97,7 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	@Query(value = "select count(*) from commit where user_email=:email", nativeQuery = true)
 	int commitCnt(@Param("email")String email);
 
+	List<Commit> findAllByRegion(String region);
+
 	
 }
