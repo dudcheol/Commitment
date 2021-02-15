@@ -6,6 +6,9 @@
           <div>
             <h2 class="font-weight-black d-flex align-center">
               <v-icon color="primary" class="pr-1">mdi-pencil-circle-outline</v-icon>비어있는 커밋
+              <span class="rounded-lg pa-1 blue-grey lighten-4 ml-1 primary--text">{{
+                empCommits.length
+              }}</span>
             </h2>
           </div>
         </v-expansion-panel-header>
@@ -15,8 +18,10 @@
             :key="'emtCommit' + index"
             :username="item.address"
             :only-address="true"
-            style="height:35px; width:100%"
+            :address="item.createdAt"
+            style="height:50px;"
             class="mb-2"
+            @click="clickEmpCommit(item)"
           ></commit-card>
           <no-data-card
             v-if="empCommits.length == 0"
@@ -31,18 +36,17 @@
 
 <script>
 import CommitCard from '../../common/card/CommitCard.vue';
-import { emptyCommit, latlngToAddress } from '../../../api/commit';
 import { mapGetters } from 'vuex';
 import NoDataCard from '../../common/card/NoDataCard.vue';
 export default {
   components: { CommitCard, NoDataCard },
   data() {
     return {
-      empCommits: [],
+      len: 0,
     };
   },
   computed: {
-    ...mapGetters({ user: ['getUserInfo'] }),
+    ...mapGetters({ user: ['getUserInfo'], empCommits: ['getEmpCommitList'] }),
     panel() {
       switch (this.$vuetify.breakpoint.name) {
         case 'md':
@@ -56,37 +60,14 @@ export default {
       }
     },
   },
-  created() {
-    emptyCommit(
-      this.user.email,
-      (response) => {
-        const res = response.data.content;
-        for (let i = 0; i < res.length; i++) {
-          const item = res[i];
-          latlngToAddress(
-            { lat: item.lat, lng: item.lng },
-            (response2) => {
-              item['address'] = response2.data;
-              this.empCommits.push(item);
-            },
-            (error) => {
-              console.log(
-                '%cerror NotYetAddArticle.vue line:64 ',
-                'color: red; display: block; width: 100%;',
-                error
-              );
-            }
-          );
-        }
-      },
-      (error) => {
-        console.log(
-          '%cerror NotYetAddArticle.vue line:68 ',
-          'color: red; display: block; width: 100%;',
-          error
-        );
-      }
-    );
+  methods: {
+    clickEmpCommit(item) {
+      this.$store.commit('WRITE_DIALOG', {
+        state: true,
+        id: item.id,
+        address: item.address,
+      });
+    },
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="white" flat hide-on-scroll>
+  <v-app-bar app color="white" flat :hide-on-scroll="hideOnScroll" style="z-index:10">
     <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
       <v-avatar size="35">
         <img src="../../assets/img/main/commitment_logo.jpg" alt="logo" />
@@ -253,6 +253,21 @@ export default {
   },
   computed: {
     ...mapGetters({ user: ['getUserInfo'] }),
+    hideOnScroll() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        case 'sm':
+          return true;
+        case 'md':
+          return false;
+        case 'lg':
+          return false;
+        case 'xl':
+          return false;
+      }
+      return '';
+    },
   },
   methods: {
     ...mapActions(['LOGOUT']),

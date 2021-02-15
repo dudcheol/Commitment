@@ -8,17 +8,17 @@
       prevent-close
       v-model="web"
       v-on:close="close"
+      :loading="uploading"
     >
       <template #header>
         <div class="d-flex flex-column">
-          <h2 class="text-center">커밋하기</h2>
+          <h2 class="text-center">빈 커밋 채우기</h2>
           <v-chip small outlined>
-            <i class="bx bxs-map" style="vertical-align:middle"></i
-            >{{ address ? address : '위치를 찾는 중...' }}
+            <i class="bx bxs-map" style="vertical-align:middle"></i>{{ address }}
           </v-chip>
         </div>
       </template>
-      <div class="con-content dialog">
+      <div class="con-content dialog" style="max-height:40vh">
         <div class="d-flex flex-row">
           <div class="d-flex align-center">
             <v-avatar v-if="user.profile" circle size="44">
@@ -34,23 +34,8 @@
               <v-icon color="white">mdi-emoticon-happy</v-icon>
             </v-avatar>
           </div>
-          <div class="flex-column pl-2">
-            <h3>{{ user.nickname }}</h3>
-            <div>
-              <vs-select
-                placeholder="공개설정"
-                v-model="board.value"
-                style="width:85px"
-                size="small"
-              >
-                <vs-option label="공개" value="1">
-                  공개
-                </vs-option>
-                <vs-option label="비공개" value="2">
-                  비공개
-                </vs-option>
-              </vs-select>
-            </div>
+          <div class="flex-column pl-2 my-auto">
+            <h2>{{ user.nickname }}</h2>
           </div>
         </div>
         <v-textarea
@@ -63,82 +48,79 @@
         ></v-textarea>
       </div>
 
-      <div class="file-preview-container">
-        <div
-          v-for="(file, index) in files"
-          :key="index"
-          class="file-preview-wrapper"
-        >
+      <template #footer>
+        <div class="file-preview-container d-flex overflow-auto">
           <div
-            class="file-close-button"
-            @click="fileDeleteButton"
-            :name="file.number"
+            v-for="(file, index) in files"
+            :key="'write-dialog' + index"
+            class="file-preview-wrapper"
           >
-            X
-          </div>
-          <img
-            :src="file.preview"
-            style="
+            <div class="file-close-button d-flex justify-end">
+              <v-icon color="error" @click="fileDeleteButton" :name="file.number"
+                >mdi-close-circle</v-icon
+              >
+            </div>
+            <img
+              :src="file.preview"
+              style="
                     width: 100x;
                     height: 100px;
                     border-radius: 5px;
                   "
-          />
+            />
+          </div>
         </div>
-      </div>
-      <template #footer>
         <div class="d-flex align-center">
           <h3>게시물에 추가</h3>
-
           <div class="d-flex flex-row ml-auto">
-            <vs-button
-              id="reg1"
-              size="l"
-              circle
-              icon
-              color="#00c853"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
-              <div class="image-box">
+            <vs-button id="reg1" size="l" circle icon color="success" flat active>
+              <div class="image-box d-flex align-center">
                 <label for="file">
-                  <input
-                    type="file"
-                    id="file"
-                    ref="files"
-                    @change="selectPhoto"
-                    multiple
-                  />
+                  <input type="file" id="file" ref="files" @change="selectPhoto" multiple />
                   <i class="bx bxs-photo-album"> </i>
                 </label>
               </div>
             </vs-button>
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#ffd600"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
+            <!-- <vs-button size="l" circle icon color="warning" flat active>
               <i class="bx bxs-smile"></i>
-            </vs-button>
-            <vs-button
-              size="l"
-              circle
-              icon
-              color="#304ffe"
-              flat
-              :active="active == 5"
-              @click="active = 5"
-            >
+            </vs-button> -->
+            <vs-button size="l" circle icon color="warning" flat active @click="tagArea = !tagArea">
               <i class="bx bxs-purchase-tag"></i>
             </vs-button>
           </div>
         </div>
-        <vs-button block flat class="mx-0" @click="write()"
+        <v-combobox
+          v-show="tagArea"
+          v-model="tags"
+          chips
+          clearable
+          label="이곳에 태그를 입력하세요"
+          multiple
+          solo
+          flat
+          :append-icon="false"
+          small-chips
+          class="ma-0 pa-0"
+          dense
+          style="max-height:40px; overflow:auto;"
+        >
+          <template v-slot:selection="{ attrs, item, select, selected }">
+            <v-chip
+              v-bind="attrs"
+              :input-value="selected"
+              close
+              text-color="blue-grey darken-2"
+              color="blue-grey lighten-5"
+              @click="select"
+              @click:close="remove(item)"
+              :ripple="false"
+              class="ma-1"
+            >
+              <span class="font-weight-bold blue-grey--text">{{ item }}</span>
+            </v-chip>
+          </template>
+        </v-combobox>
+        <vs-button :disabled="!board.content.trim()" block flat class="mx-0" @click="write()"
           ><h2>Commit</h2></vs-button
         >
       </template>
@@ -155,14 +137,13 @@ export default {
   data() {
     return {
       board: {
-        email: 'test@test.com',
+        email: '',
         title: 'title',
-        commitId: '176', // 넘겨받기
-        location: 'national', // 넘겨받기
+        commitId: '', // 넘겨받기
+        location: '', // 넘겨받기
         content: '',
         value: '1',
       },
-      snsId: '48',
       images: {
         file: [],
       },
@@ -170,47 +151,72 @@ export default {
       files: [], //업로드용 파일
       filesPreview: [],
       uploadImageIndex: 0, // 이미지 업로드를 위한 변수
-
       start: 0,
+      tagArea: false,
+      tags: [],
+      uploading: false,
     };
   },
+  watch: {
+    tags(val) {
+      if (val.length > 5) {
+        this.$nextTick(() => this.tags.pop());
+      }
+    },
+  },
   computed: {
-    ...mapGetters({ user: ['getUserInfo'], address: ['getCurrentAddress'] }),
+    ...mapGetters({
+      user: ['getUserInfo'],
+      commitId: ['getCommitId'],
+      address: ['getCommitAddress'],
+    }),
   },
   methods: {
     write() {
+      this.uploading = true;
+      const tmp = [];
+      for (let i = 0; i < this.tags.length; i++) {
+        tmp.push({ content: this.tags[i] });
+      }
+      this.board.tag = tmp;
+      this.board.commitId = this.commitId;
+      console.log('%cWriteDialog.vue line:169 this.board', 'color: #007acc;', this.board);
       writeBoard(
         this.board,
         (response) => {
           console.log(response);
-          // this.snsId = response.data;
+
+          this.images.file = this.files;
+          console.log(this.images.file);
+          var frm = new FormData();
+          for (var i = 0; i < this.images.file.length; i++) {
+            console.log(this.images.file[i]);
+            frm.append('file', this.images.file[i].file);
+          }
+
+          for (var pair of frm.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+          }
+
+          console.log(this.mystory);
+          imageUpload(
+            frm,
+            response.data,
+            (response) => {
+              console.log(response);
+              this.$store.commit('BOARD_REFRESH');
+              this.close();
+              this.uploading = false;
+            },
+            (error) => {
+              console.log(error);
+              this.uploading = false;
+            }
+          );
         },
         (error) => {
           console.log(error);
-        }
-      );
-
-      this.images.file = this.files;
-      console.log(this.images.file);
-      var frm = new FormData();
-      for (var i = 0; i < this.images.file.length; i++) {
-        console.log(this.images.file[i]);
-        frm.append('file', this.images.file[i].file);
-      }
-
-      for (var pair of frm.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
-
-      console.log(this.mystory);
-      imageUpload(
-        frm,
-        this.snsId,
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
+          this.uploading = false;
         }
       );
     },
@@ -240,10 +246,29 @@ export default {
       const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
     },
-
     close() {
       this.$emit('close');
+      this.init();
     },
+    remove(item) {
+      this.tags.splice(this.tags.indexOf(item), 1);
+      this.tags = [...this.tags];
+    },
+    init() {
+      this.board = {
+        email: '',
+        title: 'title',
+        commitId: '', // 넘겨받기
+        location: '', // 넘겨받기
+        content: '',
+        value: '1',
+      };
+      this.board.email = this.user.email;
+      this.board.location = this.user.region_name;
+    },
+  },
+  created() {
+    this.init();
   },
 };
 </script>
@@ -263,9 +288,10 @@ export default {
   position: absolute;
   width: 0;
   height: 0;
-  padding: 0;
+  padding: 20px;
   overflow: hidden;
   border: 0;
+  cursor: pointer;
 }
 
 .image-box label {
@@ -273,9 +299,9 @@ export default {
   padding: 0px 0px;
   color: #fff;
   vertical-align: middle;
-  font-size: 15px;
+  font-size: 0px;
   cursor: pointer;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 
 .file-preview-wrapper {
@@ -286,13 +312,6 @@ export default {
 .file-preview-content-container {
   height: 100%;
 }
-
-/* .file-preview-wrapper > img {
-  position: center;
-  width: 400px;
-  height: 400px;
-  z-index: 10;
-} */
 
 .header-fixed {
   position: fixed;

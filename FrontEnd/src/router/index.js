@@ -7,7 +7,7 @@ import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
 import Permission from '../views/Permission.vue';
 import EmailCheck from '../views/EmailCheck.vue';
-import Detail from '../views/index/Detail.vue'
+import Detail from '../views/Detail.vue';
 
 // 필수
 Vue.use(Router);

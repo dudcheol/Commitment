@@ -44,11 +44,35 @@ function imageUpload(param, snsId, success, fail) {
     .catch(fail);
 }
 
-function boardDetail ( id, success, fail) { 
+function boardDetail(id, success, fail) {
   instance
-  .get(`sns/${id}`)
-  .then(success)
-  .catch(fail)
+    .get(`sns/${id}`)
+    .then(success)
+    .catch(fail);
 }
 
-export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList, boardDetail, writeBoard, imageUpload};
+function removeBoard(sns_id, success, fail) {
+  instance
+    .delete('sns', { params: { sns_id } })
+    .then(success)
+    .catch(fail);
+}
+
+function BoardDetail(id, param, success, fail) {
+  instance
+    .get(`sns/${id}`, { params: { param } })
+    .then(success)
+    .catch(fail);
+}
+
+export {
+  removeBoard,
+  myBoardList,
+  followingBoardList,
+  totalBoadList,
+  totalRadiusBoardList,
+  boardDetail,
+  writeBoard,
+  imageUpload,
+  BoardDetail,
+};
