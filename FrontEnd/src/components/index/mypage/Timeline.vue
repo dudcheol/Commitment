@@ -4,32 +4,32 @@
       <div v-for="(item,index) in boardList" :key="index">
         <div v-if="index%2==0">
           <div class="img-wrapper slower ">
-            <a href="" target="_blank" rel="noopener">
-            <img :src="item.image[0].filePath" alt="" class="pola">
+            <a target="_blank" rel="noopener">
+            <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
             <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
             </a>
           </div>
         </div>
         <div v-else-if="index%3==0">
           <div class="img-wrapper faster slower-down">
-            <a href="" target="_blank" rel="noopener">
-            <img :src="item.image[0].filePath" alt="" class="pola">
+            <a target="_blank" rel="noopener">
+            <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
             <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
             </a>
           </div>
         </div>
         <div v-else-if="index%5==0">
           <div class="img-wrapper faster">
-            <a href="" target="_blank" rel="noopener">
-            <img :src="item.image[0].filePath" alt="" class="pola">
+            <a target="_blank" rel="noopener">  
+            <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
             <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
             </a>
           </div>
         </div>
         <div v-else>
           <div class="img-wrapper slower-down">
-            <a href="" target="_blank" rel="noopener">
-            <img :src="item.image[0].filePath" alt="" class="pola">
+            <a target="_blank" rel="noopener">
+            <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
             <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
             </a>
           </div>
@@ -65,13 +65,13 @@ export default {
                   this.email,
                   (response)=>{
                       const res = response.data;
-                      console.log("timeline res",res);
+                      // console.log("timeline res",res);
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
                         if(item.image[0]==null){
                           continue;
                         }
-                        console.log(item.image[0].filePath);
+                        // console.log(item.image[0].filePath);
                         this.boardList.push(item);
                       }
                   },
@@ -82,9 +82,16 @@ export default {
             },
             (error)=>{
                 console.log("ct에러"+error);
+                
             }
         )
     },
+    methods:{
+      moveToDetail(data){
+        console.log("이동할 게시글 id ",data);
+        this.$router.push({ name: 'Detail', params: { id: this.data.id } });
+      }
+    }
 };
 </script>
 
