@@ -5,6 +5,5 @@ public interface Ranking {
 	String getNickname();
 	Integer getRanking();
 	Integer getCnt();
-	
-	
+//	String getProfile();
 }
