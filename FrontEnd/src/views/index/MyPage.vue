@@ -88,9 +88,9 @@
                         </div>
                     </v-col>
                 </v-row>
-                <v-row :justify="dynamicJustify"  class="px-3 px-lg-16 px-md-8 px-xl-16" id="pcHidden">
+                <div id="pcHidden">
                     <MyImagesMobile />
-                </v-row>
+                </div>
                 </v-container>
                 <div class="bottom2" id="mobileHidden">
                     <Timeline />
