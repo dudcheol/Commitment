@@ -17,7 +17,8 @@ public interface BoardDao extends JpaRepository<Board, String> {
 
 	List<Board> findAllByCommitId(String id);
 
-	List<Board> findBoardByEmail(String to);
+//	@Query(value = "select * from sns where user_email=:email order by created_at desc", nativeQuery = true)
+//	List<Board> findBoardByEmail(@Param("email") String email);
 	
 	@Query(value = "select * from sns s, commit c where s.commit_id=c.id and UPPER(s.content) like UPPER(:keyword) and c.open = 1", nativeQuery = true)
 	Page<Board> findByContentContainingIgnoreCase(@Param("keyword") String keyword, Pageable pageable);
