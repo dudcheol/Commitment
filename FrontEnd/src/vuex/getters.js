@@ -32,4 +32,7 @@ export default {
   getCommitDialogState(state) {
     return state.commitDialog;
   },
+  getBoardDetail(state) {
+    return state.boardDetail;
+  },
 };

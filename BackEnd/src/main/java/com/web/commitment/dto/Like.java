@@ -40,7 +40,7 @@ public class Like {
 	private String email; // 좋아요 누른 사람의 이메일
 
 	@Column(name="sns_id")
-	private int snsId;
+	private String snsId;
 	
 	@Column(name="writer")
 	private String writer;

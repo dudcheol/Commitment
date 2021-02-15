@@ -69,4 +69,7 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "and c.id=s.commit_id and c.open=1 "
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email") String email, Pageable pageable);
+
+	@Query(value = "select max(id) from sns", nativeQuery = true)
+	String getMaxId();
 }

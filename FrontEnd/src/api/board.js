@@ -30,6 +30,20 @@ function totalRadiusBoardList(lat, lng, radius, page, size, sort, success, fail)
     .catch(fail);
 }
 
+function writeBoard(param, success, fail) {
+  instance
+    .post('sns', param)
+    .then(success)
+    .catch(fail);
+}
+
+function imageUpload(param, snsId, success, fail) {
+  instance
+    .post(`image/${snsId}`, param)
+    .then(success)
+    .catch(fail);
+}
+
 function boardDetail ( id, success, fail) { 
   instance
   .get(`sns/${id}`)
@@ -37,4 +51,4 @@ function boardDetail ( id, success, fail) {
   .catch(fail)
 }
 
-export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList, boardDetail};
+export { myBoardList, followingBoardList, totalBoadList, totalRadiusBoardList, boardDetail, writeBoard, imageUpload};

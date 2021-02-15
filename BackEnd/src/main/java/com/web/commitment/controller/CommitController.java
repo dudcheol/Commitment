@@ -36,6 +36,7 @@ import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.User;
+import com.web.commitment.dto.Notification.NotificationReqDto;
 
 import io.swagger.annotations.ApiOperation;
 import net.minidev.json.JSONArray;
@@ -52,6 +53,9 @@ public class CommitController {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	NotificationController notificationController;
 
 	static final double METER_PER_LAT = 88740; // 경도 1도당 미터
 	static final double METER_PER_LNG = 110000; // 위도 1도당 미터
@@ -185,6 +189,20 @@ public class CommitController {
 			Commit c=commitDao.save(commit);
 			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 			c.setCreatedAt(format1.format(new Date()));
+			
+			// 실시간 알림 저장 -> open이 1일 때에만
+			if(c.getOpen() == 1) {
+				NotificationReqDto request = new NotificationReqDto();
+				if(c.getAddress() != null)
+					request.setDataId(c.getAddress()); // 주소
+				else 
+					request.setDataId("unknown");
+				request.setIsRead(false);
+				request.setTo("all");
+				request.setType("commit");
+				
+				notificationController.saveNotification(user.getNickname(), request);
+			}
 			
 			return c;
 		} catch (Exception e) {

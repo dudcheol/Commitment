@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommentDao;
 import com.web.commitment.dao.UserDao;
+import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Comment;
-import com.web.commitment.response.BoardDto;
-//import com.web.commitment.dto.Token;
+import com.web.commitment.dto.User;
+
+import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.CommentDto;
 
 import io.swagger.annotations.ApiOperation;
@@ -36,24 +39,39 @@ public class CommentController {
 	CommentDao commentDao;
 
 	@Autowired
+	BoardDao boardDao;
+	
+	@Autowired
 	UserDao userDao;
-
+	
+	@Autowired
+	NotificationController notificationController;
+	
 	@PostMapping("/comment")
 	@ApiOperation(value = "댓글 작성 & 수정")
 	public String writeComment(@RequestBody Comment comment) throws IOException {
 
-//		NotificationController.Push(data, 0);
-
 		// id가 있으면
 		// 댓글은 여러 개 작성 가능
 		try {
-			if (comment.getParent() != null) { // 부모 댓글이 있으면
+			if (!comment.getParent().equals("0")) { // 부모 댓글이 있으면
 				Optional<Comment> parent = commentDao.findById(comment.getParent());
 				System.out.println(parent.get().getDepth());
 				comment.setDepth(parent.get().getDepth() + 1);
 			}
 			commentDao.save(comment);
-			return "success";
+			
+			User fromUser = userDao.findUserByEmail(comment.getEmail());
+			Optional<Board> toUser = boardDao.findById(comment.getSnsId());
+			NotificationReqDto request = new NotificationReqDto();
+			request.setTo(toUser.get().getUser().getNickname());
+			request.setDataId(comment.getSnsId());
+			request.setIsRead(false);
+			request.setType("comment");
+			
+			if(notificationController.saveNotification(fromUser.getNickname(), request).equals("success"))
+				return "success";
+			return "fail save noti";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,7 +113,12 @@ public class CommentController {
 		Optional<Comment> comment = commentDao.findById(id);
 
 		try {
+			System.out.println(comment.isPresent());
 			if (comment.isPresent()) {
+				Optional<Board> toUser = boardDao.findById(comment.get().getSnsId());
+				// 댓글 삭제시 알림 삭제
+				notificationController.deleteCancelNotification("comment", toUser.get().getUser().getNickname(), id);
+				
 				commentDao.delete(comment.get());
 			}
 
