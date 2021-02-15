@@ -27,6 +27,7 @@ export default {
   STOP_TIMER(state) {
     clearInterval(state.timer);
     state.timer = null;
+    state.totalTime = 0;
   },
   TOTAL_TIME(state) {
     if (state.totalTime >= 1) {

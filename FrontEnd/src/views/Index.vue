@@ -124,7 +124,11 @@ export default {
             this.$store.commit('COMMIT_DIALOG', true);
             this.openNotification(4000);
           } else {
-            this.alertContent = `[ ${this.address} ] 에서 이미 커밋하셨습니다. 1시간 뒤에 다시 시도해주세요.`;
+            this.alertContent = '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.';
+            this.STOP_TIMER();
+            this.commitTimeout = false;
+            this.$store.commit('COMMIT_DIALOG', false);
+            this.$store.commit('WRITE_DIALOG', false);
             this.commitAlert = true;
           }
         },
