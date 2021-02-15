@@ -76,7 +76,7 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("first_following");
-			map.put("badge", "첫번째 팔로잉");
+			map.put("badge", "first_following");
 			map.put("msg", "처음으로 팔로잉을 하셨네요!!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
@@ -88,7 +88,7 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("total_commit");
-			map.put("badge", "전국 커밋");
+			map.put("badge", "total_commit");
 			map.put("msg", "축하드려요!! 전국 커밋 완료!!!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
@@ -99,8 +99,8 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("dokdo");
-			map.put("badge", "처음으로  독도에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 독도");
+			map.put("badge", "dokdo");
+			map.put("msg", "처음으로  독도에 커밋하셨습니다!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
@@ -110,8 +110,8 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("seoul");
-			map.put("badge", "처음으로 서울에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 서울");
+			map.put("badge", "seoul");
+			map.put("msg", "처음으로 서울에 커밋하셨습니다!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
@@ -121,8 +121,8 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("gangwondo");
-			map.put("badge", "처음으로 강원도에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 강원도");
+			map.put("badge", "gangwondo");
+			map.put("msg", "처음으로 강원도에 커밋하셨습니다!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
@@ -132,8 +132,8 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("busan");
-			map.put("badge", "처음으로 부산에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 부산");
+			map.put("badge", "busan");
+			map.put("msg", "처음으로 부산에 커밋하셨습니다!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
@@ -143,8 +143,8 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("gyeonggido");
-			map.put("badge", "처음으로 경기도에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 경기도");
+			map.put("badge", "gyeonggido");
+			map.put("msg", "처음으로 경기도에 커밋하셨습니다!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
@@ -154,8 +154,8 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("ulsan");
-			map.put("badge", "처음으로 울산에 커밋하셨습니다!");
-			map.put("msg", "첫 번째 커밋: 울산");
+			map.put("badge", "ulsan");
+			map.put("msg", "처음으로 울산에 커밋하셨습니다!");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
 			gets.add(map);
