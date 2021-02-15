@@ -114,12 +114,15 @@
               @click="select"
               @click:close="remove(item)"
               :ripple="false"
+              class="ma-1"
             >
               <span class="font-weight-bold blue-grey--text">{{ item }}</span>
             </v-chip>
           </template>
         </v-combobox>
-        <vs-button block flat class="mx-0" @click="write()"><h2>Commit</h2></vs-button>
+        <vs-button :disabled="!board.content.trim()" block flat class="mx-0" @click="write()"
+          ><h2>Commit</h2></vs-button
+        >
       </template>
     </vs-dialog>
   </div>
@@ -287,6 +290,7 @@ export default {
   padding: 20px;
   overflow: hidden;
   border: 0;
+  cursor: pointer;
 }
 
 .image-box label {

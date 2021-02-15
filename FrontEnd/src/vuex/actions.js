@@ -190,8 +190,8 @@ export default {
       }
     );
   },
-  BOARDDETAIL(context, payload) {
-    boardDetail(
+  async BOARDDETAIL(context, payload) {
+    await boardDetail(
       payload,
       (response) => {
         console.log('actionsjs boardDetail', response.data);
@@ -206,7 +206,8 @@ export default {
     emptyCommit(
       payload,
       (response) => {
-        store.commit('ADD_EMPCOMMIT', response.data.content);
+        console.log('%cactions.js line:209 response', 'color: #007acc;', response);
+        store.commit('ADD_EMPCOMMIT', response.data);
       },
       (error) => {
         console.log(

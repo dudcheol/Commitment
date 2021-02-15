@@ -44,8 +44,8 @@ function imageUpload(param, snsId, success, fail) {
     .catch(fail);
 }
 
-function boardDetail(id, success, fail) {
-  instance
+async function boardDetail(id, success, fail) {
+  await instance
     .get(`sns/${id}`)
     .then(success)
     .catch(fail);
