@@ -122,7 +122,7 @@ public class NotificationService {
 			saveNoti.setValueAsync(notificationSaveDto);
 			
 		} else if (type.equals("comment")) { // 댓글
-			String lastId = commentDao.findByLastComment();
+			String lastId = commentDao.findLastComment(user.getEmail());
 			notificationSaveDto.setCommentId(lastId); // sns_id로 변경
 			saveNoti.setValueAsync(notificationSaveDto);
 			
@@ -166,8 +166,9 @@ public class NotificationService {
 		else if(type.equals("like"))
 			isIn = likeDao.findById(objectId).isPresent();
 		else if(type.equals("follow"))
-			isIn = followDao.findById(objectId).isPresent();
+			isIn = followDao.findByFollowId(objectId).isPresent();
 		
+		System.out.println(isIn);
 		if (isIn) {
 			final FirebaseDatabase database = FirebaseDatabase.getInstance();
 			DatabaseReference ref = database.getReference("noti"); // 최상위 root: noti
@@ -176,6 +177,8 @@ public class NotificationService {
 			notiRef.addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(DataSnapshot snapshot) {
+					System.out.println(snapshot);
+					
 					exFindData: for (DataSnapshot data : snapshot.getChildren()) {
 						String postKey = data.getKey();
 						for (DataSnapshot value : data.getChildren()) {

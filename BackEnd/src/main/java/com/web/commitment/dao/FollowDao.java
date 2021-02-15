@@ -23,8 +23,9 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 	List<Follow> FindFollowerListByEmail(@Param("email") String email);
 
 	// 랭킹 관련
-	@Query(value = "select follow.follow_to email, rank() over (order by count(*) desc) ranking, count(*) cnt from follow "
-			+ "group by follow.follow_to", nativeQuery = true)
+	@Query(value = "select follow.follow_to email, rank() over (order by count(*) desc) ranking, count(*) cnt, profile.file_path profile" + 
+			" from follow left outer join profile on follow.follow_to=profile.user_email" + 
+			" group by follow.follow_to", nativeQuery = true)
 	List<Ranking> followerRank();
 
 	@Query(value = "select count(*) cnt from follow f where f.follow_to=:email", nativeQuery = true)
@@ -42,4 +43,7 @@ public interface FollowDao extends JpaRepository<Follow, String> {
 
 	@Query(value = "select * from follow f where f.follow_to=:to and f.follow_from=:from", nativeQuery = true)
 	Optional<Follow> findFollowByFromAndTo(@Param("from") String from,@Param("to") String to);
+	
+	@Query(value = "select * from follow f where f.id=:id", nativeQuery = true)
+	Optional<Follow> findByFollowId(@Param("id") String id);
 }

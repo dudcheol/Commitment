@@ -12,6 +12,7 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.LikeDao;
+import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.Ranking;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,38 +35,46 @@ public class RankingController {
 	@ApiOperation(value = "전체커밋랭킹")
 	public List<Ranking> commitRank() {
 		List<Ranking> list = commitDao.commitRank();
+	
 		return list;
 	}
+	
 	@GetMapping("/rank/aweek")
 	@ApiOperation(value = "주간커밋랭킹")
 	public List<Ranking> commitWeekRank() {
 		List<Ranking> list = commitDao.commitWeekRank();
 		return list;
 	}
+	
 	@GetMapping("/rank/month")
 	@ApiOperation(value = "월간커밋랭킹")
 	public List<Ranking> commitMonthRank() {
 		List<Ranking> list = commitDao.commitMonthRank();
 		return list;
 	}
+	
 	@GetMapping("/rank/following")
 	@ApiOperation(value = "팔로잉한 사람들 커밋 랭킹")
 	public List<Ranking> followingRank(@RequestParam(required = true) String email) {
 		List<Ranking> list = commitDao.followingRank(email);
 		return list;
 	}
+	
 	@GetMapping("/rank/board")
 	@ApiOperation(value = "게시글 수 랭킹")
 	public List<Ranking> boardRank() {
 		List<Ranking> list = boardDao.boardRanking();
 		return list;
 	}
+
 	@GetMapping("/rank/like")
 	@ApiOperation(value = "좋아요 랭킹")
 	public List<Ranking> likeRank() {
 		List<Ranking> list = likeDao.likeRanking();
+		// file_path
 		return list;
 	}
+	
 	@GetMapping("/rank/follower")
 	@ApiOperation(value = "팔로워 수 랭킹")
 	public List<Ranking> followerRank() {
@@ -80,6 +89,7 @@ public class RankingController {
 		List<Ranking> list = commitDao.seoulRank();
 		return list;
 	}
+	
 	@GetMapping("/rank/gyeonggi")
 	@ApiOperation(value = "경기 커밋 랭킹")
 	public List<Ranking> gyeonggiRank() {

@@ -28,19 +28,19 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import { mainbadge } from "../../../api/Badge.js";
+import { mapGetters } from 'vuex';
+import { mainbadge } from '../../../api/badge';
 export default {
-  name: "MainBadge",
+  name: 'MainBadge',
   data() {
     return {
-      path: "",
-      badge: "",
-      name: "",
+      path: '',
+      badge: '',
+      name: '',
     };
   },
   computed: {
-    ...mapGetters({ user: ["getUserInfo"] }),
+    ...mapGetters({ user: ['getUserInfo'] }),
   },
 
   created() {
@@ -50,24 +50,24 @@ export default {
       (response) => {
         this.badge = response.data;
         console.log(this.badge);
-        if (this.badge == "first_commit") {
-          this.name = "첫 커밋";
-        }else if(this.badge == "total_commit"){
-          this.name = "전국 커밋";
-        }else if(this.badge == "fisrt_following"){
-          this.name = "첫 팔로잉";
-        }else if(this.badge == "dokdo"){
-          this.name = "독도 홀릭";
-        }else if(this.badge == "seoul"){
-          this.name = "서울 홀릭";
-        }else if(this.badge == "gangwondo"){
-          this.name = "강원도 홀릭";
-        }else if(this.badge == "busan"){
-          this.name = "부산 커밋";
-        }else if(this.badge == "gyenggido"){
-          this.name = "경기도 커밋";
-        }else if(this.badge == "ulsan"){
-          this.name = "울산 홀릭";
+        if (this.badge == 'first_commit') {
+          this.name = '첫 커밋';
+        } else if (this.badge == 'total_commit') {
+          this.name = '전국 커밋';
+        } else if (this.badge == 'fisrt_following') {
+          this.name = '첫 팔로잉';
+        } else if (this.badge == 'dokdo') {
+          this.name = '독도 홀릭';
+        } else if (this.badge == 'seoul') {
+          this.name = '서울 홀릭';
+        } else if (this.badge == 'gangwondo') {
+          this.name = '강원도 홀릭';
+        } else if (this.badge == 'busan') {
+          this.name = '부산 커밋';
+        } else if (this.badge == 'gyenggido') {
+          this.name = '경기도 커밋';
+        } else if (this.badge == 'ulsan') {
+          this.name = '울산 홀릭';
         }
       },
       (error) => {
@@ -76,11 +76,11 @@ export default {
     );
   },
   mounted() {
-    this.path = require("../../../assets/img/badge/" + this.badge + ".png");
+    this.path = require('../../../assets/img/badge/' + this.badge + '.png');
   },
   watch: {
     badge() {
-      this.path = require("../../../assets/img/badge/" + this.badge + ".png");
+      this.path = require('../../../assets/img/badge/' + this.badge + '.png');
       console.log(this.badge);
     },
   },

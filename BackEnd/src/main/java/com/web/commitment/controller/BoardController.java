@@ -24,8 +24,10 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Tag;
 import com.web.commitment.dto.User;
 import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.BoardTagReqDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,26 +43,36 @@ public class BoardController {
 
 	@Autowired
 	CommitDao commitDao;
-	
-	@Autowired	
+
+	@Autowired
 	FollowingBoardController followingBoardController;
+	
+	@Autowired
+	TagController tagController;
 
 	@PostMapping("/sns")
-	@ApiOperation(value = "게시글 작성")
-	public String commit(@RequestBody Board sns) {
-		// 여기서는 id 필요 없음
-		// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
-//		System.out.println(LocalDateTime.now().toString().split("T")[0]);		
+	@ApiOperation(value = "게시글 작성, 수정")
+	public String commit(@RequestBody BoardTagReqDto req) {
 		try {
-			int emailResult = userDao.countByEmail(sns.getEmail());
+			int emailResult = userDao.countByEmail(req.getEmail());
 
 			if (emailResult != 0) {
-				sns.setCreatedAt(LocalDateTime.now());
-				boardDao.save(sns);
-				return "success";
+				Board b = new Board();
+				b.setCommitId(req.getCommitId());
+				b.setEmail(req.getEmail());
+				b.setTitle(req.getTitle());
+				b.setContent(req.getContent());
+				b.setLocation(req.getLocation());
+				b.setCreatedAt(LocalDateTime.now());
+				boardDao.save(b);
+				
+				// snsId 뱉어주기
+				System.out.println(b);
+				tagController.tag(b.getId(), req.getTag());
+				return b.getId();
 			} else {
 				// email이 없음
-				return "fail";
+				return "no email";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,8 +86,8 @@ public class BoardController {
 	@Transactional(readOnly = true)
 	public Page<BoardDto> mySns(@RequestParam final String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		Page<Board> boards=boardDao.findByEmail(email, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByEmail(email, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 //		return boardDto;
 	}
@@ -85,46 +97,20 @@ public class BoardController {
 	@ApiOperation(value = "다른 유저의 게시글 목록")
 	public Page<BoardDto> loadSns(@RequestParam String email, final Pageable pageable) {
 		// 페이지 index는 0부터
-		Page<Board> boards= boardDao.findAllByEmail(email, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findAllByEmail(email, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
-	}
-
-	@PutMapping("/account/update")
-	@ApiOperation(value = "게시글 수정")
-	public Object update(@RequestBody Board sns) {
-
-		// 여기서는 id 받아와야 함
-		// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
-		try {
-			int emailResult = userDao.countByEmail(sns.getEmail());
-
-			if (emailResult != 0) {
-				boardDao.save(sns);
-				return "success";
-			} else {
-				// email이 없음
-				return "fail";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
 	}
 
 	@DeleteMapping("/sns")
 	@ApiOperation(value = "게시글 삭제")
-	public int delete(@RequestParam String sns_id) {
-
-		Optional<Board> sns = boardDao.findById(sns_id);
-		System.out.println(sns);
-
+	public String delete(@RequestParam String sns_id) {
 		try {
-			boardDao.delete(sns.get());
-			return 0;
+			boardDao.deleteById(sns_id);
+			return "success";
 
 		} catch (Exception e) {
-			return 1;
+			return "fail";
 		}
 	}
 
@@ -137,42 +123,42 @@ public class BoardController {
 
 	// 대소문자 구분 없이 검색! IgnoreCase
 	@GetMapping("/search/title")
-	@ApiOperation(value = "제목으로 검색")
+	@ApiOperation(value = "제목으로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByTitle(@RequestParam String keyword, final Pageable pageable) {
 
 		keyword = "%" + keyword + "%";
-		Page<Board> boards=boardDao.findByTitleContainingIgnoreCase(keyword, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByTitleContainingIgnoreCase(keyword, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 
 	@GetMapping("/search/content")
-	@ApiOperation(value = "내용으로 검색")
+	@ApiOperation(value = "내용으로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByContent(@RequestParam String keyword, final Pageable pageable) {
 
 		keyword = "%" + keyword + "%";
-		Page<Board> boards=boardDao.findByContentContainingIgnoreCase(keyword, pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByContentContainingIgnoreCase(keyword, pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
-		
+
 	}
 
 	@GetMapping("/search/tnc")
-	@ApiOperation(value = "제목 & 내용으로 검색")
+	@ApiOperation(value = "제목 & 내용으로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByTandC(@RequestParam String keyword, final Pageable pageable) {
 
-		Page<Board> boards=boardDao.findByTitleandContent("%" + keyword.toLowerCase() + "%", pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByTitleandContent("%" + keyword.toLowerCase() + "%", pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
-		
+
 	}
 
 	@GetMapping("/search/writer")
-	@ApiOperation(value = "글쓴이로 검색")
+	@ApiOperation(value = "글쓴이로 검색(open 1인 것만)")
 	public Page<BoardDto> searchByWriter(@RequestParam String keyword, final Pageable pageable) {
 
-		Page<Board> boards=boardDao.findByEmailContainingIgnoreCase("%" + keyword.toLowerCase() + "%", pageable);
-		List<BoardDto> boardDtos =followingBoardController.clean(boards);
+		Page<Board> boards = boardDao.findByEmailContainingIgnoreCase("%" + keyword.toLowerCase() + "%", pageable);
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 
@@ -187,6 +173,20 @@ public class BoardController {
 			return boardDao.findAll(pageable);
 		}
 		return boardDao.radiusCommitId(lat, lng, radius, pageable);
+
+	}
+
+	@GetMapping("/sns/location")
+	@ApiOperation(value = "네모칸 안에 회원 전체 게시글 (open 1인 것만)")
+	public Page<BoardDto> locationsns(@RequestParam String x, @RequestParam String y, String region,final Pageable pageable) {
+		Page<Board> boards;
+		if(region.equals("national")) {
+			boards=boardDao.nationalsns(x,y, pageable);
+		}else {
+			boards=boardDao.locationsns(x,y,region, pageable);
+		}
+		List<BoardDto> boardDtos = followingBoardController.clean(boards);
+		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 
 	}
 }

@@ -32,52 +32,81 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	List<Commit> findByEmail(String email);
 
 	// 랭킹관련
-	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking, count(*) cnt"
-			+ " from user u, commit c"
-			+ " where u.email=c.user_email "
-			+ " group by c.user_email"
-			+ " order by ranking"
-			, nativeQuery = true)
+//	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking," + 
+//			" count(*) cnt, p.*" + 
+//			" from user u cross join commit c on u.email=c.user_email left outer join profile p on c.user_email=p.user_email" + 
+//			" group by email" + 
+//			" order by ranking", nativeQuery = true)
+//	List<Ranking> commitRank();
+	@Query(value = "select c.user_email email, u.nickname nickname, row_number() over (order by count(*) desc) ranking, count(*) cnt, p.* from user u cross join commit\r\n" + 
+			" c on u.email=c.user_email left outer join profile p on c.user_email=p.user_email group by email order by ranking", nativeQuery = true)
 	List<Ranking> commitRank();
 
-	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
-			+ "where created_at between DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW() "
-			+ "group by commit.user_email", nativeQuery = true)
+	@Query(value = "select c.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile"
+			+ " from commit c left outer join profile p on c.user_email=p.user_email"
+			+ " where created_at between DATE_ADD(NOW(),INTERVAL -1 WEEK ) AND NOW()"
+			+ " group by c.user_email", nativeQuery = true)
 	List<Ranking> commitWeekRank();
 
-	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt from commit "
-			+ "where created_at between DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() "
-			+ "group by commit.user_email", nativeQuery = true)
+	@Query(value = "select c.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from commit c left outer join profile p on c.user_email=p.user_email" + 
+			" where created_at between DATE_ADD(NOW(),INTERVAL -1 MONTH ) AND NOW() group by c.user_email", nativeQuery = true)
 	List<Ranking> commitMonthRank();
 
-	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt \r\n"
-			+ "from commit \r\n" + "where commit.user_email in (\r\n"
-			+ "select follow.follow_to from follow where follow_from=:email) "
-			+ "group by commit.user_email;", nativeQuery = true)
+	@Query(value = "select commit.user_email email, rank() over (order by count(*) desc) ranking, count(*) cnt, profile.file_path profile" + 
+			" from commit left outer join profile on commit.user_email=profile.user_email" + 
+			" where commit.user_email in" + 
+			" (select follow.follow_to from follow where follow_from=:email)" + 
+			" group by commit.user_email", nativeQuery = true)
 	List<Ranking> followingRank(@Param("email") String email);
-
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='seoul' " + "group by c.user_email order by ranking", nativeQuery = true)
+	
+	////
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='seoul'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> seoulRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gyeonggi' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='gyeonggi'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> gyeonggiRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gangwon' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='gangwon'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> gangwonRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='gwangju' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='gwangju'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> gwangjuRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='ulsan' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='ulsan'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> ulsanRank();
 
-	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt from user u, commit c"
-			+ " where u.email=c.user_email and c.region_name='busan' " + "group by c.user_email order by ranking", nativeQuery = true)
+	@Query(value = "select c.user_email email, u.nickname nickname ,row_number() over (order by count(*) desc) ranking, count(*) cnt, p.file_path profile" + 
+			" from user u cross join commit c on u.email=c.user_email" + 
+			" left outer join profile p on c.user_email=p.user_email" + 
+			" where c.region_name='busan'" + 
+			" group by c.user_email" + 
+			" order by ranking", nativeQuery = true)
 	List<Ranking> busanRank();
 
 	// 커밋 시간제한
@@ -90,12 +119,14 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	int countByEmail(String email);
 	
 	@Query(value = "select * from commit c where user_email=:email and c.id not in (select distinct commit_id from sns) order by created_at desc", nativeQuery = true)
-	Page<Commit> commitOnly(@Param("email")String email, Pageable pageable);
+	List<Commit> commitOnly(@Param("email")String email);
 
 	Commit findCommitById(String id);
 
 	@Query(value = "select count(*) from commit where user_email=:email", nativeQuery = true)
 	int commitCnt(@Param("email")String email);
+
+	List<Commit> findAllByRegion(String region);
 
 	
 }

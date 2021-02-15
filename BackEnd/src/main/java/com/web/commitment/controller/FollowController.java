@@ -19,6 +19,7 @@ import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.Follow;
 import com.web.commitment.dto.FollowId;
 import com.web.commitment.dto.User;
+import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +31,9 @@ public class FollowController {
 	private FollowDao followDao;
 	@Autowired
 	private UserDao userDao;
-
+	
+	@Autowired
+	NotificationController notificationController;
 
 	@GetMapping("/profile/follow")
 	@ApiOperation(value = "팔로우 하기&취소")
@@ -41,13 +44,29 @@ public class FollowController {
 		followid.setToUser(to);
 		Follow follow = new Follow();
 		follow.setFollowid(followid);
-		Optional<Follow> option=followDao.findFollowByFromAndTo(from,to);
-//		System.out.println(option.get());
-		if(option.isPresent()) 
-			followDao.delete(option.get());
-		else
-			followDao.save(follow);
+		Optional<Follow> option = followDao.findFollowByFromAndTo(from, to);
 
+		if(option.isPresent()) {
+			// 팔 취시 알림 삭제
+			User toUser = userDao.getUserByEmail(to);
+			System.out.println(option.get().getFollowid().getId());
+			notificationController.deleteCancelNotification("follow", toUser.getNickname(), option.get().getFollowid().getId());
+			
+			followDao.delete(option.get());
+		} else {
+			followDao.save(follow);
+			
+			NotificationReqDto request = new NotificationReqDto();
+			User toUser = userDao.getUserByEmail(to);
+			User fromUser = userDao.getUserByEmail(from);
+			request.setDataId(toUser.getNickname());
+			request.setIsRead(false);
+			request.setTo(toUser.getNickname());
+			request.setType("follow");
+			
+			// 실시간 알림 저장
+			notificationController.saveNotification(fromUser.getNickname(), request);
+		}
 		final BasicResponse result = new BasicResponse();
 		result.status = true;
 		result.data = "success";

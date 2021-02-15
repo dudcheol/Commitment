@@ -5,9 +5,9 @@ import store from '../vuex/store';
 import Index from '../views/Index.vue';
 import Signup from '../views/Signup.vue';
 import Login from '../views/Login.vue';
-import Detail from '../views/index/Detail.vue';
 import Permission from '../views/Permission.vue';
 import EmailCheck from '../views/EmailCheck.vue';
+import Detail from '../views/index/Detail.vue'
 
 // 필수
 Vue.use(Router);
@@ -30,7 +30,6 @@ const requireAuth = () => async (to, from, next) => {
 const routes = [
   {
     path: '/', // 경로
-    name: 'Index', // 해당 경로의 이름
     beforeEnter: requireAuth(),
     component: Index, // 이동할 컴포넌트
     children: [
@@ -82,15 +81,14 @@ const routes = [
     component: Login,
   },
   {
-    path: '/detail',
-    name: 'Detail',
-    beforeEnter: requireAuth(),
-    component: Detail,
-  },
-  {
     path: '/permission',
     name: 'Permission',
     component: Permission,
+  },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: Detail,
   },
   {
     path: '/user/mailCheck',

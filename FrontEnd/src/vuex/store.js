@@ -10,9 +10,17 @@ const SEARCHING_POSITION_TEXT = '위치 찾는 중...';
 
 const state = {
   userInfo: {},
+  following: [],
   authToken: null,
   currentLatlng: null,
   currentAddress: SEARCHING_POSITION_TEXT,
+  title: 'Timer',
+  timer: null,
+  totalTime: 0,
+  commitBtnState: true,
+  minutes: 0,
+  seconds: 0,
+  boardDetail: null,
 };
 
 export default new Vuex.Store({

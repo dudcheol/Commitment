@@ -14,7 +14,7 @@
         <template #footer>
           <div class="con-footer">
             <vs-button @click="yes" transparent>
-              오케바리
+              넵 !
             </vs-button>
           </div>
         </template>

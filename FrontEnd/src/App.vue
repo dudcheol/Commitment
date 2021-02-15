@@ -15,6 +15,14 @@ export default {
 </script>
 
 <style>
+body {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .mid-size {
   max-width: 680px;
   width: 100%;

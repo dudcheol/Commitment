@@ -1,8 +1,18 @@
 <template>
+<div>
+  <div>
+    <Logo id="logo"></Logo>
+    
+    <div id="videoBd">
+    <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
+      <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4">
+    </video>
+    </div>
+  </div>
   <div class="login_form">
     <vs-card>
       <template #title>
-        <h4 class="not-margin"><b>Commmitment</b> 오신것을 환영합니다</h4>
+        <h4 class="not-margin">Welcome to Commitment</h4>
       </template>
 
       <template #text>
@@ -14,7 +24,7 @@
             </template>
           </vs-input>
           </div>
-          <div class="password_input">
+          <div class="password_input mb-5">
           <vs-input
             type="password"
             v-model="pass"
@@ -25,15 +35,24 @@
             </template>
           </vs-input>
           </div>
-          <div class="flex">
-            <vs-checkbox v-model="remember">아이디 저장</vs-checkbox>
-            <a href="#">비밀번호를 잊어버리셨나요?</a>
+
+          <div class="google__button mb-4">
+            <GoogleLogin
+            :params="params"
+            :onSuccess="GoogleLoginSuccess"
+            :renderParams="renderParams"
+
+            ></GoogleLogin>
           </div>
+          <!-- <div>
+            <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
+          </div> -->
+            <!-- :onFailure="GoogleLoginFailure" -->
         </div>
 
         <div class="footer-dialog">
           <vs-button block @click="confirm" :loading="loading">
-            로그인
+            Login
           </vs-button>
 
           <div class="new">아직 처음이신가요? <a @click="signuplink">회원가입</a></div>
@@ -47,17 +66,28 @@
       @close="alert = !alert"
     ></DialogVue>
   </div>
+</div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
 import DialogVue from '../components/common/dialog/Dialog.vue';
+import Logo from '../components/login/Logo.vue'
+import GoogleLogin from 'vue-google-login';
+import GoogleSignInButton from 'vue-google-signin-button-directive'
 
 export default {
+   directives: {
+    GoogleSignInButton
+  },
   components: {
-    DialogVue,
+    DialogVue, Logo, GoogleLogin
   },
   data: () => ({
+    window: {
+            width: 0,
+            height: 0
+      },
     active: true,
     email: '',
     pass: '',
@@ -66,9 +96,25 @@ export default {
     title: '오류',
     content: '로그인에 실패했습니다',
     loading: false,
+    params: {
+      cliend_id: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com'
+    },
+    renderParams: {
+      width: 240,
+      height: 40,
+      longtitle: true
+    },
+    clientId: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com',
   }),
+  created() {
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();
+    },
+  destroyed() {
+      window.removeEventListener('resize', this.handleResize);
+  },
   methods: {
-    ...mapActions(['LOGIN']),
+    ...mapActions(['LOGIN', 'GOOGLE_LOGIN']),
     async confirm() {
       this.loading = true;
 
@@ -83,21 +129,134 @@ export default {
         this.$router.push({ name: 'Main' });
       }
     },
+    
     signuplink() {
        this.$router.push({ name: 'Signup' })
-    }
+    },
+    
+    handleResize() {
+            this.window.width = window.innerWidth;
+            this.window.height = window.innerHeight;
+        },
+
+    async GoogleLoginSuccess(googleUser) {
+      this.loading = true;
+      const profile = googleUser.getBasicProfile();
+      console.log('google login start')
+      const result = await this.GOOGLE_LOGIN(
+        {
+        email: googleUser.getBasicProfile().getEmail(),
+        pass: null,
+        image: profile.getImageUrl(),
+        token: googleUser.getAuthResponse().id_token,
+        name: profile.getName(),
+      });
+      // console.log(googleUser)
+      // console.log(googleUser.getBasicProfile())
+      // // nickname tel age gender
+      // console.log('ID Token: ', googleUser.getAuthResponse().id_token); // 실제 토큰
+      // console.log('Name: ' + profile.getName());
+      // console.log('Image URL: ' + profile.getImageUrl());
+      // console.log('Email: ' + profile.getEmail());
+      this.loading = false;
+      console.log(result)
+      if (!result) {
+        this.alert = true;
+      } else {
+        this.$router.push({ name: 'Main' });
+      }
+    },
+    GoogleLoginFailure() {
+    },
+    // OnGoogleAuthSuccess (idToken) {
+    //   console.log(idToken)
+    //   // Receive the idToken and make your magic with the backend
+    // },
+    // OnGoogleAuthFail (error) {
+    //   console.log(error)
+    // }
   },
 };
 </script>
 
-<style  scoped>
-vs-input {
-  width: 300px !important
+<style scoped>
+.google__button {
+  display: flex;
+  justify-content: center;
 }
-/* 
-input#vs-input--7 {
-  width: 400px !important
-}  */
+.login_form {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  
+  }
+
+#logo {
+  position: fixed;
+  z-index: 1;
+  top: 10%;
+  right: 8%;
+}
+
+#videoBd  {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+ }
+#videoBG {
+  position: fixed;
+  z-index: 0;
+}
+@media (min-aspect-ratio: 16/9) {
+      #videoBG {
+          width: 100%;
+          height: auto;
+      }
+  }
+
+@media (max-aspect-ratio: 16/9) {
+      #videoBG {
+          width: auto;
+          height: 100%;
+      }
+  }
+@media (max-width: 1000px) {
+      #logo{
+        display: none;
+      }
+}
+@media (max-width: 700px) {
+      #logo{
+        display: none;
+      }
+      .login_form {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate( -50%, -50%);
+      }
+      #videoBG {
+          display: none;
+      }
+      #videoBd {
+        background: url('../assets/img/login/poster.jpg') no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+  }
+.before-enter {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 1s ease-out;
+}
+
+.enter {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
 .email_input {
   display: flex;
   justify-content: center;
@@ -110,21 +269,7 @@ input#vs-input--7 {
   margin: 10px 10px;
 }
 
-.login_form {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate( -50%, -50% ) }
-
-
-
-.vs-card-content {
-    width: 50vmax }
-    /* @media screen and (min-width: 600px)
-        width 30vmax } */
-
+        
 .not-margin {
   margin: 3px;
   font-weight: normal;
@@ -160,6 +305,7 @@ input#vs-input--7 {
   justify-content: center;
   flex-direction: column;
   width: calc(100%);
+  font-size: 1.5em;
   }
 
 .new
@@ -176,5 +322,19 @@ input#vs-input--7 {
   .vs-button {
 
     margin: 0px }
+
+.vs-card {
+  background-color: green !important
+}
+
+.google-signin-button {
+  color: white;
+  background-color: red;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px 20px 25px 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 </style>

@@ -32,14 +32,11 @@ public class TagController {
     public String tag(@PathVariable String id, @RequestBody Tag[] tag) {
 		
 		List<Tag> tags = tagDao.findAllBySnsId(id);
-		System.out.println(tags.size());
-		for (int i = 0; i < tags.size(); i++) {
-			System.out.println(tags.get(i).getContent());
-		}
 		tagDao.deleteAll(tags);
 		
 		try { 
 			for (int i = 0; i < tag.length; i++) {
+				tag[i].setSnsId(id);
 				tagDao.save(tag[i]);
 			}	 
 		   	return "success";
@@ -48,7 +45,6 @@ public class TagController {
 	    	e.printStackTrace();
 	    	return "error";
 	    }
-
     }
     
     // 게시글의 태그로 검색
