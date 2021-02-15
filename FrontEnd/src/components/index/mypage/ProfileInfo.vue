@@ -4,15 +4,34 @@
 <!-- top -->
             <div class="top" :justify="dynamicJustify">
                 <div>
-                    <ProfileImgChange/>
-<!--                     <div class="profileImg ">
+                    <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
+                        <template #header>
+                        <h3>
+                            프로필 사진 변경
+                        </h3>
+                        </template>
+                        <div class="con-content">
+                        <div>
+                            <input type="file" @change="fileSelected"/>
+                            <img v-if="image" :src="image" width="300"/>
+                        </div>
+                        <div>
+                        </div>
+                        <div class="footer-dialog">
+                            <vs-button block @click="upload">
+                            업로드
+                            </vs-button>
+                        </div>
+                        </div>
+                    </vs-dialog>
+                    <div class="profileImg ">
                         <v-list-item-avatar size="150">
                             <img :src=imgSrc 
                             alt="picture"
                             @click="showModal()"
                             >
                         </v-list-item-avatar>
-                    </div> -->
+                    </div>
                 </div>
                 <v-card
                     class="mx-auto"
@@ -21,7 +40,7 @@
                 >
                     <v-card-title>
                         {{this.age}} | 
-                        <span v-if="this.gender=='man'">남성</span>
+                        <span v-if="this.gender=='m'">남성</span>
                         <span v-else-if="this.gender=='w'">여성</span>
                     </v-card-title>
                     <v-card-subtitle>
@@ -40,15 +59,8 @@
                             <Follower/>
                             <Following/>
                             <v-spacer></v-spacer>
-                            <div class="badge">
+                            <div class="badge" v-if="this.user.email==this.email">
                                 <ProfileEdit/>
-<!--                                 <div class="badgeImg">
-                                    <v-list-item-avatar size="50">
-                                    <img
-                                        src="https://cdn4.iconfinder.com/data/icons/badges-9/66/31-512.png"
-                                        alt="picture">
-                                    </v-list-item-avatar>
-                                </div> -->
                             </div>
                         </div>
                    
@@ -76,10 +88,9 @@
                     <div class="badge">
                         <v-list-item-avatar size="70">
                             <img src="../../../assets/img/badge/badge0.png"
-                            alt="../../../assets/img/badge/badge0.png"
+                            alt=""
                             >
                         </v-list-item-avatar>
-                       <!--  <ProfileImgChange/> -->
                     </div>
                 </div>
             </div>
@@ -91,20 +102,19 @@ import { mapGetters } from 'vuex';
 import Follower from '../../common/dialog/Follower'
 import Following from '../../common/dialog/Following'
 import ProfileEdit from '../../common/dialog/ProfileEdit'
-import ProfileImgChange from '../../common/dialog/ProfileImgChange'
-import {searchUserByEmail, searchUserByNickname} from '../../../api/account'
+import {searchUserByNickname} from '../../../api/account'
 import {userCommitCount} from '../../../api/commit'
-
+import {editProfileImg} from '../../../api/img'
 export default {
     components: {
           Follower,
           Following,
           ProfileEdit,
-          ProfileImgChange,
     },
     data: () => ({
+        active:false,
         show: false,
-        id:'jimotme',//this.$route.params.id로 받은 현재 유저의 닉네임
+        id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
         //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
         email:'',
         gender:'',
@@ -113,6 +123,8 @@ export default {
         imgSrc:'',
         //email로 /commit/total에서 가져온 커밋수
         cnt:0,
+        image: '',
+        file: null, 
         }),
     computed:{
         ...mapGetters({
@@ -132,22 +144,37 @@ export default {
     },
     methods:{
         showModal(){
-            ProfileImgChange;
-        }
+            if(this.user.email==this.email){
+                this.active = true;
+            }
+            
+        },
+        fileSelected(evt){
+            this.file = evt.target.files.item(0);
+            console.log(typeof this.file);
+            const reader = new FileReader();
+            reader.addEventListener('load', this.imageLoaded);
+            reader.readAsDataURL(this.file);
+        },
+        imageLoaded(evt){ 
+            this.image = evt.target.result; 
+        },
+        upload(){
+            const form = new FormData();
+            form.append('file', this.file);
+            form.append('email', this.email);
+            editProfileImg(
+                form,
+                (response)=>{
+                console.log("성공"+response);
+                },
+                (error)=>{
+                console.log("에러"+error);
+                }
+            )
+        },
     },
     created(){
-        searchUserByEmail(
-            // {keyword : this.user.email},
-            // (response)=>{
-            //     // console.log("성공"+this.user.email);
-            //     const content = response.data.content[0];
-            //     this.imgSrc = content.profile.filePath;
-            // },
-            // (error)=>{
-            //     console.log("create에러"+error);
-            // }
-        ),
-
         searchUserByNickname(
             {keyword : this.id},
             (response)=>{
@@ -216,5 +243,42 @@ export default {
 }
 .texts{
   color:rgb(72, 199, 72);
+}
+
+.image-box {
+  margin-top: 0px;
+  padding-bottom: 0px;
+}
+
+.image-box label {
+  display: inline-block;
+  padding: 0px 0px;
+  /* color: #fff; */
+  vertical-align: middle;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.file-preview-wrapper {
+  padding: 10px;
+  position: center;
+}
+.file-preview-wrapper > img {
+  position: center;
+  max-width: 300px;
+  max-height: 300px;
+  z-index: 10;
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  height: 56px;
+  width: 100%;
+  z-index: 999;
+  background-color: white;
+}
+#container {
+  min-height: 100vh;
 }
 </style>

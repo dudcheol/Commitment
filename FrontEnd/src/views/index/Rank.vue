@@ -18,7 +18,7 @@
                       <v-avatar size="80">
                         <img :src="imgSrc2" alt="John" />
                       </v-avatar>
-                      <h3 class="percentage">{{cnt2}}</h3>
+                      <h2 class="percentage">{{cnt2}}</h2>
                       <p class="nickname">{{nickname2}}</p>
                       <vs-button
                         border
@@ -26,14 +26,14 @@
                         @click="active = 2"
                         class="like"
                       >
-                        <i class="bx bxs-heart"></i> Like
+                        <i class="bx bxs-heart"></i> Follow
                       </vs-button>
                     </div>
                     <div class="first">
                       <v-avatar size="100">
                         <img :src="imgSrc1" alt="John" />
                       </v-avatar>
-                      <h3 class="percentage">{{cnt1}}</h3>
+                      <h2 class="percentage">{{cnt1}}</h2>
                       <p class="nickname">{{nickname1}}</p>
                       <vs-button
                         border
@@ -41,14 +41,14 @@
                         @click="active = 2"
                         class="likeMiddle"
                       >
-                        <i class="bx bxs-heart"></i> Like
+                        <i class="bx bxs-heart"></i> Follow
                       </vs-button>
                     </div>
                     <div class="third">
                       <v-avatar size="80">
                         <img :src="imgSrc3" alt="John" />
                       </v-avatar>
-                      <h3 class="percentage">{{cnt3}}</h3>
+                      <h2 class="percentage">{{cnt3}}</h2>
                       <p class="nickname">{{nickname3}}</p>
                       <vs-button
                         border
@@ -56,7 +56,7 @@
                         @click="active = 2"
                         class="like"
                       >
-                        <i class="bx bxs-heart"></i> Like
+                        <i class="bx bxs-heart"></i> Follow
                       </vs-button>
                     </div>
                   </div>
@@ -77,14 +77,14 @@
                       >
                         <vs-td class="rankNum">
                           {{ tr.ranking }}
-                          
+                
                         </vs-td>
                         <vs-td>
                           <v-avatar
                           size="50"  
                           >
-                            <img
-                              :src="tr.profile"
+                            <img v-if="tr.profile!=null"
+                              :src="tr.profile.filePath"
                               alt=""
                             >
                           </v-avatar>
@@ -152,8 +152,10 @@ export default {
         {keyword:inputValue},
         (response)=>{
           const content = response.data.content;
-          for(let i=0;i<response.data.content.length;i++){
+          for(let i=0;i<content.length;i++){
             const item = content[i];
+            console.log("total",item.profile.filePath);
+            console.log("total",item.ranking);
             this.users.push(item);
           }
         },
@@ -171,22 +173,22 @@ export default {
           const res = response.data;
           const temp1 = res[0];
           this.nickname1=temp1.nickname;
-          this.imgSrc1 = temp1.profile;
+          this.imgSrc1 = temp1.profile.filePath;
           this.cnt1 = temp1.cnt;
 
           const temp2 = res[1];
           this.nickname2=temp2.nickname;
-          this.imgSrc2 = temp2.profile;
+          this.imgSrc2 = temp2.profile.filePath;
           this.cnt2 = temp2.cnt;
 
           const temp3 = res[2];
           this.nickname3=temp3.nickname;
-          this.imgSrc3 = temp3.profile;
+          this.imgSrc3 = temp3.profile.filePath;
           this.cnt3 = temp3.cnt;
 
           for(let i=3;i<res.length;i++){
             const item = res[i];
-            console.log(item);
+            // console.log(item);
             this.users.push(item);
           }
         },
@@ -203,22 +205,21 @@ export default {
         
         const temp1 = res[0];
         this.nickname1=temp1.nickname;
-        this.imgSrc1 = temp1.profile;
+        this.imgSrc1 = temp1.profile.filePath;
         this.cnt1 = temp1.cnt;
 
         const temp2 = res[1];
         this.nickname2=temp2.nickname;
-        this.imgSrc2 = temp2.profile;
+        this.imgSrc2 = temp2.profile.filePath;
         this.cnt2 = temp2.cnt;
 
         const temp3 = res[2];
         this.nickname3=temp3.nickname;
-        this.imgSrc3 = temp3.profile;
+        this.imgSrc3 = temp3.profile.filePath;
         this.cnt3 = temp3.cnt;
 
         for(let i=3;i<res.length;i++){
           const item = res[i];
-          console.log(item);
           this.users.push(item);
 
         }
