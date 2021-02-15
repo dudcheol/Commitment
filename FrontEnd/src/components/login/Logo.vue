@@ -25,67 +25,67 @@ export default {
 
 <style>
 #logo {
-    animation: fill 0.5s ease forwards 9.3s;
+    animation: fill 0.5s ease forwards 8.3s;
 }
  
 #logo path:nth-child(1) {
     stroke-dasharray: 439px;
     stroke-dashoffset: 439px;
-    animation: line-anim 2s ease forwards 5s;
+    animation: line-anim 2s ease forwards 4s;
 }
 
 #logo path:nth-child(2) {
     stroke-dasharray: 578px;
     stroke-dashoffset: 578px;
-    animation: line-anim 2s ease forwards 5.3s;
+    animation: line-anim 2s ease forwards 4.3s;
 }
 
 #logo path:nth-child(3) {
     stroke-dasharray: 660px;
     stroke-dashoffset: 660px;
-    animation: line-anim 2s ease forwards 5.6s;
+    animation: line-anim 2s ease forwards 4.6s;
 }
 
 #logo path:nth-child(4) {
     stroke-dasharray: 660px;
     stroke-dashoffset: 660px;
-    animation: line-anim 2s ease forwards 5.9s;
+    animation: line-anim 2s ease forwards 4.9s;
 }
 
 #logo path:nth-child(5) {
     stroke-dasharray: 212px;
     stroke-dashoffset: 212px;
-    animation: line-anim 2s ease forwards 6.2s;
+    animation: line-anim 2s ease forwards 5.2s;
 }
 
 #logo path:nth-child(6) {
     stroke-dasharray: 345px;
     stroke-dashoffset: 345px;
-    animation: line-anim 2s ease forwards 6.5s;
+    animation: line-anim 2s ease forwards 5.5s;
 }
 
 #logo path:nth-child(7) {
     stroke-dasharray: 660px;
     stroke-dashoffset: 660px;
-    animation: line-anim 2s ease forwards 6.8s;
+    animation: line-anim 2s ease forwards 5.8s;
 }
 
 #logo path:nth-child(8) {
     stroke-dasharray: 506px;
     stroke-dashoffset: 506px;
-    animation: line-anim 2s ease forwards 7.1s;
+    animation: line-anim 2s ease forwards 6.1s;
 }
 
 #logo path:nth-child(9) {
     stroke-dasharray: 601px;
     stroke-dashoffset: 601px;
-    animation: line-anim 2s ease forwards 7.4s;
+    animation: line-anim 2s ease forwards 6.4s;
 }
 
 #logo path:nth-child(10) {
     stroke-dasharray: 345px;
     stroke-dashoffset: 345px;
-    animation: line-anim 2s ease forwards 7.7s;
+    animation: line-anim 2s ease forwards 6.7s;
 }
 
 @keyframes line-anim {
