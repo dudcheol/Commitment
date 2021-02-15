@@ -51,7 +51,7 @@ public class BoardController {
 	TagController tagController;
 
 	@PostMapping("/sns")
-	@ApiOperation(value = "게시글 작성")
+	@ApiOperation(value = "게시글 작성, 수정")
 	public String commit(@RequestBody BoardTagReqDto req) {
 		try {
 			int emailResult = userDao.countByEmail(req.getEmail());
@@ -102,41 +102,16 @@ public class BoardController {
 		return new PageImpl<BoardDto>(boardDtos, pageable, boards.getTotalElements());
 	}
 
-	@PutMapping("/account/update")
-	@ApiOperation(value = "게시글 수정")
-	public Object update(@RequestBody Board sns) {
-
-		// 여기서는 id 받아와야 함
-		// email, commit_id를 받아오면 게시글 작성 (이미지 업로드까지) XXX
-		try {
-			int emailResult = userDao.countByEmail(sns.getEmail());
-
-			if (emailResult != 0) {
-				boardDao.save(sns);
-				return "success";
-			} else {
-				// email이 없음
-				return "fail";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-
 	@DeleteMapping("/sns")
 	@ApiOperation(value = "게시글 삭제")
-	public int delete(@RequestParam String sns_id) {
-
-		Optional<Board> sns = boardDao.findById(sns_id);
-		System.out.println(sns);
+	public String delete(@RequestParam String sns_id) {
 
 		try {
-			boardDao.delete(sns.get());
-			return 0;
+			boardDao.deleteById(sns_id);
+			return "success";
 
 		} catch (Exception e) {
-			return 1;
+			return "fail";
 		}
 	}
 

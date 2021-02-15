@@ -81,8 +81,4 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "where c.id=s.commit_id and c.open=1 "
 			+ "and c.local_x=:x and c.local_y=:y order by s.created_at desc", nativeQuery = true)
 	Page<Board> nationalsns(@Param("x") String x,@Param("y") String y, Pageable pageable);
-
-	@Query(value = "select max(id) from sns", nativeQuery = true)
-	String getMaxId();
-
 }
