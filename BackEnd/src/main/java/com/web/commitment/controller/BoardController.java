@@ -24,8 +24,10 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Tag;
 import com.web.commitment.dto.User;
 import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.BoardTagReqDto;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -44,22 +46,33 @@ public class BoardController {
 
 	@Autowired
 	FollowingBoardController followingBoardController;
+	
+	@Autowired
+	TagController tagController;
 
 	@PostMapping("/sns")
 	@ApiOperation(value = "게시글 작성")
-	public String commit(@RequestBody Board sns) {
+	public String commit(@RequestBody BoardTagReqDto req) {
 		try {
-			int emailResult = userDao.countByEmail(sns.getEmail());
+			int emailResult = userDao.countByEmail(req.getEmail());
 
 			if (emailResult != 0) {
-				sns.setCreatedAt(LocalDateTime.now());
-				boardDao.save(sns);
+				Board b = new Board();
+				b.setCommitId(req.getCommitId());
+				b.setEmail(req.getEmail());
+				b.setTitle(req.getTitle());
+				b.setContent(req.getContent());
+				b.setLocation(req.getLocation());
+				b.setCreatedAt(LocalDateTime.now());
+				boardDao.save(b);
 				
 				// snsId 뱉어주기
-				return boardDao.getMaxId();
+				System.out.println(b);
+				tagController.tag(b.getId(), req.getTag());
+				return "success";
 			} else {
 				// email이 없음
-				return "fail";
+				return "no email";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
