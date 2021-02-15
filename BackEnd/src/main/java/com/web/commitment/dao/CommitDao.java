@@ -119,7 +119,7 @@ public interface CommitDao extends JpaRepository<Commit, String> {
 	int countByEmail(String email);
 	
 	@Query(value = "select * from commit c where user_email=:email and c.id not in (select distinct commit_id from sns) order by created_at desc", nativeQuery = true)
-	List<Commit> commitOnly(@Param("email")String email);
+	List<Commit> commitOnly(@Param("email") String email);
 
 	Commit findCommitById(String id);
 

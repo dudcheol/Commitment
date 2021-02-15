@@ -307,7 +307,6 @@ public class CommitController {
 	@GetMapping("/commit/noboard")
 	@ApiOperation(value = "빈커밋")
 	public List<Commit> commitOnly(@RequestParam String email) {
-
 		return commitDao.commitOnly(email);
 	}
 

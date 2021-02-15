@@ -56,6 +56,6 @@ public class Comment {
 	private LocalDateTime createdAt;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_email",insertable=false, updatable=false)
+	@JoinColumn(name = "user_email", insertable=false, updatable=false)
 	private User user;
 }
