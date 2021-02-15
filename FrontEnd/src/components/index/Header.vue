@@ -52,7 +52,7 @@
           </template>
           <div class="pa-3 white">
             <h2 class="px-2">알림</h2>
-            <v-list class="pa-0" dense nav>
+            <v-list class="pa-0" dense nav style="max-height:70vh; overflow:auto;">
               <v-list-item-group>
                 <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
                   알림이 없습니다
@@ -147,7 +147,7 @@
           </template>
           <div class="pa-3 white">
             <h2 class="px-2">알림</h2>
-            <v-list class="pa-0" dense nav>
+            <v-list class="pa-0" dense nav style="max-height:50vh; overflow:auto;">
               <v-list-item-group color="primary">
                 <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
                   알림이 없습니다
