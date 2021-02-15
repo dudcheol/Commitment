@@ -29,7 +29,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { mainbadge } from "../../../api/Badge.js";
+import { mainbadge } from "../../../api/badge.js";
 export default {
   name: "MainBadge",
   data() {

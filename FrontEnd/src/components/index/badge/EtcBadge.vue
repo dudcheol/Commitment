@@ -343,7 +343,7 @@
   </div>
 </template>
 <script>
-import { commitrate, badgeList, mybadge } from "../../../api/Badge.js";
+import { commitrate, badgeList, mybadge } from "../../../api/badge.js";
 import Dialog from "../../common/dialog/Dialog.vue";
 import { mapGetters } from "vuex";
 export default {
