@@ -2,11 +2,7 @@
   <v-app id="inspire">
     <Header></Header>
     <v-main class="blue-grey lighten-5">
-      <router-view
-        :openWriteDialog="openWriteDialog"
-        @close-write="closeWrite"
-        @add-commit="commit"
-      ></router-view>
+      <router-view :openWriteDialog="openWriteDialog" @add-commit="commit"></router-view>
     </v-main>
     <v-btn
       fab
