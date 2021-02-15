@@ -25,6 +25,8 @@ const state = {
   writeDialog: false,
   commitDialog: false,
   boardRefresh: 0,
+  commitId: 0,
+  commitAddress: '',
 };
 
 export default new Vuex.Store({

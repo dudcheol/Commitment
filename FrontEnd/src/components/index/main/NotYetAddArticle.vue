@@ -6,6 +6,9 @@
           <div>
             <h2 class="font-weight-black d-flex align-center">
               <v-icon color="primary" class="pr-1">mdi-pencil-circle-outline</v-icon>비어있는 커밋
+              <span class="rounded-lg pa-1 blue-grey lighten-4 ml-1 primary--text">{{
+                empCommits.length
+              }}</span>
             </h2>
           </div>
         </v-expansion-panel-header>
@@ -37,6 +40,11 @@ import { mapGetters } from 'vuex';
 import NoDataCard from '../../common/card/NoDataCard.vue';
 export default {
   components: { CommitCard, NoDataCard },
+  data() {
+    return {
+      len: 0,
+    };
+  },
   computed: {
     ...mapGetters({ user: ['getUserInfo'], empCommits: ['getEmpCommitList'] }),
     panel() {
@@ -54,7 +62,11 @@ export default {
   },
   methods: {
     clickEmpCommit(item) {
-      console.log('%cNotYetAddArticle.vue line:66 item', 'color: #007acc;', item);
+      this.$store.commit('WRITE_DIALOG', {
+        state: true,
+        id: item.id,
+        address: item.address,
+      });
     },
   },
 };

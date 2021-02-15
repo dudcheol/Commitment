@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     click() {
-      this.$store.commit('COMMIT_DIALOG', true);
+      this.$emit('add-commit');
     },
   },
 };

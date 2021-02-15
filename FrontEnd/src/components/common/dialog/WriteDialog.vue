@@ -12,10 +12,9 @@
     >
       <template #header>
         <div class="d-flex flex-column">
-          <h2 class="text-center">커밋 글 작성하기</h2>
+          <h2 class="text-center">빈 커밋 채우기</h2>
           <v-chip small outlined>
-            <i class="bx bxs-map" style="vertical-align:middle"></i
-            >{{ address ? address : '위치를 찾는 중...' }}
+            <i class="bx bxs-map" style="vertical-align:middle"></i>{{ address }}
           </v-chip>
         </div>
       </template>
@@ -51,7 +50,11 @@
 
       <template #footer>
         <div class="file-preview-container d-flex overflow-auto">
-          <div v-for="(file, index) in files" :key="index" class="file-preview-wrapper">
+          <div
+            v-for="(file, index) in files"
+            :key="'write-dialog' + index"
+            class="file-preview-wrapper"
+          >
             <div class="file-close-button d-flex justify-end">
               <v-icon color="error" @click="fileDeleteButton" :name="file.number"
                 >mdi-close-circle</v-icon
@@ -123,7 +126,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import { writeBoard, imageUpload } from '../../../api/board';
 
 export default {
@@ -131,10 +134,10 @@ export default {
   data() {
     return {
       board: {
-        email: 'test@test.com',
+        email: '',
         title: 'title',
-        commitId: '176', // 넘겨받기
-        location: 'national', // 넘겨받기
+        commitId: '', // 넘겨받기
+        location: '', // 넘겨받기
         content: '',
         value: '1',
       },
@@ -159,10 +162,13 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ user: ['getUserInfo'], address: ['getCurrentAddress'] }),
+    ...mapGetters({
+      user: ['getUserInfo'],
+      commitId: ['getCommitId'],
+      address: ['getCommitAddress'],
+    }),
   },
   methods: {
-    ...mapActions(['GET_EMPCOMMIT_LIST']),
     write() {
       this.uploading = true;
       const tmp = [];
@@ -170,6 +176,7 @@ export default {
         tmp.push({ content: this.tags[i] });
       }
       this.board.tag = tmp;
+      this.board.commitId = this.commitId;
       console.log('%cWriteDialog.vue line:169 this.board', 'color: #007acc;', this.board);
       writeBoard(
         this.board,
@@ -194,17 +201,19 @@ export default {
             response.data,
             (response) => {
               console.log(response);
-              this.GET_EMPCOMMIT_LIST();
               this.$store.commit('BOARD_REFRESH');
               this.close();
+              this.uploading = false;
             },
             (error) => {
               console.log(error);
+              this.uploading = false;
             }
           );
         },
         (error) => {
           console.log(error);
+          this.uploading = false;
         }
       );
     },
@@ -235,11 +244,27 @@ export default {
     },
     close() {
       this.$emit('close');
+      this.init();
     },
     remove(item) {
       this.tags.splice(this.tags.indexOf(item), 1);
       this.tags = [...this.tags];
     },
+    init() {
+      this.board = {
+        email: '',
+        title: 'title',
+        commitId: '', // 넘겨받기
+        location: '', // 넘겨받기
+        content: '',
+        value: '1',
+      };
+      this.board.email = this.user.email;
+      this.board.location = this.user.region_name;
+    },
+  },
+  created() {
+    this.init();
   },
 };
 </script>

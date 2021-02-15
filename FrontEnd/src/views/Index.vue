@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <Header></Header>
     <v-main class="blue-grey lighten-5">
-      <router-view></router-view>
+      <router-view @add-commit="commit"></router-view>
     </v-main>
     <v-btn
       fab
@@ -14,10 +14,10 @@
       :ripple="false"
       @click="commit"
       :loading="!latlng || commitLoading"
-      :disabled="!latlng || commitLoading || commitTimeout"
+      :disabled="!latlng || commitLoading || totalTime != 0"
       elevation="10"
     >
-      <div v-if="commitTimeout">
+      <div v-if="totalTime != 0">
         <v-icon dark>mdi-lock</v-icon>
         <div>{{ min }}:{{ sec }}</div>
       </div>
@@ -44,7 +44,11 @@
       "
       @confirm-ok="confirmOk"
     ></commit-complete>
-    <write-dialog :web="writeDialog" @close="closeWriteDialog"></write-dialog>
+    <write-dialog
+      :web="writeDialog"
+      @close="closeWriteDialog"
+      :empCommitId="commitId"
+    ></write-dialog>
   </v-app>
 </template>
 
@@ -80,12 +84,6 @@ export default {
     totalTime(val) {
       if (val == 0) {
         this.STOP_TIMER();
-        this.commitTimeout = false;
-      }
-    },
-    commitDialog(val) {
-      if (val) {
-        this.commit();
       }
     },
   },
@@ -95,12 +93,13 @@ export default {
       commitLoading: false,
       commitAlert: false,
       confirmTitle: '커밋완료🥳',
-      confirmContent: '현재 커밋에 글이나 사진을 작성할까ㅇ요?',
+      confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
       alertTitle: '커밋실패😰',
       alertContent: '동일한 위치는 하루에 1번만 커밋할 수 있습니다',
       commitRegion: '',
       commitDatas: '',
-      commitTimeout: false,
+      commitId: '',
+      commitAddress: '',
     };
   },
   methods: {
@@ -109,7 +108,6 @@ export default {
       if (this.totalTime != 0) return;
       this.START_TIMER();
       this.commitLoading = true;
-      this.commitTimeout = true;
       addCommit(
         this.user.email,
         this.latlng.lat,
@@ -121,12 +119,13 @@ export default {
             this.commitRegion = response.data.region;
             this.commitDatas = [[response.data.localX, response.data.localY, 3]];
             this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
+            this.commitId = response.data.id;
+            this.commitAddress = this.address;
             this.$store.commit('COMMIT_DIALOG', true);
             this.openNotification(4000);
           } else {
             this.alertContent = '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.';
             this.STOP_TIMER();
-            this.commitTimeout = false;
             this.$store.commit('COMMIT_DIALOG', false);
             this.$store.commit('WRITE_DIALOG', false);
             this.commitAlert = true;
@@ -156,14 +155,21 @@ export default {
     },
     confirmOk() {
       this.$store.commit('COMMIT_DIALOG', false);
-      this.$store.commit('WRITE_DIALOG', true);
+      console.log('%cIndex.vue line:158 this.commitId', 'color: #007acc;', this.commitId);
+      console.log('%cIndex.vue line:159 this.commitAddress', 'color: #007acc;', this.commitAddress);
+      this.$store.commit('WRITE_DIALOG', {
+        state: true,
+        id: this.commitId,
+        address: this.commitAddress,
+      });
     },
     closeCommitComplete() {
-      this.$store.commit('COMMIT_DIALOG', false);
       this.GET_EMPCOMMIT_LIST(this.user.email);
+      this.$store.commit('COMMIT_DIALOG', false);
     },
     closeWriteDialog() {
-      this.$store.commit('WRITE_DIALOG', false);
+      this.GET_EMPCOMMIT_LIST(this.user.email);
+      this.$store.commit('WRITE_DIALOG', { state: false, id: '', address: '' });
     },
   },
   created() {

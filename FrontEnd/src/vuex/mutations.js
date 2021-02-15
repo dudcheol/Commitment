@@ -54,7 +54,9 @@ export default {
     state.empCommits = payload;
   },
   WRITE_DIALOG(state, payload) {
-    state.writeDialog = payload;
+    state.writeDialog = payload.state;
+    state.commitId = payload.id;
+    state.commitAddress = payload.address;
   },
   COMMIT_DIALOG(state, payload) {
     state.commitDialog = payload;

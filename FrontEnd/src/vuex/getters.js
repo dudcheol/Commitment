@@ -38,4 +38,10 @@ export default {
   getBoardRefresh(state) {
     return state.boardRefresh;
   },
+  getCommitId(state) {
+    return state.commitId;
+  },
+  getCommitAddress(state) {
+    return state.commitAddress;
+  },
 };

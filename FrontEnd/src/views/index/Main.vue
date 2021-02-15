@@ -21,7 +21,7 @@
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
           <FollowerMap class="mb-4 my-lg-6" />
-          <MyState />
+          <MyState @add-commit="addCommit" />
           <AllArticle class="my-4" :key="'mainArticle' + boardRefresh" />
         </div>
       </v-col>
@@ -78,6 +78,11 @@ export default {
           return 'center';
       }
       return '';
+    },
+  },
+  methods: {
+    addCommit() {
+      this.$emit('add-commit');
     },
   },
 };
