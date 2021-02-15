@@ -69,7 +69,7 @@ public class BoardController {
 				// snsId 뱉어주기
 				System.out.println(b);
 				tagController.tag(b.getId(), req.getTag());
-				return "success";
+				return b.getId();
 			} else {
 				// email이 없음
 				return "no email";
