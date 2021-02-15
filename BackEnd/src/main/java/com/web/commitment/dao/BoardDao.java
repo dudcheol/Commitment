@@ -71,10 +71,14 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "order by s.created_at desc", nativeQuery = true)	
 	Page<Board> findtotalByEmail(@Param("email") String email, Pageable pageable);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	@Query(value = "select max(id) from sns", nativeQuery = true)
 	String getMaxId();
 =======
+=======
+
+>>>>>>> 4935be80a96d39da187ea14c8dd08700d17dcff5
 	
 	@Query(value = "select * from sns s, commit c "
 			+ "where c.id=s.commit_id and c.open=1 "
@@ -85,5 +89,12 @@ public interface BoardDao extends JpaRepository<Board, String> {
 			+ "where c.id=s.commit_id and c.open=1 "
 			+ "and c.local_x=:x and c.local_y=:y order by s.created_at desc", nativeQuery = true)
 	Page<Board> nationalsns(@Param("x") String x,@Param("y") String y, Pageable pageable);
+<<<<<<< HEAD
 >>>>>>> feature/modify
+=======
+
+	@Query(value = "select max(id) from sns", nativeQuery = true)
+	String getMaxId();
+
+>>>>>>> 4935be80a96d39da187ea14c8dd08700d17dcff5
 }
