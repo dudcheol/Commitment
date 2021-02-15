@@ -23,7 +23,5 @@ public class CommentDto {
 
 	private LocalDateTime createdAt;
 	
-	private User user;
-	
-	private Profile profile;
+	private UserDto user;
 }
