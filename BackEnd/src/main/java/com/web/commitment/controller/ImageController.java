@@ -67,8 +67,7 @@ public class ImageController {
 			image.setFileName("sns/" + sns_id + "/" + saveFileName[i]);
 			
 			imageDao.save(image);
-			
-			
+
 			result.put("url" + i, url);
 		}
     	return result;
