@@ -6,7 +6,10 @@ import com.web.commitment.dto.Ranking;
 import lombok.Data;
 @Data
 public class RankingDto {
-    private Ranking ranking;
+	private String email;
+	private String nickname;
+	private int ranking;
+	private int cnt;
     private Profile profile;
 
 }
