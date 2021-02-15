@@ -65,7 +65,7 @@ public class BadgeController {
 			userbadge.setEmail(email);
 			Map<String, String> map = new HashMap<String, String>();
 			userbadge.setName("first_commit");
-			map.put("badge", "첫번째 커밋");
+			map.put("badge", "first_commit");
 			map.put("msg", "처음으로 커밋을 하셨네요!! 커밋먼트와 함께 여행을 떠나요~~");
 			map.put("result", "yes");
 			userBadgeDao.save(userbadge);
