@@ -111,4 +111,11 @@ export default {
   font-size:large;
   /* font-weight: bold; */
 }
+
+@media (max-width: 450px) {
+  .tables {
+    width:100%
+  }
+
+}
 </style>
