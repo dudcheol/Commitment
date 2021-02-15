@@ -36,24 +36,28 @@ public class RankingController {
 		List<Ranking> list = commitDao.commitRank();
 		return list;
 	}
+	
 	@GetMapping("/rank/aweek")
 	@ApiOperation(value = "주간커밋랭킹")
 	public List<Ranking> commitWeekRank() {
 		List<Ranking> list = commitDao.commitWeekRank();
 		return list;
 	}
+	
 	@GetMapping("/rank/month")
 	@ApiOperation(value = "월간커밋랭킹")
 	public List<Ranking> commitMonthRank() {
 		List<Ranking> list = commitDao.commitMonthRank();
 		return list;
 	}
+	
 	@GetMapping("/rank/following")
 	@ApiOperation(value = "팔로잉한 사람들 커밋 랭킹")
 	public List<Ranking> followingRank(@RequestParam(required = true) String email) {
 		List<Ranking> list = commitDao.followingRank(email);
 		return list;
 	}
+	
 	@GetMapping("/rank/board")
 	@ApiOperation(value = "게시글 수 랭킹")
 	public List<Ranking> boardRank() {
