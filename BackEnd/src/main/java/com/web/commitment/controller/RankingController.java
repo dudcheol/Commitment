@@ -1,8 +1,6 @@
 package com.web.commitment.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,71 +12,111 @@ import com.web.commitment.dao.BoardDao;
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.FollowDao;
 import com.web.commitment.dao.LikeDao;
-import com.web.commitment.dao.ProfileDao;
-import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.Ranking;
-import com.web.commitment.response.RankingDto;
 
 import io.swagger.annotations.ApiOperation;
 @CrossOrigin
 @RestController
 public class RankingController {
-		
+	@Autowired
+	BoardDao boardDao;
+	
 	@Autowired
 	CommitDao commitDao;
-	@Autowired
-	ProfileDao profileDao;
 	
-	public List<RankingDto> modifyDto(List<Ranking> list){
-		List<RankingDto> dtolist=new ArrayList<RankingDto>();
-		for(Ranking r:list) {
-			RankingDto rankingDto=new RankingDto();
-			rankingDto.setRanking(r);
-			Optional<Profile> optional=profileDao.findById(r.getEmail());
-			if(optional.isPresent())	
-				rankingDto.setProfile(optional.get());
-			dtolist.add(rankingDto);
-		}
-		return dtolist;
-	}
+	@Autowired
+	LikeDao likeDao;
+	
+	@Autowired
+	FollowDao followDao;
 	
 	@GetMapping("/rank/total")
 	@ApiOperation(value = "전체커밋랭킹")
-	public List<RankingDto> commitRank() {
-		return modifyDto(commitDao.commitRank());
+	public List<Ranking> commitRank() {
+		List<Ranking> list = commitDao.commitRank();
+		return list;
+	}
+	
+	@GetMapping("/rank/aweek")
+	@ApiOperation(value = "주간커밋랭킹")
+	public List<Ranking> commitWeekRank() {
+		List<Ranking> list = commitDao.commitWeekRank();
+		return list;
+	}
+	
+	@GetMapping("/rank/month")
+	@ApiOperation(value = "월간커밋랭킹")
+	public List<Ranking> commitMonthRank() {
+		List<Ranking> list = commitDao.commitMonthRank();
+		return list;
+	}
+	
+	@GetMapping("/rank/following")
+	@ApiOperation(value = "팔로잉한 사람들 커밋 랭킹")
+	public List<Ranking> followingRank(@RequestParam(required = true) String email) {
+		List<Ranking> list = commitDao.followingRank(email);
+		return list;
+	}
+	
+	@GetMapping("/rank/board")
+	@ApiOperation(value = "게시글 수 랭킹")
+	public List<Ranking> boardRank() {
+		List<Ranking> list = boardDao.boardRanking();
+		return list;
+	}
+
+	@GetMapping("/rank/like")
+	@ApiOperation(value = "좋아요 랭킹")
+	public List<Ranking> likeRank() {
+		List<Ranking> list = likeDao.likeRanking();
+		// file_path
+		return list;
+	}
+	
+	@GetMapping("/rank/follower")
+	@ApiOperation(value = "팔로워 수 랭킹")
+	public List<Ranking> followerRank() {
+		List<Ranking> list = followDao.followerRank();
+		return list;
 	}
 	
 	//지역별 커밋 랭킹
 	@GetMapping("/rank/seoul")
 	@ApiOperation(value = "서울 커밋 랭킹")
-	public List<RankingDto> seoulRank() {
-		return modifyDto(commitDao.seoulRank());
+	public List<Ranking> seoulRank() {
+		List<Ranking> list = commitDao.seoulRank();
+		return list;
 	}
 	
 	@GetMapping("/rank/gyeonggi")
 	@ApiOperation(value = "경기 커밋 랭킹")
-	public List<RankingDto> gyeonggiRank() {
-		return modifyDto(commitDao.gyeonggiRank());
+	public List<Ranking> gyeonggiRank() {
+		List<Ranking> list = commitDao.gyeonggiRank();
+		return list;
 	}
 	@GetMapping("/rank/gangwon")
 	@ApiOperation(value = "강원 커밋 랭킹")
-	public List<RankingDto> gangwonRank() {
-		return modifyDto(commitDao.gangwonRank());
+	public List<Ranking> gangwonRank() {
+		List<Ranking> list = commitDao.gangwonRank();
+		return list;
 	}
 	@GetMapping("/rank/gwangju")
 	@ApiOperation(value = "광주 커밋 랭킹")
-	public List<RankingDto> gwangjuRank() {
-		return modifyDto(commitDao.gwangjuRank());
+	public List<Ranking> gwangjuRank() {
+		List<Ranking> list = commitDao.gwangjuRank();
+		return list;
 	}
 	@GetMapping("/rank/ulsan")
 	@ApiOperation(value = "울산 커밋 랭킹")
-	public List<RankingDto> ulsanRank() {
-		return modifyDto(commitDao.ulsanRank());
+	public List<Ranking> ulsanRank() {
+		List<Ranking> list = commitDao.ulsanRank();
+		return list;
 	}
 	@GetMapping("/rank/busan")
 	@ApiOperation(value = "부산 커밋 랭킹")
-	public List<RankingDto> busanRank() {
-		return modifyDto(commitDao.busanRank());
+	public List<Ranking> busanRank() {
+		List<Ranking> list = commitDao.busanRank();
+		return list;
 	}
 	
 }
