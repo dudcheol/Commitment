@@ -24,6 +24,7 @@ const state = {
   boardDetail: null,
   writeDialog: false,
   commitDialog: false,
+  boardRefresh: 0,
 };
 
 export default new Vuex.Store({

@@ -59,4 +59,7 @@ export default {
   COMMIT_DIALOG(state, payload) {
     state.commitDialog = payload;
   },
+  BOARD_REFRESH(state) {
+    state.boardRefresh += 1;
+  },
 };

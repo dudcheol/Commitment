@@ -22,7 +22,7 @@
         <div class="mainpage">
           <FollowerMap class="mb-4 my-lg-6" />
           <MyState />
-          <AllArticle class="my-4" />
+          <AllArticle class="my-4" :key="'mainArticle' + boardRefresh" />
         </div>
       </v-col>
     </v-row>
@@ -36,6 +36,7 @@ import MyState from '../../components/index/main/MyState';
 import CommitNow from '../../components/index/main/CommitNow';
 import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
 import ProfileSummary from '../../components/index/main/ProfileSummary';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -47,6 +48,7 @@ export default {
     ProfileSummary,
   },
   computed: {
+    ...mapGetters({ boardRefresh: ['getBoardRefresh'] }),
     dynamicPosition() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':

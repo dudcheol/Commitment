@@ -35,4 +35,7 @@ export default {
   getBoardDetail(state) {
     return state.boardDetail;
   },
+  getBoardRefresh(state) {
+    return state.boardRefresh;
+  },
 };

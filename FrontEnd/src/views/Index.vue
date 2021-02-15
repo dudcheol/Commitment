@@ -95,7 +95,7 @@ export default {
       commitLoading: false,
       commitAlert: false,
       confirmTitle: '커밋완료🥳',
-      confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
+      confirmContent: '현재 커밋에 글이나 사진을 작성할까ㅇ요?',
       alertTitle: '커밋실패😰',
       alertContent: '동일한 위치는 하루에 1번만 커밋할 수 있습니다',
       commitRegion: '',
