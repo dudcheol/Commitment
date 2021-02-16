@@ -21,7 +21,7 @@ import com.web.commitment.dto.Tag;
 import lombok.Data;
 
 @Data
-public class BoardTagReqDto {
+public class BoardCommitDto {
 	private String id;
 
 	private String commitId;
@@ -36,5 +36,13 @@ public class BoardTagReqDto {
 
 	private String location;
 	
-	private Tag[] tag;
+	private UserDto user;
+	
+	private List<Image> image = new ArrayList<Image>();
+
+	private List<Tag> tag = new ArrayList<Tag>();
+
+	private List<CommentBoardDto> comment = new ArrayList<CommentBoardDto>();
+
+	private List<LikeBoardDto> like = new ArrayList<LikeBoardDto>();
 }

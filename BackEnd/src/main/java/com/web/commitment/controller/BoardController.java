@@ -26,8 +26,8 @@ import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Tag;
 import com.web.commitment.dto.User;
+import com.web.commitment.request.BoardTagReqDto;
 import com.web.commitment.response.BoardDto;
-import com.web.commitment.response.BoardTagReqDto;
 
 import io.swagger.annotations.ApiOperation;
 
