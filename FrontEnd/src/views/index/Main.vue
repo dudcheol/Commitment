@@ -21,8 +21,8 @@
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
           <FollowerMap class="mb-4 my-lg-6" />
-          <MyState :openWriteDialog="openWriteDialog" @close-write="closeWrite" />
-          <AllArticle class="my-4" />
+          <MyState @add-commit="addCommit" />
+          <AllArticle class="my-4" :key="'mainArticle' + boardRefresh" />
         </div>
       </v-col>
     </v-row>
@@ -36,9 +36,9 @@ import MyState from '../../components/index/main/MyState';
 import CommitNow from '../../components/index/main/CommitNow';
 import NotYetAddArticle from '../../components/index/main/NotYetAddArticle';
 import ProfileSummary from '../../components/index/main/ProfileSummary';
+import { mapGetters } from 'vuex';
 
 export default {
-  props: ['openWriteDialog'],
   components: {
     AllArticle,
     FollowerMap,
@@ -47,18 +47,8 @@ export default {
     NotYetAddArticle,
     ProfileSummary,
   },
-  watch: {
-    openWriteDialog: {
-      immediate: true,
-      handler(val) {
-        this.openWriteDialog = val;
-      },
-    },
-  },
-  data() {
-    return {};
-  },
   computed: {
+    ...mapGetters({ boardRefresh: ['getBoardRefresh'] }),
     dynamicPosition() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
@@ -91,8 +81,8 @@ export default {
     },
   },
   methods: {
-    closeWrite() {
-      this.$emit('close-write');
+    addCommit() {
+      this.$emit('add-commit');
     },
   },
 };

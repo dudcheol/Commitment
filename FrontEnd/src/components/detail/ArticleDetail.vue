@@ -1,205 +1,349 @@
 <template>
-  <div class="grid-container-article-detail">
-    <v-sheet class="mx-auto" elevation="1" rounded="xl" max-width="600">
-      <div class="d-flex">
-        <div class="avatar mt-4">
-          <v-avatar v-if="boardData.profileimag" circle size="40">
-            <img :src="boardData.profileimage" />
-          </v-avatar>
-          <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
-            <v-icon color="white">mdi-emoticon-happy</v-icon>
-          </v-avatar>
-        </div>
-        <div v-if="boardData.username" class="username flex-grow-1 ml-8 mt-4">
-          <b> {{ boardData.username }}</b>
+  <v-card class="mx-auto" elevation="0" rounded="xl">
+    <v-row>
+      <v-col cols="12" md="8" lg="6" xl="4" class="mx-auto mb-10">
+        <div class="px-4 pt-4">
+          <div class="d-flex flex-row">
+            <div class="flex-grow-0 cursor-pointer" @click="clickProfile">
+              <v-avatar v-if="data.user.profile" circle size="80">
+                <img :src="data.user.profile.filePath" />
+              </v-avatar>
+              <v-avatar
+                v-else
+                circle
+                size="40"
+                color="blue-grey"
+                class="font-weight-medium display-2"
+              >
+                <v-icon color="white">mdi-emoticon-happy</v-icon>
+              </v-avatar>
+            </div>
+            <div class="flex-grow-1 ml-2">
+              <h1>
+                <span class="cursor-pointer" @click="clickProfile">{{ data.user.nickname }}</span>
+              </h1>
+              <h3 class="font-weight-regular">
+                {{ data.commit.address }}
+              </h3>
+            </div>
+            <div class="flex-grow-0 align-center" v-if="user.email != data.email">
+              <v-btn
+                text
+                rounded
+                :color="hasFollowed ? 'primary' : 'blue-grey lighten-3'"
+                :ripple="false"
+                @click="clickFollow"
+                ><strong>{{ hasFollowed ? '팔로우' : '팔로우 취소' }}</strong></v-btn
+              >
+            </div>
+            <div class="flex-grow-0 align-center" v-else>
+              <v-menu offset-y left rounded="lg" transition="slide-y-transition">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn :ripple="false" icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-horizontal</v-icon>
+                  </v-btn>
+                </template>
 
-          <div v-if="boardData.mystory" class="mystory__div">
-            {{ boardData.mystory }}
+                <v-list>
+                  <v-list-item-group>
+                    <v-list-item
+                      v-for="(item, index) in etc"
+                      :key="'MainCardEdit' + index"
+                      :ripple="false"
+                      dense
+                      @click="item.func"
+                    >
+                      <v-list-item-icon>
+                        <v-icon
+                          v-text="item.icon"
+                          :color="index == etc.length - 1 ? 'error' : ''"
+                        ></v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title
+                          v-text="item.text"
+                          :class="index == etc.length - 1 ? 'error--text' : ''"
+                        ></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
+            </div>
           </div>
-          <div v-else class="mystory__div">
-            자기소개가 없습니다
-          </div>
         </div>
 
-        <div class="follow_btn flex-grow-0 align-center">
-          <vs-button> Follow </vs-button>
+        <div class="px-6 pt-4">
+          <h1 class="font-weight-regular">{{ data.content }}</h1>
         </div>
-      </div>
 
-      <div class="picture mt-4">
-        <v-carousel v-if="boardData.contentimage">
+        <v-carousel
+          v-if="data.image.length > 1"
+          class="mt-2"
+          hide-delimiter-background
+          :continuous="false"
+          :ripple="false"
+        >
           <v-carousel-item
-            v-for="(item, i) in boardData.contentimage"
-            :key="i"
+            v-for="(item, i) in data.image"
+            :key="data.id + 'Img' + i"
             :src="item.filePath"
-            reverse-transition="fade-transition"
-            transition="fade-transition"
+            :ripple="false"
           ></v-carousel-item>
         </v-carousel>
-        <v-card v-else>
-          이미지가 없습니다
-        </v-card>
-      </div>
-      <div class="buttons mt-2">
-        <vs-button icon color="danger">
-          <i class="bx bxs-heart"></i>
-        </vs-button>
 
-        <vs-button icon color="warn">
-          <i class="bx bxs-comment"></i>
-        </vs-button>
+        <v-img
+          v-if="data.image.length == 1"
+          :src="data.image[0].filePath"
+          height="auto"
+          class="mt-2"
+          max-height="680px"
+        >
+        </v-img>
 
-      </div>
-
-      <div class="article ml-4 mt-4">
-        <div class="mb-3">
-          {{ boardData.title }}
-        </div>
-        <div class="mt-3" >
-          {{ boardData.content }}
-        </div>
-      </div>
-      <div class="hashtag ml-3 mt-4">
-        <v-chip-group>
-          <v-chip v-for="(tag, i) in boardData.tag" :key="i">{{ tag.content }} </v-chip>
-        </v-chip-group>
-      </div>
-
-        <div class="comment_list mt-4">
-          <div v-if="boardData.comment" class="ml-4 d-flex" >
-            <v-avatar>
-              <img
-                src="https://image.kkday.com/v2/image/get/w_960%2Cc_fit%2Cq_55%2Ct_webp/s1.kkday.com/product_218/20191118021303_4pR1Q/jpg"
-                alt=""
-              />
-            </v-avatar>
-              <b>Jorge Watson</b>
+        <div class="px-4 pt-1 pb-3">
+          <div class="align-self-center">
+            <v-chip-group>
+              <v-chip
+                v-for="tag in data.tag"
+                :key="data.id + tag.id"
+                color="blue-grey lighten-5"
+                text-color="blue-grey lighten-1"
+                :ripple="false"
+              >
+                {{ tag.content }}
+              </v-chip>
+            </v-chip-group>
           </div>
-          <div v-else>
-            댓글이 없습니다
-          </div>
-        </div>
-
-        <div class="ml-15 ml-4">
-          <!-- 댓글 생성하는곳, 일단은 댓글 갯수 유뮤찾고 거기에 인풋까지 -->
-          {{ boardDetail }}
-          <div class="d-flex">
-            <vs-button icon color="primary" relief class="mt-4">
-              <i class="bx bxs-paper-plane"></i> Reply
+          <div class="d-flex flex-row justify-end">
+            <vs-button icon color="danger" flat @click="clickLike" :active="likeActive" size="xl">
+              <i class="bx bxs-heart"></i>{{ data.like.length }}
             </vs-button>
-            <vs-input border></vs-input>
+            <vs-button icon color="dark" flat size="xl">
+              <i class="bx bxs-message"></i>{{ data.comment.length }}
+            </vs-button>
           </div>
         </div>
 
-    </v-sheet>
-  </div>
+        <v-sheet color="blue-grey lighten-5" rounded="xl" class="pa-4 d-flex mx-1">
+          <div class="flex-grow-1">
+            <v-text-field
+              v-model="commentText"
+              solo
+              flat
+              class="ma-0 pr-3"
+              rounded
+              @keyup.enter="writeComment"
+              :disabled="commentable"
+            ></v-text-field>
+          </div>
+          <v-btn
+            height="48"
+            elevation="0"
+            :ripple="false"
+            color="blue-grey lighten-3"
+            class="font-weight-black white--text"
+            rounded
+            @click="writeComment"
+            >작성</v-btn
+          >
+        </v-sheet>
+
+        <div>
+          <comment-card
+            v-for="(item, index) in data.comment"
+            :key="data.id + 'comment' + index"
+            :data="item"
+            @del="delComment(item)"
+          ></comment-card>
+        </div>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-// import { boardDetail } from '../../api/board';
+import { mapActions, mapGetters } from 'vuex';
+import { like } from '../../api/like';
+import { follow } from '../../api/follow';
+import { removeBoard } from '../../api/board';
+import { addComment, getCommentList, deleteComment } from '../../api/comment';
+import CommentCard from '../common/card/CommentCard.vue';
 export default {
-    data: () => ({
-    width: 200,
-    input: null,
-    boardData: {
-      id: '',
-      profileimage: '',
-      contentimage: [],
-      username: '',
-      mystory: '',
-      title: '',
-      content: '',
-      tag: [],
-      comment: [],
-    },
-    // commentCreateData: {
-    // id: null,
-    // content: null,
-    // },
-  }),
-  created() {
-    this.boardData.id = this.$route.params['id'];
-    console.log("created", this.boardDetail)
+  components: { CommentCard },
+  data() {
+    return {
+      etc: [{ icon: 'mdi-trash-can-outline', text: '삭제', func: this.remove }],
+      likeActive: false,
+      hasFollowed: true,
+      width: 200,
+      input: null,
+      commentText: '',
+      commentable: false,
+    };
   },
   computed: {
-    ...mapGetters(['getBoardDetail']),
+    ...mapGetters({
+      user: ['getUserInfo'],
+      data: ['getBoardDetail'],
+      following: ['getFollowingList'],
+    }),
   },
-
+  watch: {
+    following(val) {
+      this.hasFollowed = this.checkFollowing(val);
+    },
+  },
   methods: {
+    ...mapActions(['GET_FOLLOWING_LIST']),
+    clickProfile() {
+      this.$router.push({ name: 'MyPage', params: { email: this.data.user.nickname } });
+    },
+    clickLike() {
+      if (this.likeActive) {
+        this.likeActive = false;
+        const compare = this.user.email;
+        for (let i = 0; i < this.data.like.length; i++) {
+          if (this.data.like[i].email == compare) {
+            this.data.like.splice(i, 1);
+            break;
+          }
+        }
+      } else {
+        this.likeActive = true;
+        this.data.like.push({ email: this.user.email });
+      }
+      like(
+        this.user.email,
+        this.data.id,
+        this.data.user.email,
+        () => {},
+        (error) => {
+          console.log(
+            '%cerror MainCard.vue line:142 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+    clickFollow() {
+      console.log('%cMainCard.vue line:171 follow', 'color: #007acc;');
+      follow(
+        this.user.email,
+        this.data.user.email,
+        () => {
+          this.GET_FOLLOWING_LIST(this.user.email);
+        },
+        (error) => {
+          console.log(
+            '%cerror MainCard.vue line:173 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+    checkFollowing(list) {
+      const compare = this.data.user.email;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].email == compare) return false;
+      }
+      return true;
+    },
+    checkLike() {
+      const compare = this.user.email;
+      for (let i = 0; i < this.data.like.length; i++) {
+        if (this.data.like[i].email == compare) return true;
+      }
+      return false;
+    },
+    remove() {
+      removeBoard(
+        this.data.id,
+        () => {
+          this.$store.commit('BOARD_REFRESH');
+          this.$router.replace('/');
+        },
+        (error) => {
+          console.log(
+            '%cerror MainCard.vue line:219 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+    writeComment() {
+      if (!this.commentText) return;
+      this.commentable = true;
+      addComment(
+        this.user.email,
+        this.data.id,
+        0,
+        this.commentText,
+        () => {
+          this.loadComment();
+          this.commentText = '';
+          this.commentable = false;
+        },
+        (error) => {
+          console.log(
+            '%cerror ArticleDetail.vue line:286 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+          this.commentText = '';
+          this.commentable = false;
+        }
+      );
+    },
+    loadComment() {
+      getCommentList(
+        this.data.id,
+        (response) => {
+          this.data.comment = response.data.content;
+          setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+          }, 200);
+        },
+        (error) => {
+          console.log(
+            '%cerror ArticleDetail.vue line:296 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+    delComment(comment) {
+      deleteComment(
+        comment.id,
+        () => {
+          this.loadComment();
+        },
+        (error) => {
+          console.log(
+            '%cerror ArticleDetail.vue line:325 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
   },
-
-  mounted() {
-    console.log('mounted', this.boardData);
-    this.BOARDDETAIL(this.boardDetail.id);
-    if (this.boardDetail.title) {
-    this.boardData.title = this.boardDetail.title; }
-    this.boardData.content = this.boardDetail.content;
-    this.boardData.username = this.boardDetail.user.nickname;
-    this.boardData.mystory = this.boardDetail.user.mystory;
-    this.boardData.profileimage = this.boardDetail.user.profile.filePath;
-    this.boardData.contentimage = this.boardDetail.image;
-    this.boardData.tag = this.boardDetail.tag;
-    this.boardData.comment = this.boardDetail.comment;
-    console.log('mounted after', this.boardData);
+  activated() {
+    this.likeActive = this.checkLike();
+    this.hasFollowed = this.checkFollowing(this.following);
   },
-
 };
 </script>
 
-<style scoped>
-
-.picture {
-  display: flex;
-  justify-content: center;
-  grid-area: picture;
+<style>
+.v-text-field__details {
+  display: none;
 }
-
-.avatar {
-  grid-area: avatar;
-  align-self: center;
-  justify-self: start;
-}
-
-.username {
-  font-size: 1.5em;
-  grid-area: username;
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  justify-self: start;
-}
-
-.username .introduction {
-  font-size: 0.8em;
-}
-
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.article {
-  display: flex;
-  flex-direction: column;
-}
-
-.hastag v-chip {
-  margin-left: 3px;
-}
-
-.follow_btn {
-  max-height: 50%;
-  display: flex;
-  align-self: center;
-  justify-self: end;
-}
-
-.span.v-chip.v-chip--no-color.theme--light.v-size--default {
-  margin: 4px;
-}
-
-@media (max-width: 450px) {
-
+.v-input__slot {
+  margin: 0;
 }
 </style>

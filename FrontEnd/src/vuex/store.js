@@ -11,6 +11,7 @@ const SEARCHING_POSITION_TEXT = '위치 찾는 중...';
 const state = {
   userInfo: {},
   following: [],
+  empCommits: [],
   authToken: null,
   currentLatlng: null,
   currentAddress: SEARCHING_POSITION_TEXT,
@@ -21,6 +22,11 @@ const state = {
   minutes: 0,
   seconds: 0,
   boardDetail: null,
+  writeDialog: false,
+  commitDialog: false,
+  boardRefresh: 0,
+  commitId: 0,
+  commitAddress: '',
 };
 
 export default new Vuex.Store({

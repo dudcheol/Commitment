@@ -7,6 +7,7 @@
     rounded
     :ripple="false"
     block
+    @click="clicked"
   >
     <div class="mr-2" v-if="!onlyAddress">
       <v-avatar circle size="36" v-if="img">
@@ -28,11 +29,16 @@
 <script>
 export default {
   props: ['username', 'address', 'img', 'only-address'],
+  methods: {
+    clicked() {
+      this.$emit('click');
+    },
+  },
 };
 </script>
 
 <style scoped>
-.theme--light.v-btn:hover::before{
-  background-color: lightblue !important
+.theme--light.v-btn:hover::before {
+  background-color: lightblue !important;
 }
 </style>

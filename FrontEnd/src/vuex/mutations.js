@@ -27,6 +27,7 @@ export default {
   STOP_TIMER(state) {
     clearInterval(state.timer);
     state.timer = null;
+    state.totalTime = 0;
   },
   TOTAL_TIME(state) {
     if (state.totalTime >= 1) {
@@ -42,13 +43,25 @@ export default {
   },
   SIGNUP(state, payload) {
     state.userInfo = { payload };
-    console.log("SIGNUP mutationjs" , payload)
   },
   SMTP(state, payload) {
     state.userInfo = { payload };
   },
-  BOARDDETAIL(state, payload){
+  BOARDDETAIL(state, payload) {
     state.boardDetail = payload;
-    console.log("mutationjs", payload)
-  }
+  },
+  ADD_EMPCOMMIT(state, payload) {
+    state.empCommits = payload;
+  },
+  WRITE_DIALOG(state, payload) {
+    state.writeDialog = payload.state;
+    state.commitId = payload.id;
+    state.commitAddress = payload.address;
+  },
+  COMMIT_DIALOG(state, payload) {
+    state.commitDialog = payload;
+  },
+  BOARD_REFRESH(state) {
+    state.boardRefresh += 1;
+  },
 };

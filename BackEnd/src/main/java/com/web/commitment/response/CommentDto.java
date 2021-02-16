@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 
 import com.web.commitment.dto.Profile;
+import com.web.commitment.dto.User;
 
 import lombok.Data;
 @Data
@@ -22,5 +23,5 @@ public class CommentDto {
 
 	private LocalDateTime createdAt;
 	
-	private Profile profile;
+	private UserDto user;
 }

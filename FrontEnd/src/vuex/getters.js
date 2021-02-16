@@ -23,7 +23,25 @@ export default {
   getFollowingList(state) {
     return state.following;
   },
+  getEmpCommitList(state) {
+    return state.empCommits;
+  },
+  getWriteDialogState(state) {
+    return state.writeDialog;
+  },
+  getCommitDialogState(state) {
+    return state.commitDialog;
+  },
   getBoardDetail(state) {
-    return state.boardDetail
-  }
+    return state.boardDetail;
+  },
+  getBoardRefresh(state) {
+    return state.boardRefresh;
+  },
+  getCommitId(state) {
+    return state.commitId;
+  },
+  getCommitAddress(state) {
+    return state.commitAddress;
+  },
 };

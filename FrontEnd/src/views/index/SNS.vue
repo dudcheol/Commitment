@@ -62,8 +62,8 @@
         ></GmapCircle>
       </GmapMap>
       <no-data-card
-        :icon="'emoticon-confused-outline'"
-        :text="'현재 위치 정보를 알 수 없어요'"
+        :icon="'timer-sand'"
+        :text="'위치 정보를 받아오고 있어요...'"
         style="width:100%"
         v-else
       ></no-data-card>
@@ -89,6 +89,23 @@
               :icon="'emoticon-outline'"
               :text="'반경 내 커밋이 없어요. 가장 먼저 커밋을 남겨보세요!'"
             ></NoDataCard>
+          </div>
+          <div slot="error">
+            <NoDataCard
+              :icon="'alert-circle-outline'"
+              :text="'현재 위치를 알 수 없어요. 다시 시도해주세요.'"
+            ></NoDataCard>
+            <div class="pt-3">
+              <v-btn
+                elevation="0"
+                :ripple="false"
+                rounded
+                color="primary"
+                class="font-weight-black"
+                @click="infiniteHandler"
+                >다시 시도</v-btn
+              >
+            </div>
           </div>
         </infinite-loading>
       </v-col>
@@ -191,6 +208,10 @@ export default {
   },
   methods: {
     infiniteHandler($state) {
+      if (!this.pos) {
+        $state.error();
+        return;
+      }
       totalRadiusBoardList(
         this.pos.lat,
         this.pos.lng,

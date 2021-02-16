@@ -2,7 +2,11 @@
   <v-app id="inspire">
     <Header></Header>
     <v-main class="blue-grey lighten-5">
-      <router-view :openWriteDialog="openWriteDialog" @close-write="closeWrite"></router-view>
+      <router-view
+        :openWriteDialog="openWriteDialog"
+        @close-write="closeWrite"
+        @add-commit="commit"
+      ></router-view>
     </v-main>
     <v-btn
       fab
@@ -14,10 +18,10 @@
       :ripple="false"
       @click="commit"
       :loading="!latlng || commitLoading"
-      :disabled="!latlng || commitLoading || commitTimeout"
+      :disabled="!latlng || commitLoading || totalTime != 0"
       elevation="10"
     >
-      <div v-if="commitTimeout">
+      <div v-if="totalTime != 0">
         <v-icon dark>mdi-lock</v-icon>
         <div>{{ min }}:{{ sec }}</div>
       </div>
@@ -33,17 +37,30 @@
       "
     ></Dialog>
     <commit-complete
-      :confirm="commitConfirm"
+      :confirm="commitDialog"
       :confirmContent="confirmContent"
       :confirmTitle="confirmTitle"
       :region="commitRegion"
       :datas="commitDatas"
       @close="
-        commitConfirm = false;
+        closeCommitComplete();
         commitLoading = false;
       "
       @confirm-ok="confirmOk"
     ></commit-complete>
+    <write-dialog
+      :web="writeDialog"
+      @close="closeWriteDialog"
+      :empCommitId="commitId"
+    ></write-dialog>
+    <BadgeDialog
+      :confirm="badgeflag"
+      :confirmTitle="'뱃지 획득!'"
+      :confirmContent="badgemsg"
+      :badgename="badgename"
+      :path="path"
+      @close="badgeRemain()"
+    ></BadgeDialog>
   </v-app>
 </template>
 
@@ -53,8 +70,11 @@ import { mapActions, mapGetters } from 'vuex';
 import Dialog from '../components/common/dialog/Dialog.vue';
 import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 import Header from '../components/index/Header.vue';
+import WriteDialog from '../components/common/dialog/WriteDialog.vue';
+import BadgeDialog from '../components/common/dialog/BadgeDialog.vue';
+import { badgeCheck } from '../api/badge';
 export default {
-  components: { Dialog, CommitComplete, Header },
+  components: { Dialog, CommitComplete, Header, WriteDialog, BadgeDialog },
   name: 'Index',
   computed: {
     ...mapGetters({
@@ -64,6 +84,8 @@ export default {
       minutes: ['getMinutes'],
       seconds: ['getSeconds'],
       totalTime: ['getTotalTime'],
+      writeDialog: ['getWriteDialogState'],
+      commitDialog: ['getCommitDialogState'],
     }),
     min() {
       return (this.minutes < 10 ? '0' : '') + this.minutes;
@@ -76,7 +98,6 @@ export default {
     totalTime(val) {
       if (val == 0) {
         this.STOP_TIMER();
-        this.commitTimeout = false;
       }
     },
   },
@@ -84,7 +105,6 @@ export default {
     return {
       commitBtnIcon: 'mdi-map-marker-check',
       commitLoading: false,
-      commitConfirm: false,
       commitAlert: false,
       confirmTitle: '커밋완료🥳',
       confirmContent: '현재 커밋에 글이나 사진을 작성할까요?',
@@ -94,17 +114,22 @@ export default {
       commitRegion: '',
       commitDatas: '',
       commitTimeout: false,
+      badgeflag: false,
+      badgemsg: '',
+      badgename: '',
+      badgearr: [],
+      badgeIndex: 0,
+      path: '',
+      commitId: '',
+      commitAddress: '',
     };
   },
   methods: {
-    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER']),
+    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER', 'GET_EMPCOMMIT_LIST']),
     commit() {
-      if (this.minutes != 0 || this.seconds != 0) {
-        return;
-      }
+      if (this.totalTime != 0) return;
       this.START_TIMER();
       this.commitLoading = true;
-      this.commitTimeout = true;
       addCommit(
         this.user.email,
         this.latlng.lat,
@@ -113,13 +138,39 @@ export default {
         (response) => {
           console.log('%cIndex.vue line:115 response', 'color: #007acc;', response.data);
           if (response.data) {
+            badgeCheck(
+              this.user.email,
+              (response) => {
+                this.badgeIndex = 0;
+                this.badgearr = response.data;
+                if (this.badgearr[0].result != 'yes') {
+                  console.log(this.badgearr[0].result);
+                } else {
+                  console.log(this.badgearr);
+                  this.badgemsg = this.badgearr[0].msg;
+                  this.badgename = this.badgearr[0].badge;
+                  this.path = require('../assets/img/badge/' + this.badgename + '.png');
+                  console.log(this.path);
+                  this.badgeflag = true;
+                  this.badgeIndex++;
+                }
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
             this.commitRegion = response.data.region;
             this.commitDatas = [[response.data.localX, response.data.localY, 3]];
             this.confirmContent = `[ ${this.address} ] 에서 남긴 커밋에 글이나 사진을 작성할까요?`;
-            this.commitConfirm = true;
+            this.commitId = response.data.id;
+            this.commitAddress = this.address;
+            this.$store.commit('COMMIT_DIALOG', true);
             this.openNotification(4000);
           } else {
-            this.alertContent = `[ ${this.address} ] 에서 이미 커밋하셨습니다. 1시간 뒤에 다시 시도해주세요.`;
+            this.alertContent = '예상치 못한 오류가 발생했습니다. 다시 시도해주세요.';
+            this.STOP_TIMER();
+            this.$store.commit('COMMIT_DIALOG', false);
+            this.$store.commit('WRITE_DIALOG', false);
             this.commitAlert = true;
           }
         },
@@ -146,10 +197,33 @@ export default {
       });
     },
     confirmOk() {
-      this.openWriteDialog = true;
+      this.$store.commit('COMMIT_DIALOG', false);
+      console.log('%cIndex.vue line:158 this.commitId', 'color: #007acc;', this.commitId);
+      console.log('%cIndex.vue line:159 this.commitAddress', 'color: #007acc;', this.commitAddress);
+      this.$store.commit('WRITE_DIALOG', {
+        state: true,
+        id: this.commitId,
+        address: this.commitAddress,
+      });
     },
-    closeWrite() {
-      this.openWriteDialog = false;
+    closeCommitComplete() {
+      this.GET_EMPCOMMIT_LIST(this.user.email);
+      this.$store.commit('COMMIT_DIALOG', false);
+    },
+    closeWriteDialog() {
+      this.GET_EMPCOMMIT_LIST(this.user.email);
+      this.$store.commit('WRITE_DIALOG', { state: false, id: '', address: '' });
+    },
+    badgeRemain() {
+      this.badgeflag = false;
+      if (this.badgeIndex < this.badgearr.length) {
+        this.badgemsg = this.badgearr[this.badgeIndex].msg;
+        this.badgename = this.badgearr[this.badgeIndex].badge;
+        this.path = require('../assets/img/badge/' + this.badgename + '.png');
+        console.log(this.path);
+        this.badgeflag = true;
+        this.badgeIndex++;
+      }
     },
   },
   created() {
