@@ -9,61 +9,68 @@
       <v-col class="mainslot" cols="12" sm="8">
         <v-sheet min-height="70vh" rounded="xl">
           <div class="mainpage pa-5">
-            <div class="frame">
-              <!-- Top3프로필 -->
-              <div class="box">
-                <div class="three">
-                  <div class="profiles justify-center">
-                    <div class="second">
-                      <v-avatar size="80">
-                        <img :src="imgSrc2" alt="John" />
-                      </v-avatar>
-                      <h2 class="percentage">{{cnt2}}</h2>
-                      <p class="nickname">{{nickname2}}</p>
-                      <vs-button
-                        border
-                        :active="active == 2"
-                        @click="active = 2"
-                        class="like"
-                      >
-                        <i class="bx bxs-heart"></i> Follow
-                      </vs-button>
-                    </div>
-                    <div class="first">
-                      <v-avatar size="100">
-                        <img :src="imgSrc1" alt="John" />
-                      </v-avatar>
-                      <h2 class="percentage">{{cnt1}}</h2>
-                      <p class="nickname">{{nickname1}}</p>
-                      <vs-button
-                        border
-                        :active="active == 2"
-                        @click="active = 2"
-                        class="likeMiddle"
-                      >
-                        <i class="bx bxs-heart"></i> Follow
-                      </vs-button>
-                    </div>
-                    <div class="third">
-                      <v-avatar size="80">
-                        <img :src="imgSrc3" alt="John" />
-                      </v-avatar>
-                      <h2 class="percentage">{{cnt3}}</h2>
-                      <p class="nickname">{{nickname3}}</p>
-                      <vs-button
-                        border
-                        :active="active == 2"
-                        @click="active = 2"
-                        class="like"
-                      >
-                        <i class="bx bxs-heart"></i> Follow
-                      </vs-button>
-                    </div>
+            <!-- Top3프로필 -->
+              <div class="three">
+                <div class="profiles justify-center">
+                  <div class="second">
+                    <v-avatar size="100" v-if="imgSrc2!=null">
+                      <img :src="imgSrc2" alt="John" />
+                    </v-avatar>
+                    <v-avatar
+                          v-else
+                          circle
+                          size="100"
+                          color="blue-grey"
+                          class="font-weight-medium display-2"
+                        >
+                          <v-icon color="white">mdi-emoticon-happy</v-icon>
+                    </v-avatar>
+                    <h2 class="percentage">{{cnt2}}</h2>
+                    <span class="nickname">{{nickname2}}</span>
+                    <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)" class="heartIcon">
+                      <i class="bx bxs-heart"></i>
+                    </vs-button>
+                  </div>
+                  <div class="first">
+                    <v-avatar size="100" v-if="imgSrc2!=null">
+                      <img :src="imgSrc1" alt="John" />
+                    </v-avatar>
+                    <v-avatar
+                          v-else
+                          circle
+                          size="100"
+                          color="blue-grey"
+                          class="font-weight-medium display-2"
+                        >
+                          <v-icon color="white">mdi-emoticon-happy</v-icon>
+                    </v-avatar>
+                    <h2 class="percentage">{{cnt1}}</h2>
+                    <span class="nickname">{{nickname1}}</span>
+                    <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)" class="heartIcon">
+                      <i class="bx bxs-heart"></i>
+                    </vs-button>
+                  </div>
+                  <div class="third">
+                    <v-avatar size="100" v-if="imgSrc2!=null">
+                      <img :src="imgSrc3" alt="John" />
+                    </v-avatar>
+                    <v-avatar
+                          v-else
+                          circle
+                          size="100"
+                          color="blue-grey"
+                          class="font-weight-medium display-2"
+                        >
+                          <v-icon color="white">mdi-emoticon-happy</v-icon>
+                    </v-avatar>
+                    <h2 class="percentage">{{cnt3}}</h2>
+                    <span class="nickname">{{nickname3}}</span>
+                    <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)" class="heartIcon">
+                      <i class="bx bxs-heart"></i>
+                    </vs-button>
                   </div>
                 </div>
               </div>
-
-            </div>
             <div class="whitebox">
               <SearchBar @keyword="onInputChange"/>
               <div class="frame">
@@ -82,11 +89,21 @@
                         <vs-td>
                           <v-avatar
                           size="50"  
+                          v-if="tr.profile!=null"
                           >
-                            <img v-if="tr.profile!=null"
+                            <img
                               :src="tr.profile.filePath"
                               alt=""
                             >
+                          </v-avatar>
+                          <v-avatar
+                            v-else
+                            circle
+                            size="50"
+                            color="blue-grey"
+                            class="font-weight-medium display-2"
+                          >
+                            <v-icon color="white">mdi-emoticon-happy</v-icon>
                           </v-avatar>
                         </vs-td>
                         <vs-td>
@@ -96,14 +113,8 @@
                         {{ tr.cnt }}
                         </vs-td>
                         <vs-td class="temp">
-                          <vs-button
-                            icon
-                            border
-                            :active="active == 2"
-                            @click="active = 2"
-                             class="temp2"
-                          >
-                            <i class='bx bxs-heart' ></i>
+                          <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                            <i class="bx bxs-heart"></i>
                           </vs-button>
                         </vs-td>
                       </vs-tr>
@@ -125,7 +136,8 @@
 import SelectZone from '../../components/index/rank/SelectZone';
 import SearchBar from '../../components/index/rank/SearchBar';
 import {areaList, totalList, userFindList} from '../../api/rank';
-
+import { mapActions, mapGetters } from 'vuex';
+import { follow } from '../../api/follow';
 export default {
   name: 'Rank',
 
@@ -143,8 +155,44 @@ export default {
     imgSrc1:'',
     imgSrc2:'',
     imgSrc3:'',
+    //팔로우 기능
+    hasFollowed: true,
   }),
+  computed:{
+    ...mapGetters({
+      user:['getUserInfo'], following: ['getFollowingList']
+    })
+  },
+  watch: {
+    following(val) {
+      this.hasFollowed = this.checkFollowing(val);
+    },
+  },
   methods:{
+    ...mapActions(['GET_FOLLOWING_LIST']),
+    clickFollow(to) {
+      follow(
+        this.user.email,  //나
+        to, //상대
+        () => {
+          this.GET_FOLLOWING_LIST(this.user.email);
+          console.log(this.user.email,"가",to,"팔로우 완료");
+        },
+        (error) => {
+          console.log(
+            'follow에러', error
+          );
+        }
+      );
+    },
+    checkFollowing(list) {
+      const compare = this.data.user.email;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].email == compare) return false;
+      }
+      return true;
+    },
+
     onInputChange (inputValue){
       this.users=[];
       this.keyword = inputValue;
@@ -154,8 +202,6 @@ export default {
           const content = response.data.content;
           for(let i=0;i<content.length;i++){
             const item = content[i];
-            console.log("total",item.profile.filePath);
-            console.log("total",item.ranking);
             this.users.push(item);
           }
         },
@@ -172,23 +218,34 @@ export default {
         (response)=>{
           const res = response.data;
           const temp1 = res[0];
-          this.nickname1=temp1.nickname;
-          this.imgSrc1 = temp1.profile.filePath;
+          if(temp1.nickname1!=null){
+            this.nickname1=temp1.nickname;
+          }
+          if(temp1.profile!=null){
+            this.imgSrc1 = temp1.profile.filePath;
+          }
           this.cnt1 = temp1.cnt;
 
           const temp2 = res[1];
-          this.nickname2=temp2.nickname;
-          this.imgSrc2 = temp2.profile.filePath;
+          if(temp2.nickname2!=null){
+            this.nickname2=temp2.nickname;
+          }
+          if(temp2.profile!=null){
+            this.imgSrc2 = temp2.profile.filePath;
+          }
           this.cnt2 = temp2.cnt;
 
           const temp3 = res[2];
-          this.nickname3=temp3.nickname;
-          this.imgSrc3 = temp3.profile.filePath;
+          if(temp3.nickname3!=null){
+            this.nickname3=temp3.nickname;
+          }
+          if(temp3.profile!=null){
+            this.imgSrc3 = temp3.profile.filePath;
+          }
           this.cnt3 = temp3.cnt;
-
+          console.log("길이",res.length);
           for(let i=3;i<res.length;i++){
             const item = res[i];
-            // console.log(item);
             this.users.push(item);
           }
         },
@@ -202,20 +259,25 @@ export default {
     totalList(
       (response)=>{
         const res = response.data;
-        
         const temp1 = res[0];
         this.nickname1=temp1.nickname;
-        this.imgSrc1 = temp1.profile.filePath;
+        if(temp1.profile!=null){
+          this.imgSrc1 = temp1.profile.filePath;
+        }
         this.cnt1 = temp1.cnt;
 
         const temp2 = res[1];
         this.nickname2=temp2.nickname;
-        this.imgSrc2 = temp2.profile.filePath;
+        if(temp2.profile!=null){
+          this.imgSrc2 = temp2.profile.filePath;
+        }
         this.cnt2 = temp2.cnt;
 
         const temp3 = res[2];
         this.nickname3=temp3.nickname;
-        this.imgSrc3 = temp3.profile.filePath;
+        if(temp3.profile!=null){
+          this.imgSrc3 = temp3.profile.filePath;
+        }
         this.cnt3 = temp3.cnt;
 
         for(let i=3;i<res.length;i++){
@@ -242,8 +304,9 @@ export default {
 </script>
 
 <style scoped>
-.temp{
-  /* background-color:blue; */
+.heartIcon{
+  margin-top:-80%;
+  margin-left:65%;
 }
 .temp2{
   margin-right: -20px;
@@ -274,12 +337,9 @@ export default {
     margin-top:-10%;
     margin-left:20%;
 }
-.box{
-  width: 100%;
-  height: 100%;
-}
 .three {
   display: grid;
+  margin-top:5%;
 }
 .profiles {
   display: flex;
@@ -306,10 +366,6 @@ export default {
 .percentage{
   color: rgba(0, 0, 0, 0.589);
 }
-.tables{
-  /* background-color: red; */
-  
-}
 .profiles{
   display: flex;
   text-align: center;
@@ -321,7 +377,7 @@ export default {
   /* font-weight: bold; */
 }
 .percentageSmall{
-  color:#1976D2;
+  color:#4e4f52;
   font-size:large;
   /* font-weight: bold; */
 }

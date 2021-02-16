@@ -11,6 +11,7 @@
         :lazy-src="item.image[0].filePath"
         aspect-ratio="1"
         class="grey lighten-2"
+        @click=moveToDetail(item.id)
       >
         <template v-slot:placeholder>
           <v-row
@@ -31,6 +32,7 @@
 
 
 <script scoped>
+import { mapGetters } from 'vuex';
 import {searchUserByNickname} from '../../../api/account'
 import {timelineInfo} from '../../../api/timeline'
 export default {
@@ -71,6 +73,17 @@ export default {
                 console.log("timeMobile에러"+error);
             }
         )
+    },
+    methods:{
+      moveToDetail(data){
+        console.log("이동할 게시글 id ",data);
+        this.$router.push({ name: 'Detail', params: { id: data } });
+      }
+    },
+    computed: {
+      ...mapGetters({
+        userId:['getSelectedUserId'],
+      }),
     },
 };
 </script>

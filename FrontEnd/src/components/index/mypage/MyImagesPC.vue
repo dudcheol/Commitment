@@ -28,6 +28,7 @@
 
 
 <script scoped>
+import { mapGetters } from 'vuex';
 import {searchUserByNickname} from '../../../api/account'
 import {timelineInfo} from '../../../api/timeline'
 export default {
@@ -38,6 +39,11 @@ export default {
       //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
       email:'',
     }
+  },
+  computed: {
+    ...mapGetters({
+      userId:['getSelectedUserId'],
+    }),
   },
     created(){
         searchUserByNickname(
@@ -72,7 +78,8 @@ export default {
         console.log("이동할 게시글 id ",data);
         this.$router.push({ name: 'Detail', params: { id: this.data.id } });
       }
-    }
+    },
+
 };
 </script>
 

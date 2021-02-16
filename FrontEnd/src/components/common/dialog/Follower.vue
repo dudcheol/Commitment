@@ -1,15 +1,9 @@
 <template>
     <div class="center">
-      <vs-button
-      color="white"
-            border
-            :active="active == 2"
-            @click="active=!active"
-        >
-          <span class="texts">
-            <i class="bx bxs-heart"> 팔로워<span class="numbers"> {{this.followerCnt}}</span></i> 
-          </span>
-        </vs-button>
+
+      <vs-button size="l" circle icon color="danger" flat @click="active=!active">
+          <i class="bx bxs-heart"></i>{{ this.followerCnt }}
+      </vs-button>
       <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="500px" height="500px">
         <template #header>
           <h3>
@@ -27,11 +21,21 @@
                 <vs-td>
                   <v-avatar
                   size="50"  
+                  v-if="tr.profile!=null"
                   >
                     <img
                       :src="tr.profile.filePath"
                       alt="pic"
                     >
+                  </v-avatar>
+                  <v-avatar
+                    v-else
+                    circle
+                    size="50"
+                    color="blue-grey"
+                    class="font-weight-medium display-2"
+                  >
+                    <v-icon color="white">mdi-emoticon-happy</v-icon>
                   </v-avatar>
                 </vs-td>
                 <vs-td class="nickname">
@@ -41,14 +45,8 @@
                 {{ tr.mystory }}
                 </vs-td>
                 <vs-td class="temp">
-                  <vs-button
-                    icon
-                    border
-                    :active="active == 2"
-                    @click="active = 2"
-                      class="temp2"
-                  >
-                    <i class='bx bxs-heart' ></i>
+                  <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                    <i class="bx bxs-heart"></i>
                   </vs-button>
                 </vs-td>
               </vs-tr>
@@ -60,9 +58,10 @@
     </div>
 </template>
 <script scoped>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {searchFollowers} from '../../../api/follow'
 import {searchUserByNickname} from '../../../api/account'
+import { follow } from '../../../api/follow';
 // import FollowListsWhole from '../../index/mypage/FollowLists';
   export default {
     // components: { FollowListsWhole },
@@ -71,18 +70,28 @@ import {searchUserByNickname} from '../../../api/account'
         active: false,
         followers: [
         ],
-        id:'jimotme',//this.$route.params.id로 받은 현재 유저의 닉네임
+        id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
         //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
         email:'',
         followerCnt:0,
+        //팔로우 기능
+        hasFollowed: true,
       }
     },
     computed:{
       ...mapGetters({
-        user:['getUserInfo'],
+        user:['getUserInfo'], 
+        following: ['getFollowingList'],
+        userId:['getSelectedUserId'],
       })
     },
+    watch: {
+      following(val) {
+        this.hasFollowed = this.checkFollowing(val);
+      },
+    },
     created(){
+      // this.hasFollowed = this.checkFollowing(this.following); 
         searchUserByNickname(
             {keyword : this.id},
             (response)=>{
@@ -91,15 +100,11 @@ import {searchUserByNickname} from '../../../api/account'
                 searchFollowers(
                   this.email,
                   (response)=>{
+                    
                       const res = response.data;
-                      // console.log("--------");
-                      // console.log("email",this.email);
-                      // console.log("res",res);
-                      // console.log("--------");
                       this.followerCnt = res.length;
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
-                        // console.log(item);
                         this.followers.push(item);
                       }
                   },
@@ -113,6 +118,32 @@ import {searchUserByNickname} from '../../../api/account'
             }
         )
     },
+    methods:{
+      ...mapActions(['GET_FOLLOWING_LIST']),
+      clickFollow(to) {
+        follow(
+          this.user.email,  //나
+          to, //상대
+          () => {
+            this.GET_FOLLOWING_LIST(this.user.email);
+            console.log(this.user.email,"가",to,"팔로우 완료");
+          },
+          (error) => {
+            console.log(
+              'follow에러', error
+            );
+          }
+        );
+      },
+      checkFollowing(list) {
+        const compare = this.user.email;
+        console.log("eeee",compare, this.data.user.email);
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].email == compare) return false;
+        }
+        return true;
+      },
+    }
   }
 </script>
 <style scoped>

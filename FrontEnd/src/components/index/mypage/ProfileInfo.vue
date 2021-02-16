@@ -48,13 +48,8 @@
                     </v-card-subtitle>
                     
                         <div class="detail_left">
-                            <vs-button
-                                color="white"
-                                border
-                            >
-                                <span class="texts">
-                                    <i class="bx bxs-heart"> 커밋 {{this.cnt}}</i> 
-                                </span>
+                            <vs-button size="l" circle icon color="success" flat>
+                                <i class="bx bxs-check-square"></i>{{this.cnt}}
                             </vs-button>
                             <Follower/>
                             <Following/>
@@ -129,6 +124,7 @@ export default {
     computed:{
         ...mapGetters({
             user:['getUserInfo'],
+            userId:['getSelectedUserId'],
         }),
 
         width () {

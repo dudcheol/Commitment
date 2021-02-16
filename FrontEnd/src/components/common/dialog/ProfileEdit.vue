@@ -125,6 +125,7 @@ export default {
   computed: {
     ...mapGetters({
       user: ['getUserInfo'],
+      userId:['getSelectedUserId'],
     }),
   },
   created() {
