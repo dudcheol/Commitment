@@ -23,7 +23,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +36,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.commitment.dao.CommitDao;
 import com.web.commitment.dao.UserDao;
+import com.web.commitment.dto.Board;
+import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.FollowCommitMap;
+import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.BoardCommitDto;
+import com.web.commitment.response.BoardDto;
+import com.web.commitment.response.CommentBoardDto;
+import com.web.commitment.response.CommentCleanDto;
+import com.web.commitment.response.CommitClearDto;
 import com.web.commitment.response.CommitDto;
+import com.web.commitment.response.LikeBoardDto;
+import com.web.commitment.response.LikeCleanDto;
 import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
@@ -166,7 +177,6 @@ public class CommitController {
 		} else
 			commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
 		
-//		System.out.println(commits);
 		List<CommitDto> commitDtos = new ArrayList<>();
 		for (Commit origin : commits) {
 			CommitDto target = new CommitDto();
@@ -178,10 +188,26 @@ public class CommitController {
 					BoardCommitDto board = new BoardCommitDto();
 					BeanUtils.copyProperties(origin.getBoard().get(i), board);
 					
-					
 					UserDto user = new UserDto();
 					BeanUtils.copyProperties(origin.getBoard().get(i).getUser(), user);
 					board.setUser(user);
+					
+					List<CommentCleanDto> comments = new ArrayList<>();
+					for (int j = 0; j < origin.getBoard().get(i).getComment().size(); j++) {
+						CommentCleanDto comment = new CommentCleanDto();
+						BeanUtils.copyProperties(origin.getBoard().get(i).getComment().get(i), comment);
+						comments.add(comment);
+					}
+					board.setComment(comments);
+					
+					List<LikeCleanDto> likes = new ArrayList<>();
+					for (int j = 0; j < origin.getBoard().get(i).getLike().size(); j++) {
+						LikeCleanDto like = new LikeCleanDto();
+						BeanUtils.copyProperties(origin.getBoard().get(i).getLike().get(i), like);
+						likes.add(like);
+					}
+					board.setLike(likes);
+					
 					boards.add(board);
 				} 
 			}
@@ -189,7 +215,6 @@ public class CommitController {
 			target.setBoard(boards);
 			commitDtos.add(target);
 		}
-		
 		
 		return commitDtos;
 	}
@@ -463,5 +488,5 @@ public class CommitController {
 			return Integer.valueOf(y).hashCode() + Integer.valueOf(x).hashCode();
 		}
 
-	}
+	}	
 }
