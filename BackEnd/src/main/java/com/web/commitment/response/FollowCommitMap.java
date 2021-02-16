@@ -15,5 +15,4 @@ public class FollowCommitMap {
     public UserDto user;
 
     public List<int[]> commit;
-    
 }
