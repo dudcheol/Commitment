@@ -54,7 +54,7 @@ function editProfile(param, success, fail){
 }
 
 // 이메일, 닉네임, 비밀번호, 전화, 나의한마디, 성별, 생일, 지역, 나이 
-function signup ( userInfo, success, fail) {
+function signup (userInfo, success, fail) {
   console.log("accountjs" )
   // const userinfo = {
   //   email

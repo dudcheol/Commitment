@@ -34,6 +34,7 @@
             height="52px"
             color="blue-grey darken-4"
             text
+            @click="readMore"
             ><strong>더보기</strong></v-btn
           >
         </v-expansion-panel-content>
@@ -73,7 +74,7 @@ export default {
     firebase
       .database()
       .ref('noti/all')
-      .limitToLast(10)
+      // .limitToLast(10)
       .on('value', (snap) => {
         let res = snap.val();
         this.nowCommits = [];
