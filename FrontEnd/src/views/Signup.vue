@@ -248,7 +248,7 @@ export default {
           this.showDialog("닉네임이 중복됩니다.");
           return false;
         } else if (!telRule.test(this.tel)) {
-          this.showDialog("옳바르지 않은 핸드폰 번호 입니다.");
+          this.showDialog("올바르지 않은 핸드폰 번호 입니다.");
           return false;
         }
         return true;
