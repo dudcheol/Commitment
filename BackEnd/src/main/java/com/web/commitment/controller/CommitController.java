@@ -113,17 +113,16 @@ public class CommitController {
 			}
 		
 			for (Commit commit : commits) {
-				System.out.println(commit);
 				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())),
 						map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()),
 								Integer.parseInt(commit.getLocalY())), 0) + 1);
 			}
 		} else { // name이 null이라면 전국지도
 
-			commits = commitDao.findAllByEmailAndRegion(email, name);
+			commits = commitDao.findAllByEmail(email);
 			if(commits.size() == 0) {
 				Optional<User> user = userDao.findUserByNickname(email);	
-				commits = commitDao.findAllByEmailAndRegion(user.get().getEmail(), name);
+				commits = commitDao.findAllByEmail(user.get().getEmail());
 			}
 			
 			for (Commit commit : commits) {
