@@ -42,7 +42,7 @@ public class BoardCommitDto {
 
 	private List<Tag> tag = new ArrayList<Tag>();
 
-	private List<CommentBoardDto> comment = new ArrayList<CommentBoardDto>();
+	private List<CommentCleanDto> comment = new ArrayList<CommentCleanDto>();
 
-	private List<LikeBoardDto> like = new ArrayList<LikeBoardDto>();
+	private List<LikeCleanDto> like = new ArrayList<LikeCleanDto>();
 }
