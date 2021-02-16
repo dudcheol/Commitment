@@ -182,6 +182,19 @@ public class UserController {
 		hm.put("data", "success");
 		return hm;
 	}
+	@GetMapping("/account/emailCheck")
+	@ApiOperation(value = "이메일 중복체크")
+	public Map<String, String> emailCheck(@RequestParam(required = true) final String email) throws IOException {
+		Optional<User> user = userDao.findByEmail(email);
+		Map<String, String> hm = new HashMap<>();
+		
+		if (user.isPresent()) {
+			hm.put("data", "fail");
+			return hm;
+		}
+		hm.put("data", "success");
+		return hm;
+	}
 
 	// 네이버 메일 사용
 	@GetMapping("/account/smtp")
