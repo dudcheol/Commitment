@@ -14,7 +14,7 @@ import { getFollowingList } from '../api/follow';
 
 export default {
   async LOGIN(context, user) {
-    let result = false;
+    let result = '';
     await login(
       user,
       (response) => {
@@ -23,7 +23,7 @@ export default {
           localStorage.setItem('auth-token', response.data['auth-token']);
           setAuthTokenToHeader(response.data['auth-token']);
           context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
-          result = true;
+          result = response.data;
         }
       },
       (error) => {

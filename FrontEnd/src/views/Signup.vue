@@ -20,22 +20,9 @@
         </template>
         <!-- 이메일 지역 닉네임 비밀번호 전화번호 나이 성별 이메일 인증여부-->
         <template #text>
-          <div class="d-flex flex-column justify-center">
-            <div class="d-flex justify-center">
-              <vs-avatar>
-                <img src="" alt="" />
-              </vs-avatar>
-            </div>
-            <v-file-input
-              accept="image/png, image/jpeg, image/bmp"
-              placeholder="사진을 골라주세요"
-              prepend-icon="mdi-camera"
-            ></v-file-input>
-          </div>
-
           <div class="con-form">
             <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-4">
+              <div class="d-flex align-center mr-3">
                 📧
                 <div class="signup_text">이메일</div>
               </div>
@@ -44,6 +31,11 @@
                   @
                 </template>
               </vs-input>
+              <div class="d-flex align-center mr-1">
+                <vs-button block @click="idcheck()">
+                  check
+                </vs-button>
+              </div>
             </div>
 
             <div class="d-flex mb-4">
@@ -83,11 +75,21 @@
                 😀
                 <div class="signup_text">닉네임</div>
               </div>
-              <vs-input v-model="nickname" placeholder="3글자이상 작성해주세요">
-                <template #icon>
-                  <i class="bx bx-user"></i>
-                </template>
-              </vs-input>
+              <div>
+                <vs-input
+                  v-model="nickname"
+                  placeholder="3글자이상 작성해주세요"
+                >
+                  <template #icon>
+                    <i class="bx bx-user"></i>
+                  </template>
+                </vs-input>
+              </div>
+              <div class="d-flex align-center mr-1">
+                <vs-button block @click="nick()">
+                  check
+                </vs-button>
+              </div>
             </div>
 
             <div class="d-flex mb-4">
@@ -95,7 +97,11 @@
                 🏷️
                 <div class="signup_text">한줄소개</div>
               </div>
-              <vs-input v-model="mystory" placeholder="나만의 한줄 소개 !">
+              <vs-input
+                v-model="mystory"
+                maxlength
+                placeholder="나만의 한줄 소개 !"
+              >
                 <template #icon>
                   <i class="bx bx-comment-detail"></i>
                 </template>
@@ -107,7 +113,7 @@
                 📞
                 <div class="signup_text">전화번호</div>
               </div>
-              <vs-input v-model="tel" placeholder="전화번호">
+              <vs-input v-model="tel" maxlength="11" placeholder="전화번호">
                 <template #icon>
                   <i class="bx bx-phone"></i>
                 </template>
@@ -160,92 +166,179 @@
 
 <script>
 // import axios from 'axios'
-import { mapActions } from 'vuex';
-import EmailDialog from '../components/common/dialog/EmailDialog.vue';
+import { mapActions } from "vuex";
+import EmailDialog from "../components/common/dialog/EmailDialog.vue";
+import { nickNameCheck, emailCheck } from "../api/account";
 
 export default {
   components: {
     EmailDialog,
   },
   methods: {
-    ...mapActions(['SIGNUP']),
+    ...mapActions(["SIGNUP"]),
     submit() {
       if (this.check()) {
         const userData = {
-          email: this.email,
-          nickname: this.nickname,
-          pass: this.password,
-          tel: this.tel,
+          email: this.email.trim(),
+          nickname: this.nickname.trim(),
+          pass: this.password.trim(),
+          tel: this.tel.trim(),
           mystory: this.mystory,
-          gender: this.gender,
-          // birth: this.birth,
-          region: this.region,
-          age: this.age,
+          gender: this.gender.trim(),
+          region: this.region.trim(),
+          age: this.age.trim(),
         };
         // 여기 고치기
         const result = this.SIGNUP(userData);
         if (result) {
-          this.showDialog('가입에 성공했습니다');
+          this.showDialog(
+            "가입에 성공했습니다. 가입하신 메일계정으로 메일이 발송되며, 메일을 확인하셔야 가입절차가 완료됩니다."
+          );
+          this.$router.push("/login");
         } else {
-          this.showDialog('가입에 실패하였습니다');
+          this.showDialog("가입에 실패하였습니다");
         }
-      } else {
-        this.showDialog('모든 항목을 기입해주세요');
       }
     },
 
     check() {
       let emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       let passRule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
+      let telRule = /^(010[1-9][0-9]{7})$/;
+
       if (
         this.email &&
         this.nickname &&
         this.password &&
         this.passwordConfirm
       ) {
-        if (!emailRule.test(this.email)) {
-          this.showDialog('이메일 형식에 맞게 작성해주세요.');
+        if (
+          this.email.trim().length == 0 ||
+          this.password.trim().length == 0 ||
+          this.passwordConfirm.trim().length == 0 ||
+          this.nickname.trim().length == 0 ||
+          this.mystory.trim().length == 0 ||
+          this.tel.trim().length == 0 ||
+          this.age.trim().length == 0
+        ) {
+          this.showDialog("모든 항목을 기입해주세요.");
           return false;
-        }
-        if (!passRule.test(this.password)) {
-          this.showDialog('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
+        } else if (!emailRule.test(this.email)) {
+          this.showDialog("이메일 형식에 맞게 작성해주세요.");
+          return false;
+        } else if (!this.emailcheckflag) {
+          this.showDialog("이메일 중복확인을 해주세요");
+          return false;
+        } else if (!this.emailflag) {
+          this.showDialog("이미 가입된 이메일 입니다.");
+          return false;
+        } else if (!passRule.test(this.password)) {
+          this.showDialog("비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.");
           return;
-        }
-        if (this.password !== this.passwordConfirm) {
-          this.showDialog('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
+        } else if (this.password !== this.passwordConfirm) {
+          this.showDialog("비밀번호 입력이 다릅니다. 다시 확인해주세요.");
+          return false;
+        } else if (this.email.trim().length < 3) {
+          this.showDialog("닉네임을 3글자 이상 작성해주세요");
+          return false;
+        } else if (!this.nickcheckflag) {
+          this.showDialog("닉네임 중복확인을 해주세요");
+          return false;
+        } else if (!this.nickflag) {
+          this.showDialog("닉네임이 중복됩니다.");
+          return false;
+        } else if (!telRule.test(this.tel)) {
+          this.showDialog("옳바르지 않은 핸드폰 번호 입니다.");
           return false;
         }
-        // if (!this.isTerm) {
-        //   console.log('약관에 동의하셔야 합니다.');
-        //   return false;
-        // }
         return true;
       }
-      this.showDialog('회원가입 양식을 모두 채워주세요.');
+      this.showDialog("회원가입 양식을 모두 채워주세요.");
       return false;
+    },
+    nick() {
+      if (this.nickname.trim().length == 0) {
+        this.showDialog("닉네임을 입력해주세요");
+        return;
+      }
+      nickNameCheck(
+        this.nickname,
+        (response) => {
+          this.nickcheckflag = true;
+          if (this.email.trim().length < 3) {
+            this.nickflag = true;
+            this.showDialog("닉네임을 3글자 이상 작성해주세요");
+          } else if (response.data.data == "success") {
+            this.nickflag = true;
+            this.showDialog("사용 가능한 닉네임입니다.");
+          } else {
+            this.nickflag = false;
+            this.showDialog("닉네임이 중복됩니다.");
+          }
+        },
+        (error) => {
+          this.nickflag = false;
+          console.log(error);
+        }
+      );
+    },
+    idcheck() {
+      emailCheck(
+        this.email,
+        (response) => {
+          let emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+          this.emailcheckflag = true;
+          if (response.data.data == "success") {
+            this.emailflag = true;
+            this.showDialog("사용 가능한 이메일입니다.");
+          } else if (!emailRule.test(this.email)) {
+            this.emailflag = false;
+            this.showDialog("이메일 형식에 맞게 작성해주세요.");
+          } else {
+            this.emailflag = false;
+            this.showDialog("이미 가입된 이메일 입니다.");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     showDialog(message) {
       this.dialog.activation = true;
       this.dialog.content.text = message;
     },
   },
+  watch: {
+    nickname() {
+      this.nickcheckflag = false;
+    },
+    email() {
+      this.emailcheckflag = false;
+    },
+  },
 
   data() {
     return {
       active: true,
-      email: '',
-      password: '',
-      passwordConfirm: '',
-      tel: '',
-      mystory: '',
-      gender: 'm',
-      birth: '',
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      tel: "",
+      mystory: "",
+      gender: "m",
+      birth: "",
       remember: false,
-      region: 'national',
-      nickname: '',
-      age: '',
+      region: "national",
+      nickname: "",
+      nickflag: false,
+      nickcheckflag: false,
+      emailflag: false,
+      emailcheckflag: false,
+      age: "",
       dialog: {
-        content: { title: 'Commitment', text: '', yes: '확인' },
+        content: { title: "Commitment", text: "", yes: "확인" },
         activation: false,
       },
     };
@@ -267,8 +360,9 @@ export default {
   width: 100% !important;
 }
 
-.card {
-  min-width: 30vmax !important;
+.vs-card {
+  min-width: 30px;
+  max-width: 500px;
 }
 
 .vs-card__title {
@@ -371,7 +465,7 @@ export default {
     display: none;
   }
   #videoBd {
-    background: url('../assets/img/login/poster.jpg') no-repeat center center
+    background: url("../assets/img/login/poster.jpg") no-repeat center center
       fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
