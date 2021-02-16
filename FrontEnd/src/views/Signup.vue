@@ -315,6 +315,13 @@ export default {
     close() {
       this.dialog.activation = false;
       if (this.resultsignup) {
+        this.email = "";
+        this.password = "";
+        this.passwordConfirm = "";
+        this.tel = "";
+        this.mystory = "";
+        this.gender = "m";
+        this.nickname = "";
         this.$router.push("/login");
       }
     },
@@ -337,7 +344,6 @@ export default {
       tel: "",
       mystory: "",
       gender: "m",
-      birth: "",
       remember: false,
       region: "national",
       nickname: "",
