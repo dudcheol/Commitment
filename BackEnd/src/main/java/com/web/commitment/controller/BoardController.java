@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -165,15 +166,18 @@ public class BoardController {
 	// 모든 유저의 게시글 불러오기 open이 1인 것만 & 해당 반경에 해당하는 사람들 것만
 	@GetMapping("/sns/radius")
 	@ApiOperation(value = "설정한 반경 내 모든 유저의 게시글(open 1인 것만)")
-	public Page<Board> loadRadiusSns(@RequestParam String lat, @RequestParam String lng,
+	public Page<BoardDto> loadRadiusSns(@RequestParam String lat, @RequestParam String lng,
 			@RequestParam(required = false, defaultValue = "0") double radius, final Pageable pageable) {
-
+		
+		// 모든 게시물(open1인 것만)
+		Page<Board> boards = null;
 		if (radius == 0) {
-			// 모든 게시물(open1인 것만)
-			return boardDao.findAll(pageable);
+			boards = boardDao.findAll(pageable);
+		} else {
+			boards = boardDao.radiusCommitId(lat, lng, radius, pageable);
 		}
-		return boardDao.radiusCommitId(lat, lng, radius, pageable);
-
+		List<BoardDto> result = followingBoardController.clean(boards);
+		return new PageImpl<BoardDto>(result, pageable, boards.getTotalElements());
 	}
 
 	@GetMapping("/sns/location")
