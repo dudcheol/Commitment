@@ -26,6 +26,7 @@ import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
 import com.web.commitment.response.BoardDto;
 import com.web.commitment.response.CommentBoardDto;
+import com.web.commitment.response.CommitClearDto;
 import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.LikeDto;
 import com.web.commitment.response.UserDto;
@@ -99,9 +100,10 @@ public class LikeController {
 			//board 최적화(commit내역 제거)
 			Board origin=likeorigin.getBoard();
 			BoardDto target = new BoardDto();
-			
+			CommitClearDto cleardto=new CommitClearDto();
+			BeanUtils.copyProperties(origin.getCommit(), cleardto);
 			BeanUtils.copyProperties(origin, target);
-			
+			target.setCommit(cleardto);
 			UserDto userDto = new UserDto();
 			BeanUtils.copyProperties(origin.getUser(), userDto);
 			target.setUser(userDto);
