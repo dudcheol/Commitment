@@ -1,120 +1,137 @@
 <template>
-<div>
   <div>
-    <Logo id="logo"></Logo>
-    
-    <div id="videoBd">
-    <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
-      <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4">
-    </video>
+    <div>
+      <Logo id="logo"></Logo>
+
+      <div id="videoBd">
+        <video
+          id="videoBG"
+          poster="../assets/img/login/poster.jpg"
+          autoplay
+          muted
+          loop
+        >
+          <source
+            src="../assets/img/login/nightviewseoul.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
     </div>
-  </div>
-  <div class="login_form">
-    <vs-card>
-      <template #title>
-        <h4 class="not-margin">Welcome to Commitment</h4>
-      </template>
+    <div class="login_form">
+      <vs-card>
+        <template #title>
+          <h4 class="not-margin">Welcome to Commitment</h4>
+        </template>
 
-      <template #text>
-        <div class="con-form" @keyup.enter="confirm">
-          <div class="email_input">
-          <vs-input v-model="email" placeholder="Email">
-            <template #icon>
-              @
-            </template>
-          </vs-input>
-          </div>
-          <div class="password_input mb-5">
-          <vs-input
-            type="password"
-            v-model="pass"
-            placeholder="영문, 숫자 혼용 8글자이상"
-          >
-            <template #icon>
-              <i class="bx bxs-lock"></i>
-            </template>
-          </vs-input>
-          </div>
+        <template #text>
+          <div class="con-form" @keyup.enter="confirm">
+            <div class="email_input">
+              <vs-input v-model="email" placeholder="Email">
+                <template #icon>
+                  @
+                </template>
+              </vs-input>
+            </div>
+            <div class="password_input mb-5">
+              <vs-input
+                type="password"
+                v-model="pass"
+                placeholder="영문, 숫자 혼용 8글자이상"
+              >
+                <template #icon>
+                  <i class="bx bxs-lock"></i>
+                </template>
+              </vs-input>
+            </div>
 
-          <div class="google__button mb-4">
-            <GoogleLogin
-            :params="params"
-            :onSuccess="GoogleLoginSuccess"
-            :renderParams="renderParams"
-
-            ></GoogleLogin>
-          </div>
-          <!-- <div>
+            <div class="google__button mb-4">
+              <GoogleLogin
+                :params="params"
+                :onSuccess="GoogleLoginSuccess"
+                :renderParams="renderParams"
+              ></GoogleLogin>
+            </div>
+            <!-- <div>
             <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
           </div> -->
             <!-- :onFailure="GoogleLoginFailure" -->
-        </div>
+          </div>
 
-        <div class="footer-dialog">
-          <vs-button block @click="confirm" :loading="loading">
-            Login
-          </vs-button>
+          <div class="footer-dialog">
+            <vs-button block @click="confirm" :loading="loading">
+              Login
+            </vs-button>
 
-          <div class="new">아직 처음이신가요? <a @click="signuplink">회원가입</a></div>
-        </div>
-      </template>
-    </vs-card>
-    <DialogVue
-      :alert="alert"
-      :alertTitle="title"
-      :alertContent="content"
-      @close="alert = !alert"
-    ></DialogVue>
+            <div class="new">
+              아직 처음이신가요? <a @click="signuplink">회원가입</a>
+            </div>
+          </div>
+        </template>
+      </vs-card>
+      <DialogVue
+        :alert="alert"
+        :alertTitle="title"
+        :alertContent="content"
+        @close="alert = !alert"
+      ></DialogVue>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import DialogVue from '../components/common/dialog/Dialog.vue';
-import Logo from '../components/login/Logo.vue'
-import GoogleLogin from 'vue-google-login';
-import GoogleSignInButton from 'vue-google-signin-button-directive'
+import { mapActions, mapGetters } from "vuex";
+import DialogVue from "../components/common/dialog/Dialog.vue";
+import Logo from "../components/login/Logo.vue";
+import GoogleLogin from "vue-google-login";
+import GoogleSignInButton from "vue-google-signin-button-directive";
 
 export default {
-   directives: {
-    GoogleSignInButton
+  directives: {
+    GoogleSignInButton,
   },
   components: {
-    DialogVue, Logo, GoogleLogin
+    DialogVue,
+    Logo,
+    GoogleLogin,
+  },
+  computed: {
+    ...mapGetters({ user: ["getUserInfo"] }),
   },
   data: () => ({
     window: {
-            width: 0,
-            height: 0
-      },
+      width: 0,
+      height: 0,
+    },
     active: true,
-    email: '',
-    pass: '',
+    email: "",
+    pass: "",
     remember: false,
     alert: false,
-    title: '오류',
-    content: '로그인에 실패했습니다',
+    title: "오류",
+    content: "로그인에 실패했습니다",
     loading: false,
     params: {
-      cliend_id: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com'
+      cliend_id:
+        "265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com",
     },
     renderParams: {
       width: 240,
       height: 40,
-      longtitle: true
+      longtitle: true,
     },
-    clientId: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com',
+    clientId:
+      "265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com",
   }),
   created() {
-        window.addEventListener('resize', this.handleResize);
-        this.handleResize();
-    },
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
   destroyed() {
-      window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   },
   methods: {
-    ...mapActions(['LOGIN', 'GOOGLE_LOGIN']),
+    ...mapActions(["LOGIN", "GOOGLE_LOGIN"]),
     async confirm() {
       this.loading = true;
 
@@ -122,29 +139,37 @@ export default {
         email: this.email,
         pass: this.pass,
       });
+      console.log(result);
       this.loading = false;
-      if (!result) {
+      if (result.data != "success") {
+        this.title = "오류";
+        this.content = "로그인에 실패했습니다";
         this.alert = true;
       } else {
-        this.$router.push({ name: 'Main' });
+        if (result.auth != 1) {
+          this.title = "알림";
+          this.content = "이메일 인증을 먼저 진행해주세요";
+          this.alert = true;
+        } else {
+          this.$router.push({ name: "Main" });
+        }
       }
     },
-    
+
     signuplink() {
-       this.$router.push({ name: 'Signup' })
+      this.$router.push({ name: "Signup" });
     },
-    
+
     handleResize() {
-            this.window.width = window.innerWidth;
-            this.window.height = window.innerHeight;
-        },
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+    },
 
     async GoogleLoginSuccess(googleUser) {
       this.loading = true;
       const profile = googleUser.getBasicProfile();
-      console.log('google login start')
-      const result = await this.GOOGLE_LOGIN(
-        {
+      console.log("google login start");
+      const result = await this.GOOGLE_LOGIN({
         email: googleUser.getBasicProfile().getEmail(),
         pass: null,
         image: profile.getImageUrl(),
@@ -159,15 +184,16 @@ export default {
       // console.log('Image URL: ' + profile.getImageUrl());
       // console.log('Email: ' + profile.getEmail());
       this.loading = false;
-      console.log(result)
+      console.log(result);
       if (!result) {
+        this.title = "오류";
+        this.content = "로그인에 실패했습니다";
         this.alert = true;
       } else {
-        this.$router.push({ name: 'Main' });
+        this.$router.push({ name: "Main" });
       }
     },
-    GoogleLoginFailure() {
-    },
+    GoogleLoginFailure() {},
     // OnGoogleAuthSuccess (idToken) {
     //   console.log(idToken)
     //   // Receive the idToken and make your magic with the backend
@@ -188,8 +214,7 @@ export default {
   position: fixed;
   top: 10%;
   left: 10%;
-  
-  }
+}
 
 #logo {
   position: fixed;
@@ -198,54 +223,55 @@ export default {
   right: 8%;
 }
 
-#videoBd  {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
- }
+#videoBd {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}
 #videoBG {
   position: fixed;
   z-index: 0;
 }
 @media (min-aspect-ratio: 16/9) {
-      #videoBG {
-          width: 100%;
-          height: auto;
-      }
+  #videoBG {
+    width: 100%;
+    height: auto;
   }
+}
 
 @media (max-aspect-ratio: 16/9) {
-      #videoBG {
-          width: auto;
-          height: 100%;
-      }
+  #videoBG {
+    width: auto;
+    height: 100%;
   }
+}
 @media (max-width: 1000px) {
-      #logo{
-        display: none;
-      }
+  #logo {
+    display: none;
+  }
 }
 @media (max-width: 700px) {
-      #logo{
-        display: none;
-      }
-      .login_form {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate( -50%, -50%);
-      }
-      #videoBG {
-          display: none;
-      }
-      #videoBd {
-        background: url('../assets/img/login/poster.jpg') no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-      }
+  #logo {
+    display: none;
   }
+  .login_form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #videoBG {
+    display: none;
+  }
+  #videoBd {
+    background: url("../assets/img/login/poster.jpg") no-repeat center center
+      fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+}
 .before-enter {
   opacity: 0;
   transform: translateY(100px);
@@ -269,62 +295,66 @@ export default {
   margin: 10px 10px;
 }
 
-        
 .not-margin {
   margin: 3px;
   font-weight: normal;
-  padding: 10px; 
+  padding: 10px;
   display: flex;
   justify-content: center;
-  }
+}
 
-.con-form
-  { width: 100% 
-  }
-.con-form  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    }
+.con-form {
+  width: 100%;
+}
+.con-form .flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .con-form .flex a {
-      font-size: .8rem;
-      opacity: 0.7 }
-.con-form .flex a:hover
-{
-        opacity: 1  }
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+.con-form .flex a:hover {
+  opacity: 1;
+}
 
+.vs-checkbox-label {
+  font-size: 0.8rem;
+}
+.vs-input-content {
+  margin: 10px 10px;
+}
 
-.vs-checkbox-label
-    {font-size: .8rem}
-.vs-input-content
-    {margin: 10px 10px}
-  
-.footer-dialog 
-  {display: flex;
+.footer-dialog {
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: calc(100%);
   font-size: 1.5em;
-  }
+}
 
-.new
-  { margin: 0px;
-    margin-top: 20px;
-    padding: 0px;
-    font-size: .7rem }
+.new {
+  margin: 0px;
+  margin-top: 20px;
+  padding: 0px;
+  font-size: 0.7rem;
+}
 
 .footer-dialog .new a {
-      margin-left: 6px }
-.footer-dialog .new a:hover{
-        text-decoration: underline}
+  margin-left: 6px;
+}
+.footer-dialog .new a:hover {
+  text-decoration: underline;
+}
 
-  .vs-button {
-
-    margin: 0px }
+.vs-button {
+  margin: 0px;
+}
 
 .vs-card {
-  background-color: green !important
+  background-color: green !important;
 }
 
 .google-signin-button {
@@ -336,5 +366,4 @@ export default {
   padding: 10px 20px 25px 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 </style>
