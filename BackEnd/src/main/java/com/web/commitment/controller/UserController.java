@@ -99,6 +99,7 @@ public class UserController {
 			resultMap.put("age", user.getAge());
 			resultMap.put("gender", user.getGender());
 			resultMap.put("mystory", user.getMystory());
+			resultMap.put("auth", user.getAuth());
 			return new ResponseEntity<>(resultMap, HttpStatus.OK);
 		}
 		resultMap.put("data", "fail");
