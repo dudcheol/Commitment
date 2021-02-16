@@ -1,4 +1,4 @@
-package com.web.commitment.response;
+package com.web.commitment.request;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import com.web.commitment.dto.Tag;
 import lombok.Data;
 
 @Data
-public class BoardDto {
+public class BoardTagReqDto {
 	private String id;
 
 	private String commitId;
@@ -36,15 +36,5 @@ public class BoardDto {
 
 	private String location;
 	
-	private CommitClearDto commit;
-	
-	private UserDto user;
-	
-	private List<Image> image = new ArrayList<Image>();
-
-	private List<Tag> tag = new ArrayList<Tag>();
-
-	private List<CommentBoardDto> comment = new ArrayList<CommentBoardDto>();
-
-	private List<LikeBoardDto> like = new ArrayList<LikeBoardDto>();
+	private Tag[] tag;
 }

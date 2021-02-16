@@ -1,12 +1,21 @@
 package com.web.commitment.response;
 
-import java.util.List;
-
 import lombok.Data;
 
 @Data
-public class CommitDto {
+public class CommitClearDto {
+
+	private String id;
+
 	private String email;
+
+	private String lat;
+
+	private String lng;
+
+	private String createdAt;
+
+	private int open;
 
 	private String region;
 
@@ -19,6 +28,4 @@ public class CommitDto {
 	private String localY;
 
 	private String address;
-	
-	private List<BoardCommitDto> board;
 }

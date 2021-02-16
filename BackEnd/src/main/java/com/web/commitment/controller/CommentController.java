@@ -105,8 +105,10 @@ public class CommentController {
 			BeanUtils.copyProperties(origin, target);
 			
 			UserDto user = new UserDto();
-			user.setNickname(origin.getUser().getNickname());
-			user.setProfile(origin.getUser().getProfile());
+			BeanUtils.copyProperties(origin.getUser(), user);
+			target.setUser(user);
+//			user.setNickname(origin.getUser().getNickname());
+//			user.setProfile(origin.getUser().getProfile());
 			target.setUser(user);
 			comments.add(target);
 		}
