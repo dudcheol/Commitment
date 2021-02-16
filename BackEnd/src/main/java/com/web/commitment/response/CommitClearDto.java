@@ -1,5 +1,8 @@
 package com.web.commitment.response;
 
+import lombok.Data;
+
+@Data
 public class CommitClearDto {
 
 	private String id;

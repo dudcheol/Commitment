@@ -21,6 +21,7 @@ import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.Like;
 import com.web.commitment.response.BoardDto;
 import com.web.commitment.response.CommentBoardDto;
+import com.web.commitment.response.CommitClearDto;
 import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.UserDto;
 
@@ -83,7 +84,11 @@ public class FollowingBoardController {
 				}
 				target.setComment(comments);
 			}
-			
+			if(origin.getCommit() != null) {
+				CommitClearDto commit = new CommitClearDto();
+				BeanUtils.copyProperties(origin.getCommit(), commit);
+				target.setCommit(commit);
+			}
 			
 			boardDtos.add(target);
 		}
