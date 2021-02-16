@@ -167,55 +167,63 @@ public class CommitController {
 	// 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
 	@GetMapping("/commit/square")
 	@ApiOperation(value = "네모칸 안의 커밋 정보 list")
-	public List<CommitDto> commitSquare(@RequestParam String email, @RequestParam String x, @RequestParam String y,
+	public List<CommitDto> commitSquare(@RequestParam String nickname, @RequestParam String x, @RequestParam String y,
 			@RequestParam String region) {
 		// region : 지역지도인지 국내지도인지/ 0: 국내지도, 1: 지역지도
 
+		Optional<User> isuser = userDao.findUserByNickname(nickname);
+		String email = null;
+		email = isuser.get().getEmail();
+		System.out.println(email);
+		
 		List<Commit> commits = new ArrayList<>();
-		if (region.equals("national")) {
-			commits = commitDao.findAllByEmailAndNationalXAndNationalY(email, x, y);
-		} else
-			commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
-		
 		List<CommitDto> commitDtos = new ArrayList<>();
-		for (Commit origin : commits) {
-			CommitDto target = new CommitDto();
-			BeanUtils.copyProperties(origin, target);
-			
-			List<BoardCommitDto> boards = new ArrayList<>();
-			if(origin.getBoard() != null) {
-				for (int i = 0; i < origin.getBoard().size(); i++) {
-					BoardCommitDto board = new BoardCommitDto();
-					BeanUtils.copyProperties(origin.getBoard().get(i), board);
-					
-					UserDto user = new UserDto();
-					BeanUtils.copyProperties(origin.getBoard().get(i).getUser(), user);
-					board.setUser(user);
-					
-					List<CommentCleanDto> comments = new ArrayList<>();
-					for (int j = 0; j < origin.getBoard().get(i).getComment().size(); j++) {
-						CommentCleanDto comment = new CommentCleanDto();
-						BeanUtils.copyProperties(origin.getBoard().get(i).getComment().get(i), comment);
-						comments.add(comment);
-					}
-					board.setComment(comments);
-					
-					List<LikeCleanDto> likes = new ArrayList<>();
-					for (int j = 0; j < origin.getBoard().get(i).getLike().size(); j++) {
-						LikeCleanDto like = new LikeCleanDto();
-						BeanUtils.copyProperties(origin.getBoard().get(i).getLike().get(i), like);
-						likes.add(like);
-					}
-					board.setLike(likes);
-					
-					boards.add(board);
-				} 
-			}
-			
-			target.setBoard(boards);
-			commitDtos.add(target);
-		}
 		
+		if(email != null) {
+			if (region.equals("national"))
+				commits = commitDao.findAllByEmailAndNationalXAndNationalY(email, x, y);
+			else
+				commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
+		
+			
+			for (Commit origin : commits) {
+				CommitDto target = new CommitDto();
+				BeanUtils.copyProperties(origin, target);
+				
+				List<BoardCommitDto> boards = new ArrayList<>();
+				if(origin.getBoard() != null) {
+					for (int i = 0; i < origin.getBoard().size(); i++) {
+						BoardCommitDto board = new BoardCommitDto();
+						BeanUtils.copyProperties(origin.getBoard().get(i), board);
+						
+						UserDto user = new UserDto();
+						BeanUtils.copyProperties(origin.getBoard().get(i).getUser(), user);
+						board.setUser(user);
+						
+						List<CommentCleanDto> comments = new ArrayList<>();
+						for (int j = 0; j < origin.getBoard().get(i).getComment().size(); j++) {
+							CommentCleanDto comment = new CommentCleanDto();
+							BeanUtils.copyProperties(origin.getBoard().get(i).getComment().get(i), comment);
+							comments.add(comment);
+						}
+						board.setComment(comments);
+						
+						List<LikeCleanDto> likes = new ArrayList<>();
+						for (int j = 0; j < origin.getBoard().get(i).getLike().size(); j++) {
+							LikeCleanDto like = new LikeCleanDto();
+							BeanUtils.copyProperties(origin.getBoard().get(i).getLike().get(i), like);
+							likes.add(like);
+						}
+						board.setLike(likes);
+						
+						boards.add(board);
+					} 
+				}
+				
+				target.setBoard(boards);
+				commitDtos.add(target);
+			}
+		}
 		return commitDtos;
 	}
 
