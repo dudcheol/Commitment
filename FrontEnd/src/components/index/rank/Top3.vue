@@ -6,7 +6,10 @@
         <div class="profiles justify-center">
           <div class="second">
             <v-avatar size="80">
-              <img src="http://news.samsungdisplay.com/wp-content/uploads/2018/08/8.jpg" alt="John" />
+              <img
+                src="http://news.samsungdisplay.com/wp-content/uploads/2018/08/8.jpg"
+                alt="John"
+              />
             </v-avatar>
             <h3 class="percentage">74.3%</h3>
             <p class="nickname">nickname</p>
@@ -21,7 +24,10 @@
           </div>
           <div class="first">
             <v-avatar size="100">
-              <img src="https://www.gohawaii.com/sites/default/files/styles/image_gallery_bg_xl/public/hero-unit-images/12709.jpg?itok=RByMHmpc" alt="John" />
+              <img
+                src="https://www.gohawaii.com/sites/default/files/styles/image_gallery_bg_xl/public/hero-unit-images/12709.jpg?itok=RByMHmpc"
+                alt="John"
+              />
             </v-avatar>
             <h3 class="percentage">82.7%</h3>
             <p class="nickname">nickname</p>
@@ -36,7 +42,10 @@
           </div>
           <div class="third">
             <v-avatar size="80">
-              <img src="https://images.chosun.com/resizer/nt--G8y3-98W0alOwx6Ws2UqDYI=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/V7QZJM2PAG6DDUWOIBWMW3ZHAI.jpg" alt="John" />
+              <img
+                src="https://images.chosun.com/resizer/nt--G8y3-98W0alOwx6Ws2UqDYI=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/V7QZJM2PAG6DDUWOIBWMW3ZHAI.jpg"
+                alt="John"
+              />
             </v-avatar>
             <h3 class="percentage">71.01%</h3>
             <p class="nickname">nickname</p>
@@ -52,39 +61,33 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
 export default {
-<<<<<<< .merge_file_a21256
-  data: () => ({ 
-    props:['area'],//props속성이름
-    mounted(){
-      console.log("받음"+this.$props.send)
-
-    }
-   }),
-=======
-  data: () => ({ valueOne: '', valueTwo: '' }),
->>>>>>> .merge_file_a05492
+  data: () => ({
+    props: ['area'], //props속성이름
+    mounted() {
+      console.log('받음' + this.$props.send);
+    },
+  }),
 };
 </script>
 
 <style scoped>
-.frame{
+.frame {
   display: flex;
   justify-content: center;
 }
-.like{
-  margin-top:-10%;
-  margin-left:15%;
+.like {
+  margin-top: -10%;
+  margin-left: 15%;
 }
-.likeMiddle{
-    margin-top:-10%;
-    margin-left:20%;
+.likeMiddle {
+  margin-top: -10%;
+  margin-left: 20%;
 }
-.box{
+.box {
   width: 100%;
   height: 100%;
 }
@@ -113,10 +116,10 @@ export default {
   color: rgba(0, 0, 0, 0.514);
   margin-top: 2%;
 }
-.percentage{
+.percentage {
   color: rgba(0, 0, 0, 0.589);
 }
-.three{
-  margin-top : 5%;
+.three {
+  margin-top: 5%;
 }
 </style>
