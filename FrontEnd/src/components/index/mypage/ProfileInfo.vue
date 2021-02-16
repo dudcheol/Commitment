@@ -87,7 +87,7 @@
                 <div>
                     <div class="badge">
                         <v-list-item-avatar size="70">
-                            <img src="../../../assets/img/badge/badge0.png"
+                            <img :src="require(`@/assets/img/badge/${badge}.png`) "
                             alt=""
                             >
                         </v-list-item-avatar>

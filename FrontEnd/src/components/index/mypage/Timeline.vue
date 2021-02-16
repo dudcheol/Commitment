@@ -89,7 +89,7 @@ export default {
     methods:{
       moveToDetail(data){
         console.log("이동할 게시글 id ",data);
-        this.$router.push({ name: 'Detail', params: { id: this.data.id } });
+        this.$router.push({ name: 'Detail', params: { id: data } });
       }
     }
 };
