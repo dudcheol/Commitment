@@ -20,6 +20,7 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +38,9 @@ import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
+import com.web.commitment.response.BoardCommitDto;
 import com.web.commitment.response.CommitDto;
+import com.web.commitment.response.UserDto;
 
 import io.swagger.annotations.ApiOperation;
 import net.minidev.json.JSONArray;
@@ -153,7 +156,7 @@ public class CommitController {
 	// 네모칸 하나 눌렀을 때 네모칸 안의 커밋 정보 list
 	@GetMapping("/commit/square")
 	@ApiOperation(value = "네모칸 안의 커밋 정보 list")
-	public List<Commit> commitSquare(@RequestParam String email, @RequestParam String x, @RequestParam String y,
+	public List<CommitDto> commitSquare(@RequestParam String email, @RequestParam String x, @RequestParam String y,
 			@RequestParam String region) {
 		// region : 지역지도인지 국내지도인지/ 0: 국내지도, 1: 지역지도
 
@@ -163,7 +166,29 @@ public class CommitController {
 		} else
 			commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
 		
-		return commits;
+		List<CommitDto> commitDtos = new ArrayList<>();
+		for (Commit origin : commits) {
+			CommitDto target = new CommitDto();
+			BeanUtils.copyProperties(origin, target);
+			
+			List<BoardCommitDto> boards = new ArrayList<>();
+			for (int i = 0; i < origin.getBoard().size(); i++) {
+				BoardCommitDto board = new BoardCommitDto();
+				BeanUtils.copyProperties(origin.getBoard().get(i), board);
+				
+				UserDto user = new UserDto();
+				BeanUtils.copyProperties(origin.getBoard().get(i).getUser(), user);
+				board.setUser(user);
+				boards.add(board);
+			} 
+			
+			target.setBoard(boards);
+			commitDtos.add(target);
+			System.out.println(target);
+		}
+		
+		
+		return commitDtos;
 	}
 
 	@GetMapping("/commit/total")
