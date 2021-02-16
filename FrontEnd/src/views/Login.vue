@@ -190,6 +190,8 @@ export default {
         this.content = "로그인에 실패했습니다";
         this.alert = true;
       } else {
+        this.email="";
+        this.pass="";
         this.$router.push({ name: "Main" });
       }
     },
