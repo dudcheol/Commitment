@@ -48,7 +48,7 @@ import com.web.commitment.response.CommentBoardDto;
 import com.web.commitment.response.CommentCleanDto;
 import com.web.commitment.response.CommitClearDto;
 import com.web.commitment.response.CommitDto;
-import com.web.commitment.response.FollowCommitMapDto;
+import com.web.commitment.response.FollowCommitMap;
 import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.LikeCleanDto;
 import com.web.commitment.response.UserDto;
@@ -468,15 +468,15 @@ public class CommitController {
 	// 팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)
 	@GetMapping("sns/followmap")
 	@ApiOperation(value = "팔로우한 사람의 커밋지도 불러오기 (nickname, profile, 커밋지도 -> 최신순으로)")
-	public List<FollowCommitMapDto> followmap(@RequestParam String email) {
+	public List<FollowCommitMap> followmap(@RequestParam String email) {
 
-		List<FollowCommitMapDto> result = new ArrayList<>();
+		List<FollowCommitMap> result = new ArrayList<>();
 
 		// 1. 팔로우한 사람 id목록 (최신순으로 불러오기)
 		List<User> followings = userDao.findAllByFollowing(email);
 		for (int i = 0; i < followings.size(); i++) {
 			// 2. 각각 팔로우한 사람들에게서 커밋지도 불러오기
-			FollowCommitMapDto followCommitMap = new FollowCommitMapDto();
+			FollowCommitMap followCommitMap = new FollowCommitMap();
 			UserDto userdto=new UserDto();
 			BeanUtils.copyProperties(followings.get(i), userdto);
 			followCommitMap.setUser(userdto);
