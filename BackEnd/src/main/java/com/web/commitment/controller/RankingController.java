@@ -24,7 +24,6 @@ import io.swagger.annotations.ApiOperation;
 @CrossOrigin
 @RestController
 public class RankingController {
-	
 	@Autowired
 	CommitDao commitDao;
 	@Autowired
