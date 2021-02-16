@@ -1,7 +1,9 @@
 package com.web.commitment.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +41,7 @@ import com.web.commitment.dto.BasicResponse;
 import com.web.commitment.dto.Profile;
 import com.web.commitment.dto.User;
 import com.web.commitment.request.LoginRequest;
+import com.web.commitment.response.BoardDto;
 import com.web.commitment.response.UserDto;
 import com.web.commitment.service.JwtService;
 
@@ -308,9 +312,17 @@ public class UserController {
 	/// 닉네임으로 검색
 	@GetMapping("/search/nickname")
 	@ApiOperation(value = "닉네임으로 검색")
-	public Page<User> searchByNickname(@RequestParam String keyword, final Pageable pageable) {
+	public Page<UserDto> searchByNickname(@RequestParam String keyword, final Pageable pageable) {
 
-		return userDao.findByNicknameContainingIgnoreCase(keyword, pageable);
+		Page<User> users=userDao.findByNicknameContainingIgnoreCase(keyword, pageable);
+		List<UserDto> usersdto=new ArrayList<UserDto>();
+		
+		for(User origin:users) {
+			UserDto user=new UserDto();
+			BeanUtils.copyProperties(origin, user);
+			usersdto.add(user);
+		}
+		return new PageImpl<UserDto>(usersdto, pageable, users.getTotalElements());
 	}
 
 	/// 이메일로 검색
