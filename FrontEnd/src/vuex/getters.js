@@ -44,4 +44,10 @@ export default {
   getCommitAddress(state) {
     return state.commitAddress;
   },
+  getSelectedBoardId(state) {
+    return state.selectedBoardId;
+  },
+  getSelectedUserId(state) {
+    return state.selectedUserId;
+  },
 };

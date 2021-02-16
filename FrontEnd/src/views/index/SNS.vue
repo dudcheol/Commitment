@@ -221,6 +221,7 @@ export default {
         this.commitRange[1] == 30 ? 'createdAt,desc' : 'created_at,desc',
         (response) => {
           const res = response.data.content;
+          console.log('%cSNS.vue line:224 res', 'color: #007acc;', res);
           if (res.length) {
             this.feedDatas.push(...res);
             for (let i = 0; i < res.length; i++) {

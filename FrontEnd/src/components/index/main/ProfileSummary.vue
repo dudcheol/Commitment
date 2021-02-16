@@ -47,6 +47,7 @@ export default {
   }),
   methods: {
     goToMyPage() {
+      this.$store.commit('SELECTED_USER_ID', this.user.nickname);
       this.$router.push({ name: 'MyPage' });
     },
   },

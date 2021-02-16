@@ -93,6 +93,7 @@ export default {
   watch: {
     totalTime(val) {
       if (val == 0) {
+        console.log('%cIndex.vue line:96 stop timer!!', 'color: #007acc;');
         this.STOP_TIMER();
       }
     },
@@ -121,7 +122,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER', 'GET_EMPCOMMIT_LIST']),
+    ...mapActions([
+      'CURRENT_LATLNG',
+      'FIRST_START_TIMER',
+      'START_TIMER',
+      'STOP_TIMER',
+      'GET_EMPCOMMIT_LIST',
+    ]),
     commit() {
       if (this.totalTime != 0) return;
       this.START_TIMER();
@@ -224,6 +231,7 @@ export default {
   },
   created() {
     this.CURRENT_LATLNG();
+    if (this.totalTime != 0) this.FIRST_START_TIMER();
   },
 };
 </script>

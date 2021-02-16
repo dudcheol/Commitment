@@ -1,9 +1,16 @@
 <template>
   <v-app-bar app color="white" flat :hide-on-scroll="hideOnScroll" style="z-index:10">
-    <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
-      <v-avatar size="35">
-        <img src="../../assets/img/main/commitment_logo.jpg" alt="logo" />
-      </v-avatar>
+    <v-btn
+      elevation="0"
+      fab
+      x-small
+      class="ml-3 d-none d-sm-flex"
+      color="white"
+      style="z-index:11;"
+      :ripple="false"
+      to="/"
+    >
+      <v-img src="../../assets/img/main/commitment_logo.jpg" alt="logo" height="35" width="35" />
     </v-btn>
 
     <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
@@ -21,7 +28,16 @@
     </v-tabs>
 
     <div class="d-none d-sm-flex ml-auto">
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+        @click="goToMyPage"
+      >
         <v-avatar v-if="user.profile" circle size="40">
           <img :src="user.profile.filePath" />
         </v-avatar>
@@ -80,10 +96,6 @@
           </div>
         </v-menu>
       </v-badge>
-
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
-        <v-icon>{{ right_items[2].icon }}</v-icon>
-      </v-btn>
 
       <v-btn
         fab
@@ -175,10 +187,6 @@
           </div>
         </v-menu>
       </v-badge>
-
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
-        <v-icon>{{ right_items[2].icon }}</v-icon>
-      </v-btn>
 
       <v-btn
         fab
@@ -287,13 +295,16 @@ export default {
     clickNoti(noti) {
       switch (noti.type) {
         case 'follow':
-          this.$router.push({ name: 'MyPage', params: { id: noti.dataId } });
+          this.$store.commit('SELECTED_USER_ID', noti.dataId);
+          this.$router.push({ name: 'MyPage' });
           break;
         case 'like':
-          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+          this.$store.commit('SELECTED_BOARD_ID', noti.dataId);
+          this.$router.push({ name: 'Detail' });
           break;
         case 'comment':
-          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+          this.$store.commit('SELECTED_BOARD_ID', noti.dataId);
+          this.$router.push({ name: 'Detail' });
           break;
       }
       clickNoti(
@@ -310,6 +321,14 @@ export default {
           );
         }
       );
+    },
+    goToMyPage() {
+      this.$store.commit('SELECTED_USER_ID', this.user.nickname);
+      this.$router.push({ name: 'MyPage' });
+    },
+    goToMain() {
+      console.log('%cHeader.vue line:32', 'color: #007acc;');
+      this.$router.replace({ name: 'Main' });
     },
   },
   created() {

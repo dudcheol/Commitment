@@ -29,14 +29,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ data: ['getBoardDetail'] }),
+    ...mapGetters({ data: ['getBoardDetail'], boardId: ['getSelectedBoardId'] }),
   },
   methods: {
     ...mapActions(['BOARDDETAIL']),
     async initMap() {
-      await this.BOARDDETAIL(this.$route.params.id);
-
-      console.log('%cDetail.vue line:39 initmap 보드정보 받아옴', 'color: #007acc;');
+      await this.BOARDDETAIL(this.boardId);
 
       let mapContainer = document.getElementById('map'); // 지도를 표시할 div
       let mapOption = {
