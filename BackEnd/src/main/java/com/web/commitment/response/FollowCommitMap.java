@@ -1,21 +1,18 @@
-package com.web.commitment.dto;
+package com.web.commitment.response;
 
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
-@AllArgsConstructor
+@Data
 public class FollowCommitMap {
 	
-    public User user;
+    public UserDto user;
 
     public List<int[]> commit;
     
