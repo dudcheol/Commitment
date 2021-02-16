@@ -39,7 +39,6 @@ import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Board;
 import com.web.commitment.dto.Comment;
 import com.web.commitment.dto.Commit;
-import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.Like;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
@@ -49,6 +48,7 @@ import com.web.commitment.response.CommentBoardDto;
 import com.web.commitment.response.CommentCleanDto;
 import com.web.commitment.response.CommitClearDto;
 import com.web.commitment.response.CommitDto;
+import com.web.commitment.response.FollowCommitMap;
 import com.web.commitment.response.LikeBoardDto;
 import com.web.commitment.response.LikeCleanDto;
 import com.web.commitment.response.UserDto;
@@ -466,7 +466,12 @@ public class CommitController {
 		for (int i = 0; i < followings.size(); i++) {
 			// 2. 각각 팔로우한 사람들에게서 커밋지도 불러오기
 			FollowCommitMap followCommitMap = new FollowCommitMap();
-			followCommitMap.setUser(followings.get(i));
+			
+			UserDto user = new UserDto();
+			BeanUtils.copyProperties(followings.get(i), user);
+			followCommitMap.setUser(user);
+			
+//			followCommitMap.setUser(followings.get(i));
 			followCommitMap.setCommit(commitCount(followings.get(i).getEmail(), followings.get(i).getRegion_name()));
 			result.add(followCommitMap);
 		}
