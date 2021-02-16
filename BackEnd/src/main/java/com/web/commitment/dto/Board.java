@@ -53,7 +53,6 @@ public class Board {
 	@Column(name="user_email")
 	private String email;
 
-
 	@Column(name = "title")
 	private String title;
 

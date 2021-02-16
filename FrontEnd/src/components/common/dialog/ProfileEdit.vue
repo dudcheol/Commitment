@@ -21,7 +21,7 @@
     >
       <template #header>
         <h3>
-          프로필 수정
+          회원정보 수정
         </h3>
       </template>
       <div class="con-content">
@@ -118,7 +118,7 @@ export default {
     password: '',
     nickname: '',
     intro: '',
-    region: '',
+    region: 'national',
     remember: false,
     userInfo: [],
   }),
@@ -147,6 +147,8 @@ export default {
   },
   method: {
     updateAccount() {
+      console.log('sssss');
+
       const userData = {
         email: this.email,
         nickname: this.nickname,
@@ -158,7 +160,6 @@ export default {
       };
 
       console.log(userData);
-      // 여기 고치기
       const result = signup(userData);
       if (result) {
         this.showDialog('가입에 성공했습니다');
@@ -169,6 +170,7 @@ export default {
   },
 };
 </script>
+
 <style lang="stylus" scoped>
   getColor(vsColor, alpha = 1)
       unquote("rgba(var(--vs-"+vsColor+"), "+alpha+")")

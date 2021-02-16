@@ -37,6 +37,7 @@ import com.web.commitment.dto.Commit;
 import com.web.commitment.dto.FollowCommitMap;
 import com.web.commitment.dto.User;
 import com.web.commitment.dto.Notification.NotificationReqDto;
+import com.web.commitment.response.CommitDto;
 
 import io.swagger.annotations.ApiOperation;
 import net.minidev.json.JSONArray;
@@ -161,7 +162,7 @@ public class CommitController {
 			commits = commitDao.findAllByEmailAndNationalXAndNationalY(email, x, y);
 		} else
 			commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
-
+		
 		return commits;
 	}
 
