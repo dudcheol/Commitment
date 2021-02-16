@@ -166,25 +166,28 @@ public class CommitController {
 		} else
 			commits = commitDao.findAllByEmailAndLocalXAndLocalYAndRegion(email, x, y, region);
 		
+//		System.out.println(commits);
 		List<CommitDto> commitDtos = new ArrayList<>();
 		for (Commit origin : commits) {
 			CommitDto target = new CommitDto();
 			BeanUtils.copyProperties(origin, target);
 			
 			List<BoardCommitDto> boards = new ArrayList<>();
-			for (int i = 0; i < origin.getBoard().size(); i++) {
-				BoardCommitDto board = new BoardCommitDto();
-				BeanUtils.copyProperties(origin.getBoard().get(i), board);
-				
-				UserDto user = new UserDto();
-				BeanUtils.copyProperties(origin.getBoard().get(i).getUser(), user);
-				board.setUser(user);
-				boards.add(board);
-			} 
+			if(origin.getBoard() != null) {
+				for (int i = 0; i < origin.getBoard().size(); i++) {
+					BoardCommitDto board = new BoardCommitDto();
+					BeanUtils.copyProperties(origin.getBoard().get(i), board);
+					
+					
+					UserDto user = new UserDto();
+					BeanUtils.copyProperties(origin.getBoard().get(i).getUser(), user);
+					board.setUser(user);
+					boards.add(board);
+				} 
+			}
 			
 			target.setBoard(boards);
 			commitDtos.add(target);
-			System.out.println(target);
 		}
 		
 		
