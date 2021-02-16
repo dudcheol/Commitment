@@ -74,7 +74,7 @@ export default {
     firebase
       .database()
       .ref('noti/all')
-      // .limitToLast(10)
+      .limitToLast(10)
       .on('value', (snap) => {
         let res = snap.val();
         this.nowCommits = [];
