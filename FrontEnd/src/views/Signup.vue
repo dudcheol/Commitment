@@ -155,7 +155,7 @@
         </template>
       </vs-card>
       <EmailDialog
-        @yes="dialog.activation = false"
+        @yes="close()"
         :content="dialog.content"
         :dialog="dialog.activation"
       >
@@ -190,11 +190,11 @@ export default {
         };
         // 여기 고치기
         const result = this.SIGNUP(userData);
+        this.resultsignup = result;
         if (result) {
           this.showDialog(
             "가입에 성공했습니다. 가입하신 메일계정으로 메일이 발송되며, 메일을 확인하셔야 가입절차가 완료됩니다."
           );
-          this.$router.push("/login");
         } else {
           this.showDialog("가입에 실패하였습니다");
         }
@@ -205,7 +205,7 @@ export default {
       let emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       let passRule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
       let telRule = /^(010[1-9][0-9]{7})$/;
-
+      this.resultsignup = false;
       if (
         this.email &&
         this.nickname &&
@@ -289,7 +289,10 @@ export default {
           let emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
           this.emailcheckflag = true;
-          if (response.data.data == "success") {
+          if (this.email.trim() == 0) {
+            this.emailflag = false;
+            this.showDialog("이메일을 입력해주세요");
+          } else if (response.data.data == "success") {
             this.emailflag = true;
             this.showDialog("사용 가능한 이메일입니다.");
           } else if (!emailRule.test(this.email)) {
@@ -308,6 +311,12 @@ export default {
     showDialog(message) {
       this.dialog.activation = true;
       this.dialog.content.text = message;
+    },
+    close() {
+      this.dialog.activation = false;
+      if (this.resultsignup) {
+        this.$router.push("/login");
+      }
     },
   },
   watch: {
@@ -337,6 +346,7 @@ export default {
       emailflag: false,
       emailcheckflag: false,
       age: "",
+      resultsignup: false,
       dialog: {
         content: { title: "Commitment", text: "", yes: "확인" },
         activation: false,
