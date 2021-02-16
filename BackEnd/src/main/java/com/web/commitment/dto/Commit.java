@@ -27,7 +27,6 @@ import lombok.ToString;
 @Setter
 @Table(name="commit")
 @NoArgsConstructor
-@ToString
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
