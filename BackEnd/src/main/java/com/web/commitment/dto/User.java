@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @ToString
 public class User {
 
