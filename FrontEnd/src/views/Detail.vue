@@ -31,16 +31,13 @@ export default {
   computed: {
     ...mapGetters({ data: ['getBoardDetail'] }),
   },
-  mounted() {
-    if (window.kakao && window.kakao.maps) {
-      this.initMap();
-    } else {
-      this.mapLoad();
-    }
-  },
   methods: {
     ...mapActions(['BOARDDETAIL']),
-    initMap() {
+    async initMap() {
+      await this.BOARDDETAIL(this.$route.params.id);
+
+      console.log('%cDetail.vue line:39 initmap 보드정보 받아옴', 'color: #007acc;');
+
       let mapContainer = document.getElementById('map'); // 지도를 표시할 div
       let mapOption = {
         center: new kakao.maps.LatLng(this.data.commit.lat, this.data.commit.lng), // 지도의 중심좌표
@@ -62,16 +59,14 @@ export default {
     back() {
       this.$router.back();
     },
-    async dataLoad() {
-      await this.BOARDDETAIL(this.$route.params.id);
-      if (this.map)
-        this.map.setCenter(new kakao.maps.LatLng(this.data.commit.lat, this.data.commit.lng));
-      else this.initMap();
-    },
   },
   activated() {
+    if (window.kakao && window.kakao.maps) {
+      this.initMap();
+    } else {
+      this.mapLoad();
+    }
     window.scrollTo(0, 0);
-    this.dataLoad();
   },
 };
 </script>
