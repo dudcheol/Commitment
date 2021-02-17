@@ -26,7 +26,7 @@ public interface UserDao extends JpaRepository<User, String> {
 
 	Optional<User> findUserByEmailAndPass(String email, String pass);
 
-	User findUserByNickname(String nickname);
+	Optional<User> findUserByNickname(String nickname);
 
 	
 	Optional<User> findUserByEmailAndAuthkey(String email, String authKey);
@@ -76,5 +76,7 @@ public interface UserDao extends JpaRepository<User, String> {
 	
 	@Query(value = "select count(*) from user u, commit c where c.user_email=:email and u.email=c.user_email and c.region_name='gangwon'", nativeQuery = true)
 	int getGangwondoCommit(String email);
+
+	User findByNickname(String email);
 
 }
