@@ -4,7 +4,7 @@
       elevation="0"
       fab
       x-small
-      class="ml-3 d-none d-sm-flex"
+      class="ml-3 d-none d-sm-flex mr-2"
       color="white"
       style="z-index:11;"
       :ripple="false"
@@ -49,7 +49,16 @@
           <v-icon color="white">mdi-emoticon-happy</v-icon>
         </v-avatar>
       </v-btn>
-      <v-btn icon @click="alert = true">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-2"
+        @click="alert = true"
+      >
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
@@ -65,7 +74,7 @@
               text
               :ripple="false"
               color="primary"
-              class="mr-3"
+              class="mr-2"
               v-bind="attrs"
               v-on="on"
             >
@@ -110,7 +119,7 @@
         text
         :ripple="false"
         color="primary"
-        class="mr-3"
+        class="mr-2"
         @click="LOGOUT"
       >
         <v-icon>{{ right_items[3].icon }}</v-icon>
@@ -134,7 +143,7 @@
         </v-btn>
       </template>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn fab elevation="0" small text :ripple="false" color="primary">
         <v-avatar v-if="user.profile" circle size="40">
           <img :src="user.profile.filePath" />
         </v-avatar>
@@ -143,22 +152,17 @@
         </v-avatar>
       </v-btn>
 
+      <v-btn fab elevation="0" small :ripple="false" color="primary" @click="alert = true">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+
       <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
         <template v-slot:badge>
           {{ noti.length }}
         </template>
         <v-menu offset-y rounded="lg">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              fab
-              elevation="0"
-              small
-              :ripple="false"
-              color="primary"
-              class="mr-3"
-              v-bind="attrs"
-              v-on="on"
-            >
+            <v-btn fab elevation="0" small :ripple="false" color="primary" v-bind="attrs" v-on="on">
               <v-icon>{{ right_items[1].icon }}</v-icon>
             </v-btn>
           </template>
@@ -193,24 +197,8 @@
         </v-menu>
       </v-badge>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
-        <v-icon>{{ right_items[2].icon }}</v-icon>
-      </v-btn>
-
-      <v-btn
-        fab
-        elevation="0"
-        small
-        text
-        :ripple="false"
-        color="primary"
-        class="mr-3"
-        @click="LOGOUT"
-      >
+      <v-btn fab elevation="0" small :ripple="false" color="primary" @click="LOGOUT">
         <v-icon>{{ right_items[3].icon }}</v-icon>
-      </v-btn>
-      <v-btn icon @click="alert = true">
-        <v-icon color="#1976d2">mdi-magnify</v-icon>
       </v-btn>
     </v-speed-dial>
     <SearchDailog :alert="alert" @close="alert = false"></SearchDailog>
