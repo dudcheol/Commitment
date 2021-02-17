@@ -166,16 +166,16 @@
 
 <script>
 // import axios from 'axios'
-import { mapActions } from "vuex";
-import EmailDialog from "../components/common/dialog/EmailDialog.vue";
-import { nickNameCheck, emailCheck } from "../api/account";
+import { mapActions } from 'vuex';
+import EmailDialog from '../components/common/dialog/EmailDialog.vue';
+import { nickNameCheck, emailCheck } from '../api/account';
 
 export default {
   components: {
     EmailDialog,
   },
   methods: {
-    ...mapActions(["SIGNUP"]),
+    ...mapActions(['SIGNUP']),
     submit() {
       if (this.check()) {
         const userData = {
@@ -193,10 +193,10 @@ export default {
         this.resultsignup = result;
         if (result) {
           this.showDialog(
-            "가입에 성공했습니다. 가입하신 메일계정으로 메일이 발송되며, 메일을 확인하셔야 가입절차가 완료됩니다."
+            '가입에 성공했습니다. 가입하신 메일계정으로 메일이 발송되며, 메일을 확인하셔야 가입절차가 완료됩니다.'
           );
         } else {
-          this.showDialog("가입에 실패하였습니다");
+          this.showDialog('가입에 실패하였습니다');
         }
       }
     },
@@ -221,59 +221,59 @@ export default {
           this.tel.trim().length == 0 ||
           this.age.trim().length == 0
         ) {
-          this.showDialog("모든 항목을 기입해주세요.");
+          this.showDialog('모든 항목을 기입해주세요.');
           return false;
         } else if (!emailRule.test(this.email)) {
-          this.showDialog("이메일 형식에 맞게 작성해주세요.");
+          this.showDialog('이메일 형식에 맞게 작성해주세요.');
           return false;
         } else if (!this.emailcheckflag) {
-          this.showDialog("이메일 중복확인을 해주세요");
+          this.showDialog('이메일 중복확인을 해주세요');
           return false;
         } else if (!this.emailflag) {
-          this.showDialog("이미 가입된 이메일 입니다.");
+          this.showDialog('이미 가입된 이메일 입니다.');
           return false;
         } else if (!passRule.test(this.password)) {
-          this.showDialog("비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.");
+          this.showDialog('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
           return;
         } else if (this.password !== this.passwordConfirm) {
-          this.showDialog("비밀번호 입력이 다릅니다. 다시 확인해주세요.");
+          this.showDialog('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
           return false;
         } else if (this.email.trim().length < 3) {
-          this.showDialog("닉네임을 3글자 이상 작성해주세요");
+          this.showDialog('닉네임을 3글자 이상 작성해주세요');
           return false;
         } else if (!this.nickcheckflag) {
-          this.showDialog("닉네임 중복확인을 해주세요");
+          this.showDialog('닉네임 중복확인을 해주세요');
           return false;
         } else if (!this.nickflag) {
-          this.showDialog("닉네임이 중복됩니다.");
+          this.showDialog('닉네임이 중복됩니다.');
           return false;
         } else if (!telRule.test(this.tel)) {
-          this.showDialog("올바르지 않은 핸드폰 번호 입니다.");
+          this.showDialog('올바르지 않은 핸드폰 번호 입니다.');
           return false;
         }
         return true;
       }
-      this.showDialog("회원가입 양식을 모두 채워주세요.");
+      this.showDialog('회원가입 양식을 모두 채워주세요.');
       return false;
     },
     nick() {
       if (this.nickname.trim().length == 0) {
-        this.showDialog("닉네임을 입력해주세요");
+        this.showDialog('닉네임을 입력해주세요');
         return;
       }
       nickNameCheck(
         this.nickname,
         (response) => {
           this.nickcheckflag = true;
-          if (this.email.trim().length < 3) {
+          if (this.nickname.trim().length < 3) {
             this.nickflag = true;
-            this.showDialog("닉네임을 3글자 이상 작성해주세요");
-          } else if (response.data.data == "success") {
+            this.showDialog('닉네임을 3글자 이상 작성해주세요');
+          } else if (response.data.data == 'success') {
             this.nickflag = true;
-            this.showDialog("사용 가능한 닉네임입니다.");
+            this.showDialog('사용 가능한 닉네임입니다.');
           } else {
             this.nickflag = false;
-            this.showDialog("닉네임이 중복됩니다.");
+            this.showDialog('닉네임이 중복됩니다.');
           }
         },
         (error) => {
@@ -291,16 +291,16 @@ export default {
           this.emailcheckflag = true;
           if (this.email.trim() == 0) {
             this.emailflag = false;
-            this.showDialog("이메일을 입력해주세요");
-          } else if (response.data.data == "success") {
+            this.showDialog('이메일을 입력해주세요');
+          } else if (response.data.data == 'success') {
             this.emailflag = true;
-            this.showDialog("사용 가능한 이메일입니다.");
+            this.showDialog('사용 가능한 이메일입니다.');
           } else if (!emailRule.test(this.email)) {
             this.emailflag = false;
-            this.showDialog("이메일 형식에 맞게 작성해주세요.");
+            this.showDialog('이메일 형식에 맞게 작성해주세요.');
           } else {
             this.emailflag = false;
-            this.showDialog("이미 가입된 이메일 입니다.");
+            this.showDialog('이미 가입된 이메일 입니다.');
           }
         },
         (error) => {
@@ -315,14 +315,14 @@ export default {
     close() {
       this.dialog.activation = false;
       if (this.resultsignup) {
-        this.email = "";
-        this.password = "";
-        this.passwordConfirm = "";
-        this.tel = "";
-        this.mystory = "";
-        this.gender = "m";
-        this.nickname = "";
-        this.$router.push("/login");
+        this.email = '';
+        this.password = '';
+        this.passwordConfirm = '';
+        this.tel = '';
+        this.mystory = '';
+        this.gender = 'm';
+        this.nickname = '';
+        this.$router.push('/login');
       }
     },
   },
@@ -338,23 +338,23 @@ export default {
   data() {
     return {
       active: true,
-      email: "",
-      password: "",
-      passwordConfirm: "",
-      tel: "",
-      mystory: "",
-      gender: "m",
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      tel: '',
+      mystory: '',
+      gender: 'm',
       remember: false,
-      region: "national",
-      nickname: "",
+      region: 'national',
+      nickname: '',
       nickflag: false,
       nickcheckflag: false,
       emailflag: false,
       emailcheckflag: false,
-      age: "",
+      age: '',
       resultsignup: false,
       dialog: {
-        content: { title: "Commitment", text: "", yes: "확인" },
+        content: { title: 'Commitment', text: '', yes: '확인' },
         activation: false,
       },
     };
@@ -481,7 +481,7 @@ export default {
     display: none;
   }
   #videoBd {
-    background: url("../assets/img/login/poster.jpg") no-repeat center center
+    background: url('../assets/img/login/poster.jpg') no-repeat center center
       fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;

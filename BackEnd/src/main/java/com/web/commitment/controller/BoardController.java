@@ -64,7 +64,6 @@ public class BoardController {
 				b.setTitle(req.getTitle());
 				b.setContent(req.getContent());
 				b.setLocation(req.getLocation());
-				b.setCreatedAt(LocalDateTime.now());
 				boardDao.save(b);
 				
 				// snsId 뱉어주기

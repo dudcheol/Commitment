@@ -11,7 +11,7 @@
           </template>
           <div class="con-content">
             <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
-            <div id="mobileHidden" >
+            <div id="mobileHidden">
               <input type="file" @change="fileSelected" />
               <img v-if="image" :src="image" width="300" />
             </div>
@@ -32,14 +32,14 @@
         </div>
         <div class="profileImg " v-else>
           <v-avatar
-              circle
-              size="150"
-              color="blue-grey"
-              class="font-weight-medium display-2"
-              @click="showModal()"
-            >
-              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
-            </v-avatar>
+            circle
+            size="150"
+            color="blue-grey"
+            class="font-weight-medium display-2"
+            @click="showModal()"
+          >
+            <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
+          </v-avatar>
         </div>
       </div>
       <v-card class="mx-auto" flat :width="width">
@@ -192,7 +192,6 @@ export default {
           console.log('에러' + error);
         }
       );
-      
     },
     clickFollow(){
       // console.log("this.user.email",this.user.email);
@@ -234,7 +233,7 @@ export default {
         this.age = content.content[0].age;
         if(content.content[0].profile!=null){
           this.imgSrc = content.content[0].profile.filePath;
-        }else{
+        } else {
           this.imgSrc = null;
         }
         this.badge = content.content[0].badge;
