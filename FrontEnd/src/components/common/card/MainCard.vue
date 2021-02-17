@@ -280,6 +280,7 @@ export default {
         (response) => {
           console.log('%cMainCard.vue line:220 response', 'color: #007acc;', response);
           this.$store.commit('BOARD_REFRESH');
+          this.$emit('removed');
         },
         (error) => {
           console.log(

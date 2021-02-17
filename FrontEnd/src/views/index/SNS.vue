@@ -6,36 +6,16 @@
       cols="12"
       md="3"
     >
-      <v-sheet
-        rounded="xl"
-        class="mb-4 px-4 pt-3"
-        style="width:100%; max-width:680px"
-      >
+      <v-sheet rounded="xl" class="mb-4 px-4 pt-3" style="width:100%; max-width:680px">
         <div class="d-flex align-center">
           <div class="font-weight-black mr-2 display-1">
-            {{
-              commitRange[0] == 0.5 && commitRange[1] == 30
-                ? '모든 커밋'
-                : address
-            }}
+            {{ commitRange[0] == 0.5 && commitRange[1] == 30 ? '모든 커밋' : address }}
           </div>
-          <div
-            class="blue-grey darken-1 px-1 rounded-lg white--text font-weight-bold"
-            rounded="lg"
-          >
-            <span
-              v-if="
-                commitRange[0] == commitMinRange &&
-                  commitRange[1] == commitMinRange
-              "
+          <div class="blue-grey darken-1 px-1 rounded-lg white--text font-weight-bold" rounded="lg">
+            <span v-if="commitRange[0] == commitMinRange && commitRange[1] == commitMinRange"
               >{{ commitMinRange }} km 이내</span
             >
-            <span
-              v-else-if="
-                commitRange[0] > commitMinRange ||
-                  commitRange[1] < commitMaxRange
-              "
-            >
+            <span v-else-if="commitRange[0] > commitMinRange || commitRange[1] < commitMaxRange">
               {{ commitRange[0] }} ~ {{ commitRange[1] }} km
             </span>
             <span v-else>
@@ -91,12 +71,8 @@
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
-        <div
-          class="mt-4"
-          v-for="(data, index) in feedDatas"
-          :key="'snsFeedData' + index"
-        >
-          <main-card :data="data"></main-card>
+        <div class="mt-4" v-for="(data, index) in feedDatas" :key="'snsFeedData' + index">
+          <main-card :data="data" @removed="changeRange"></main-card>
         </div>
         <infinite-loading
           :identifier="infiniteId"
@@ -105,10 +81,7 @@
           spinner="circles"
         >
           <div slot="no-more" class="mt-4">
-            <NoDataCard
-              :icon="'emoticon-wink-outline'"
-              :text="'모두 보셨습니다'"
-            ></NoDataCard>
+            <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
           </div>
           <!-- <div slot="spinner"></div> -->
           <div slot="no-results" class="mt-4">
@@ -247,7 +220,6 @@ export default {
         5,
         this.commitRange[1] == 30 ? 'createdAt,desc' : 'created_at,desc',
         (response) => {
-          console.log(this.pos.lat);
           const res = response.data.content;
           console.log('%cSNS.vue line:224 res', 'color: #007acc;', res);
           if (res.length) {
