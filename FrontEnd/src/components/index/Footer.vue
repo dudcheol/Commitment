@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation :value="value" color="primary" grow style="position:fixed">
+  <v-bottom-navigation :value="value" color="primary" grow style="position:fixed; z-index:11;">
     <v-btn v-for="(item, index) in items" :key="'footer' + index" :ripple="false" :to="item.route">
       <v-icon>{{ item.icon }}</v-icon>
     </v-btn>
