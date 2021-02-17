@@ -286,8 +286,6 @@ public class CommitController {
 			commit.setLocalY(String.valueOf(dot2[1]));
 			System.out.println(commit);
 			Commit c = commitDao.save(commit);
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			c.setCreatedAt(format1.format(new Date()));
 
 			
 			// 실시간 알림 저장 -> open이 1일 때에만
