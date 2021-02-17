@@ -35,7 +35,7 @@
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
         </div>
-        <div class="profileImg " v-else>
+        <div class="profileImg ">
           <v-avatar
               circle
               size="150"
