@@ -33,8 +33,8 @@ export default {
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
-        const content = response.data.content[0];
-        this.email = content.email;
+        const content = response.data;
+        this.email = content.content[0].email;
         console.log('email', this.email);
         timelineInfo(
           this.email,
@@ -61,8 +61,8 @@ export default {
   },
   methods: {
     moveToDetail(data) {
-      console.log('이동할 게시글 id ', data);
-      this.$router.push({ name: 'Detail', params: { id: data } });
+      this.$store.commit('SELECTED_BOARD_ID', data);
+      this.$router.push({ name: 'Detail' });
     },
   },
   computed: {
