@@ -49,6 +49,7 @@
           :key="'marker' + index"
           :position="marker"
           :clickable="true"
+          :icon="require('../../assets/img/sns/chat.png')"
         />
         <GmapCircle
           :center="{ lat: pos.lat, lng: pos.lng }"
@@ -134,7 +135,7 @@ export default {
       commitMinRange: 0.5,
       commitMaxRange: 30,
       mapOptions: {
-        zoomControl: false,
+        zoomControl: true,
         mapTypeControl: false,
         scaleControl: false,
         streetViewControl: false,
