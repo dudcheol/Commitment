@@ -8,7 +8,6 @@
 
       <template #text>
         <div class="filters">
-          
           <vs-button class="big_button" gradient @click="SelectArea('total')">
             전국
           </vs-button>
@@ -45,22 +44,19 @@
 <script>
 export default {
   data: () => ({
-    area: ''
+    area: '',
   }),
-  methods:{
-    SelectArea(e){
+  methods: {
+    SelectArea(e) {
       this.area = e;
-      this.$emit('area',this.area);
+      this.$emit('area', this.area);
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
-.filters {
-
-}
-.text{
+.text {
   text-align: center;
 }
 .big_button {
