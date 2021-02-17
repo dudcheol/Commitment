@@ -121,6 +121,7 @@ export default {
     region: 'national',
     remember: false,
     userInfo: [],
+
   }),
   computed: {
     ...mapGetters({
