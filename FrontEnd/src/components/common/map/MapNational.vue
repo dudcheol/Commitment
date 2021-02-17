@@ -2,9 +2,9 @@
   <div>
     <div class="line" v-for="(line, i) in MAP" :key="i">
       <div
-        :style="style"
-        :class="[cellStyle, drawCellColor(cell)]"
         v-for="(cell, j) in line"
+        :style="style"
+        :class="[cellStyle, drawCellColor(cell), clickable(cell)]"
         :key="j"
         @click="squareClick(i, j)"
       ></div>
@@ -1171,12 +1171,16 @@ export default {
   methods: {
     drawCellColor(cell) {
       if (cell > 0) {
-        return 'fill-' + cell;
+        return `fill-${cell}`;
       } else if (cell == 0) return 'empty';
       return 'null';
     },
-    squareClick(i, j, value) {
-      this.$emit('square-click', { y: i, x: j, value: value });
+    squareClick(i, j) {
+      if (this.MAP[i][j] <= 0) return;
+      this.$emit('square-click', { y: i, x: j, value: this.MAP[i][j] });
+    },
+    clickable(value) {
+      return value > 0 ? 'clickable' : '';
     },
   },
   created() {
@@ -1200,6 +1204,10 @@ export default {
   margin: 1px;
   font-size: 10px;
   display: inline-grid;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .fill-1 {

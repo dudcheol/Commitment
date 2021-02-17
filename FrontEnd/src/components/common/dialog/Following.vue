@@ -1,192 +1,177 @@
 <template>
-    <div class="center">
-      <vs-button size="l" circle icon flat @click="active=!active">
-          <i class="bx bxs-group"></i>{{this.followingCnt}}
-      </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active" v-on:close="isClose">
-        <template #header>
-          <h3>
-            팔로잉
-          </h3>
-        </template>
-        <div class="con-content">
-          <!-- <vs-table class="w-auto"> -->
-          <vs-table >
-            <template #tbody>
-              <vs-tr
-                :key="tr"
-                v-for="tr in followers"
-                :data="tr"
-              >
-                <vs-td>
-                  <v-avatar
-                  size="50"  
-                  v-if="tr.profile!=null"
-                  >
-                    <img
-                      :src="tr.profile.filePath"
-                      alt="pic"
-                    >
-                  </v-avatar>
-                  <v-avatar
-                    v-else
-                    circle
-                    size="50"
-                    color="blue-grey"
-                    class="font-weight-medium display-2"
-                  >
-                    <v-icon color="white">mdi-emoticon-happy</v-icon>
-                  </v-avatar>
-                </vs-td>
-                <vs-td class="nickname" id="mobileHidden">
+  <div class="center">
+    <vs-button size="l" circle icon flat @click="active = !active">
+      <i class="bx bxs-group"></i>{{ this.followingCnt }}
+    </vs-button>
+    <vs-dialog blur scroll overflow-hidden not-close v-model="active" v-on:close="isClose">
+      <template #header>
+        <h3>
+          팔로잉
+        </h3>
+      </template>
+      <div class="con-content">
+        <!-- <vs-table class="w-auto"> -->
+        <vs-table>
+          <template #tbody>
+            <vs-tr :key="tr" v-for="tr in followers" :data="tr">
+              <vs-td>
+                <v-avatar size="50" v-if="tr.profile != null">
+                  <img :src="tr.profile.filePath" alt="pic" />
+                </v-avatar>
+                <v-avatar
+                  v-else
+                  circle
+                  size="50"
+                  color="blue-grey"
+                  class="font-weight-medium display-2"
+                >
+                  <v-icon color="white">mdi-emoticon-happy</v-icon>
+                </v-avatar>
+              </vs-td>
+              <vs-td class="nickname" id="mobileHidden">
                 {{ tr.nickname }}
-                </vs-td>
-                <vs-td class="percentageSmall" id="mobileHidden">
+              </vs-td>
+              <vs-td class="percentageSmall" id="mobileHidden">
                 {{ tr.mystory }}
-                </vs-td>
-                <vs-button size="l" circle icon color="danger" flat @click="clickUnFollow(tr.email)">
-                  <i class="bx bxs-trash"></i>
-                </vs-button>
-              </vs-tr>
-            </template>
-          </vs-table>
-<!--           <div class="whole">팔로잉 모두 보기</div> -->
-        </div>
-      </vs-dialog>
-    </div>
+              </vs-td>
+              <vs-button size="l" circle icon color="danger" flat @click="clickUnFollow(tr.email)">
+                <i class="bx bxs-trash"></i>
+              </vs-button>
+            </vs-tr>
+          </template>
+        </vs-table>
+        <!--           <div class="whole">팔로잉 모두 보기</div> -->
+      </div>
+    </vs-dialog>
+  </div>
 </template>
 <script scoped>
 import { mapActions, mapGetters } from 'vuex';
-import {searchFollowings} from '../../../api/follow'
-import {searchUserByNickname} from '../../../api/account'
+import { searchFollowings } from '../../../api/follow';
+import { searchUserByNickname } from '../../../api/account';
 import { follow } from '../../../api/follow';
 // import FollowListsWhole from '../../index/mypage/FollowLists';
-  export default {
-    // components: { FollowListsWhole },
-    data () {
-      return {
-        activeButton: true,
-        active: false,
-        followers: [],
-        id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
-        //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
-        email:'',
-        followingCnt:0,
-        //언팔로우 기능
-        hasFollowed: true,
-      }
+export default {
+  // components: { FollowListsWhole },
+  data() {
+    return {
+      activeButton: true,
+      active: false,
+      followers: [],
+      email: '',
+      followingCnt: 0,
+      //언팔로우 기능
+      hasFollowed: true,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      user: ['getUserInfo'],
+      following: ['getFollowingList'],
+      userId: ['getSelectedUserId'],
+    }),
+  },
+  watch: {
+    following(val) {
+      this.hasFollowed = this.checkFollowing(val);
     },
-    computed:{
-      ...mapGetters({
-        user:['getUserInfo'], following: ['getFollowingList'], userId:['getSelectedUserId'],
-      })
-    },
-    watch: {
-      following(val) {
-        this.hasFollowed = this.checkFollowing(val);
-      },
-    },
-    created(){
-      // this.hasFollowed = this.checkFollowing(this.following);
-        searchUserByNickname(
-            {keyword : this.id},
-            (response)=>{
-                const content = response.data.content[0];
-                this.email = content.email;
-                searchFollowings(
-                  this.email,
-                  (response)=>{
-                      const res = response.data;
-                      this.followingCnt = res.length;
-                      for(let i=0;i<res.length;i++){
-                        const item = res[i];
-                        this.followers.push(item);
-                      }
-                  },
-                  (error)=>{
-                      console.log("follower에러"+error);
-                  }
-              )
-            },
-            (error)=>{
-                console.log("img에러"+error);
+  },
+  created() {
+    // this.hasFollowed = this.checkFollowing(this.following);
+    searchUserByNickname(
+      { keyword: this.userId },
+      (response) => {
+        const content = response.data.content[0];
+        this.email = content.email;
+        searchFollowings(
+          this.email,
+          (response) => {
+            const res = response.data;
+            this.followingCnt = res.length;
+            for (let i = 0; i < res.length; i++) {
+              const item = res[i];
+              this.followers.push(item);
             }
-        )
-    },
-    methods:{
-      ...mapActions(['GET_FOLLOWING_LIST']),
-      clickUnFollow(to) {
-        follow(
-          this.user.email,  //나
-          to, //상대
-          () => {
-            this.GET_FOLLOWING_LIST(this.user.email);
-            searchFollowings(
-                this.email,
-                (response)=>{
-                    this.followers=[];
-                    const res = response.data;
-                    this.followerCnt = res.length;
-                    for(let i=0;i<res.length;i++){
-                      const item = res[i];
-                      this.followers.push(item);
-                    }
-                },
-                (error)=>{
-                    console.log("follower에러"+error);
-                }
-            )
           },
           (error) => {
-            console.log(
-              'unfollow에러', error
-            );
+            console.log('follower에러' + error);
           }
         );
       },
-      clickFollow(to) {
-        follow(
-          this.user.email,  //나
-          to, //상대
-          () => {
-            this.GET_FOLLOWING_LIST(this.user.email);
-            searchFollowings(
-                this.email,
-                (response)=>{
-                    this.followers=[];
-                    const res = response.data;
-                    this.followerCnt = res.length;
-                    for(let i=0;i<res.length;i++){
-                      const item = res[i];
-                      this.followers.push(item);
-                    }
-                },
-                (error)=>{
-                    console.log("follower에러"+error);
-                }
-            )
-
-          },
-          (error) => {
-            console.log(
-              'follow에러', error
-            );
-          }
-        );
-      },
-      checkFollowing(list) {
-        const compare = this.user.email;
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].email == compare) return false; //팔로우 된사람이면 언팔
-        }
-        return true;//팔로우 안된사람이면 팔로우 할수있음을
-      },
-      isClose(){
-        console.log("닫기");
-        location.reload();
+      (error) => {
+        console.log('img에러' + error);
       }
-    }
-  }
+    );
+  },
+  methods: {
+    ...mapActions(['GET_FOLLOWING_LIST']),
+    clickUnFollow(to) {
+      follow(
+        this.user.email, //나
+        to, //상대
+        () => {
+          this.GET_FOLLOWING_LIST(this.user.email);
+          searchFollowings(
+            this.email,
+            (response) => {
+              this.followers = [];
+              const res = response.data;
+              this.followerCnt = res.length;
+              for (let i = 0; i < res.length; i++) {
+                const item = res[i];
+                this.followers.push(item);
+              }
+            },
+            (error) => {
+              console.log('follower에러' + error);
+            }
+          );
+        },
+        (error) => {
+          console.log('unfollow에러', error);
+        }
+      );
+    },
+    clickFollow(to) {
+      follow(
+        this.user.email, //나
+        to, //상대
+        () => {
+          this.GET_FOLLOWING_LIST(this.user.email);
+          searchFollowings(
+            this.email,
+            (response) => {
+              this.followers = [];
+              const res = response.data;
+              this.followerCnt = res.length;
+              for (let i = 0; i < res.length; i++) {
+                const item = res[i];
+                this.followers.push(item);
+              }
+            },
+            (error) => {
+              console.log('follower에러' + error);
+            }
+          );
+        },
+        (error) => {
+          console.log('follow에러', error);
+        }
+      );
+    },
+    checkFollowing(list) {
+      const compare = this.user.email;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].email == compare) return false; //팔로우 된사람이면 언팔
+      }
+      return true; //팔로우 안된사람이면 팔로우 할수있음을
+    },
+    isClose() {
+      console.log('닫기');
+      this.$emit('close');
+    },
+  },
+};
 </script>
 <style scoped>
 /* @media screen and (max-width: 1000px) {
@@ -194,8 +179,8 @@ import { follow } from '../../../api/follow';
     display: none;
   }
 } */
-.nickname{
-  color:black;
+.nickname {
+  color: black;
   /* background-color: aqua; */
   font-weight: bold;
 }
@@ -206,10 +191,10 @@ import { follow } from '../../../api/follow';
   margin-top: 5%;
   margin-bottom: -15%;
 } */
-.texts{
-  color:dodgerblue;
+.texts {
+  color: dodgerblue;
 }
-.con-content{
+.con-content {
   min-height: 500px !important;
   min-width: 500px !important;
 }

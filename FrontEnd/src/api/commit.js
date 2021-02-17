@@ -47,6 +47,20 @@ function userCommitCount(email, success, fail) {
     .catch(fail);
 }
 
+function getCommitMap(email, name, success, fail) {
+  instance
+    .get('commit', { params: { email, name } })
+    .then(success)
+    .catch(fail);
+}
+
+function getMapCoordCommits(nickname, region, x, y, success, fail) {
+  instance
+    .get('commit/square', { params: { nickname, region, x, y } })
+    .then(success)
+    .catch(fail);
+}
+
 export {
   userCommitMap,
   followCommitMap,
@@ -54,6 +68,8 @@ export {
   addCommit,
   emptyCommit,
   userCommitCount,
+  getCommitMap,
+  getMapCoordCommits,
   READ_PERMISSION_DENIED,
   READ_PERMISSION_OK,
 };

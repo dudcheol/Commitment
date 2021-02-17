@@ -4,23 +4,25 @@
       <v-col cols="12" md="8" lg="6" xl="4" class="mx-auto mb-10">
         <div class="px-4 pt-4">
           <div class="d-flex flex-row">
-            <div class="flex-grow-0 cursor-pointer" @click="clickProfile">
+            <div class="flex-grow-0 cursor-pointer" @click="clickProfile" style="cursor:pointer">
               <v-avatar v-if="data.user.profile" circle size="80">
                 <img :src="data.user.profile.filePath" />
               </v-avatar>
               <v-avatar
                 v-else
                 circle
-                size="40"
+                size="80"
                 color="blue-grey"
                 class="font-weight-medium display-2"
               >
-                <v-icon color="white">mdi-emoticon-happy</v-icon>
+                <v-icon color="white" size="50">mdi-emoticon-happy</v-icon>
               </v-avatar>
             </div>
             <div class="flex-grow-1 ml-2">
               <h1>
-                <span class="cursor-pointer" @click="clickProfile">{{ data.user.nickname }}</span>
+                <span class="cursor-pointer" style="cursor:pointer" @click="clickProfile">{{
+                  data.user.nickname
+                }}</span>
               </h1>
               <h3 class="font-weight-regular">
                 {{ data.commit.address }}

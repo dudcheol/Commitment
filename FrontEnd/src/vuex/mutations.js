@@ -19,7 +19,11 @@ export default {
   },
   START_TIMER(state, payload) {
     state.timer = payload;
-    state.totalTime = 1 * 60 * 10;
+    // if (state.totalTime == 0) state.totalTime = 1 * 60 * 10;
+    if (state.totalTime == 0) state.totalTime = 60;
+  },
+  FIRST_START_TIMER(state, payload) {
+    state.timer = payload;
   },
   COMMITBTN_STATE_CHANGER(state, payload) {
     state.commitBtnState = payload;
@@ -63,5 +67,11 @@ export default {
   },
   BOARD_REFRESH(state) {
     state.boardRefresh += 1;
+  },
+  SELECTED_BOARD_ID(state, payload) {
+    state.selectedBoardId = payload;
+  },
+  SELECTED_USER_ID(state, payload) {
+    state.selectedUserId = payload;
   },
 };

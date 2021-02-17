@@ -1,13 +1,24 @@
 <template>
   <v-app-bar app color="white" flat :hide-on-scroll="hideOnScroll" style="z-index:10">
-    <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
-      <v-avatar size="35">
-        <img src="../../assets/img/main/commitment_logo.jpg" alt="logo" />
-      </v-avatar>
+    <v-btn
+      elevation="0"
+      fab
+      x-small
+      class="ml-3 d-none d-sm-flex"
+      color="white"
+      style="z-index:11;"
+      :ripple="false"
+      to="/"
+      circle
+    >
+      <v-img src="../../assets/img/main/commitment_logo.jpg" alt="logo" height="35" width="35" />
     </v-btn>
+    <div class="text-h2 font-weight-black blue-grey--text text--darken-3">
+      {{ pageName }}
+    </div>
 
     <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
-    <v-tabs centered color="grey darken-1" class="tabs_list">
+    <v-tabs centered color="primary" class="tabs_list d-none d-md-block" v-model="tab">
       <v-tab
         v-for="(item, index) in items"
         :key="'tabMidIcon' + index"
@@ -21,7 +32,16 @@
     </v-tabs>
 
     <div class="d-none d-sm-flex ml-auto">
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+        @click="goToMyPage"
+      >
         <v-avatar v-if="user.profile" circle size="40">
           <img :src="user.profile.filePath" />
         </v-avatar>
@@ -52,7 +72,7 @@
           </template>
           <div class="pa-3 white">
             <h2 class="px-2">알림</h2>
-            <v-list class="pa-0" dense nav>
+            <v-list class="pa-0" dense nav style="max-height:70vh; overflow:auto;">
               <v-list-item-group>
                 <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
                   알림이 없습니다
@@ -80,10 +100,6 @@
           </div>
         </v-menu>
       </v-badge>
-
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
-        <v-icon>{{ right_items[2].icon }}</v-icon>
-      </v-btn>
 
       <v-btn
         fab
@@ -135,7 +151,6 @@
               fab
               elevation="0"
               small
-              text
               :ripple="false"
               color="primary"
               class="mr-3"
@@ -147,7 +162,7 @@
           </template>
           <div class="pa-3 white">
             <h2 class="px-2">알림</h2>
-            <v-list class="pa-0" dense nav>
+            <v-list class="pa-0" dense nav style="max-height:50vh; overflow:auto;">
               <v-list-item-group color="primary">
                 <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
                   알림이 없습니다
@@ -176,25 +191,12 @@
         </v-menu>
       </v-badge>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
-        <v-icon>{{ right_items[2].icon }}</v-icon>
-      </v-btn>
-
-      <v-btn
-        fab
-        elevation="0"
-        small
-        text
-        :ripple="false"
-        color="primary"
-        class="mr-3"
-        @click="LOGOUT"
-      >
+      <v-btn fab elevation="0" small :ripple="false" color="primary" class="mr-3" @click="LOGOUT">
         <v-icon>{{ right_items[3].icon }}</v-icon>
       </v-btn>
     </v-speed-dial>
 
-    <div class="search-box">
+    <!-- <div class="search-box">
       <div>
         <input type="text" name="" class="search-txt" placeholder="Search" />
         <a class="search-btn" href="#">
@@ -210,7 +212,7 @@
           <li>wandering</li>
         </div>
       </div>
-    </div>
+    </div> -->
   </v-app-bar>
 </template>
 
@@ -222,12 +224,13 @@ import { clickNoti } from '../../api/noti';
 export default {
   data() {
     return {
+      tab: '/',
       fab: false,
       items: [
         { icon: 'mdi-home', route: '/' },
         { icon: 'mdi-map-marker', route: '/sns' },
         { icon: 'mdi-medal', route: '/rank' },
-        { icon: 'mdi-heart', route: 'likes' },
+        { icon: 'mdi-heart', route: '/likes' },
       ],
       right_items: [
         { icon: 'mdi-emoticon-happy' },
@@ -268,6 +271,20 @@ export default {
       }
       return '';
     },
+    pageName() {
+      console.log('%cHeader.vue line:272 this.tab', 'color: #007acc;', this.tab);
+      switch (this.tab) {
+        case '/':
+          return 'Commitment';
+        case '/sns':
+          return 'Commit Place';
+        case '/rank':
+          return 'Ranking';
+        case '/likes':
+          return 'Likes';
+      }
+      return '';
+    },
   },
   methods: {
     ...mapActions(['LOGOUT']),
@@ -287,13 +304,16 @@ export default {
     clickNoti(noti) {
       switch (noti.type) {
         case 'follow':
-          this.$router.push({ name: 'MyPage', params: { id: noti.dataId } });
+          this.$store.commit('SELECTED_USER_ID', noti.dataId);
+          this.$router.push({ name: 'MyPage' });
           break;
         case 'like':
-          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+          this.$store.commit('SELECTED_BOARD_ID', noti.dataId);
+          this.$router.push({ name: 'Detail' });
           break;
         case 'comment':
-          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+          this.$store.commit('SELECTED_BOARD_ID', noti.dataId);
+          this.$router.push({ name: 'Detail' });
           break;
       }
       clickNoti(
@@ -310,6 +330,14 @@ export default {
           );
         }
       );
+    },
+    goToMyPage() {
+      this.$store.commit('SELECTED_USER_ID', this.user.nickname);
+      this.$router.push({ name: 'MyPage' });
+    },
+    goToMain() {
+      console.log('%cHeader.vue line:32', 'color: #007acc;');
+      this.$router.replace({ name: 'Main' });
     },
   },
   created() {

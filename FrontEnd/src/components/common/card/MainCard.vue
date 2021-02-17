@@ -178,13 +178,12 @@ export default {
   methods: {
     ...mapActions(['GET_FOLLOWING_LIST']),
     clickCard() {
-      this.$router.push({ name: 'Detail', params: { id: this.data.id } });
+      this.$store.commit('SELECTED_BOARD_ID', this.data.id);
+      this.$router.push({ name: 'Detail' });
     },
     clickProfile() {
-      this.$router.push({
-        name: 'MyPage',
-        params: { email: this.data.user.nickname },
-      });
+      this.$store.commit('SELECTED_USER_ID', this.data.user.nickname);
+      this.$router.push({ name: 'MyPage' });
     },
     clickLike() {
       if (this.likeActive) {

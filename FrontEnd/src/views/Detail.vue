@@ -29,18 +29,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ data: ['getBoardDetail'] }),
-  },
-  mounted() {
-    if (window.kakao && window.kakao.maps) {
-      this.initMap();
-    } else {
-      this.mapLoad();
-    }
+    ...mapGetters({ data: ['getBoardDetail'], boardId: ['getSelectedBoardId'] }),
   },
   methods: {
     ...mapActions(['BOARDDETAIL']),
-    initMap() {
+    async initMap() {
+      await this.BOARDDETAIL(this.boardId);
+
       let mapContainer = document.getElementById('map'); // 지도를 표시할 div
       let mapOption = {
         center: new kakao.maps.LatLng(this.data.commit.lat, this.data.commit.lng), // 지도의 중심좌표
@@ -60,18 +55,18 @@ export default {
       document.head.appendChild(script);
     },
     back() {
-      this.$router.back();
-    },
-    async dataLoad() {
-      await this.BOARDDETAIL(this.$route.params.id);
-      if (this.map)
-        this.map.setCenter(new kakao.maps.LatLng(this.data.commit.lat, this.data.commit.lng));
-      else this.initMap();
+      // this.$router.back();
+      console.log('window.history', 'color: #007acc;', window.history);
+      this.$router.go(-1);
     },
   },
   activated() {
+    if (window.kakao && window.kakao.maps) {
+      this.initMap();
+    } else {
+      this.mapLoad();
+    }
     window.scrollTo(0, 0);
-    this.dataLoad();
   },
 };
 </script>
