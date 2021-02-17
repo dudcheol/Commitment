@@ -27,16 +27,6 @@
             :img="item.img"
             class="mb-2"
           ></commit-card>
-          <v-btn
-            block
-            :ripple="false"
-            rounded
-            height="52px"
-            color="blue-grey darken-4"
-            text
-            @click="readMore"
-            ><strong>더보기</strong></v-btn
-          >
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>

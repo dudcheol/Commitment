@@ -18,7 +18,7 @@
           </template>
           <div class="con-content">
             <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
-            <div id="mobileHidden" >
+            <div id="mobileHidden">
               <input type="file" @change="fileSelected" />
               <img v-if="image" :src="image" width="300" />
             </div>
@@ -37,14 +37,14 @@
         </div>
         <div class="profileImg ">
           <v-avatar
-              circle
-              size="150"
-              color="blue-grey"
-              class="font-weight-medium display-2"
-              @click="showModal()"
-            >
-              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
-            </v-avatar>
+            circle
+            size="150"
+            color="blue-grey"
+            class="font-weight-medium display-2"
+            @click="showModal()"
+          >
+            <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
+          </v-avatar>
         </div>
       </div>
       <v-card class="mx-auto" flat :width="width">
@@ -71,7 +71,7 @@
 
         <v-card-actions>
           <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
           </v-btn>
         </v-card-actions>
 
@@ -99,13 +99,13 @@
   </div>
 </template>
 <script scoped>
-import { mapGetters } from "vuex";
-import Follower from "../../common/dialog/Follower";
-import Following from "../../common/dialog/Following";
-import ProfileEdit from "../../common/dialog/ProfileEdit";
-import { searchUserByNickname } from "../../../api/account";
-import { userCommitCount } from "../../../api/commit";
-import { editProfileImg } from "../../../api/img";
+import { mapGetters } from 'vuex';
+import Follower from '../../common/dialog/Follower';
+import Following from '../../common/dialog/Following';
+import ProfileEdit from '../../common/dialog/ProfileEdit';
+import { searchUserByNickname } from '../../../api/account';
+import { userCommitCount } from '../../../api/commit';
+import { editProfileImg } from '../../../api/img';
 export default {
   components: {
     Follower,
@@ -115,38 +115,38 @@ export default {
   data: () => ({
     active: false,
     show: false,
-    id: "dudcheol", //this.$route.params.id로 받은 현재 유저의 닉네임
+    id: 'dudcheol', //this.$route.params.id로 받은 현재 유저의 닉네임
     //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
-    email: "",
-    gender: "",
-    badge: "badge0",
-    age: "",
-    imgSrc: "",
-    mystory: "",
+    email: '',
+    gender: '',
+    badge: 'badge0',
+    age: '',
+    imgSrc: '',
+    mystory: '',
     //email로 /commit/total에서 가져온 커밋수
     cnt: 0,
-    image: "",
+    image: '',
     file: null,
     followingKey: 0,
   }),
   computed: {
     ...mapGetters({
-      user: ["getUserInfo"],
-      userId: ["getSelectedUserId"],
+      user: ['getUserInfo'],
+      userId: ['getSelectedUserId'],
     }),
 
     width() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "200px";
-        case "sm":
-          return "200px";
-        case "md":
-          return "500px";
-        case "lg":
-          return "600px";
-        case "xl":
-          return "900px";
+        case 'xs':
+          return '200px';
+        case 'sm':
+          return '200px';
+        case 'md':
+          return '500px';
+        case 'lg':
+          return '600px';
+        case 'xl':
+          return '900px';
       }
       return 700;
     },
@@ -161,7 +161,7 @@ export default {
       this.file = evt.target.files.item(0);
       // console.log("파일"+this.file);
       const reader = new FileReader();
-      reader.addEventListener("load", this.imageLoaded);
+      reader.addEventListener('load', this.imageLoaded);
       reader.readAsDataURL(this.file);
     },
     imageLoaded(evt) {
@@ -170,8 +170,8 @@ export default {
     upload() {
       // console.log(this.file+"이랑"+this.email);
       const form = new FormData();
-      form.append("file", this.file);
-      form.append("email", this.email);
+      form.append('file', this.file);
+      form.append('email', this.email);
       editProfileImg(
         form,
         (response) => {
@@ -179,10 +179,9 @@ export default {
           this.active = false;
         },
         (error) => {
-          console.log("에러" + error);
+          console.log('에러' + error);
         }
       );
-      
     },
   },
   created() {
@@ -194,10 +193,10 @@ export default {
         this.email = content.content[0].email;
         this.gender = content.content[0].gender;
         this.age = content.content[0].age;
-        if(content.content[0].profile!=null){
-          console.log("사진경로"+content.content[0].profile.filePath);
+        if (content.content[0].profile != null) {
+          console.log('사진경로' + content.content[0].profile.filePath);
           this.imgSrc = content.content[0].profile.filePath;
-        }else{
+        } else {
           this.imgSrc = null;
         }
         this.badge = content.content[0].badge;
@@ -208,7 +207,7 @@ export default {
             this.cnt = response.data;
           },
           (error) => {
-            console.log("cnt에러" + error);
+            console.log('cnt에러' + error);
           }
         );
       },
