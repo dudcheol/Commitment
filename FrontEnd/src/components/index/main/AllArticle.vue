@@ -8,30 +8,16 @@
       </v-btn-toggle>
     </div>
 
-    <div
-      class="mt-4"
-      v-for="(data, index) in feedDatas"
-      :key="'mainCard' + index"
-    >
+    <div class="mt-4" v-for="(data, index) in feedDatas" :key="'mainCard' + index">
       <main-card :data="data"></main-card>
     </div>
-    <infinite-loading
-      @infinite="infiniteHandler"
-      ref="infiniteLoading"
-      spinner="circles"
-    >
+    <infinite-loading @infinite="infiniteHandler" ref="infiniteLoading" spinner="circles">
       <div slot="no-more" class="mt-4">
-        <NoDataCard
-          :icon="'emoticon-wink-outline'"
-          :text="'모두 보셨습니다'"
-        ></NoDataCard>
+        <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
       </div>
       <!-- <div slot="spinner"></div> -->
       <div slot="no-results" class="mt-4">
-        <NoDataCard
-          :icon="'emoticon-cry-outline'"
-          :text="'불러올 커밋이 없어요'"
-        ></NoDataCard>
+        <NoDataCard :icon="'emoticon-cry-outline'" :text="'불러올 게시글이 없어요'"></NoDataCard>
       </div>
     </infinite-loading>
   </div>
@@ -41,11 +27,7 @@
 import MainCard from '../../common/card/MainCard.vue';
 import NoDataCard from '../../common/card/NoDataCard.vue';
 import InfiniteLoading from 'vue-infinite-loading';
-import {
-  myBoardList,
-  followingBoardList,
-  totalBoadList,
-} from '../../../api/board';
+import { myBoardList, followingBoardList, totalBoadList } from '../../../api/board';
 import { mapGetters } from 'vuex';
 
 export default {

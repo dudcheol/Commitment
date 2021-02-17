@@ -22,9 +22,9 @@
             class="mb-2"
             @click="goToProfile(item)"
           ></commit-card>
-          <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
+          <!-- <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
             ><strong>더보기</strong></v-btn
-          >
+          > -->
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>

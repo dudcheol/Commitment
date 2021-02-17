@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <Header></Header>
-    <v-main class="blue-grey lighten-5">
+    <v-main class="blue-grey lighten-5 pb-16">
       <router-view :openWriteDialog="openWriteDialog" @add-commit="commit"></router-view>
     </v-main>
     <v-btn
