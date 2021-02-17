@@ -1,19 +1,9 @@
 <template>
-  <v-list>
-    <v-list-item>
-      <v-list-item-avatar width="5px">
-        <vs-avatar>
-          <i class="bx bxs-hot"></i>
-        </vs-avatar>
-      </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title>
-          뱃지 수집률
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+  <div>
+    <div class="d-flex justify-center align-center pb-2">
+        <h3><i class="bx bxs-hot pr-1"></i>뱃지 수집률</h3>
+    </div>
 
-    <v-list-item>
       <div class="totalCollect mx-auto">
         <v-progress-circular
           :rotate="180"
@@ -22,11 +12,10 @@
           :value=user.badgeCnt/9*100
           color="pink"
         >
-          {{ user.badgeCnt }}
+          <span class="text-h3 font-weight-black">{{ user.badgeCnt }}</span>
         </v-progress-circular>
       </div>
-    </v-list-item>
-  </v-list>
+  </div>
 </template>
 
 <script>
