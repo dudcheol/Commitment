@@ -1,74 +1,5 @@
 <template>
   <v-container fluid class="blue-grey lighten-5">
-    <!-- <v-col class="pa-0 d-flex justify-center" :class="dynamicPosition" cols="12" md="3">
-      <v-sheet
-        class="mt-4 d-flex flex-column pa-5 ml-md-auto"
-        elevation="0"
-        rounded="xl"
-        max-width="300px"
-      >
-        <div class="pb-2">
-          <h3>필터</h3>
-        </div>
-        <div class="d-flex justify-center mb-2">
-          <div class="d-flex align-center justify-center mr-4">
-            <i class="bx bxs-calendar-alt"></i>
-          </div>
-          <vs-select color="primary" placeholder="날짜" v-model="date">
-            <vs-option label="1일" value="1">
-              1일
-            </vs-option>
-            <vs-option label="2일" value="2">
-              2일
-            </vs-option>
-            <vs-option label="3일" value="3">
-              3일
-            </vs-option>
-            <vs-option label="1주" value="4">
-              1주
-            </vs-option>
-            <vs-option label="1달" value="5">
-              1달
-            </vs-option>
-            <vs-option label="1년" value="6">
-              1년
-            </vs-option>
-            <vs-option label="전체" value="7">
-              전체
-            </vs-option>
-          </vs-select>
-        </div>
-        <div class="domian_selector d-flex justify-center">
-          <div class="d-flex align-center justify-center mr-4">
-            <i class="bx bxs-landscape"></i>
-          </div>
-          <vs-select filter multiple placeholder="지역" v-model="options">
-            <vs-option label="서울" value="1">
-              서울
-            </vs-option>
-            <vs-option label="경기도" value="2">
-              경기도
-            </vs-option>
-            <vs-option label="강원도" value="3">
-              강원도
-            </vs-option>
-            <vs-option label="울산" value="4">
-              울산
-            </vs-option>
-            <vs-option label="광주" value="5">
-              광주
-            </vs-option>
-            <vs-option label="부산" value="6">
-              부산
-            </vs-option>
-            <vs-option label="제주도" value="7">
-              제주도
-            </vs-option>
-          </vs-select>
-        </div>
-      </v-sheet>
-    </v-col> -->
-
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
         <div class="mt-4" v-for="(data, index) in feedDatas" :key="'likesFeedData' + index">
@@ -82,7 +13,7 @@
           <div slot="no-results" class="mt-4">
             <NoDataCard
               :icon="'hand-heart-outline'"
-              :text="'찜한 커밋이 없어요. 다른 사람들의 커밋에 좋아요를 남겨보세요!'"
+              :text="'찜한 게시글이 없어요. 다른 사람들의 게시글에 좋아요를 남겨보세요!'"
             ></NoDataCard>
           </div>
         </infinite-loading>
