@@ -29,26 +29,18 @@
 
                     <h2 class="percentage">{{cnt2}}</h2>
                     <span class="nickname">{{nickname2}}</span>
-                    <div class="temp" v-if="isThere(email2)==true">
-                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email2)" class="heartIcon">
-                        <i class="bx bxs-heart"></i>
-                      </vs-button> 
+                    <div v-if="nickname2!=user.nickname">
+                      <div class="temp" v-if="isThere(email2)==true">
+                        <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email2)" class="heartIcon">
+                          <i class="bx bxs-heart"></i>
+                        </vs-button> 
+                      </div>
+                      <div class="temp" v-else>
+                        <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email2)" class="heartIcon">
+                          <i class="bx bxs-user-plus"></i>
+                        </vs-button>
+                      </div>
                     </div>
-                    <div class="temp" v-else>
-                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email2)" class="heartIcon">
-                        <i class="bx bxs-user-plus"></i>
-                      </vs-button>
-                    </div>
-<!--                     <div class="temp" v-if="isThere(tr.email)==true">
-                          <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
-                            <i class="bx bxs-heart"></i>
-                          </vs-button>
-                        </div>
-                        <div class="temp" v-else>
-                          <vs-button size="l" circle icon color="twitter" flat @click="clickFollow(tr.email)">
-                            <i class="bx bxs-user-plus"></i>
-                          </vs-button>
-                        </div> -->
                   </div>
                   <div class="first">
                     <v-avatar size="100" v-if="imgSrc2!=null">
@@ -65,15 +57,17 @@
                     </v-avatar>
                     <h2 class="percentage">{{cnt1}}</h2>
                     <span class="nickname">{{nickname1}}</span>
-                    <div class="temp" v-if="isThere(email1)==true">
-                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email1)" class="heartIcon">
-                        <i class="bx bxs-heart"></i>
-                      </vs-button> 
-                    </div>
-                    <div class="temp" v-else>
-                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email1)" class="heartIcon">
-                        <i class="bx bxs-user-plus"></i>
-                      </vs-button>
+                    <div v-if="nickname1!=user.nickname">
+                      <div class="temp" v-if="isThere(email1)!=true">
+                        <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email1)" class="heartIcon">
+                          <i class="bx bxs-heart"></i>
+                        </vs-button> 
+                      </div>
+                      <div class="temp" v-else>
+                        <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email1)" class="heartIcon">
+                          <i class="bx bxs-user-plus"></i>
+                        </vs-button>
+                      </div>
                     </div>
                   </div>
                   <div class="third">
@@ -91,15 +85,17 @@
                     </v-avatar>
                     <h2 class="percentage">{{cnt3}}</h2>
                     <span class="nickname">{{nickname3}}</span>
-                    <div class="temp" v-if="isThere(email3)==true">
-                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email3)" class="heartIcon">
-                        <i class="bx bxs-heart"></i>
-                      </vs-button> 
-                    </div>
-                    <div class="temp" v-else>
-                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email3)" class="heartIcon">
-                        <i class="bx bxs-user-plus"></i>
-                      </vs-button>
+                    <div v-if="nickname3!=user.nickname">
+                      <div class="temp" v-if="isThere(email3)==true">
+                        <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email3)" class="heartIcon">
+                          <i class="bx bxs-heart"></i>
+                        </vs-button> 
+                      </div>
+                      <div class="temp" v-else>
+                        <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email3)" class="heartIcon">
+                          <i class="bx bxs-user-plus"></i>
+                        </vs-button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -145,23 +141,18 @@
                         <vs-td class="percentageSmall">
                         {{ tr.cnt }}
                         </vs-td>
-<!--                         <vs-td class="temp">
-                          <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
-                            <i class="bx bxs-heart"></i>
-                          </vs-button>
-                        </vs-td> -->
-
-                        <vs-td class="temp" v-if="isThere(tr.email)==true">
-                          <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
-                            <i class="bx bxs-heart"></i>
-                          </vs-button>
+                        <vs-td v-if="tr.nickname!=user.nickname">
+                          <div v-if="isThere(tr.email)==true">
+                            <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
+                              <i class="bx bxs-heart"></i>
+                            </vs-button>
+                          </div>
+                          <div v-else>
+                            <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                              <i class="bx bxs-user-plus"></i>
+                            </vs-button>
+                          </div>
                         </vs-td>
-                        <vs-td class="temp" v-else>
-                          <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
-                            <i class="bx bxs-user-plus"></i>
-                          </vs-button>
-                        </vs-td>
-
                       </vs-tr>
                     </template>
                   </vs-table>
@@ -196,10 +187,18 @@ export default {
     keyword:"",
     area:"total",
     users:[],
-    nickname1:"",
     imgSrc1:'',
     imgSrc2:'',
     imgSrc3:'',
+    email1:'',
+    email2:'',
+    email3:'',
+    cnt1:'',
+    cnt2:'',
+    cnt3:'',
+    nickname1:'',
+    nickname2:'',
+    nickname3:'',
     //팔로우 기능
     hasFollowed: true,
   }),
@@ -336,17 +335,18 @@ export default {
       )
     },
     isThere(para){
-      console.log(para+"가 "+this.user.email+"의 팔로잉리스트에 있나?");
+      // console.log(para+"가 "+this.user.email+"의 팔로잉리스트에 있나?");
       for (let i = 0; i < this.following.length; i++) {
-        console.log(para+"=="+this.following[i].email);
+        // console.log(para+"=="+this.following[i].email);
         if(this.following[i].email == para){
-          console.log("same");
+          // console.log("same");
           return true;
         }
       }
     }
   },
   created(){
+    console.log("로그인계정"+this.user.nickname);
     totalList(
       (response)=>{
         const res = response.data;
