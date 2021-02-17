@@ -40,7 +40,7 @@
 
             <div class="d-flex mb-4 justify-space-between">
               <div>
-                <vs-input v-model="nickname" placeholder="3글자이상 작성해주세요">
+                <vs-input v-model="nickname" placeholder="닉네임 3글자이상 작성해주세요">
                   <template #icon>
                     <i class="bx bx-user"></i>
                   </template>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="d-flex mb-4 justify-space-between">
-              <vs-input v-model="mystory" maxlength placeholder="나만의 한줄 소개 !">
+              <vs-input v-model="mystory" maxlength placeholder="나만의 한줄 소개">
                 <template #icon>
                   <i class="bx bx-comment-detail"></i>
                 </template>
