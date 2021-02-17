@@ -83,7 +83,7 @@ export default {
   },
   created() {
     searchUserByNickname(
-      { keyword: this.id },
+      { keyword: this.userId },
       (response) => {
         const content = response.data.content[0];
         this.email = content.email;
