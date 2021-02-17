@@ -76,7 +76,6 @@ export default {
   data() {
     return {
       boardList: [],
-      id: 'dudcheol', //this.$route.params.id로 받은 현재 유저의 닉네임
       //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
       email: '',
     };
@@ -85,9 +84,9 @@ export default {
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
-        const content = response.data.content[0];
-        this.email = content.email;
-        console.log('email', this.email);
+        const content = response.data;
+        this.email = content.content[0].email;
+        console.log('timeline email', this.email);
         timelineInfo(
           this.email,
           (response) => {
@@ -114,8 +113,9 @@ export default {
   },
   methods: {
     moveToDetail(data) {
-      console.log('이동할 게시글 id ', data);
-      this.$router.push({ name: 'Detail', params: { id: data } });
+      // this.$router.push({ name: 'Detail', params: { id: data } });
+      this.$store.commit('SELECTED_BOARD_ID', data);
+      this.$router.push({ name: 'Detail' });
     },
   },
   computed: {
