@@ -14,17 +14,17 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <commit-card
-            v-for="(item, index) in nowCommits"
-            :key="index"
+            v-for="(item, index) in nowCommits.slice(0, dynamicCnt)"
+            :key="'commitNow' + index"
             :username="item.username"
             :address="item.address"
             :img="item.img"
             class="mb-2"
             @click="goToProfile(item)"
           ></commit-card>
-          <!-- <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
-            ><strong>더보기</strong></v-btn
-          > -->
+          <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
+            ><strong>최근 15개만 볼 수 있어요</strong></v-btn
+          >
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -57,6 +57,18 @@ export default {
           return [];
       }
     },
+    dynamicCnt() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'md':
+          return 15;
+        case 'lg':
+          return 15;
+        case 'xl':
+          return 15;
+        default:
+          return 5;
+      }
+    },
   },
   methods: {
     goToProfile(user) {
@@ -68,7 +80,7 @@ export default {
     firebase
       .database()
       .ref('noti/all')
-      .limitToLast(10)
+      .limitToLast(15)
       .on('value', (snap) => {
         let res = snap.val();
         this.nowCommits = [];

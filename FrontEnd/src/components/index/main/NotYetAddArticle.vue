@@ -14,7 +14,7 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <commit-card
-            v-for="(item, index) in empCommits"
+            v-for="(item, index) in empCommits.slice(0, dynamicCnt)"
             :key="'emtCommit' + index"
             :username="item.address"
             :only-address="true"
@@ -57,6 +57,18 @@ export default {
           return [0];
         default:
           return [];
+      }
+    },
+    dynamicCnt() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'md':
+          return this.empCommits.length;
+        case 'lg':
+          return this.empCommits.length;
+        case 'xl':
+          return this.empCommits.length;
+        default:
+          return 5;
       }
     },
   },
