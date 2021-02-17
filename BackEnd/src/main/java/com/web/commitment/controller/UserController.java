@@ -334,6 +334,12 @@ public class UserController {
 
 		return userDao.findByEmailContainingIgnoreCase(keyword, pageable);
 	}
+	@GetMapping("/search/nickname")
+	@ApiOperation(value = "닉네임으로 검색")
+	public Page<User> searchBynick(@RequestParam String keyword, final Pageable pageable) {
+		
+		return userDao.findByNicknameContainingIgnoreCase(keyword, pageable);
+	}
 
 	@GetMapping("/user/map")
 	@ApiOperation(value = "대표지도 설정")
