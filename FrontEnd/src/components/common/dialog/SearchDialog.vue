@@ -57,10 +57,9 @@ import { searchNickname } from "../../../api/search";
 import SearchNoDataCard from "../../../components/common/card/SearchNoDataCard.vue";
 export default {
   components: { SearchCard, SearchNoDataCard },
-  props: ["alert"],
+  props: ["alert","searchValue"],
   data() {
     return {
-      searchValue: "",
       users: "",
     };
   },
