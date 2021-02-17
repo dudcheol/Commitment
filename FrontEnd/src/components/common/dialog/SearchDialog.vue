@@ -42,13 +42,13 @@
       </v-card>
     </template>
 
-    <template #footer>
+    <!-- <template #footer>
       <div class="con-footer">
         <vs-button block @click="close">
           닫기
         </vs-button>
       </div>
-    </template>
+    </template> -->
   </vs-dialog>
 </template>
 <script>
