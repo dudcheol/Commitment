@@ -3,18 +3,19 @@
       <vs-button size="l" circle icon flat @click="active=!active">
           <i class="bx bxs-group"></i>{{this.followingCnt}}
       </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="500px" height="500px">
+      <vs-dialog blur scroll overflow-hidden not-close v-model="active">
         <template #header>
           <h3>
             팔로잉
           </h3>
         </template>
         <div class="con-content">
-          <vs-table class="w-auto" width="300px">
+          <!-- <vs-table class="w-auto"> -->
+          <vs-table >
             <template #tbody>
               <vs-tr
-                :key="i"
-                v-for="(tr, i) in followers"
+                :key="tr"
+                v-for="tr in followers"
                 :data="tr"
               >
                 <vs-td>
@@ -37,21 +38,19 @@
                     <v-icon color="white">mdi-emoticon-happy</v-icon>
                   </v-avatar>
                 </vs-td>
-                <vs-td class="nickname">
+                <vs-td class="nickname" id="mobileHidden">
                 {{ tr.nickname }}
                 </vs-td>
-                <vs-td class="percentageSmall">
+                <vs-td class="percentageSmall" id="mobileHidden">
                 {{ tr.mystory }}
                 </vs-td>
-                <vs-td class="temp">
-                  <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
-                    <i class="bx bxs-heart"></i>
-                  </vs-button>
-                </vs-td>
+                <vs-button size="l" circle icon color="danger" flat @click="clickUnFollow(tr.email)">
+                  <i class="bx bxs-trash"></i>
+                </vs-button>
               </vs-tr>
             </template>
           </vs-table>
-          <div class="whole">팔로잉 모두 보기</div>
+<!--           <div class="whole">팔로잉 모두 보기</div> -->
         </div>
       </vs-dialog>
     </div>
@@ -66,9 +65,9 @@ import { follow } from '../../../api/follow';
     // components: { FollowListsWhole },
     data () {
       return {
+        activeButton: true,
         active: false,
-        followers: [
-        ],
+        followers: [],
         id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
         //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
         email:'',
@@ -101,7 +100,6 @@ import { follow } from '../../../api/follow';
                       this.followingCnt = res.length;
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
-                        // console.log(item);
                         this.followers.push(item);
                       }
                   },
@@ -117,17 +115,61 @@ import { follow } from '../../../api/follow';
     },
     methods:{
       ...mapActions(['GET_FOLLOWING_LIST']),
+      clickUnFollow(to) {
+        follow(
+          this.user.email,  //나
+          to, //상대
+          () => {
+            this.GET_FOLLOWING_LIST(this.user.email);
+            searchFollowings(
+                this.email,
+                (response)=>{
+                    this.followers=[];
+                    const res = response.data;
+                    this.followerCnt = res.length;
+                    for(let i=0;i<res.length;i++){
+                      const item = res[i];
+                      this.followers.push(item);
+                    }
+                },
+                (error)=>{
+                    console.log("follower에러"+error);
+                }
+            )
+          },
+          (error) => {
+            console.log(
+              'unfollow에러', error
+            );
+          }
+        );
+      },
       clickFollow(to) {
         follow(
           this.user.email,  //나
           to, //상대
           () => {
             this.GET_FOLLOWING_LIST(this.user.email);
-            console.log(this.user.email,"가",to,"언팔로우 완료");
+            searchFollowings(
+                this.email,
+                (response)=>{
+                    this.followers=[];
+                    const res = response.data;
+                    this.followerCnt = res.length;
+                    for(let i=0;i<res.length;i++){
+                      const item = res[i];
+                      this.followers.push(item);
+                    }
+                },
+                (error)=>{
+                    console.log("follower에러"+error);
+                }
+            )
+
           },
           (error) => {
             console.log(
-              'unfollow에러', error
+              'follow에러', error
             );
           }
         );
@@ -143,18 +185,28 @@ import { follow } from '../../../api/follow';
   }
 </script>
 <style scoped>
+/* @media screen and (max-width: 1000px) {
+  #mobileHidden {
+    display: none;
+  }
+} */
 .nickname{
   color:black;
+  /* background-color: aqua; */
   font-weight: bold;
 }
-.whole{
+/* .whole{
   text-align: center;
   color:dodgerblue;
   font-weight: bold;
   margin-top: 5%;
   margin-bottom: -15%;
-}
+} */
 .texts{
   color:dodgerblue;
+}
+.con-content{
+  min-height: 500px !important;
+  min-width: 500px !important;
 }
 </style>

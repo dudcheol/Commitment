@@ -13,6 +13,7 @@
               <div class="three">
                 <div class="profiles justify-center">
                   <div class="second">
+                    
                     <v-avatar size="100" v-if="imgSrc2!=null">
                       <img :src="imgSrc2" alt="John" />
                     </v-avatar>
@@ -25,11 +26,29 @@
                         >
                           <v-icon color="white">mdi-emoticon-happy</v-icon>
                     </v-avatar>
+
                     <h2 class="percentage">{{cnt2}}</h2>
                     <span class="nickname">{{nickname2}}</span>
-                    <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)" class="heartIcon">
-                      <i class="bx bxs-heart"></i>
-                    </vs-button>
+                    <div class="temp" v-if="isThere(email2)==true">
+                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email2)" class="heartIcon">
+                        <i class="bx bxs-heart"></i>
+                      </vs-button> 
+                    </div>
+                    <div class="temp" v-else>
+                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email2)" class="heartIcon">
+                        <i class="bx bxs-user-plus"></i>
+                      </vs-button>
+                    </div>
+<!--                     <div class="temp" v-if="isThere(tr.email)==true">
+                          <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
+                            <i class="bx bxs-heart"></i>
+                          </vs-button>
+                        </div>
+                        <div class="temp" v-else>
+                          <vs-button size="l" circle icon color="twitter" flat @click="clickFollow(tr.email)">
+                            <i class="bx bxs-user-plus"></i>
+                          </vs-button>
+                        </div> -->
                   </div>
                   <div class="first">
                     <v-avatar size="100" v-if="imgSrc2!=null">
@@ -46,9 +65,16 @@
                     </v-avatar>
                     <h2 class="percentage">{{cnt1}}</h2>
                     <span class="nickname">{{nickname1}}</span>
-                    <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)" class="heartIcon">
-                      <i class="bx bxs-heart"></i>
-                    </vs-button>
+                    <div class="temp" v-if="isThere(email1)==true">
+                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email1)" class="heartIcon">
+                        <i class="bx bxs-heart"></i>
+                      </vs-button> 
+                    </div>
+                    <div class="temp" v-else>
+                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email1)" class="heartIcon">
+                        <i class="bx bxs-user-plus"></i>
+                      </vs-button>
+                    </div>
                   </div>
                   <div class="third">
                     <v-avatar size="100" v-if="imgSrc2!=null">
@@ -65,9 +91,16 @@
                     </v-avatar>
                     <h2 class="percentage">{{cnt3}}</h2>
                     <span class="nickname">{{nickname3}}</span>
-                    <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)" class="heartIcon">
-                      <i class="bx bxs-heart"></i>
-                    </vs-button>
+                    <div class="temp" v-if="isThere(email3)==true">
+                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email3)" class="heartIcon">
+                        <i class="bx bxs-heart"></i>
+                      </vs-button> 
+                    </div>
+                    <div class="temp" v-else>
+                      <vs-button size="l" circle icon color="danger" flat @click="clickFollow(email3)" class="heartIcon">
+                        <i class="bx bxs-user-plus"></i>
+                      </vs-button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -112,11 +145,23 @@
                         <vs-td class="percentageSmall">
                         {{ tr.cnt }}
                         </vs-td>
-                        <vs-td class="temp">
+<!--                         <vs-td class="temp">
                           <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
                             <i class="bx bxs-heart"></i>
                           </vs-button>
+                        </vs-td> -->
+
+                        <vs-td class="temp" v-if="isThere(tr.email)==true">
+                          <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
+                            <i class="bx bxs-heart"></i>
+                          </vs-button>
                         </vs-td>
+                        <vs-td class="temp" v-else>
+                          <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                            <i class="bx bxs-user-plus"></i>
+                          </vs-button>
+                        </vs-td>
+
                       </vs-tr>
                     </template>
                   </vs-table>
@@ -137,7 +182,7 @@ import SelectZone from '../../components/index/rank/SelectZone';
 import SearchBar from '../../components/index/rank/SearchBar';
 import {areaList, totalList, userFindList} from '../../api/rank';
 import { mapActions, mapGetters } from 'vuex';
-import { follow } from '../../api/follow';
+import { follow, searchFollowers} from '../../api/follow';
 export default {
   name: 'Rank',
 
@@ -185,8 +230,41 @@ export default {
         }
       );
     },
+    clickUnFollow(to) {
+      follow(
+        this.user.email,  //나
+        to, //상대
+        () => {
+          this.GET_FOLLOWING_LIST(this.user.email);
+          console.log(this.user.email,"가",to,"팔로우 완료");
+
+          searchFollowers(
+              this.email,
+              (response)=>{
+                  this.followers=[];
+                  const res = response.data;
+                  this.followerCnt = res.length;
+                  for(let i=0;i<res.length;i++){
+                    const item = res[i];
+                    this.followers.push(item);
+                  }
+              },
+              (error)=>{
+                  console.log("follower에러"+error);
+              }
+          )
+          this.GET_FOLLOWING_LIST(this.user.email);
+          // location.reload();
+        },
+        (error) => {
+          console.log(
+            'follow에러', error
+          );
+        }
+      );
+    },
     checkFollowing(list) {
-      const compare = this.data.user.email;
+      const compare = this.user.email;
       for (let i = 0; i < list.length; i++) {
         if (list[i].email == compare) return false;
       }
@@ -224,6 +302,7 @@ export default {
           if(temp1.profile!=null){
             this.imgSrc1 = temp1.profile.filePath;
           }
+          this.email1 = temp1.email;
           this.cnt1 = temp1.cnt;
 
           const temp2 = res[1];
@@ -233,6 +312,7 @@ export default {
           if(temp2.profile!=null){
             this.imgSrc2 = temp2.profile.filePath;
           }
+          this.email2 = temp2.email;
           this.cnt2 = temp2.cnt;
 
           const temp3 = res[2];
@@ -242,8 +322,9 @@ export default {
           if(temp3.profile!=null){
             this.imgSrc3 = temp3.profile.filePath;
           }
+          this.email3 = temp3.email;
           this.cnt3 = temp3.cnt;
-          console.log("길이",res.length);
+          // console.log("길이",res.length);
           for(let i=3;i<res.length;i++){
             const item = res[i];
             this.users.push(item);
@@ -254,6 +335,16 @@ export default {
         }
       )
     },
+    isThere(para){
+      console.log(para+"가 "+this.user.email+"의 팔로잉리스트에 있나?");
+      for (let i = 0; i < this.following.length; i++) {
+        console.log(para+"=="+this.following[i].email);
+        if(this.following[i].email == para){
+          console.log("same");
+          return true;
+        }
+      }
+    }
   },
   created(){
     totalList(
@@ -264,6 +355,7 @@ export default {
         if(temp1.profile!=null){
           this.imgSrc1 = temp1.profile.filePath;
         }
+        this.email1 = temp1.email;
         this.cnt1 = temp1.cnt;
 
         const temp2 = res[1];
@@ -272,12 +364,14 @@ export default {
           this.imgSrc2 = temp2.profile.filePath;
         }
         this.cnt2 = temp2.cnt;
+        this.email2 = temp2.email;
 
         const temp3 = res[2];
         this.nickname3=temp3.nickname;
         if(temp3.profile!=null){
           this.imgSrc3 = temp3.profile.filePath;
         }
+        this.email3 = temp3.email;
         this.cnt3 = temp3.cnt;
 
         for(let i=3;i<res.length;i++){

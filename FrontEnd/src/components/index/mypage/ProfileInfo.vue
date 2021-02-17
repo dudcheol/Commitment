@@ -11,7 +11,7 @@
                         </h3>
                         </template>
                         <div class="con-content">
-                        <div>
+                        <div id="mobileHidden">
                             <input type="file" @change="fileSelected"/>
                             <img v-if="image" :src="image" width="300"/>
                         </div>
@@ -48,7 +48,7 @@
                     </v-card-subtitle>
                     
                         <div class="detail_left">
-                            <vs-button size="l" circle icon color="success" flat>
+                            <vs-button size="l" circle icon color="success" flat >
                                 <i class="bx bxs-check-square"></i>{{this.cnt}}
                             </vs-button>
                             <Follower/>
@@ -71,11 +71,9 @@
 
                     <v-expand-transition>
                     <div v-show="show">
-
                         <v-card-text>
-                        {{user.mystory}}
+                        {{this.mystory}}
                         </v-card-text>
-                        
                     </div>
                     </v-expand-transition>
                 </v-card>
@@ -116,6 +114,7 @@ export default {
         badge:'https://mpng.subpng.com/20171128/221/gold-seal-png-clip-art-image-5a1d1d47856124.0292548315118574795463.jpg',
         age:'',
         imgSrc:'',
+        mystory:'',
         //email로 /commit/total에서 가져온 커밋수
         cnt:0,
         image: '',
@@ -180,7 +179,8 @@ export default {
                 this.age = content.age;
                 this.imgSrc = content.profile.filePath;
                 this.badge = content.badge;
-                
+                this.mystory = content.mystory;
+                console.log(this.email,"의 마이스토리",this.mystory);
                 userCommitCount(
                     this.email,
                     (response)=>{
@@ -201,7 +201,11 @@ export default {
 
 
 <style scoped>
-
+@media screen and (max-width: 1000px) {
+  #mobileHidden {
+    display: none;
+  }
+}
 .profileImg{
     /* background-color:rgba(0,0,0,.7); */
     /* width:100%;

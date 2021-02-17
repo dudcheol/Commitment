@@ -4,18 +4,18 @@
       <vs-button size="l" circle icon color="danger" flat @click="active=!active">
           <i class="bx bxs-heart"></i>{{ this.followerCnt }}
       </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="500px" height="500px">
+      <vs-dialog blur scroll overflow-hidden not-close v-model="active">
         <template #header>
           <h3>
             팔로워
           </h3>
         </template>
         <div class="con-content">
-          <vs-table class="w-auto" width="300px" height="300px">
+          <vs-table>
             <template #tbody>
               <vs-tr
-                :key="i"
-                v-for="(tr, i) in followers"
+                :key="tr"
+                v-for="tr in followers"
                 :data="tr"
               >
                 <vs-td>
@@ -44,15 +44,20 @@
                 <vs-td class="percentageSmall">
                 {{ tr.mystory }}
                 </vs-td>
-                <vs-td class="temp">
-                  <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                <vs-td class="temp" v-if="isThere(tr.email)==true">
+                  <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
                     <i class="bx bxs-heart"></i>
+                  </vs-button>
+                </vs-td>
+                <vs-td class="temp" v-else>
+                  <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                    <i class="bx bxs-user-plus"></i>
                   </vs-button>
                 </vs-td>
               </vs-tr>
             </template>
           </vs-table>
-          <div class="whole">팔로워 모두 보기</div>
+<!--           <div class="whole">팔로워 모두 보기</div> -->
         </div>
       </vs-dialog>
     </div>
@@ -68,8 +73,7 @@ import { follow } from '../../../api/follow';
     data () {
       return {
         active: false,
-        followers: [
-        ],
+        followers: [],
         id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
         //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
         email:'',
@@ -83,11 +87,14 @@ import { follow } from '../../../api/follow';
         user:['getUserInfo'], 
         following: ['getFollowingList'],
         userId:['getSelectedUserId'],
-      })
+      }),
+      
     },
     watch: {
       following(val) {
+        //val(=리스트임)에 팔로우된거 있는지 확인하고 맞으면 hasFollowed에 TRUE저장
         this.hasFollowed = this.checkFollowing(val);
+        
       },
     },
     created(){
@@ -100,13 +107,14 @@ import { follow } from '../../../api/follow';
                 searchFollowers(
                   this.email,
                   (response)=>{
-                    
                       const res = response.data;
                       this.followerCnt = res.length;
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
                         this.followers.push(item);
+                        // this.isThere(item.email);
                       }
+                      
                   },
                   (error)=>{
                       console.log("follower에러"+error);
@@ -127,6 +135,26 @@ import { follow } from '../../../api/follow';
           () => {
             this.GET_FOLLOWING_LIST(this.user.email);
             console.log(this.user.email,"가",to,"팔로우 완료");
+
+            searchFollowers(
+                this.email,
+                (response)=>{
+                    this.followers=[];
+                    const res = response.data;
+                    this.followerCnt = res.length;
+                    for(let i=0;i<res.length;i++){
+                      const item = res[i];
+                      this.followers.push(item);
+                    }
+                },
+                (error)=>{
+                    console.log("follower에러"+error);
+                }
+            )
+            
+            // location.reload();
+            
+            // this.$router.go(0)
           },
           (error) => {
             console.log(
@@ -135,14 +163,57 @@ import { follow } from '../../../api/follow';
           }
         );
       },
-      checkFollowing(list) {
-        const compare = this.user.email;
-        console.log("eeee",compare, this.data.user.email);
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].email == compare) return false;
-        }
-        return true;
+      clickUnFollow(to) {
+        follow(
+          this.user.email,  //나
+          to, //상대
+          () => {
+            this.GET_FOLLOWING_LIST(this.user.email);
+            console.log(this.user.email,"가",to,"팔로우 완료");
+
+            searchFollowers(
+                this.email,
+                (response)=>{
+                    this.followers=[];
+                    const res = response.data;
+                    this.followerCnt = res.length;
+                    for(let i=0;i<res.length;i++){
+                      const item = res[i];
+                      this.followers.push(item);
+                    }
+                },
+                (error)=>{
+                    console.log("follower에러"+error);
+                }
+            )
+            this.GET_FOLLOWING_LIST(this.user.email);
+            // location.reload();
+          },
+          (error) => {
+            console.log(
+              'follow에러', error
+            );
+          }
+        );
       },
+          checkFollowing(list) {
+          const compare = this.user.email;
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].email == compare) return false;
+          }
+          return true;
+        },
+
+      isThere(para){
+        // console.log(para+"가 "+this.user.email+"의 팔로잉리스트에 있나?");
+        for (let i = 0; i < this.following.length; i++) {
+          // console.log(para+"=="+this.following[i].email);
+          if(this.following[i].email == para){
+            console.log("same");
+            return true;
+          }
+        }
+      }
     }
   }
 </script>
@@ -160,5 +231,9 @@ import { follow } from '../../../api/follow';
 }
 .texts{
   color:rgb(255, 30, 98);
+}
+.con-content{
+  min-height: 500px !important;
+  min-width: 500px !important;
 }
 </style>
