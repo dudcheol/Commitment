@@ -80,9 +80,9 @@ public class UserController {
 			Profile profile = new Profile();
 			profile.setEmail(request.getEmail());
 			profile.setFilePath(request.getImage());
-			
+
 		}
-		
+
 		userOpt = userDao.findUserByEmailAndPass(request.getEmail(), request.getPass());
 
 		if (userOpt.isPresent()) {
@@ -107,7 +107,7 @@ public class UserController {
 			return new ResponseEntity<>(resultMap, HttpStatus.OK);
 		}
 		resultMap.put("data", "fail");
-		
+
 		return new ResponseEntity<>(resultMap, HttpStatus.OK);
 	}
 
@@ -187,12 +187,13 @@ public class UserController {
 		hm.put("data", "success");
 		return hm;
 	}
+
 	@GetMapping("/account/emailCheck")
 	@ApiOperation(value = "이메일 중복체크")
 	public Map<String, String> emailCheck(@RequestParam(required = true) final String email) throws IOException {
 		Optional<User> user = userDao.findByEmail(email);
 		Map<String, String> hm = new HashMap<>();
-		
+
 		if (user.isPresent()) {
 			hm.put("data", "fail");
 			return hm;
@@ -310,19 +311,20 @@ public class UserController {
 	}
 
 	/// 닉네임으로 검색
-	@GetMapping("/search/nickname")
-	@ApiOperation(value = "닉네임으로 검색")
-	public Page<UserDto> searchByNickname(@RequestParam String keyword, final Pageable pageable) {
+	@GetMapping("/user/nickname")
+	@ApiOperation(value = "닉네임으로 유저정보 받아오기")
+	public Map<String, Object> searchByNickname(@RequestParam String nickname) {
+		HashMap<String, Object> hm = new HashMap<>();
 
-		Page<User> users=userDao.findByNicknameContainingIgnoreCase(keyword, pageable);
-		List<UserDto> usersdto=new ArrayList<UserDto>();
-		
-		for(User origin:users) {
-			UserDto user=new UserDto();
-			BeanUtils.copyProperties(origin, user);
-			usersdto.add(user);
-		}
-		return new PageImpl<UserDto>(usersdto, pageable, users.getTotalElements());
+		Optional<User> option = userDao.findUserByNickname(nickname);
+		UserDto userdto = new UserDto();
+		if (option.isPresent()) {
+			BeanUtils.copyProperties(option.get(), userdto);
+			hm.put("user", userdto);
+			hm.put("data", "success");
+		} else
+			hm.put("data", "fail");
+		return hm;
 	}
 
 	/// 이메일로 검색
