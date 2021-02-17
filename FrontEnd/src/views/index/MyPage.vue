@@ -96,9 +96,7 @@
       <div class="bottom2" id="mobileHidden">
         <Timeline />
       </div>
-      <div class="bottom3" id="mobileHidden">
-        <MyImagesPC />
-      </div>
+
     </v-main>
   </v-app>
 </template>
@@ -114,8 +112,8 @@ import MapGangwon from '../../components/common/map/MapGangwon';
 import MapUlsan from '../../components/common/map/MapUlsan';
 import MapGwangju from '../../components/common/map/MapGwangju';
 import Timeline from '../../components/index/mypage/Timeline';
-import MyImagesPC from '../../components/index/mypage/MyImagesPC';
 import MyImagesMobile from '../../components/index/mypage/MyImagesMobile';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MyPage',
@@ -131,7 +129,6 @@ export default {
     MapGwangju,
     Timeline,
     MyImagesMobile,
-    MyImagesPC,
   },
   data: () => ({
     benched: 100,
@@ -147,6 +144,9 @@ export default {
     picked: 1,
   }),
   computed: {
+    ...mapGetters({
+      user:['getUserInfo'], following: ['getFollowingList'], userId:['getSelectedUserId'],
+    }),
     items() {
       return Array.from({ length: this.length }, (k, v) => v + 1);
     },
@@ -168,6 +168,7 @@ export default {
       }
       return 700;
     },
+
   },
   created() {
     console.log('The params is: ' + this.$route.params);

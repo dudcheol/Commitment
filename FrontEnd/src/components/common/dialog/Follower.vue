@@ -1,37 +1,41 @@
 <template>
     <div class="center">
-      <vs-button
-      color="white"
-            border
-            :active="active == 2"
-            @click="active=!active"
-        >
-          <span class="texts">
-            <i class="bx bxs-heart"> 팔로워<span class="numbers"> {{this.followerCnt}}</span></i> 
-          </span>
-        </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="500px" height="500px">
+
+      <vs-button size="l" circle icon color="danger" flat @click="active=!active">
+          <i class="bx bxs-heart"></i>{{ this.followerCnt }}
+      </vs-button>
+      <vs-dialog blur scroll overflow-hidden not-close v-model="active" v-on:close="isClose">
         <template #header>
           <h3>
             팔로워
           </h3>
         </template>
         <div class="con-content">
-          <vs-table class="w-auto" width="300px" height="300px">
+          <vs-table>
             <template #tbody>
               <vs-tr
-                :key="i"
-                v-for="(tr, i) in followers"
+                :key="tr"
+                v-for="tr in followers"
                 :data="tr"
               >
                 <vs-td>
                   <v-avatar
                   size="50"  
+                  v-if="tr.profile!=null"
                   >
                     <img
                       :src="tr.profile.filePath"
                       alt="pic"
                     >
+                  </v-avatar>
+                  <v-avatar
+                    v-else
+                    circle
+                    size="50"
+                    color="blue-grey"
+                    class="font-weight-medium display-2"
+                  >
+                    <v-icon color="white">mdi-emoticon-happy</v-icon>
                   </v-avatar>
                 </vs-td>
                 <vs-td class="nickname">
@@ -40,49 +44,61 @@
                 <vs-td class="percentageSmall">
                 {{ tr.mystory }}
                 </vs-td>
-                <vs-td class="temp">
-                  <vs-button
-                    icon
-                    border
-                    :active="active == 2"
-                    @click="active = 2"
-                      class="temp2"
-                  >
-                    <i class='bx bxs-heart' ></i>
+                <vs-td class="temp" v-if="isThere(tr.email)==true">
+                  <vs-button size="l" circle icon color="danger"  flat @click="clickUnFollow(tr.email)" >
+                    <i class="bx bxs-heart"></i>
+                  </vs-button>
+                </vs-td>
+                <vs-td class="temp" v-else>
+                  <vs-button size="l" circle icon color="danger" flat @click="clickFollow(tr.email)">
+                    <i class="bx bxs-user-plus"></i>
                   </vs-button>
                 </vs-td>
               </vs-tr>
             </template>
           </vs-table>
-          <div class="whole">팔로워 모두 보기</div>
+<!--           <div class="whole">팔로워 모두 보기</div> -->
         </div>
       </vs-dialog>
     </div>
 </template>
 <script scoped>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import {searchFollowers} from '../../../api/follow'
 import {searchUserByNickname} from '../../../api/account'
+import { follow } from '../../../api/follow';
 // import FollowListsWhole from '../../index/mypage/FollowLists';
   export default {
     // components: { FollowListsWhole },
     data () {
       return {
         active: false,
-        followers: [
-        ],
-        id:'jimotme',//this.$route.params.id로 받은 현재 유저의 닉네임
+        followers: [],
+        id:'dudcheol',//this.$route.params.id로 받은 현재 유저의 닉네임
         //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
         email:'',
         followerCnt:0,
+        //팔로우 기능
+        hasFollowed: true,
       }
     },
     computed:{
       ...mapGetters({
-        user:['getUserInfo'],
-      })
+        user:['getUserInfo'], 
+        following: ['getFollowingList'],
+        userId:['getSelectedUserId'],
+      }),
+      
+    },
+    watch: {
+      following(val) {
+        //val(=리스트임)에 팔로우된거 있는지 확인하고 맞으면 hasFollowed에 TRUE저장
+        this.hasFollowed = this.checkFollowing(val);
+        
+      },
     },
     created(){
+      // this.hasFollowed = this.checkFollowing(this.following); 
         searchUserByNickname(
             {keyword : this.id},
             (response)=>{
@@ -92,16 +108,13 @@ import {searchUserByNickname} from '../../../api/account'
                   this.email,
                   (response)=>{
                       const res = response.data;
-                      // console.log("--------");
-                      // console.log("email",this.email);
-                      // console.log("res",res);
-                      // console.log("--------");
                       this.followerCnt = res.length;
                       for(let i=0;i<res.length;i++){
                         const item = res[i];
-                        // console.log(item);
                         this.followers.push(item);
+                        // this.isThere(item.email);
                       }
+                      
                   },
                   (error)=>{
                       console.log("follower에러"+error);
@@ -113,6 +126,98 @@ import {searchUserByNickname} from '../../../api/account'
             }
         )
     },
+    methods:{
+      ...mapActions(['GET_FOLLOWING_LIST']),
+      clickFollow(to) {
+        follow(
+          this.user.email,  //나
+          to, //상대
+          () => {
+            this.GET_FOLLOWING_LIST(this.user.email);
+            console.log(this.user.email,"가",to,"팔로우 완료");
+
+            searchFollowers(
+                this.email,
+                (response)=>{
+                    this.followers=[];
+                    const res = response.data;
+                    this.followerCnt = res.length;
+                    for(let i=0;i<res.length;i++){
+                      const item = res[i];
+                      this.followers.push(item);
+                    }
+                },
+                (error)=>{
+                    console.log("follower에러"+error);
+                }
+            )
+            
+            // location.reload();
+            
+            // this.$router.go(0)
+          },
+          (error) => {
+            console.log(
+              'follow에러', error
+            );
+          }
+        );
+      },
+      clickUnFollow(to) {
+        follow(
+          this.user.email,  //나
+          to, //상대
+          () => {
+            this.GET_FOLLOWING_LIST(this.user.email);
+            console.log(this.user.email,"가",to,"팔로우 완료");
+
+            searchFollowers(
+                this.email,
+                (response)=>{
+                    this.followers=[];
+                    const res = response.data;
+                    this.followerCnt = res.length;
+                    for(let i=0;i<res.length;i++){
+                      const item = res[i];
+                      this.followers.push(item);
+                    }
+                },
+                (error)=>{
+                    console.log("follower에러"+error);
+                }
+            )
+            this.GET_FOLLOWING_LIST(this.user.email);
+            // location.reload();
+          },
+          (error) => {
+            console.log(
+              'follow에러', error
+            );
+          }
+        );
+      },
+          checkFollowing(list) {
+          const compare = this.user.email;
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].email == compare) return false;
+          }
+          return true;
+        },
+
+      isThere(para){
+        // console.log(para+"가 "+this.user.email+"의 팔로잉리스트에 있나?");
+        for (let i = 0; i < this.following.length; i++) {
+          // console.log(para+"=="+this.following[i].email);
+          if(this.following[i].email == para){
+            return true;
+          }
+        }
+      },
+      isClose(){
+        console.log("닫기");
+        location.reload();
+      }
+    }
   }
 </script>
 <style scoped>
@@ -129,5 +234,9 @@ import {searchUserByNickname} from '../../../api/account'
 }
 .texts{
   color:rgb(255, 30, 98);
+}
+.con-content{
+  min-height: 500px !important;
+  min-width: 500px !important;
 }
 </style>

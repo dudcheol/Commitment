@@ -169,6 +169,7 @@ export default {
       user: ['getUserInfo'],
       commitId: ['getCommitId'],
       address: ['getCommitAddress'],
+      userId:['getSelectedUserId'],
     }),
   },
   methods: {

@@ -6,7 +6,7 @@
           <div class="img-wrapper slower ">
             <a target="_blank" rel="noopener">
             <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
-            <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
+            <p class="dateFontStyle">{{item.commit.createdAt}}</p><v-spacer></v-spacer> <p class="areaFontStyle">{{item.commit.address}}</p>
             </a>
           </div>
         </div>
@@ -14,7 +14,7 @@
           <div class="img-wrapper faster slower-down">
             <a target="_blank" rel="noopener">
             <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
-            <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
+            <p class="dateFontStyle">{{item.commit.createdAt}}</p><v-spacer></v-spacer> <p class="areaFontStyle">{{item.commit.address}}</p>
             </a>
           </div>
         </div>
@@ -22,7 +22,7 @@
           <div class="img-wrapper faster">
             <a target="_blank" rel="noopener">  
             <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
-            <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
+            <p class="dateFontStyle">{{item.commit.createdAt}}</p><v-spacer></v-spacer> <p class="areaFontStyle">{{item.commit.address}}</p>
             </a>
           </div>
         </div>
@@ -30,7 +30,7 @@
           <div class="img-wrapper slower-down">
             <a target="_blank" rel="noopener">
             <img :src="item.image[0].filePath" alt="" class="pola" @click=moveToDetail(item.id)>
-            <p>{{item.commit.createdAt}}<v-spacer></v-spacer> {{item.commit.address}} {{index}}</p>
+            <p class="dateFontStyle">{{item.commit.createdAt}}</p><v-spacer></v-spacer> <p class="areaFontStyle">{{item.commit.address}}</p>
             </a>
           </div>
         </div>
@@ -44,6 +44,7 @@
 <script>
 import {searchUserByNickname} from '../../../api/account'
 import {timelineInfo} from '../../../api/timeline'
+import { mapGetters } from 'vuex';
 export default {
   props: ['nickname', 'intro', 'img'],
   data(){
@@ -89,9 +90,15 @@ export default {
     methods:{
       moveToDetail(data){
         console.log("이동할 게시글 id ",data);
-        this.$router.push({ name: 'Detail', params: { id: this.data.id } });
+        this.$router.push({ name: 'Detail', params: { id: data } });
       }
-    }
+    },
+    computed:{
+      ...mapGetters({
+          user:['getUserInfo'],
+          userId:['getSelectedUserId'],
+      }),
+    },
 };
 </script>
 
@@ -224,5 +231,26 @@ p {
 .icon svg {
     width: 50px;
     fill: currentcolor;
+}
+
+.dateFontStyle{
+  font-family: 'LAB디지털';
+  font-size:20px;
+}
+.areaFontStyle{
+  font-family: 'Cafe24Shiningstar';
+  font-size: 30px;
+}
+@font-face {
+    font-family: 'LAB디지털';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/LAB디지털.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Cafe24Shiningstar';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Shiningstar.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 </style>
