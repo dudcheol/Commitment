@@ -16,7 +16,7 @@
         hide-details
       ></v-text-field>
     </template>
-    <template v-if="!users || users.length == 0">
+    <template v-if="!users || users.length == 0||searchValue.length==0">
       <SearchNoDataCard :icon="'magnify'" :text="'검색 결과가 없습니다'">
       </SearchNoDataCard>
     </template>
