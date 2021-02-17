@@ -17,7 +17,7 @@
             </h3>
           </template>
           <div class="con-content">
-            <div id="mobileHidden" >
+            <div id="mobileHidden">
               <input type="file" @change="fileSelected" />
               <img v-if="image" :src="image" width="300" />
             </div>
@@ -29,22 +29,10 @@
             </div>
           </div>
         </vs-dialog>
-
-        
-        <div class="profileImg " v-if="imgSrc!=null">
+        <div class="profileImg ">
           <v-list-item-avatar size="150">
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
-        </div>
-        <div class="profileImg " v-else>
-          <v-avatar
-              circle
-              size="150"
-              color="blue-grey"
-              class="font-weight-medium display-2"
-            >
-              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
-            </v-avatar>
         </div>
       </div>
       <v-card class="mx-auto" flat :width="width">
@@ -84,8 +72,7 @@
         </v-expand-transition>
       </v-card>
       <div>
-<<<<<<< Updated upstream
-        <div class="badge" v-if="badge!=null">
+        <div class="badge" v-if="badge != null">
           <v-list-item-avatar size="70">
             <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
           </v-list-item-avatar>
@@ -95,18 +82,6 @@
             <img :src="require(`@/assets/img/badge/badge0.png`)" alt="" />
           </v-list-item-avatar>
         </div>
-=======
-         <div class="badge" v-if="badge!=null">
-      <v-list-item-avatar size="70">
-        <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
-      </v-list-item-avatar>
-    </div>
-    <div class="badge" v-else>
-      <v-list-item-avatar size="70">
-        <img :src="require(`@/assets/img/badge/badge0.png`)" alt="" />
-      </v-list-item-avatar>
-    </div>
->>>>>>> Stashed changes
       </div>
     </div>
   </div>
@@ -128,15 +103,6 @@ export default {
   data: () => ({
     active: false,
     show: false,
-<<<<<<< Updated upstream
-    //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
-    email: '',
-    gender: '',
-    badge: '',
-    age: '',
-    imgSrc: '',
-    mystory: '',
-=======
     id: "dudcheol", //this.$route.params.id로 받은 현재 유저의 닉네임
     //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
     email: "",
@@ -145,7 +111,6 @@ export default {
     age: "",
     imgSrc: "",
     mystory: "",
->>>>>>> Stashed changes
     //email로 /commit/total에서 가져온 커밋수
     cnt: 0,
     image: "",
@@ -209,23 +174,14 @@ export default {
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
-        
         const content = response.data.content[0];
-        console.log(this.userId+"로 받아온 이메일"+content.email);
         this.email = content.email;
         this.gender = content.gender;
         this.age = content.age;
-        if(content.profile!=null){
-          this.imgSrc = content.profile.filePath;
-        }else{
-          this.imgSrc = null;
-        }
+        this.imgSrc = content.profile.filePath;
         this.badge = content.badge;
         this.mystory = content.mystory;
-<<<<<<< Updated upstream
-=======
         console.log(this.email, "의 마이스토리", this.mystory);
->>>>>>> Stashed changes
         userCommitCount(
           this.email,
           (response) => {
