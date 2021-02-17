@@ -94,8 +94,8 @@ export default {
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
-        const content = response.data.content[0];
-        this.email = content.email;
+        const content = response.data;
+        this.email = content.content[0].email;
         searchFollowers(
           this.email,
           (response) => {

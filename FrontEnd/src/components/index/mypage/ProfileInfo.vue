@@ -17,7 +17,8 @@
             </h3>
           </template>
           <div class="con-content">
-            <div id="mobileHidden">
+            <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
+            <div id="mobileHidden" >
               <input type="file" @change="fileSelected" />
               <img v-if="image" :src="image" width="300" />
             </div>
@@ -34,10 +35,21 @@
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
         </div>
+        <div class="profileImg " v-else>
+          <v-avatar
+              circle
+              size="150"
+              color="blue-grey"
+              class="font-weight-medium display-2"
+              @click="showModal()"
+            >
+              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
+            </v-avatar>
+        </div>
       </div>
       <v-card class="mx-auto" flat :width="width">
         <v-card-title>
-          {{ this.age }} |
+          {{ this.age }}ㅤ|ㅤ
           <span v-if="this.gender == 'm'">남성</span>
           <span v-else-if="this.gender == 'w'">여성</span>
         </v-card-title>
@@ -147,7 +159,7 @@ export default {
     },
     fileSelected(evt) {
       this.file = evt.target.files.item(0);
-      console.log(typeof this.file);
+      // console.log("파일"+this.file);
       const reader = new FileReader();
       reader.addEventListener("load", this.imageLoaded);
       reader.readAsDataURL(this.file);
@@ -156,32 +168,40 @@ export default {
       this.image = evt.target.result;
     },
     upload() {
+      // console.log(this.file+"이랑"+this.email);
       const form = new FormData();
       form.append("file", this.file);
       form.append("email", this.email);
       editProfileImg(
         form,
         (response) => {
-          console.log("성공" + response);
+          console.log('성공' + response);
+          this.active = false;
         },
         (error) => {
           console.log("에러" + error);
         }
       );
+      
     },
   },
   created() {
+    //  console.log("현재 로그인 "+this.userId);
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
-        const content = response.data.content[0];
-        this.email = content.email;
-        this.gender = content.gender;
-        this.age = content.age;
-        this.imgSrc = content.profile.filePath;
-        this.badge = content.badge;
-        this.mystory = content.mystory;
-        console.log(this.email, "의 마이스토리", this.mystory);
+        const content = response.data;
+        this.email = content.content[0].email;
+        this.gender = content.content[0].gender;
+        this.age = content.content[0].age;
+        if(content.content[0].profile!=null){
+          console.log("사진경로"+content.content[0].profile.filePath);
+          this.imgSrc = content.content[0].profile.filePath;
+        }else{
+          this.imgSrc = null;
+        }
+        this.badge = content.content[0].badge;
+        this.mystory = content.content[0].mystory;
         userCommitCount(
           this.email,
           (response) => {
@@ -193,7 +213,7 @@ export default {
         );
       },
       (error) => {
-        console.log("img에러" + error);
+        console.log('profileinfo-img에러' + error);
       }
     );
   },
