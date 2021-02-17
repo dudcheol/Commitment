@@ -11,7 +11,7 @@
       </template>
       <div class="con-content">
         <!-- <vs-table class="w-auto"> -->
-        <vs-table>
+        <vs-table >
           <template #tbody>
             <vs-tr :key="tr" v-for="tr in followers" :data="tr">
               <vs-td>
