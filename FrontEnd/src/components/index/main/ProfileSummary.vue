@@ -1,13 +1,13 @@
 <template>
   <div class="d-flex justify-center">
-    <vs-card @click="goToMyPage">
+    <vs-card @click="goToMyPage" style="max-width:260px">
       <template #title>
         <div>
           <component
-            :is="mapType"
-            :size="5"
-            :borderRadius="5"
-            :spacing="1"
+            :is="user.region_name"
+            :size="custom.size"
+            :borderRadius="custom.borderRadius"
+            :spacing="custom.spacing"
             :datas="datas"
           ></component>
         </div>
@@ -38,6 +38,15 @@
 import { mapGetters } from 'vuex';
 import { userCommitMap } from '../../../api/commit';
 export default {
+  components: {
+    national: () => import('../../../components/common/map/MapNational'),
+    busan: () => import('../../../components/common/map/MapBusan'),
+    gangwon: () => import('../../../components/common/map/MapGangwon'),
+    gwangju: () => import('../../../components/common/map/MapGwangju'),
+    gyeonggi: () => import('../../../components/common/map/MapGyeonggi'),
+    seoul: () => import('../../../components/common/map/MapSeoul'),
+    ulsan: () => import('../../../components/common/map/MapUlsan'),
+  },
   data: () => ({
     commitCnt: 12,
     badgeCnt: 7,
@@ -45,47 +54,70 @@ export default {
     mapType: null,
     datas: [],
   }),
+  computed: {
+    ...mapGetters({ user: ['getUserInfo'] }),
+    custom() {
+      switch (this.user.region_name) {
+        case 'national':
+          return { size: 5, borderRadius: 5, spacing: 1 };
+        case 'seoul':
+          return { size: 4, borderRadius: 1, spacing: 1 };
+        case 'busan':
+          return { size: 4, borderRadius: 1, spacing: 0.5 };
+        case 'gyeonggi':
+          return { size: 4, borderRadius: 1, spacing: 0.5 };
+        case 'gangwon':
+          return { size: 3, borderRadius: 0, spacing: 0.5 };
+        case 'ulsan':
+          return { size: 4, borderRadius: 1, spacing: 0.5 };
+        case 'gwangju':
+          return { size: 4, borderRadius: 1, spacing: 1 };
+        default:
+          return { size: 3, borderRadius: 0, spacing: 0.5 };
+      }
+    },
+  },
+  watch: {
+    user() {
+      this.datas = [];
+      userCommitMap(
+        this.user.email,
+        (response) => {
+          console.log('%cProfileSummary.vue line:75 response', 'color: #007acc;', response);
+          this.datas.push(...response.data.commitXY);
+        },
+        (error) => {
+          console.log(
+            '%cerror ProfileSummary.vue line:68 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
+  },
   methods: {
     goToMyPage() {
       this.$store.commit('SELECTED_USER_ID', this.user.nickname);
       this.$router.push({ name: 'MyPage' });
     },
   },
-  computed: {
-    ...mapGetters({ user: ['getUserInfo'] }),
-    loader() {
-      if (!this.user.region_name) {
-        return null;
-      }
-      return () =>
-        import(
-          `../../../components/common/map/Map${this.user.region_name.replace(/\b[a-z]/, (letter) =>
-            letter.toUpperCase()
-          )}`
-        );
-    },
-  },
   mounted() {
-    this.loader()
-      .then(() => {
-        this.mapType = () => this.loader();
-        userCommitMap(
-          this.user.email,
-          (response) => {
-            this.datas.push(...response.data.commitXY);
-          },
-          (error) => {
-            console.log(
-              '%cerror ProfileSummary.vue line:68 ',
-              'color: red; display: block; width: 100%;',
-              error
-            );
-          }
+    console.log('%cProfileSummary.vue line:78 mounted', 'color: #007acc;', this.user.region_name);
+    userCommitMap(
+      this.user.email,
+      (response) => {
+        console.log('%cProfileSummary.vue line:75 response', 'color: #007acc;', response);
+        this.datas.push(...response.data.commitXY);
+      },
+      (error) => {
+        console.log(
+          '%cerror ProfileSummary.vue line:68 ',
+          'color: red; display: block; width: 100%;',
+          error
         );
-      })
-      .catch(() => {
-        console.log('%cProfileSummary.vue line:61 지도를 불러오는데 실패함', 'color: #007acc;');
-      });
+      }
+    );
   },
 };
 </script>

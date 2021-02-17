@@ -36,6 +36,7 @@ export default {
     await findByToken(
       token,
       (response) => {
+        console.log('%cactions.js line:39 response', 'color: #007acc;', response);
         let user = response.data.user;
         user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;
@@ -224,5 +225,8 @@ export default {
         );
       }
     );
+  },
+  UPDATE_USERINFO(store, payload) {
+    store.commit('UPDATE_USERINFO', payload);
   },
 };

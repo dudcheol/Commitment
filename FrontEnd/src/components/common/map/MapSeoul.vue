@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-6">
+  <div>
     <div class="line" v-for="(line, i) in MAP" :key="i">
       <div
         v-for="(cell, j) in line"

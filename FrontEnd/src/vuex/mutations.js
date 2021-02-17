@@ -74,4 +74,7 @@ export default {
   SELECTED_USER_ID(state, payload) {
     state.selectedUserId = payload;
   },
+  UPDATE_USERINFO(state, payload) {
+    state.userInfo = payload;
+  },
 };

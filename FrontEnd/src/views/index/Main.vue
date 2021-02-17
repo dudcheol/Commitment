@@ -3,7 +3,7 @@
     <v-col class="mt-4" :class="dynamicPosition" cols="12" md="3" lg="3" xl="2">
       <v-row>
         <v-col>
-          <ProfileSummary />
+          <ProfileSummary :key="3" />
         </v-col>
       </v-row>
       <v-row>

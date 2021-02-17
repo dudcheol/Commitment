@@ -22,6 +22,7 @@
             </v-btn>
           </v-btn-toggle>
           <v-btn
+            v-if="this.user.nickname == this.userId"
             outlined
             rounded
             small
@@ -128,7 +129,7 @@ import MapGwangju from '../../common/map/MapGwangju';
 import CommitListItem from '../../common/card/CommitListItem';
 import NoDataCard from '../../common/card/NoDataCard.vue';
 import { getCommitMap, getMapCoordCommits } from '../../../api/commit';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { getUserInfoByNickname, setMyCommitMap } from '../../../api/account';
 import Dialog from '../../common/dialog/Dialog.vue';
 export default {
@@ -178,6 +179,7 @@ export default {
     ...mapGetters({ user: ['getUserInfo'], userId: ['getSelectedUserId'] }),
   },
   methods: {
+    ...mapActions(['GET_MEMBER_INFO', 'UPDATE_USERINFO']),
     mapClick(val) {
       getMapCoordCommits(
         this.userId,
@@ -241,11 +243,23 @@ export default {
         (response) => {
           if (response.data === 'success') {
             this.openNotification(4000);
+            getUserInfoByNickname(
+              this.user.nickname,
+              (response) => {
+                this.UPDATE_USERINFO(response.data.user);
+              },
+              (error) => {
+                console.log(
+                  '%cerror MapList.vue line:222 ',
+                  'color: red; display: block; width: 100%;',
+                  error
+                );
+              }
+            );
           }
         },
         () => {}
       );
-      // this.user.email,
     },
     openNotification(duration) {
       this.$vs.notification({
