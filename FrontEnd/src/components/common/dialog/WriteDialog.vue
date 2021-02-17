@@ -94,7 +94,7 @@
           v-model="tags"
           chips
           clearable
-          label="이곳에 태그를 입력하세요"
+          label="이곳에 태그를 입력하고 엔터를 누르세요"
           multiple
           solo
           flat
@@ -169,7 +169,7 @@ export default {
       user: ['getUserInfo'],
       commitId: ['getCommitId'],
       address: ['getCommitAddress'],
-      userId:['getSelectedUserId'],
+      userId: ['getSelectedUserId'],
     }),
   },
   methods: {
