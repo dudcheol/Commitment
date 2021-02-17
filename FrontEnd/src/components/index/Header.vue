@@ -49,7 +49,9 @@
           <v-icon color="white">mdi-emoticon-happy</v-icon>
         </v-avatar>
       </v-btn>
-
+      <v-btn icon @click="alert = true">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
       <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
         <template v-slot:badge>
           {{ noti.length }}
@@ -191,28 +193,27 @@
         </v-menu>
       </v-badge>
 
-      <v-btn fab elevation="0" small :ripple="false" color="primary" class="mr-3" @click="LOGOUT">
+      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+        <v-icon>{{ right_items[2].icon }}</v-icon>
+      </v-btn>
+
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+        @click="LOGOUT"
+      >
         <v-icon>{{ right_items[3].icon }}</v-icon>
       </v-btn>
+      <v-btn icon @click="alert = true">
+        <v-icon color="#1976d2">mdi-magnify</v-icon>
+      </v-btn>
     </v-speed-dial>
-
-    <!-- <div class="search-box">
-      <div>
-        <input type="text" name="" class="search-txt" placeholder="Search" />
-        <a class="search-btn" href="#">
-          <v-icon color="white">mdi-magnify</v-icon>
-        </a>
-      </div>
-      <div class="result-box">
-        <div class="result-list">
-          <li>hello</li>
-          <li>it's me</li>
-          <li>I've</li>
-          <li>been</li>
-          <li>wandering</li>
-        </div>
-      </div>
-    </div> -->
+    <SearchDailog :alert="alert" @close="alert = false"></SearchDailog>
   </v-app-bar>
 </template>
 
@@ -221,11 +222,19 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import { mapActions, mapGetters } from 'vuex';
 import { clickNoti } from '../../api/noti';
+import { searchNickname } from '../../api/search';
+import SearchDailog from '../../components/common/dialog/SearchDialog.vue';
+
 export default {
+  components: { SearchDailog },
   data() {
     return {
       tab: '/',
       fab: false,
+      word: '',
+      users: '',
+      searchvalue: '',
+      alert: false,
       items: [
         { icon: 'mdi-home', route: '/' },
         { icon: 'mdi-map-marker', route: '/sns' },
@@ -245,7 +254,11 @@ export default {
           content: '님이 회원님을 팔로우하셨습니다',
           color: 'primary',
         },
-        like: { icon: 'mdi-heart', content: '님이 게시글에 좋아요를 남겼습니다', color: 'error' },
+        like: {
+          icon: 'mdi-heart',
+          content: '님이 게시글에 좋아요를 남겼습니다',
+          color: 'error',
+        },
         comment: {
           icon: 'mdi-comment',
           content: '님이 게시글에 댓글을 남겼습니다',
@@ -338,6 +351,22 @@ export default {
     goToMain() {
       console.log('%cHeader.vue line:32', 'color: #007acc;');
       this.$router.replace({ name: 'Main' });
+    },
+    search() {
+      this.word = '';
+      console.log(this.searchvalue);
+
+      searchNickname(
+        this.searchvalue,
+        (response) => {
+          console.log(response.data.content);
+          this.users = response.data.content;
+          this.alert = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
   created() {

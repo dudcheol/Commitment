@@ -4,7 +4,8 @@
     class="pa-5 mx-auto d-flex align-center justify-center"
     rounded="xl"
     color="rgb(224,229,231)"
-    style="max-width:680px"
+    height="400"
+    style="max-width:680px;"
   >
     <div class="font-weight-medium d-flex flex-column">
       <v-icon large class="blue-grey--text text--lighten-3">mdi-{{ icon }}</v-icon>
@@ -19,4 +20,9 @@ export default {
 };
 </script>
 
-<style lang="" scoped></style>
+<style  scoped>
+.font-weight-medium{
+  margin:30%;
+}
+
+</style>
