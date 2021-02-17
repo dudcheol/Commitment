@@ -17,8 +17,8 @@
       ></v-text-field>
     </template>
     <template v-if="!users || users.length == 0">
-      <NoDataCard :icon="'magnify'" :text="'검색 결과가 없습니다'">
-      </NoDataCard>
+      <SearchNoDataCard :icon="'magnify'" :text="'검색 결과가 없습니다'">
+      </SearchNoDataCard>
     </template>
     <template v-else>
       <v-card
@@ -54,13 +54,12 @@
 <script>
 import SearchCard from "../card/SearchCard.vue";
 import { searchNickname } from "../../../api/search";
-import NoDataCard from "../../../components/common/card/NoDataCard.vue";
+import SearchNoDataCard from "../../../components/common/card/SearchNoDataCard.vue";
 export default {
-  components: { SearchCard, NoDataCard },
-  props: ["alert"],
+  components: { SearchCard, SearchNoDataCard },
+  props: ["alert","searchValue"],
   data() {
     return {
-      searchValue: "",
       users: "",
     };
   },
@@ -82,17 +81,17 @@ export default {
     },
     mypage(nick) {
       this.close();
-      this.$store.commit('SELECTED_USER_ID', nick);
-      this.$router.push({ name: 'MyPage' });
+      this.$store.commit("SELECTED_USER_ID", nick);
+      this.$router.push({ name: "MyPage" });
     },
   },
   watch: {
     searchValue() {
       if (this.searchValue.trim().length == 0) {
         this.searchValue = "";
-        this.users="";
-      }else{
-            this.search();
+        this.users = "";
+      } else {
+        this.search();
       }
     },
   },

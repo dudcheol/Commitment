@@ -201,7 +201,7 @@
         <v-icon>{{ right_items[3].icon }}</v-icon>
       </v-btn>
     </v-speed-dial>
-    <SearchDailog :alert="alert" @close="alert = false"></SearchDailog>
+    <SearchDailog :alert="alert" :searchValue="''" @close="alert = false"></SearchDailog>
   </v-app-bar>
 </template>
 
@@ -221,7 +221,6 @@ export default {
       fab: false,
       word: '',
       users: '',
-      searchvalue: '',
       alert: false,
       items: [
         { icon: 'mdi-home', route: '/' },
