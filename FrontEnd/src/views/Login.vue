@@ -4,24 +4,18 @@
       <Logo id="logo"></Logo>
 
       <div id="videoBd">
-        <video
-          id="videoBG"
-          poster="../assets/img/login/poster.jpg"
-          autoplay
-          muted
-          loop
-        >
-          <source
-            src="../assets/img/login/nightviewseoul.mp4"
-            type="video/mp4"
-          />
+        <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
+          <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
     <div class="login_form">
-      <vs-card>
+      <vs-card type="3">
         <template #title>
-          <h4 class="not-margin">Welcome to Commitment</h4>
+          <div class="d-flex flex-column justify-center align-center pt-2">
+            <span class="text-caption">Commit Your Moment</span>
+            <sapn class="text-h2 font-weight-black">Commitment</sapn>
+          </div>
         </template>
 
         <template #text>
@@ -34,11 +28,7 @@
               </vs-input>
             </div>
             <div class="password_input mb-5">
-              <vs-input
-                type="password"
-                v-model="pass"
-                placeholder="영문, 숫자 혼용 8글자이상"
-              >
+              <vs-input type="password" v-model="pass" placeholder="영문, 숫자 혼용 8글자이상">
                 <template #icon>
                   <i class="bx bxs-lock"></i>
                 </template>
@@ -50,12 +40,9 @@
                 :params="params"
                 :onSuccess="GoogleLoginSuccess"
                 :renderParams="renderParams"
+                style="border-radius:30px"
               ></GoogleLogin>
             </div>
-            <!-- <div>
-            <button v-google-signin-button="clientId" class="google-signin-button"> Continue with Google</button>
-          </div> -->
-            <!-- :onFailure="GoogleLoginFailure" -->
           </div>
 
           <div class="footer-dialog">
@@ -63,9 +50,7 @@
               Login
             </vs-button>
 
-            <div class="new">
-              아직 처음이신가요? <a @click="signuplink">회원가입</a>
-            </div>
+            <div class="new">아직 처음이신가요? <a @click="signuplink">회원가입</a></div>
           </div>
         </template>
       </vs-card>
@@ -80,11 +65,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import DialogVue from "../components/common/dialog/Dialog.vue";
-import Logo from "../components/login/Logo.vue";
-import GoogleLogin from "vue-google-login";
-import GoogleSignInButton from "vue-google-signin-button-directive";
+import { mapActions, mapGetters } from 'vuex';
+import DialogVue from '../components/common/dialog/Dialog.vue';
+import Logo from '../components/login/Logo.vue';
+import GoogleLogin from 'vue-google-login';
+import GoogleSignInButton from 'vue-google-signin-button-directive';
 
 export default {
   directives: {
@@ -96,7 +81,7 @@ export default {
     GoogleLogin,
   },
   computed: {
-    ...mapGetters({ user: ["getUserInfo"] }),
+    ...mapGetters({ user: ['getUserInfo'] }),
   },
   data: () => ({
     window: {
@@ -104,34 +89,32 @@ export default {
       height: 0,
     },
     active: true,
-    email: "",
-    pass: "",
+    email: '',
+    pass: '',
     remember: false,
     alert: false,
-    title: "오류",
-    content: "로그인에 실패했습니다",
+    title: '오류',
+    content: '로그인에 실패했습니다',
     loading: false,
     params: {
-      cliend_id:
-        "265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com",
+      cliend_id: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com',
     },
     renderParams: {
       width: 240,
       height: 40,
       longtitle: true,
     },
-    clientId:
-      "265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com",
+    clientId: '265137181932-gh7omk39se04nearqok9pdinleer99ur.apps.googleusercontent.com',
   }),
   created() {
-    window.addEventListener("resize", this.handleResize);
+    window.addEventListener('resize', this.handleResize);
     this.handleResize();
   },
   destroyed() {
-    window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
-    ...mapActions(["LOGIN", "GOOGLE_LOGIN"]),
+    ...mapActions(['LOGIN', 'GOOGLE_LOGIN']),
     async confirm() {
       this.loading = true;
 
@@ -140,25 +123,25 @@ export default {
         pass: this.pass,
       });
       this.loading = false;
-      if (result.data != "success") {
-        this.title = "오류";
-        this.content = "로그인에 실패했습니다";
+      if (result.data != 'success') {
+        this.title = '오류';
+        this.content = '로그인에 실패했습니다';
         this.alert = true;
       } else {
         if (result.auth != 1) {
-          this.title = "알림";
-          this.content = "이메일 인증을 먼저 진행해주세요";
+          this.title = '알림';
+          this.content = '이메일 인증을 먼저 진행해주세요';
           this.alert = true;
         } else {
-          this.$router.push({ name: "Main" });
+          this.$router.push({ name: 'Main' });
         }
       }
-      this.email="";
-      this.pass="";
+      this.email = '';
+      this.pass = '';
     },
 
     signuplink() {
-      this.$router.push({ name: "Signup" });
+      this.$router.push({ name: 'Signup' });
     },
 
     handleResize() {
@@ -169,7 +152,7 @@ export default {
     async GoogleLoginSuccess(googleUser) {
       this.loading = true;
       const profile = googleUser.getBasicProfile();
-      console.log("google login start");
+      console.log('google login start');
       const result = await this.GOOGLE_LOGIN({
         email: googleUser.getBasicProfile().getEmail(),
         pass: null,
@@ -177,33 +160,18 @@ export default {
         token: googleUser.getAuthResponse().id_token,
         name: profile.getName(),
       });
-      // console.log(googleUser)
-      // console.log(googleUser.getBasicProfile())
-      // // nickname tel age gender
-      // console.log('ID Token: ', googleUser.getAuthResponse().id_token); // 실제 토큰
-      // console.log('Name: ' + profile.getName());
-      // console.log('Image URL: ' + profile.getImageUrl());
-      // console.log('Email: ' + profile.getEmail());
       this.loading = false;
       console.log(result);
       if (!result) {
-        this.title = "오류";
-        this.content = "로그인에 실패했습니다";
+        this.title = '오류';
+        this.content = '로그인에 실패했습니다';
         this.alert = true;
       } else {
-        this.email="";
-        this.pass="";
-        this.$router.push({ name: "Main" });
+        this.email = '';
+        this.pass = '';
+        this.$router.push({ name: 'Main' });
       }
     },
-    GoogleLoginFailure() {},
-    // OnGoogleAuthSuccess (idToken) {
-    //   console.log(idToken)
-    //   // Receive the idToken and make your magic with the backend
-    // },
-    // OnGoogleAuthFail (error) {
-    //   console.log(error)
-    // }
   },
 };
 </script>
@@ -267,8 +235,7 @@ export default {
     display: none;
   }
   #videoBd {
-    background: url("../assets/img/login/poster.jpg") no-repeat center center
-      fixed;
+    background: url('../assets/img/login/poster.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

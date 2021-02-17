@@ -1,118 +1,67 @@
 <template>
   <div>
-    <div id="videoBd">
-      <video
-        id="videoBG"
-        poster="../assets/img/login/poster.jpg"
-        autoplay
-        muted
-        loop
-      >
-        <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4" />
-      </video>
-    </div>
+    <div id="videoBd" class="blue-grey lighten-5"></div>
     <div class="login_form">
-      <vs-card class="card">
+      <vs-card class="card" type="3">
         <template #title>
-          <h3 class="not-margin d-flex justify-center">
-            <b>Commmitment</b> 회원가입
-          </h3>
+          <h1 class="not-margin d-flex justify-center font-weight-black text-h2">회원가입</h1>
         </template>
         <!-- 이메일 지역 닉네임 비밀번호 전화번호 나이 성별 이메일 인증여부-->
         <template #text>
-          <div class="con-form">
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                📧
-                <div class="signup_text">이메일</div>
-              </div>
+          <div class="con-form px-2 py-3">
+            <div class="d-flex mb-4 justify-space-between">
               <vs-input v-model="email" placeholder="이메일">
                 <template #icon>
                   @
                 </template>
               </vs-input>
               <div class="d-flex align-center mr-1">
-                <vs-button block @click="idcheck()">
-                  check
+                <vs-button @click="idcheck()" icon flat>
+                  <i class="bx bx-check"></i>
                 </vs-button>
               </div>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🔒
-                <div class="signup_text">비밀번호</div>
-              </div>
-              <vs-input
-                type="password"
-                v-model="password"
-                placeholder="비밀번호"
-              >
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input type="password" v-model="password" placeholder="비밀번호">
                 <template #icon>
                   <i class="bx bx-lock-open-alt"></i>
                 </template>
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🔒
-                <div class="signup_text">비밀번호 확인</div>
-              </div>
-              <vs-input
-                type="password"
-                v-model="passwordConfirm"
-                placeholder="비밀번호 확인"
-              >
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input type="password" v-model="passwordConfirm" placeholder="비밀번호 확인">
                 <template #icon>
                   <i class="bx bx-lock-open-alt"></i>
                 </template>
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                😀
-                <div class="signup_text">닉네임</div>
-              </div>
+            <div class="d-flex mb-4 justify-space-between">
               <div>
-                <vs-input
-                  v-model="nickname"
-                  placeholder="3글자이상 작성해주세요"
-                >
+                <vs-input v-model="nickname" placeholder="3글자이상 작성해주세요">
                   <template #icon>
                     <i class="bx bx-user"></i>
                   </template>
                 </vs-input>
               </div>
               <div class="d-flex align-center mr-1">
-                <vs-button block @click="nick()">
-                  check
+                <vs-button @click="nick()" icon flat>
+                  <i class="bx bx-check"></i>
                 </vs-button>
               </div>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🏷️
-                <div class="signup_text">한줄소개</div>
-              </div>
-              <vs-input
-                v-model="mystory"
-                maxlength
-                placeholder="나만의 한줄 소개 !"
-              >
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input v-model="mystory" maxlength placeholder="나만의 한줄 소개 !">
                 <template #icon>
                   <i class="bx bx-comment-detail"></i>
                 </template>
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                📞
-                <div class="signup_text">전화번호</div>
-              </div>
+            <div class="d-flex mb-4 justify-space-between">
               <vs-input v-model="tel" maxlength="11" placeholder="전화번호">
                 <template #icon>
                   <i class="bx bx-phone"></i>
@@ -120,13 +69,13 @@
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🧑‍🤝‍🧑
-                <div class="signup_text">성별</div>
-              </div>
+            <div class="d-flex mb-4 justify-space-between">
               <div class="d-flex justify-center">
-                <vs-select placeholder="당신의 성별은?" v-model="gender">
+                <vs-select
+                  placeholder="당신의 성별은?"
+                  v-model="gender"
+                  style="width:200px; height:35px"
+                >
                   <vs-option label="Man" value="m">
                     Man
                   </vs-option>
@@ -137,28 +86,24 @@
               </div>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🍂
-                <div class="signup_text">나이</div>
-              </div>
-              <vs-input type="number" v-model="age" />
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input type="number" v-model="age" placeholder="나이">
+                <template #icon>
+                  <i class="bx bx-id-card"></i>
+                </template>
+              </vs-input>
             </div>
           </div>
           <!-- <input v-model="isTerm" type="checkbox" id="term" />
           <span>약관에 동의합니다</span> -->
           <div class="footer-dialog">
             <vs-button block @click="submit">
-              회원가입
+              가입하기
             </vs-button>
           </div>
         </template>
       </vs-card>
-      <EmailDialog
-        @yes="close()"
-        :content="dialog.content"
-        :dialog="dialog.activation"
-      >
+      <EmailDialog @yes="close()" :content="dialog.content" :dialog="dialog.activation">
       </EmailDialog>
     </div>
   </div>
@@ -166,16 +111,16 @@
 
 <script>
 // import axios from 'axios'
-import { mapActions } from "vuex";
-import EmailDialog from "../components/common/dialog/EmailDialog.vue";
-import { nickNameCheck, emailCheck } from "../api/account";
+import { mapActions } from 'vuex';
+import EmailDialog from '../components/common/dialog/EmailDialog.vue';
+import { nickNameCheck, emailCheck } from '../api/account';
 
 export default {
   components: {
     EmailDialog,
   },
   methods: {
-    ...mapActions(["SIGNUP"]),
+    ...mapActions(['SIGNUP']),
     submit() {
       if (this.check()) {
         const userData = {
@@ -193,10 +138,10 @@ export default {
         this.resultsignup = result;
         if (result) {
           this.showDialog(
-            "가입에 성공했습니다. 가입하신 메일계정으로 메일이 발송되며, 메일을 확인하셔야 가입절차가 완료됩니다."
+            '가입에 성공했습니다. 가입하신 메일계정으로 메일이 발송되며, 메일을 확인하셔야 가입절차가 완료됩니다.'
           );
         } else {
-          this.showDialog("가입에 실패하였습니다");
+          this.showDialog('가입에 실패하였습니다');
         }
       }
     },
@@ -206,12 +151,7 @@ export default {
       let passRule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
       let telRule = /^(010[1-9][0-9]{7})$/;
       this.resultsignup = false;
-      if (
-        this.email &&
-        this.nickname &&
-        this.password &&
-        this.passwordConfirm
-      ) {
+      if (this.email && this.nickname && this.password && this.passwordConfirm) {
         if (
           this.email.trim().length == 0 ||
           this.password.trim().length == 0 ||
@@ -221,44 +161,44 @@ export default {
           this.tel.trim().length == 0 ||
           this.age.trim().length == 0
         ) {
-          this.showDialog("모든 항목을 기입해주세요.");
+          this.showDialog('모든 항목을 기입해주세요.');
           return false;
         } else if (!emailRule.test(this.email)) {
-          this.showDialog("이메일 형식에 맞게 작성해주세요.");
+          this.showDialog('이메일 형식에 맞게 작성해주세요.');
           return false;
         } else if (!this.emailcheckflag) {
-          this.showDialog("이메일 중복확인을 해주세요");
+          this.showDialog('이메일 중복확인을 해주세요');
           return false;
         } else if (!this.emailflag) {
-          this.showDialog("이미 가입된 이메일 입니다.");
+          this.showDialog('이미 가입된 이메일 입니다.');
           return false;
         } else if (!passRule.test(this.password)) {
-          this.showDialog("비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.");
+          this.showDialog('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
           return;
         } else if (this.password !== this.passwordConfirm) {
-          this.showDialog("비밀번호 입력이 다릅니다. 다시 확인해주세요.");
+          this.showDialog('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
           return false;
         } else if (this.email.trim().length < 3) {
-          this.showDialog("닉네임을 3글자 이상 작성해주세요");
+          this.showDialog('닉네임을 3글자 이상 작성해주세요');
           return false;
         } else if (!this.nickcheckflag) {
-          this.showDialog("닉네임 중복확인을 해주세요");
+          this.showDialog('닉네임 중복확인을 해주세요');
           return false;
         } else if (!this.nickflag) {
-          this.showDialog("닉네임이 중복됩니다.");
+          this.showDialog('닉네임이 중복됩니다.');
           return false;
         } else if (!telRule.test(this.tel)) {
-          this.showDialog("올바르지 않은 핸드폰 번호 입니다.");
+          this.showDialog('올바르지 않은 핸드폰 번호 입니다.');
           return false;
         }
         return true;
       }
-      this.showDialog("회원가입 양식을 모두 채워주세요.");
+      this.showDialog('회원가입 양식을 모두 채워주세요.');
       return false;
     },
     nick() {
       if (this.nickname.trim().length == 0) {
-        this.showDialog("닉네임을 입력해주세요");
+        this.showDialog('닉네임을 입력해주세요');
         return;
       }
       nickNameCheck(
@@ -267,13 +207,13 @@ export default {
           this.nickcheckflag = true;
           if (this.email.trim().length < 3) {
             this.nickflag = true;
-            this.showDialog("닉네임을 3글자 이상 작성해주세요");
-          } else if (response.data.data == "success") {
+            this.showDialog('닉네임을 3글자 이상 작성해주세요');
+          } else if (response.data.data == 'success') {
             this.nickflag = true;
-            this.showDialog("사용 가능한 닉네임입니다.");
+            this.showDialog('사용 가능한 닉네임입니다.');
           } else {
             this.nickflag = false;
-            this.showDialog("닉네임이 중복됩니다.");
+            this.showDialog('닉네임이 중복됩니다.');
           }
         },
         (error) => {
@@ -291,16 +231,16 @@ export default {
           this.emailcheckflag = true;
           if (this.email.trim() == 0) {
             this.emailflag = false;
-            this.showDialog("이메일을 입력해주세요");
-          } else if (response.data.data == "success") {
+            this.showDialog('이메일을 입력해주세요');
+          } else if (response.data.data == 'success') {
             this.emailflag = true;
-            this.showDialog("사용 가능한 이메일입니다.");
+            this.showDialog('사용 가능한 이메일입니다.');
           } else if (!emailRule.test(this.email)) {
             this.emailflag = false;
-            this.showDialog("이메일 형식에 맞게 작성해주세요.");
+            this.showDialog('이메일 형식에 맞게 작성해주세요.');
           } else {
             this.emailflag = false;
-            this.showDialog("이미 가입된 이메일 입니다.");
+            this.showDialog('이미 가입된 이메일 입니다.');
           }
         },
         (error) => {
@@ -315,14 +255,14 @@ export default {
     close() {
       this.dialog.activation = false;
       if (this.resultsignup) {
-        this.email = "";
-        this.password = "";
-        this.passwordConfirm = "";
-        this.tel = "";
-        this.mystory = "";
-        this.gender = "m";
-        this.nickname = "";
-        this.$router.push("/login");
+        this.email = '';
+        this.password = '';
+        this.passwordConfirm = '';
+        this.tel = '';
+        this.mystory = '';
+        this.gender = 'm';
+        this.nickname = '';
+        this.$router.push('/login');
       }
     },
   },
@@ -338,23 +278,23 @@ export default {
   data() {
     return {
       active: true,
-      email: "",
-      password: "",
-      passwordConfirm: "",
-      tel: "",
-      mystory: "",
-      gender: "m",
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      tel: '',
+      mystory: '',
+      gender: 'm',
       remember: false,
-      region: "national",
-      nickname: "",
+      region: 'national',
+      nickname: '',
       nickflag: false,
       nickcheckflag: false,
       emailflag: false,
       emailcheckflag: false,
-      age: "",
+      age: '',
       resultsignup: false,
       dialog: {
-        content: { title: "Commitment", text: "", yes: "확인" },
+        content: { title: 'Commitment', text: '', yes: '확인' },
         activation: false,
       },
     };
@@ -481,8 +421,7 @@ export default {
     display: none;
   }
   #videoBd {
-    background: url("../assets/img/login/poster.jpg") no-repeat center center
-      fixed;
+    background: url('../assets/img/login/poster.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
