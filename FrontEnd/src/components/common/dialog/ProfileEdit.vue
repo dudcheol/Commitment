@@ -11,14 +11,7 @@
     >
       <i class="bx bxs-cog"></i>
     </vs-button>
-    <vs-dialog
-      blur
-      scroll
-      overflow-hidden
-      not-close
-      v-model="active"
-      width="400px"
-    >
+    <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
       <template #header>
         <h3>
           회원정보 수정
@@ -33,23 +26,13 @@
             </template>
           </vs-input>
           🔒 비밀번호
-          <vs-input
-            type="password"
-            icon-before
-            placeholder="Password"
-            v-model="password"
-          >
+          <vs-input type="password" icon-before placeholder="Password" v-model="password">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
           </vs-input>
           🔒 비밀번호 확인
-          <vs-input
-            type="password"
-            icon-before
-            placeholder="Password"
-            v-model="passwordConfirm"
-          >
+          <vs-input type="password" icon-before placeholder="Password" v-model="passwordConfirm">
             <template #icon>
               <i class="bx bx-lock-open-alt"></i>
             </template>
@@ -136,20 +119,17 @@ export default {
     }),
   },
   created() {
-    // console.log(email);
     searchUserByEmail(
       { keyword: this.user.email },
       (response) => {
         const profile = response.data.content;
         const item = profile[0];
-        console.log(this.userInfo);
         this.userInfo.push(item);
         this.email = item.email;
         this.nickname = item.nickname;
         this.region = item.region_name;
         this.age = item.age;
         this.mystory = item.mystory;
-        // console.log(item.nickname);
       },
       (error) => {
         console.log('edit에러' + error);
@@ -159,8 +139,6 @@ export default {
   methods: {
     ...mapActions(['SIGNUP']),
     submit() {
-      console.log(this.mystory);
-      console.log(this.check());
       if (this.check()) {
         const userData = {
           email: this.email.trim(),
@@ -187,12 +165,7 @@ export default {
       let telRule = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
 
       this.resultsignup = false;
-      if (
-        this.email &&
-        this.nickname &&
-        this.password &&
-        this.passwordConfirm
-      ) {
+      if (this.email && this.nickname && this.password && this.passwordConfirm) {
         if (
           this.email.trim().length == 0 ||
           this.password.trim().length == 0 ||
@@ -205,27 +178,21 @@ export default {
           this.showDialog('모든 항목을 기입해주세요.');
           return false;
         } else if (!passRule.test(this.password)) {
-          console.log('1');
           this.showDialog('비밀번호는 영문/숫자 포함 8자 이상이어야 합니다.');
           return;
         } else if (this.password !== this.passwordConfirm) {
-          console.log('2');
           this.showDialog('비밀번호 입력이 다릅니다. 다시 확인해주세요.');
           return false;
         } else if (this.email.trim().length < 3) {
-          console.log('3');
           this.showDialog('닉네임을 3글자 이상 작성해주세요');
           return false;
         } else if (!this.nickcheckflag) {
-          console.log('4');
           this.showDialog('닉네임 중복확인을 해주세요');
           return false;
         } else if (!this.nickflag) {
-          console.log('5');
           this.showDialog('닉네임이 중복됩니다.');
           return false;
         } else if (!telRule.test(this.tel)) {
-          console.log('6');
           this.showDialog('올바르지 않은 핸드폰 번호 입니다.');
           return false;
         }
@@ -242,8 +209,6 @@ export default {
       nickNameCheck(
         this.nickname,
         (response) => {
-          console.log(response);
-          console.log(this.userInfo[0].nickname);
           this.nickcheckflag = true;
           if (this.nickname.trim().length < 3) {
             this.nickflag = true;

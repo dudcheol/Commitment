@@ -11,6 +11,8 @@ import { emptyCommit, latlngToAddress } from '../api/commit';
 import { boardDetail } from '../api/board';
 import router from '../router';
 import { getFollowingList } from '../api/follow';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 export default {
   async LOGIN(context, user) {
@@ -80,7 +82,6 @@ export default {
       );
     } else {
       /* 위치정보 사용 불가능 */
-      console.log('%cactions.js line:50 위치정보를 사용할 수 없음.', 'color: #007acc;');
       router.replace('/permission');
     }
   },
@@ -102,22 +103,14 @@ export default {
     );
   },
   SIGNUP(context, payload) {
-    console.log('SIGNUP actionjs line93');
     // payload가 user 정보가 담겨져있음
-    console.log(payload);
     let result = false;
     signup(
       payload,
       (response) => {
-        // const userdata = {
-        //   email: payload.email,
-        // }
-        // var jsonObj = JSON.parse(response);
-        console.log('mydata is', response);
         context.commit('SIGNUP', payload);
         // 여기서 다시 SMTP 호출하고싶은경우?
         context.dispatch('SMTP', response.data);
-        console.log('SIGNUP ACTIONSJS ACTIVATE');
         result = true;
       },
       (error) => {
@@ -129,25 +122,21 @@ export default {
     return result;
   },
   SMTP(context, payload) {
-    console.log('SMTP payload', payload),
-      smtp(
-        payload.email,
-        (response) => {
-          console.log('SMTP response success', response.data);
-          context.commit('SMTP', response.data);
-        },
-        (error) => {
-          console.log('SMTP ERROR' + error);
-        }
-      );
+    smtp(
+      payload.email,
+      (response) => {
+        context.commit('SMTP', response.data);
+      },
+      (error) => {
+        console.log('SMTP ERROR' + error);
+      }
+    );
   },
   async GOOGLE_LOGIN(context, payload) {
-    console.log('google login actionjs ');
     var socialresult = false;
     await googleLogin(
       payload,
       (response) => {
-        console.log('response success mydata is', response);
         localStorage.setItem('auth-token', response.data['auth-token']);
         setAuthTokenToHeader(response.data['auth-token']);
         context.dispatch('GET_MEMBER_INFO', response.data['auth-token']);
@@ -158,7 +147,6 @@ export default {
         socialresult = false;
       }
     );
-    console.log(socialresult);
     return socialresult;
   },
   FIRST_START_TIMER(store) {
@@ -201,7 +189,6 @@ export default {
     await boardDetail(
       payload,
       (response) => {
-        console.log('actionsjs boardDetail', response.data);
         context.commit('BOARDDETAIL', response.data);
       },
       (error) => {
@@ -213,7 +200,6 @@ export default {
     emptyCommit(
       payload,
       (response) => {
-        console.log('%cactions.js line:209 response', 'color: #007acc;', response);
         store.commit('ADD_EMPCOMMIT', response.data);
       },
       (error) => {
@@ -224,5 +210,28 @@ export default {
         );
       }
     );
+  },
+  UPDATE_USERINFO(store, payload) {
+    store.commit('UPDATE_USERINFO', payload);
+  },
+  GET_REALTIME_COMMIT_LIST(store) {
+    firebase
+      .database()
+      .ref('noti/all')
+      .limitToLast(15)
+      .on('value', (snap) => {
+        let res = snap.val();
+        const tmp = [];
+        for (const idx in res) {
+          res[idx].id = idx;
+          tmp.unshift({
+            username: res[idx].from,
+            address: res[idx].dataId,
+            img: res[idx].profile,
+            email: res[idx].userEmail,
+          });
+        }
+        store.commit('GET_REALTIME_COMMIT_LIST', tmp);
+      });
   },
 };

@@ -15,7 +15,7 @@
             :borderRadius="5"
             :spacing="1"
             :datas="datas"
-            :key="datas"
+            :key="'commit' + new Date()"
           ></component>
         </div>
         <p class="pt-4 text-center">
@@ -76,9 +76,7 @@ export default {
         .then(() => {
           this.mapType = () => this.loader();
         })
-        .catch(() => {
-          console.log('%cProfileSummary.vue line:61 지도를 불러오는데 실패함', 'color: #007acc;');
-        });
+        .catch(() => {});
     },
   },
 };

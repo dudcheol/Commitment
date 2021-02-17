@@ -5,10 +5,7 @@
         <vs-card class="maincard">
           <template #img>
             <v-avatar size="130">
-              <img
-                v-if="!user.badge"
-                src="../../../assets/img/badge/badge0.png"
-              />
+              <img v-if="!user.badge" src="../../../assets/img/badge/badge0.png" />
               <img v-else :src="path" />
             </v-avatar>
           </template>
@@ -49,7 +46,6 @@ export default {
       this.user.email,
       (response) => {
         this.badge = response.data;
-        console.log(this.badge);
         if (this.badge == 'first_commit') {
           this.name = '첫 커밋';
         } else if (this.badge == 'total_commit') {
@@ -76,12 +72,11 @@ export default {
     );
   },
   mounted() {
-    this.path = require('../../../assets/img/badge/' + this.badge + '.png');
+    if (this.badge) this.path = require('../../../assets/img/badge/' + this.badge + '.png');
   },
   watch: {
     badge() {
-      this.path = require('../../../assets/img/badge/' + this.badge + '.png');
-      console.log(this.badge);
+      if (this.badge) this.path = require('../../../assets/img/badge/' + this.badge + '.png');
     },
   },
 };

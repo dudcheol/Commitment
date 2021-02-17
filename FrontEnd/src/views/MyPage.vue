@@ -7,12 +7,8 @@
     </div>
     <v-container class="pa-0 py-16 mt-8">
       <v-row no-gutters>
-        <v-col cols="18" md="12">
-          <div class="top">
-            <div class="profile">
-              <ProfileInfo />
-            </div>
-          </div>
+        <v-col>
+          <ProfileInfo />
         </v-col>
       </v-row>
 
@@ -20,7 +16,7 @@
         <map-list></map-list>
       </v-row>
 
-      <div id="pcHidden">
+      <div id="pcHidden" class="pt-4">
         <MyImagesMobile />
       </div>
     </v-container>
@@ -55,9 +51,6 @@ export default {
   }),
   computed: {
     ...mapGetters({ userId: ['getSelectedUserId'] }),
-    items() {
-      return Array.from({ length: this.length }, (k, v) => v + 1);
-    },
     length() {
       return 7000;
     },
@@ -78,18 +71,11 @@ export default {
     },
   },
   methods: {
-    mapClick(val) {
-      console.log('%cMyPage.vue line:142 info', 'color: #007acc;', val);
-      console.log('%cMyPage.vue line:143 type', 'color: #007acc;', this.picked);
-    },
     back() {
-      // this.$router.back();
-      console.log('window.history', 'color: #007acc;', window.history);
       this.$router.go(-1);
     },
   },
   activated() {
-    console.log('%cMyPage.vue line:96 ', 'color: #007acc;', this.userId);
     window.scrollTo(0, 0);
   },
 };
@@ -112,46 +98,5 @@ export default {
   left: 25px;
   top: 20px;
   z-index: 1;
-}
-.top {
-  align-content: center;
-}
-.tabs {
-  align-items: center;
-  text-align: center;
-  justify-self: center;
-  background-color: lavender;
-}
-.radiocontent {
-  white-space: nowrap;
-}
-.middle {
-  align-content: center;
-  display: flex;
-}
-.bottom {
-  height: 30%;
-  width: 60%;
-  margin-top: 30px;
-  margin-left: 20%;
-}
-.navbar_right {
-  display: flex;
-  width: min-content;
-}
-.search {
-  display: flex;
-  width: min-content;
-}
-.v-toolbar__content {
-  display: flex;
-  justify-content: space-between;
-}
-.v-tab {
-  width: 20px;
-}
-.v-list {
-  height: 300px;
-  overflow-y: auto;
 }
 </style>

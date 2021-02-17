@@ -41,7 +41,7 @@
               <v-icon color="white">mdi-emoticon-happy</v-icon>
             </v-avatar>
             <div class="pl-1">
-              <div>{{ item.user.nickname }}</div>
+              <div>{{ item.user.nickname | truncate(8, '...') }}</div>
               <div class="caption">{{ regionKr(item.user.region_name) }}</div>
             </div>
           </div>
@@ -156,6 +156,15 @@ export default {
         );
       }
     );
+  },
+  filters: {
+    truncate: function(text, length, suffix) {
+      if (text.length > length) {
+        return text.substring(0, length) + suffix;
+      } else {
+        return text;
+      }
+    },
   },
 };
 </script>

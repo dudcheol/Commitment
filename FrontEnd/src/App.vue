@@ -7,12 +7,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'App',
-
   components: {},
-
   data: () => ({}),
+  methods: {
+    ...mapActions(['GET_REALTIME_COMMIT_LIST']),
+  },
+  created() {
+    this.GET_REALTIME_COMMIT_LIST();
+  },
 };
 </script>
 

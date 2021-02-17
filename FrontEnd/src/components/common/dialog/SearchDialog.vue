@@ -1,33 +1,33 @@
 <template>
-  <vs-dialog
-    width="450px"
-    not-center
-    v-model="alert"
-    v-on:close="close"
-    not-close
-  >
+  <vs-dialog width="450px" not-center v-model="alert" v-on:close="close" not-close>
     <template #header>
       <v-text-field
+        class="mt-2"
         v-model="searchValue"
         append-icon="mdi-magnify"
-        label="Search"
+        label="닉네임으로 검색"
         @keyup.enter="search()"
         single-line
         hide-details
+        solo
+        outlined
+        dense
+        flat
+        rounded
       ></v-text-field>
     </template>
-    <template v-if="!users || users.length == 0||searchValue.length==0">
-      <SearchNoDataCard :icon="'magnify'" :text="'검색 결과가 없습니다'">
-      </SearchNoDataCard>
+    <template v-if="!users || users.length == 0 || searchValue.length == 0">
+      <SearchNoDataCard :icon="'magnify'" :text="'검색 결과가 없습니다'"> </SearchNoDataCard>
     </template>
     <template v-else>
       <v-card
         v-scroll.self="onScroll"
         class="overflow-y-auto"
-        color="grey lighten-4"
+        color="blue-grey lighten-5"
         flat
         height="400"
         max-height="400"
+        rounded="xl"
       >
         <search-card
           v-for="(item, uid) in users"
@@ -52,20 +52,20 @@
   </vs-dialog>
 </template>
 <script>
-import SearchCard from "../card/SearchCard.vue";
-import { searchNickname } from "../../../api/search";
-import SearchNoDataCard from "../../../components/common/card/SearchNoDataCard.vue";
+import SearchCard from '../card/SearchCard.vue';
+import { searchNickname } from '../../../api/search';
+import SearchNoDataCard from '../../../components/common/card/SearchNoDataCard.vue';
 export default {
   components: { SearchCard, SearchNoDataCard },
-  props: ["alert","searchValue"],
+  props: ['alert', 'searchValue'],
   data() {
     return {
-      users: "",
+      users: '',
     };
   },
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit('close');
     },
     search() {
       searchNickname(
@@ -80,15 +80,15 @@ export default {
     },
     mypage(nick) {
       this.close();
-      this.$store.commit("SELECTED_USER_ID", nick);
-      this.$router.push({ name: "MyPage" });
+      this.$store.commit('SELECTED_USER_ID', nick);
+      this.$router.push({ name: 'MyPage' });
     },
   },
   watch: {
     searchValue() {
       if (this.searchValue.trim().length == 0) {
-        this.searchValue = "";
-        this.users = "";
+        this.searchValue = '';
+        this.users = '';
       } else {
         this.search();
       }
