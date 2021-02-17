@@ -1,7 +1,7 @@
 <template>
   <v-sheet
     block
-    class="pa-5 d-flex align-center justify-center"
+    class="pa-5 mx-auto d-flex align-center justify-center"
     rounded="xl"
     color="rgb(224,229,231)"
     style="max-width:680px"

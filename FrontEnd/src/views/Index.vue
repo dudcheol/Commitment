@@ -16,6 +16,7 @@
       :loading="!latlng || commitLoading"
       :disabled="!latlng || commitLoading || totalTime != 0"
       elevation="10"
+      class="mb-14 mb-md-0"
     >
       <div v-if="totalTime != 0">
         <v-icon dark>mdi-lock</v-icon>
@@ -57,6 +58,8 @@
       :path="path"
       @close="badgeRemain()"
     ></BadgeDialog>
+
+    <Footer class="d-md-none"></Footer>
   </v-app>
 </template>
 
@@ -66,11 +69,12 @@ import { mapActions, mapGetters } from 'vuex';
 import Dialog from '../components/common/dialog/Dialog.vue';
 import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 import Header from '../components/index/Header.vue';
+import Footer from '../components/index/Footer.vue';
 import WriteDialog from '../components/common/dialog/WriteDialog.vue';
 import BadgeDialog from '../components/common/dialog/BadgeDialog.vue';
 import { badgeCheck } from '../api/badge';
 export default {
-  components: { Dialog, CommitComplete, Header, WriteDialog, BadgeDialog },
+  components: { Dialog, CommitComplete, Header, WriteDialog, BadgeDialog, Footer },
   name: 'Index',
   computed: {
     ...mapGetters({

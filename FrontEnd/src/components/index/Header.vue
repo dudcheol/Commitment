@@ -9,12 +9,16 @@
       style="z-index:11;"
       :ripple="false"
       to="/"
+      circle
     >
       <v-img src="../../assets/img/main/commitment_logo.jpg" alt="logo" height="35" width="35" />
     </v-btn>
+    <div class="text-h2 font-weight-black blue-grey--text text--darken-3">
+      {{ pageName }}
+    </div>
 
     <!-- 가운데 탭 항상 가운데에 만들기 버튼개수 상관없이 -->
-    <v-tabs centered color="grey darken-1" class="tabs_list">
+    <v-tabs centered color="primary" class="tabs_list d-none d-md-block" v-model="tab">
       <v-tab
         v-for="(item, index) in items"
         :key="'tabMidIcon' + index"
@@ -147,7 +151,6 @@
               fab
               elevation="0"
               small
-              text
               :ripple="false"
               color="primary"
               class="mr-3"
@@ -188,21 +191,12 @@
         </v-menu>
       </v-badge>
 
-      <v-btn
-        fab
-        elevation="0"
-        small
-        text
-        :ripple="false"
-        color="primary"
-        class="mr-3"
-        @click="LOGOUT"
-      >
+      <v-btn fab elevation="0" small :ripple="false" color="primary" class="mr-3" @click="LOGOUT">
         <v-icon>{{ right_items[3].icon }}</v-icon>
       </v-btn>
     </v-speed-dial>
 
-    <div class="search-box">
+    <!-- <div class="search-box">
       <div>
         <input type="text" name="" class="search-txt" placeholder="Search" />
         <a class="search-btn" href="#">
@@ -218,7 +212,7 @@
           <li>wandering</li>
         </div>
       </div>
-    </div>
+    </div> -->
   </v-app-bar>
 </template>
 
@@ -230,12 +224,13 @@ import { clickNoti } from '../../api/noti';
 export default {
   data() {
     return {
+      tab: '/',
       fab: false,
       items: [
         { icon: 'mdi-home', route: '/' },
         { icon: 'mdi-map-marker', route: '/sns' },
         { icon: 'mdi-medal', route: '/rank' },
-        { icon: 'mdi-heart', route: 'likes' },
+        { icon: 'mdi-heart', route: '/likes' },
       ],
       right_items: [
         { icon: 'mdi-emoticon-happy' },
@@ -273,6 +268,20 @@ export default {
           return false;
         case 'xl':
           return false;
+      }
+      return '';
+    },
+    pageName() {
+      console.log('%cHeader.vue line:272 this.tab', 'color: #007acc;', this.tab);
+      switch (this.tab) {
+        case '/':
+          return 'Commitment';
+        case '/sns':
+          return 'Commit Place';
+        case '/rank':
+          return 'Ranking';
+        case '/likes':
+          return 'Likes';
       }
       return '';
     },
