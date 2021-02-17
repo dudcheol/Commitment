@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-0 ma-0">
-    <v-row no-gutters>
-      <v-col cols="12" sm="8">
+    <v-row no-gutters class="pa-0 ma-0">
+      <v-col cols="12" sm="8" class="pa-0 ma-0">
         <div class="d-flex justify-center align-center flex-column">
           <v-btn-toggle
             v-model="picked"
@@ -31,13 +31,17 @@
             text
             :ripple="false"
             @click="mapSettingDialog = !mapSettingDialog"
-            style="position:absolute"
+            style="position:absolute;z-index:9;"
             class="mt-16"
           >
             대표지도로 설정
           </v-btn>
         </div>
-        <div class="d-flex justify-center align-center" style="height:600px" :key="userId">
+        <div
+          class="d-flex justify-center align-center"
+          style="height:600px; overflow:auto"
+          :key="userId"
+        >
           <div v-if="picked == 0">
             <MapNational
               :size="10"
@@ -60,7 +64,7 @@
               :datas="datas"
             />
           </div>
-          <div v-else-if="picked == 3">
+          <div v-else-if="picked == 3" class="pt-16">
             <MapGyeonggi
               :size="8"
               :spacing="2"
@@ -92,11 +96,11 @@
           <no-data-card
             :icon="'emoticon-excited-outline'"
             :text="'커밋지도에서 색칠된 부분을 클릭하면 커밋기록을 볼 수 있어요'"
-            style="height:628px"
+            style="max-height:628px"
           ></no-data-card>
         </div>
         <div v-else class="rounded-xl blue-grey lighten-5 pa-4">
-          <div class="rounded-lg" style="height:600px; overflow:auto;">
+          <div class="rounded-lg" style="max-height:600px; overflow:auto;">
             <commit-list-item
               v-for="(item, index) in items"
               :key="'mypageCommitList' + index"

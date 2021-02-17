@@ -1,103 +1,100 @@
 <template>
-  <div class="d-flex justify-center">
+  <v-container>
     <!-- top -->
-    <div class="top" :justify="dynamicJustify">
-      <div>
-        <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
-          <template #header>
-            <h3>
-              프로필 사진 변경
-            </h3>
-          </template>
-          <div class="con-content">
-            <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
-            <div id="mobileHidden" >
-              <input type="file" @change="fileSelected" />
-              <img v-if="image" :src="image" width="300" />
-            </div>
-            <div></div>
-            <div class="footer-dialog">
-              <vs-button block @click="upload">
-                업로드
-              </vs-button>
-            </div>
+    <v-row no-gutters>
+      <v-col class="d-flex justify-center align-center">
+        <div class="pl-8">
+          <div class="profileImg " v-if="imgSrc != null">
+            <v-list-item-avatar :size="width">
+              <img :src="imgSrc" alt="picture" @click="showModal()" />
+            </v-list-item-avatar>
           </div>
-        </vs-dialog>
-
-        
-        <div class="profileImg " v-if="imgSrc!=null">
-          <v-list-item-avatar size="150">
-            <img :src="imgSrc" alt="picture" @click="showModal()" />
-          </v-list-item-avatar>
-        </div>
-        <div class="profileImg " v-else>
-          <v-avatar
+          <div class="profileImg mr-4" v-else>
+            <v-avatar
               circle
-              size="150"
+              :size="width"
               color="blue-grey"
               class="font-weight-medium display-2"
               @click="showModal()"
             >
-              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
+              <v-icon color="white" :size="width / 2">mdi-emoticon-happy</v-icon>
             </v-avatar>
+          </div>
         </div>
-      </div>
-      <v-card class="mx-auto" flat :width="width">
-        <v-card-title>
-          {{ this.age }}ㅤ|ㅤ
-          <span v-if="this.gender == 'm'">남성</span>
-          <span v-else-if="this.gender == 'w'">여성</span>
-        </v-card-title>
-        <v-card-subtitle>
-          {{ this.userId }}
-        </v-card-subtitle>
 
-        <div class="detail_left">
-          <vs-button size="l" circle icon color="success" flat>
-            <i class="bx bxs-check-square"></i>{{ this.cnt }}
-          </vs-button>
-          <Follower @close="followingKey++" />
-          <Following :key="followingKey" @close="followingKey++" />
-          <v-spacer></v-spacer>
-          <div v-if="userId!=user.nickname">
-            <vs-button size="l" square icon color="rgb(59,222,200)" flat @click="clickFollow">
-              <i class="bx bxs-check-square">{{alreadyFollow?'팔로우 취소':'팔로우'}}</i>
+        <div class="d-flex flex-column align-center justify-center">
+          <div class="d-flex align-end">
+            <div>
+              <h4>
+                {{ `${this.age ? this.age + ' / ' : ''} ${this.gender == 'm' ? '남성' : '여성'}` }}
+              </h4>
+              <div class="text-h2 font-weight-black">{{ this.userId }}</div>
+            </div>
+            <div class="pl-10">
+              <div class="badge" v-if="badge != null">
+                <v-list-item-avatar size="70">
+                  <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
+                </v-list-item-avatar>
+              </div>
+              <div class="badge" v-else>
+                <v-list-item-avatar size="70">
+                  <img :src="require(`@/assets/img/badge/badge0.png`)" alt="" />
+                </v-list-item-avatar>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <vs-button size="l" circle icon color="success" flat>
+              <i class="bx bxs-check-square"></i>{{ this.cnt }}
             </vs-button>
-          </div>
+            <Follower @close="followingKey++" />
+            <Following :key="followingKey" @close="followingKey++" />
+            <div v-if="userId != user.nickname">
+              <v-btn
+                text
+                rounded
+                color="primary"
+                flat
+                @click="clickFollow"
+                class="font-weight-black"
+              >
+                {{ alreadyFollow ? '팔로우 취소' : '팔로우' }}
+              </v-btn>
+            </div>
 
-          <div class="badge" v-if="this.user.email == this.email">
-            <ProfileEdit />
+            <div class="badge" v-if="this.user.email == this.email">
+              <ProfileEdit />
+            </div>
           </div>
         </div>
 
-        <v-card-actions>
-          <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-          </v-btn>
-        </v-card-actions>
-
-        <v-expand-transition>
-          <div v-show="show">
-            <v-card-text>
-              {{ this.mystory }}
-            </v-card-text>
-          </div>
-        </v-expand-transition>
-      </v-card>
-      <div>
-        <div class="badge" v-if="badge!=null">
-          <v-list-item-avatar size="70">
-            <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
-          </v-list-item-avatar>
+        <div class="d-flex align-center justify-center pl-6">
+          <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
+            <template #header>
+              <h3>
+                프로필 사진 변경
+              </h3>
+            </template>
+            <div class="con-content">
+              <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
+              <div id="mobileHidden">
+                <input type="file" @change="fileSelected" />
+                <img v-if="image" :src="image" width="300" />
+              </div>
+              <div></div>
+              <div class="footer-dialog">
+                <vs-button block @click="upload">
+                  업로드
+                </vs-button>
+              </div>
+            </div>
+          </vs-dialog>
         </div>
-        <div class="badge" v-else>
-          <v-list-item-avatar size="70">
-            <img :src="require(`@/assets/img/badge/badge0.png`)" alt="" />
-          </v-list-item-avatar>
-        </div>
-      </div>
-    </div>
-  </div>
+      </v-col>
+      <v-col cols="6"></v-col>
+    </v-row>
+  </v-container>
 </template>
 <script scoped>
 import { mapGetters, mapActions } from 'vuex';
@@ -128,7 +125,7 @@ export default {
     image: '',
     file: null,
     followingKey: 0,
-    alreadyFollow:false,
+    alreadyFollow: false,
     followers: [],
   }),
 
@@ -136,26 +133,21 @@ export default {
     ...mapGetters({
       user: ['getUserInfo'],
       userId: ['getSelectedUserId'],
-      following: ['getFollowingList']
+      following: ['getFollowingList'],
     }),
-    
+
     width() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return '200px';
+          return '100';
         case 'sm':
-          return '200px';
-        case 'md':
-          return '500px';
-        case 'lg':
-          return '600px';
-        case 'xl':
-          return '900px';
+          return '100';
+        default:
+          return '150';
       }
-      return 700;
     },
-    
-    watch:{
+
+    watch: {
       following(val) {
         this.alreadyFollow = this.checkFollowing(val);
       },
@@ -192,9 +184,8 @@ export default {
           console.log('에러' + error);
         }
       );
-      
     },
-    clickFollow(){
+    clickFollow() {
       // console.log("this.user.email",this.user.email);
       // console.log("this.userId",this.email);
       follow(
@@ -210,21 +201,20 @@ export default {
       );
     },
     checkFollowing(followinglist) {
-      const compare = this.email;//this.email(지금 보고있는 마이페이지의 이메일)
-      console.log("얘",this.email);
+      const compare = this.email; //this.email(지금 보고있는 마이페이지의 이메일)
+      console.log('얘', this.email);
       for (let i = 0; i < followinglist.length; i++) {
-        console.log(followinglist[i].email,"?");
-        if (followinglist[i].email == compare){
+        console.log(followinglist[i].email, '?');
+        if (followinglist[i].email == compare) {
           // console.log("이미 팔로우중");
-          return true;//이미 팔로우중이면 true
-        } 
+          return true; //이미 팔로우중이면 true
+        }
       }
       // console.log("팔로우안한상태");
-      return false;//팔로우중이 아니면 false
+      return false; //팔로우중이 아니면 false
     },
   },
-  created() {
-    
+  activated() {
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
@@ -232,9 +222,9 @@ export default {
         this.email = content.content[0].email;
         this.gender = content.content[0].gender;
         this.age = content.content[0].age;
-        if(content.content[0].profile!=null){
+        if (content.content[0].profile != null) {
           this.imgSrc = content.content[0].profile.filePath;
-        }else{
+        } else {
           this.imgSrc = null;
         }
         this.badge = content.content[0].badge;
@@ -262,7 +252,6 @@ export default {
             console.log('cnt에러' + error);
           }
         );
-
       },
       (error) => {
         console.log('profileinfo-img에러' + error);
@@ -288,11 +277,6 @@ export default {
 }
 .profileImg:hover {
   opacity: 0.5;
-}
-.badgeImg {
-  width: 35%;
-  text-align: center;
-  margin-top: -70%;
 }
 .detail {
   display: flex;

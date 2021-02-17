@@ -16,7 +16,7 @@
         <map-list></map-list>
       </v-row>
 
-      <div id="pcHidden">
+      <div id="pcHidden" class="pt-4">
         <MyImagesMobile />
       </div>
     </v-container>

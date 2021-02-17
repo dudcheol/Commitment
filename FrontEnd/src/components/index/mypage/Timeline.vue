@@ -80,7 +80,8 @@ export default {
       email: '',
     };
   },
-  created() {
+  activated() {
+    this.boardList = [];
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
