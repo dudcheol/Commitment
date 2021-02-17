@@ -10,7 +10,7 @@
             </h3>
           </template>
           <div class="con-content">
-            <div id="mobileHidden">
+            <div id="mobileHidden" >
               <input type="file" @change="fileSelected" />
               <img v-if="image" :src="image" width="300" />
             </div>
@@ -22,10 +22,22 @@
             </div>
           </div>
         </vs-dialog>
-        <div class="profileImg ">
+
+        
+        <div class="profileImg " v-if="imgSrc!=null">
           <v-list-item-avatar size="150">
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
+        </div>
+        <div class="profileImg " v-else>
+          <v-avatar
+              circle
+              size="150"
+              color="blue-grey"
+              class="font-weight-medium display-2"
+            >
+              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
+            </v-avatar>
         </div>
       </div>
       <v-card class="mx-auto" flat :width="width">
@@ -65,9 +77,14 @@
         </v-expand-transition>
       </v-card>
       <div>
-        <div class="badge">
+        <div class="badge" v-if="badge!=null">
           <v-list-item-avatar size="70">
             <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
+          </v-list-item-avatar>
+        </div>
+        <div class="badge" v-else>
+          <v-list-item-avatar size="70">
+            <img :src="require(`@/assets/img/badge/badge0.png`)" alt="" />
           </v-list-item-avatar>
         </div>
       </div>
@@ -91,12 +108,10 @@ export default {
   data: () => ({
     active: false,
     show: false,
-    id: 'dudcheol', //this.$route.params.id로 받은 현재 유저의 닉네임
     //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
     email: '',
     gender: '',
-    badge:
-      'https://mpng.subpng.com/20171128/221/gold-seal-png-clip-art-image-5a1d1d47856124.0292548315118574795463.jpg',
+    badge: '',
     age: '',
     imgSrc: '',
     mystory: '',
@@ -163,14 +178,19 @@ export default {
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
+        
         const content = response.data.content[0];
+        console.log(this.userId+"로 받아온 이메일"+content.email);
         this.email = content.email;
         this.gender = content.gender;
         this.age = content.age;
-        this.imgSrc = content.profile.filePath;
+        if(content.profile!=null){
+          this.imgSrc = content.profile.filePath;
+        }else{
+          this.imgSrc = null;
+        }
         this.badge = content.badge;
         this.mystory = content.mystory;
-        console.log(this.email, '의 마이스토리', this.mystory);
         userCommitCount(
           this.email,
           (response) => {
