@@ -45,21 +45,6 @@ export default {
   },
   computed: {
     ...mapGetters({ user: ['getUserInfo'] }),
-    dynamicPosition() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return '';
-        case 'sm':
-          return '';
-        case 'md':
-          return 'overflow-style';
-        case 'lg':
-          return 'overflow-style';
-        case 'xl':
-          return 'overflow-style';
-      }
-      return '';
-    },
     dynamicJustify() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':

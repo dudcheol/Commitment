@@ -21,7 +21,6 @@
     </template>
     <template v-else>
       <v-card
-        v-scroll.self="onScroll"
         class="overflow-y-auto"
         color="blue-grey lighten-5"
         flat
@@ -41,14 +40,6 @@
         </search-card>
       </v-card>
     </template>
-
-    <!-- <template #footer>
-      <div class="con-footer">
-        <vs-button block @click="close">
-          닫기
-        </vs-button>
-      </div>
-    </template> -->
   </vs-dialog>
 </template>
 <script>

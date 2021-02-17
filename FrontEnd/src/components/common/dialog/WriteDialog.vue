@@ -252,6 +252,16 @@ export default {
       };
       this.board.email = this.user.email;
       this.board.location = this.user.region_name;
+      this.images = {
+        file: [],
+      };
+      this.files = [];
+      this.filesPreview = [];
+      this.uploadImageIndex = 0;
+      this.start = 0;
+      this.tagArea = false;
+      this.tags = [];
+      this.uploading = false;
     },
   },
   created() {

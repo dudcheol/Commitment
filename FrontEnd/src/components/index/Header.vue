@@ -143,7 +143,7 @@
         </v-btn>
       </template>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary">
+      <v-btn fab elevation="0" small text :ripple="false" color="primary" @click="goToMyPage">
         <v-avatar v-if="user.profile" circle size="40">
           <img :src="user.profile.filePath" />
         </v-avatar>
