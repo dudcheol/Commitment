@@ -139,7 +139,6 @@ export default {
         email: this.email,
         pass: this.pass,
       });
-      console.log(result);
       this.loading = false;
       if (result.data != "success") {
         this.title = "오류";
@@ -154,6 +153,8 @@ export default {
           this.$router.push({ name: "Main" });
         }
       }
+      this.email="";
+      this.pass="";
     },
 
     signuplink() {

@@ -18,7 +18,10 @@
           class="ma-1"
           height="200"
           width="180"
-          @click="toggle"
+          @click="
+            toggle;
+            followMapClick(item);
+          "
           rounded="lg"
           :ripple="false"
           :elevation="1"
@@ -126,6 +129,10 @@ export default {
         default:
           return 2;
       }
+    },
+    followMapClick(item) {
+      this.$store.commit('SELECTED_USER_ID', item.user.nickname);
+      this.$router.push({ name: 'MyPage' });
     },
   },
   mounted() {

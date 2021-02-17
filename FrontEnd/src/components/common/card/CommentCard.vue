@@ -42,6 +42,9 @@ export default {
       this.$emit('del');
     },
   },
+  created() {
+    console.log('%ccommentCard.vue line:46 this.data', 'color: #007acc;', this.data);
+  },
 };
 </script>
 

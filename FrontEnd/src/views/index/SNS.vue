@@ -249,6 +249,7 @@ export default {
         (response) => {
           console.log(this.pos.lat);
           const res = response.data.content;
+          console.log('%cSNS.vue line:224 res', 'color: #007acc;', res);
           if (res.length) {
             this.feedDatas.push(...res);
             for (let i = 0; i < res.length; i++) {

@@ -1,12 +1,6 @@
 <template>
   <div class="d-flex flex-column ml-lg-16">
-    <v-expansion-panels
-      v-model="panel"
-      accordion
-      flat
-      class="mb-2 rounded-lg"
-      multiple
-    >
+    <v-expansion-panels v-model="panel" accordion flat class="mb-2 rounded-lg" multiple>
       <v-expansion-panel size="x-small" style="background-color:transparent">
         <v-expansion-panel-header>
           <div class="d-flex align-center">
@@ -26,15 +20,9 @@
             :address="item.address"
             :img="item.img"
             class="mb-2"
+            @click="goToProfile(item)"
           ></commit-card>
-          <v-btn
-            block
-            :ripple="false"
-            rounded
-            height="52px"
-            color="blue-grey darken-4"
-            text
-            @click="readMore"
+          <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
             ><strong>더보기</strong></v-btn
           >
         </v-expansion-panel-content>
@@ -68,6 +56,12 @@ export default {
         default:
           return [];
       }
+    },
+  },
+  methods: {
+    goToProfile(user) {
+      this.$store.commit('SELECTED_USER_ID', user.username);
+      this.$router.push({ name: 'MyPage' });
     },
   },
   created() {

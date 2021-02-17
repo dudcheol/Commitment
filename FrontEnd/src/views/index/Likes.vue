@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="blue-grey lighten-5">
-    <v-col class="pa-0 d-flex justify-center" :class="dynamicPosition" cols="12" md="3">
+    <!-- <v-col class="pa-0 d-flex justify-center" :class="dynamicPosition" cols="12" md="3">
       <v-sheet
         class="mt-4 d-flex flex-column pa-5 ml-md-auto"
         elevation="0"
@@ -67,7 +67,7 @@
           </vs-select>
         </div>
       </v-sheet>
-    </v-col>
+    </v-col> -->
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">

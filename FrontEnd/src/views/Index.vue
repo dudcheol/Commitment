@@ -2,11 +2,7 @@
   <v-app id="inspire">
     <Header></Header>
     <v-main class="blue-grey lighten-5">
-      <router-view
-        :openWriteDialog="openWriteDialog"
-        @close-write="closeWrite"
-        @add-commit="commit"
-      ></router-view>
+      <router-view :openWriteDialog="openWriteDialog" @add-commit="commit"></router-view>
     </v-main>
     <v-btn
       fab
@@ -20,6 +16,7 @@
       :loading="!latlng || commitLoading"
       :disabled="!latlng || commitLoading || totalTime != 0"
       elevation="10"
+      class="mb-14 mb-md-0"
     >
       <div v-if="totalTime != 0">
         <v-icon dark>mdi-lock</v-icon>
@@ -61,6 +58,8 @@
       :path="path"
       @close="badgeRemain()"
     ></BadgeDialog>
+
+    <Footer class="d-md-none"></Footer>
   </v-app>
 </template>
 
@@ -70,11 +69,12 @@ import { mapActions, mapGetters } from 'vuex';
 import Dialog from '../components/common/dialog/Dialog.vue';
 import CommitComplete from '../components/common/dialog/CommitComplete.vue';
 import Header from '../components/index/Header.vue';
+import Footer from '../components/index/Footer.vue';
 import WriteDialog from '../components/common/dialog/WriteDialog.vue';
 import BadgeDialog from '../components/common/dialog/BadgeDialog.vue';
 import { badgeCheck } from '../api/badge';
 export default {
-  components: { Dialog, CommitComplete, Header, WriteDialog, BadgeDialog },
+  components: { Dialog, CommitComplete, Header, WriteDialog, BadgeDialog, Footer },
   name: 'Index',
   computed: {
     ...mapGetters({
@@ -97,6 +97,7 @@ export default {
   watch: {
     totalTime(val) {
       if (val == 0) {
+        console.log('%cIndex.vue line:96 stop timer!!', 'color: #007acc;');
         this.STOP_TIMER();
       }
     },
@@ -125,7 +126,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['CURRENT_LATLNG', 'START_TIMER', 'STOP_TIMER', 'GET_EMPCOMMIT_LIST']),
+    ...mapActions([
+      'CURRENT_LATLNG',
+      'FIRST_START_TIMER',
+      'START_TIMER',
+      'STOP_TIMER',
+      'GET_EMPCOMMIT_LIST',
+    ]),
     commit() {
       if (this.totalTime != 0) return;
       this.START_TIMER();
@@ -228,6 +235,7 @@ export default {
   },
   created() {
     this.CURRENT_LATLNG();
+    if (this.totalTime != 0) this.FIRST_START_TIMER();
   },
 };
 </script>

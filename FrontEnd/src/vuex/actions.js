@@ -161,6 +161,13 @@ export default {
     console.log(socialresult);
     return socialresult;
   },
+  FIRST_START_TIMER(store) {
+    store.commit(
+      'FIRST_START_TIMER',
+      setInterval(() => store.dispatch('COUNTDOWN'), 1000)
+    );
+    store.commit('COMMITBTN_STATE_CHANGER', false);
+  },
   START_TIMER: (store) => {
     store.commit(
       'START_TIMER',
