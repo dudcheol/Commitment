@@ -15,7 +15,7 @@
             <vs-tr :key="tr" v-for="tr in followers" :data="tr">
               <vs-td>
                 <v-avatar size="50" v-if="tr.profile != null">
-                  <img :src="tr.profile.filePath" alt="pic" />
+                  <img :src="tr.profile.filePath" alt="pic" @click="goToMyPage(tr.nickname)"/>
                 </v-avatar>
                 <v-avatar
                   v-else
@@ -27,10 +27,10 @@
                   <v-icon color="white">mdi-emoticon-happy</v-icon>
                 </v-avatar>
               </vs-td>
-              <vs-td class="nickname">
+              <vs-td class="nickname" @click="goToMyPage(tr.nickname)">
                 {{ tr.nickname }}
               </vs-td>
-              <vs-td class="percentageSmall">
+              <vs-td class="percentageSmall" @click="goToMyPage(tr.nickname)">
                 {{ tr.mystory }}
               </vs-td>
               <vs-td class="temp" v-if="isThere(tr.email) == true">
@@ -204,6 +204,12 @@ export default {
       console.log('닫기');
       // location.reload();
       this.$emit('close');
+    },
+    goToMyPage(data) {
+      console.log(data,"의 마이페이지로 이동");
+      this.$store.commit('SELECTED_USER_ID', data);
+      this.$router.push({ name: 'MyPage' });
+      location.reload();
     },
   },
 };

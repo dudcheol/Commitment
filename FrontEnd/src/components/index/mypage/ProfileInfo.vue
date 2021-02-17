@@ -18,7 +18,7 @@
           </template>
           <div class="con-content">
             <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
-            <div id="mobileHidden" >
+            <div id="mobileHidden">
               <input type="file" @change="fileSelected" />
               <img v-if="image" :src="image" width="300" />
             </div>
@@ -30,21 +30,22 @@
             </div>
           </div>
         </vs-dialog>
-        <div class="profileImg ">
+
+        <div class="profileImg " v-if="imgSrc != null">
           <v-list-item-avatar size="150">
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
         </div>
-        <div class="profileImg ">
+        <div class="profileImg " v-else>
           <v-avatar
-              circle
-              size="150"
-              color="blue-grey"
-              class="font-weight-medium display-2"
-              @click="showModal()"
-            >
-              <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
-            </v-avatar>
+            circle
+            size="150"
+            color="blue-grey"
+            class="font-weight-medium display-2"
+            @click="showModal()"
+          >
+            <v-icon color="white" size="100">mdi-emoticon-happy</v-icon>
+          </v-avatar>
         </div>
       </div>
       <v-card class="mx-auto" flat :width="width">
@@ -64,14 +65,29 @@
           <Follower @close="followingKey++" />
           <Following :key="followingKey" @close="followingKey++" />
           <v-spacer></v-spacer>
+          <div v-if="userId != user.nickname">
+            <vs-button
+              size="l"
+              square
+              icon
+              color="rgb(59,222,200)"
+              flat
+              @click="clickFollow"
+            >
+              <i class="bx bxs-check-square">{{
+                alreadyFollow ? '팔로우 취소' : '팔로우'
+              }}</i>
+            </vs-button>
+          </div>
+
           <div class="badge" v-if="this.user.email == this.email">
-            <ProfileEdit />
+            <!-- <ProfileEdit /> -->
           </div>
         </div>
 
         <v-card-actions>
           <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
           </v-btn>
         </v-card-actions>
 
@@ -99,59 +115,69 @@
   </div>
 </template>
 <script scoped>
-import { mapGetters } from "vuex";
-import Follower from "../../common/dialog/Follower";
-import Following from "../../common/dialog/Following";
-import ProfileEdit from "../../common/dialog/ProfileEdit";
-import { searchUserByNickname } from "../../../api/account";
-import { userCommitCount } from "../../../api/commit";
-import { editProfileImg } from "../../../api/img";
+import { mapGetters, mapActions } from 'vuex';
+import Follower from '../../common/dialog/Follower';
+import Following from '../../common/dialog/Following';
+// import ProfileEdit from '../../common/dialog/ProfileEdit';
+import { searchUserByNickname } from '../../../api/account';
+import { userCommitCount } from '../../../api/commit';
+import { editProfileImg } from '../../../api/img';
+import { follow, searchFollowings } from '../../../api/follow';
 export default {
   components: {
     Follower,
     Following,
-    ProfileEdit,
+    // ProfileEdit,
   },
   data: () => ({
     active: false,
     show: false,
-    id: "dudcheol", //this.$route.params.id로 받은 현재 유저의 닉네임
-    //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
-    email: "",
-    gender: "",
-    badge: "badge0",
-    age: "",
-    imgSrc: "",
-    mystory: "",
+    email: '',
+    gender: '',
+    badge: '',
+    age: '',
+    imgSrc: '',
+    mystory: '',
     //email로 /commit/total에서 가져온 커밋수
     cnt: 0,
-    image: "",
+    image: '',
     file: null,
     followingKey: 0,
+    alreadyFollow: false,
+    followers: [],
   }),
+
   computed: {
     ...mapGetters({
-      user: ["getUserInfo"],
-      userId: ["getSelectedUserId"],
+      user: ['getUserInfo'],
+      userId: ['getSelectedUserId'],
+      following: ['getFollowingList'],
     }),
 
     width() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "200px";
-        case "sm":
-          return "200px";
-        case "md":
-          return "500px";
-        case "lg":
-          return "600px";
-        case "xl":
-          return "900px";
+        case 'xs':
+          return '200px';
+        case 'sm':
+          return '200px';
+        case 'md':
+          return '500px';
+        case 'lg':
+          return '600px';
+        case 'xl':
+          return '900px';
       }
       return 700;
     },
+
+    watch: {
+      following(val) {
+        this.alreadyFollow = this.checkFollowing(val);
+      },
+    },
   },
   methods: {
+    ...mapActions(['GET_FOLLOWING_LIST']),
     showModal() {
       if (this.user.email == this.email) {
         this.active = true;
@@ -159,9 +185,8 @@ export default {
     },
     fileSelected(evt) {
       this.file = evt.target.files.item(0);
-      // console.log("파일"+this.file);
       const reader = new FileReader();
-      reader.addEventListener("load", this.imageLoaded);
+      reader.addEventListener('load', this.imageLoaded);
       reader.readAsDataURL(this.file);
     },
     imageLoaded(evt) {
@@ -170,8 +195,8 @@ export default {
     upload() {
       // console.log(this.file+"이랑"+this.email);
       const form = new FormData();
-      form.append("file", this.file);
-      form.append("email", this.email);
+      form.append('file', this.file);
+      form.append('email', this.email);
       editProfileImg(
         form,
         (response) => {
@@ -179,14 +204,40 @@ export default {
           this.active = false;
         },
         (error) => {
-          console.log("에러" + error);
+          console.log('에러' + error);
         }
       );
-      
+    },
+    clickFollow() {
+      // console.log("this.user.email",this.user.email);
+      // console.log("this.userId",this.email);
+      follow(
+        this.user.email, //나
+        this.email, //상대
+        () => {
+          // this.GET_FOLLOWING_LIST(this.user.email);//여기
+          // console.log(this.user.email, '가', this.userId, '팔로우 완료');
+        },
+        (error) => {
+          console.log('follow에러', error);
+        }
+      );
+    },
+    checkFollowing(followinglist) {
+      const compare = this.email; //this.email(지금 보고있는 마이페이지의 이메일)
+      console.log('얘', this.email);
+      for (let i = 0; i < followinglist.length; i++) {
+        console.log(followinglist[i].email, '?');
+        if (followinglist[i].email == compare) {
+          // console.log("이미 팔로우중");
+          return true; //이미 팔로우중이면 true
+        }
+      }
+      // console.log("팔로우안한상태");
+      return false; //팔로우중이 아니면 false
     },
   },
   created() {
-    //  console.log("현재 로그인 "+this.userId);
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
@@ -194,21 +245,34 @@ export default {
         this.email = content.content[0].email;
         this.gender = content.content[0].gender;
         this.age = content.content[0].age;
-        if(content.content[0].profile!=null){
-          console.log("사진경로"+content.content[0].profile.filePath);
+        if (content.content[0].profile != null) {
           this.imgSrc = content.content[0].profile.filePath;
-        }else{
+        } else {
           this.imgSrc = null;
         }
         this.badge = content.content[0].badge;
         this.mystory = content.content[0].mystory;
+        this.alreadyFollow = this.checkFollowing(this.following); //내가 팔로우중인 사람들 리스트 넣어서 체크
+        searchFollowings(
+          this.email,
+          (response) => {
+            const res = response.data;
+            for (let i = 0; i < res.length; i++) {
+              const item = res[i];
+              this.followers.push(item);
+            }
+          },
+          (error) => {
+            console.log('follower에러' + error);
+          }
+        );
         userCommitCount(
           this.email,
           (response) => {
             this.cnt = response.data;
           },
           (error) => {
-            console.log("cnt에러" + error);
+            console.log('cnt에러' + error);
           }
         );
       },
