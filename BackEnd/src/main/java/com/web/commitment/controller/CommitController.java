@@ -98,33 +98,33 @@ public class CommitController {
 	// 커밋 행렬 좌표, 횟수 불러오기
 	@GetMapping("/commit")
 	@ApiOperation(value = "인덱스 별 커밋 횟수 불러오기")
-	public List<int[]> commitCount(@RequestParam(required = true) final String email,
+	public List<int[]> commitCount(@RequestParam(required = true) String email,
 			@RequestParam(required = false) String name) {
 		
+		System.out.println(name);
 		Map<Position, Integer> map = new HashMap<>();
 		List<Commit> commits = new ArrayList<>();
 		
-		if (!name.equals("national")) {
-
-			commits = commitDao.findAllByEmailAndRegion(email, name);
-			if(commits.size() == 0) {
-				Optional<User> user = userDao.findUserByNickname(email);	
-				commits = commitDao.findAllByEmailAndRegion(user.get().getEmail(), name);
-			}
+		User user = userDao.findUserByEmail(email);
+		if(user == null) {
+			user = userDao.findUserByNickname(email);
+			if(user != null)
+				email = user.getEmail();
+		}
 		
+		if (!name.equals("national")) {
+			commits = commitDao.findAllByEmailAndRegion(email, name);
+
 			for (Commit commit : commits) {
 				map.put(new Position(Integer.parseInt(commit.getLocalX()), Integer.parseInt(commit.getLocalY())),
 						map.getOrDefault(new Position(Integer.parseInt(commit.getLocalX()),
 								Integer.parseInt(commit.getLocalY())), 0) + 1);
 			}
 		} else { // name이 null이라면 전국지도
-
-			commits = commitDao.findAllByEmail(email);
-			if(commits.size() == 0) {
-				Optional<User> user = userDao.findUserByNickname(email);	
-				commits = commitDao.findAllByEmail(user.get().getEmail());
-			}
 			
+			commits = commitDao.findAllByEmail(email);
+			
+			System.out.println(commits);
 			for (Commit commit : commits) {
 				map.put(new Position(Integer.parseInt(commit.getNationalX()), Integer.parseInt(commit.getNationalY())),
 						map.getOrDefault(new Position(Integer.parseInt(commit.getNationalX()),
@@ -182,9 +182,9 @@ public class CommitController {
 			@RequestParam String region) {
 		// region : 지역지도인지 국내지도인지/ 0: 국내지도, 1: 지역지도
 
-		Optional<User> isuser = userDao.findUserByNickname(nickname);
+		User isuser = userDao.findUserByNickname(nickname);
 		String email = null;
-		email = isuser.get().getEmail();
+		email = isuser.getEmail();
 		System.out.println(email);
 		
 		List<Commit> commits = new ArrayList<>();
@@ -476,9 +476,10 @@ public class CommitController {
 		for (int i = 0; i < followings.size(); i++) {
 			// 2. 각각 팔로우한 사람들에게서 커밋지도 불러오기
 			FollowCommitMap followCommitMap = new FollowCommitMap();
-			UserDto userdto=new UserDto();
+			UserDto userdto = new UserDto();
 			BeanUtils.copyProperties(followings.get(i), userdto);
 			followCommitMap.setUser(userdto);
+
 			followCommitMap.setCommit(commitCount(followings.get(i).getEmail(), followings.get(i).getRegion_name()));
 			result.add(followCommitMap);
 		}
