@@ -101,13 +101,12 @@ public class CommitController {
 	public List<int[]> commitCount(@RequestParam(required = true) String email,
 			@RequestParam(required = false) String name) {
 		
-		System.out.println(name);
 		Map<Position, Integer> map = new HashMap<>();
 		List<Commit> commits = new ArrayList<>();
 		
 		User user = userDao.findUserByEmail(email);
 		if(user == null) {
-			user = userDao.findUserByNickname(email);
+			user = userDao.findByNickname(email);
 			if(user != null)
 				email = user.getEmail();
 		}
@@ -182,7 +181,7 @@ public class CommitController {
 			@RequestParam String region) {
 		// region : 지역지도인지 국내지도인지/ 0: 국내지도, 1: 지역지도
 
-		User isuser = userDao.findUserByNickname(nickname);
+		User isuser = userDao.findByNickname(nickname);
 		String email = null;
 		email = isuser.getEmail();
 		System.out.println(email);
@@ -479,7 +478,9 @@ public class CommitController {
 			UserDto userdto = new UserDto();
 			BeanUtils.copyProperties(followings.get(i), userdto);
 			followCommitMap.setUser(userdto);
-
+			
+			System.out.println("followmap: " + followings.get(i).getEmail());
+			System.out.println("followmap: " + followings.get(i).getRegion_name());
 			followCommitMap.setCommit(commitCount(followings.get(i).getEmail(), followings.get(i).getRegion_name()));
 			result.add(followCommitMap);
 		}
