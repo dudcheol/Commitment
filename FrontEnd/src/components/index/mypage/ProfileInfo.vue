@@ -3,7 +3,14 @@
     <!-- top -->
     <div class="top" :justify="dynamicJustify">
       <div>
-        <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
+        <vs-dialog
+          blur
+          scroll
+          overflow-hidden
+          not-close
+          v-model="active"
+          width="400px"
+        >
           <template #header>
             <h3>
               프로필 사진 변경
@@ -24,8 +31,7 @@
           </div>
         </vs-dialog>
 
-        
-        <div class="profileImg " v-if="imgSrc!=null">
+        <div class="profileImg " v-if="imgSrc != null">
           <v-list-item-avatar size="150">
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
@@ -59,14 +65,23 @@
           <Follower @close="followingKey++" />
           <Following :key="followingKey" @close="followingKey++" />
           <v-spacer></v-spacer>
-          <div v-if="userId!=user.nickname">
-            <vs-button size="l" square icon color="rgb(59,222,200)" flat @click="clickFollow">
-              <i class="bx bxs-check-square">{{alreadyFollow?'팔로우 취소':'팔로우'}}</i>
+          <div v-if="userId != user.nickname">
+            <vs-button
+              size="l"
+              square
+              icon
+              color="rgb(59,222,200)"
+              flat
+              @click="clickFollow"
+            >
+              <i class="bx bxs-check-square">{{
+                alreadyFollow ? '팔로우 취소' : '팔로우'
+              }}</i>
             </vs-button>
           </div>
 
           <div class="badge" v-if="this.user.email == this.email">
-            <ProfileEdit />
+            <!-- <ProfileEdit /> -->
           </div>
         </div>
 
@@ -85,7 +100,7 @@
         </v-expand-transition>
       </v-card>
       <div>
-        <div class="badge" v-if="badge!=null">
+        <div class="badge" v-if="badge != null">
           <v-list-item-avatar size="70">
             <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
           </v-list-item-avatar>
@@ -103,7 +118,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import Follower from '../../common/dialog/Follower';
 import Following from '../../common/dialog/Following';
-import ProfileEdit from '../../common/dialog/ProfileEdit';
+// import ProfileEdit from '../../common/dialog/ProfileEdit';
 import { searchUserByNickname } from '../../../api/account';
 import { userCommitCount } from '../../../api/commit';
 import { editProfileImg } from '../../../api/img';
@@ -112,7 +127,7 @@ export default {
   components: {
     Follower,
     Following,
-    ProfileEdit,
+    // ProfileEdit,
   },
   data: () => ({
     active: false,
@@ -128,7 +143,7 @@ export default {
     image: '',
     file: null,
     followingKey: 0,
-    alreadyFollow:false,
+    alreadyFollow: false,
     followers: [],
   }),
 
@@ -136,9 +151,9 @@ export default {
     ...mapGetters({
       user: ['getUserInfo'],
       userId: ['getSelectedUserId'],
-      following: ['getFollowingList']
+      following: ['getFollowingList'],
     }),
-    
+
     width() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
@@ -154,8 +169,8 @@ export default {
       }
       return 700;
     },
-    
-    watch:{
+
+    watch: {
       following(val) {
         this.alreadyFollow = this.checkFollowing(val);
       },
@@ -193,7 +208,7 @@ export default {
         }
       );
     },
-    clickFollow(){
+    clickFollow() {
       // console.log("this.user.email",this.user.email);
       // console.log("this.userId",this.email);
       follow(
@@ -209,21 +224,20 @@ export default {
       );
     },
     checkFollowing(followinglist) {
-      const compare = this.email;//this.email(지금 보고있는 마이페이지의 이메일)
-      console.log("얘",this.email);
+      const compare = this.email; //this.email(지금 보고있는 마이페이지의 이메일)
+      console.log('얘', this.email);
       for (let i = 0; i < followinglist.length; i++) {
-        console.log(followinglist[i].email,"?");
-        if (followinglist[i].email == compare){
+        console.log(followinglist[i].email, '?');
+        if (followinglist[i].email == compare) {
           // console.log("이미 팔로우중");
-          return true;//이미 팔로우중이면 true
-        } 
+          return true; //이미 팔로우중이면 true
+        }
       }
       // console.log("팔로우안한상태");
-      return false;//팔로우중이 아니면 false
+      return false; //팔로우중이 아니면 false
     },
   },
   created() {
-    
     searchUserByNickname(
       { keyword: this.userId },
       (response) => {
@@ -231,7 +245,7 @@ export default {
         this.email = content.content[0].email;
         this.gender = content.content[0].gender;
         this.age = content.content[0].age;
-        if(content.content[0].profile!=null){
+        if (content.content[0].profile != null) {
           this.imgSrc = content.content[0].profile.filePath;
         } else {
           this.imgSrc = null;
@@ -261,7 +275,6 @@ export default {
             console.log('cnt에러' + error);
           }
         );
-
       },
       (error) => {
         console.log('profileinfo-img에러' + error);
