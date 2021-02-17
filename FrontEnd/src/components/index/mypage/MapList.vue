@@ -2,7 +2,7 @@
   <v-container fluid class="pa-0 ma-0">
     <v-row no-gutters>
       <v-col cols="12" sm="8">
-        <div class="d-flex justify-center">
+        <div class="d-flex justify-center align-center flex-column">
           <v-btn-toggle
             v-model="picked"
             :ripple="false"
@@ -21,6 +21,20 @@
               {{ item }}
             </v-btn>
           </v-btn-toggle>
+          <v-btn
+            outlined
+            rounded
+            small
+            color="primary"
+            elevation="0"
+            text
+            :ripple="false"
+            @click="mapSettingDialog = !mapSettingDialog"
+            style="position:absolute"
+            class="mt-16"
+          >
+            대표지도로 설정
+          </v-btn>
         </div>
         <div class="d-flex justify-center align-center" style="height:600px" :key="userId">
           <div v-if="picked == 0">
@@ -93,6 +107,13 @@
         </div>
       </v-col>
     </v-row>
+    <Dialog
+      :confirm="mapSettingDialog"
+      :confirmTitle="'대표지도 설정하기'"
+      :confirmContent="'현재 보고 있는 지도를 대표지도로 설정할까요?'"
+      @close="mapSettingDialog = !mapSettingDialog"
+      @confirm-ok="setMyCommitMap"
+    ></Dialog>
   </v-container>
 </template>
 
@@ -108,6 +129,8 @@ import CommitListItem from '../../common/card/CommitListItem';
 import NoDataCard from '../../common/card/NoDataCard.vue';
 import { getCommitMap, getMapCoordCommits } from '../../../api/commit';
 import { mapGetters } from 'vuex';
+import { getUserInfoByNickname, setMyCommitMap } from '../../../api/account';
+import Dialog from '../../common/dialog/Dialog.vue';
 export default {
   components: {
     CommitListItem,
@@ -119,6 +142,7 @@ export default {
     MapUlsan,
     MapGwangju,
     NoDataCard,
+    Dialog,
   },
   data() {
     return {
@@ -126,6 +150,7 @@ export default {
       items: [],
       picked: 0,
       datas: [],
+      mapSettingDialog: false,
     };
   },
   watch: {
@@ -150,11 +175,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ userId: ['getSelectedUserId'] }),
+    ...mapGetters({ user: ['getUserInfo'], userId: ['getSelectedUserId'] }),
   },
   methods: {
     mapClick(val) {
-      console.log('%cMapList.vue line:69 val', 'color: #007acc;', val);
       getMapCoordCommits(
         this.userId,
         this.getRegion(this.picked),
@@ -191,22 +215,74 @@ export default {
           return 'gwangju';
       }
     },
+    getRegionIdx(region) {
+      switch (region) {
+        case 'national':
+          return 0;
+        case 'seoul':
+          return 1;
+        case 'busan':
+          return 2;
+        case 'gyeonggi':
+          return 3;
+        case 'gangwon':
+          return 4;
+        case 'ulsan':
+          return 5;
+        case 'gwangju':
+          return 6;
+      }
+    },
+    setMyCommitMap() {
+      console.log('%cMapList.vue line:235 this.user', 'color: #007acc;', this.user);
+      setMyCommitMap(
+        this.user.email,
+        this.getRegion(this.picked),
+        (response) => {
+          if (response.data === 'success') {
+            this.openNotification(4000);
+          }
+        },
+        () => {}
+      );
+      // this.user.email,
+    },
+    openNotification(duration) {
+      this.$vs.notification({
+        duration,
+        position: 'top-right',
+        color: 'primary',
+        flat: true,
+        progress: 'auto',
+        title: '알림',
+        text: `대표지도를 변경하였습니다.`,
+      });
+    },
   },
   activated() {
-    console.log('%cMapList.vue line:14', 'color: #007acc;');
-    console.log('%cMapList.vue line:148 this.userId', 'color: #007acc;', this.userId);
     this.datas = [];
-    this.items = [];
-    getCommitMap(
+    getUserInfoByNickname(
       this.userId,
-      this.getRegion(this.picked),
       (response) => {
-        console.log('%cMapList.vue line:161 response.data', 'color: #26bfa5;', response.data);
-        this.datas = response.data;
+        this.picked = this.getRegionIdx(response.data.user.region_name);
+        getCommitMap(
+          this.userId,
+          this.getRegion(this.picked),
+          (response) => {
+            this.datas = response.data;
+          },
+          (error) => {
+            console.log(
+              '%cerror MapList.vue line:153 ',
+              'color: red; display: block; width: 100%;',
+              error
+            );
+          }
+        );
       },
       (error) => {
         console.log(
-          '%cerror MapList.vue line:153 ',
+          '%cerror MapList.vue line:222 ',
           'color: red; display: block; width: 100%;',
           error
         );
@@ -215,7 +291,6 @@ export default {
   },
   deactivated() {
     this.datas = [];
-    this.items = [];
   },
 };
 </script>

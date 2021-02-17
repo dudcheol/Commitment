@@ -35,6 +35,7 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
 import CommitCard from '../../common/card/CommitCard.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { CommitCard },
@@ -45,6 +46,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ user: ['getUserInfo'], following: ['getFollowingList'] }),
     panel() {
       switch (this.$vuetify.breakpoint.name) {
         case 'md':
@@ -75,6 +77,23 @@ export default {
       this.$store.commit('SELECTED_USER_ID', user.username);
       this.$router.push({ name: 'MyPage' });
     },
+    openNotification(duration) {
+      this.$vs.notification({
+        duration,
+        position: 'top-right',
+        color: 'primary',
+        flat: true,
+        progress: 'auto',
+        title: '알림',
+        text: `${this.nowCommits[0].username}님이 새로운 커밋을 작성했어요!`,
+      });
+    },
+    checkFollowing(nickname) {
+      for (let i = 0; i < this.following.length; i++) {
+        if (this.following[i].nickname == nickname) return true;
+      }
+      return false;
+    },
   },
   created() {
     firebase
@@ -93,6 +112,7 @@ export default {
             email: res[idx].userEmail,
           });
         }
+        if (this.checkFollowing(this.nowCommits[0].username)) this.openNotification(4000);
       });
   },
 };
