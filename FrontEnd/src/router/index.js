@@ -66,7 +66,7 @@ const routes = [
     ],
   },
   {
-    path: 'mypage',
+    path: '/mypage',
     name: 'MyPage',
     beforeEnter: requireAuth(),
     component: MyPage,

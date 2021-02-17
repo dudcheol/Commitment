@@ -1,6 +1,11 @@
 <template>
-  <div style="max-height:200px; cursor:pointer">
-    <div v-if="data.board.length" class="d-flex flex-column" @click="goToDetail">
+  <div style="max-height:200px;">
+    <div
+      v-if="data.board.length"
+      class="d-flex flex-column"
+      @click="goToDetail"
+      style="cursor:pointer"
+    >
       <div class="white rounded-lg px-3 py-2">
         <v-icon size="30" color="primary" class="pr-1">mdi-pencil-circle</v-icon>
         <strong>{{ data.address }}</strong

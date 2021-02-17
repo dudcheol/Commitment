@@ -88,7 +88,9 @@ export default {
       console.log('%cMyPage.vue line:143 type', 'color: #007acc;', this.picked);
     },
     back() {
-      this.$router.back();
+      // this.$router.back();
+      console.log('window.history', 'color: #007acc;', window.history);
+      this.$router.go(-1);
     },
   },
   activated() {
