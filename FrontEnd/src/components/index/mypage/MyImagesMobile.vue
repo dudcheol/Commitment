@@ -35,12 +35,10 @@ export default {
       (response) => {
         const content = response.data;
         this.email = content.content[0].email;
-        console.log('email', this.email);
         timelineInfo(
           this.email,
           (response) => {
             const res = response.data;
-            console.log('res', res);
             for (let i = 0; i < res.length; i++) {
               const item = res[i];
               if (item.image[0] == null) {

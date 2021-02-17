@@ -19,11 +19,7 @@
                   src="../../../assets/img/badge/first_commit.png"
                   alt="John"
                 />
-                <img
-                  v-else
-                  src="../../../assets/img/badge/lock3.png"
-                  alt="John"
-                />
+                <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
               </v-avatar>
             </template>
             <template #title>
@@ -55,11 +51,7 @@
                 src="../../../assets/img/badge/total_commit.png"
                 alt="John"
               />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -77,9 +69,7 @@
             </div>
           </template>
           <template #text>
-            <p v-if="!badgesflag[1]">
-              획득까지 {{ 100 - commitper }}% 남았어요!
-            </p>
+            <p v-if="!badgesflag[1]">획득까지 {{ 100 - commitper }}% 남았어요!</p>
             <p v-else>{{ badgesDate[1] }} 획득!</p>
           </template>
         </vs-card>
@@ -99,11 +89,7 @@
                 src="../../../assets/img/badge/first_following.png"
                 alt="John"
               />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -131,16 +117,8 @@
         <vs-card type="5" class="etccard" @click="modalup(3)">
           <template #img>
             <v-avatar size="100">
-              <img
-                v-if="badgesflag[3]"
-                src="../../../assets/img/badge/dokdo.png"
-                alt="John"
-              />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-if="badgesflag[3]" src="../../../assets/img/badge/dokdo.png" alt="John" />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -166,16 +144,8 @@
         <vs-card type="5" class="etccard" @click="modalup(4)">
           <template #img>
             <v-avatar size="100">
-              <img
-                v-if="badgesflag[4]"
-                src="../../../assets/img/badge/seoul.png"
-                alt="John"
-              />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-if="badgesflag[4]" src="../../../assets/img/badge/seoul.png" alt="John" />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -201,16 +171,8 @@
         <vs-card type="5" class="etccard" @click="modalup(5)">
           <template #img>
             <v-avatar size="100">
-              <img
-                v-if="badgesflag[5]"
-                src="../../../assets/img/badge/gangwondo.png"
-                alt="John"
-              />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-if="badgesflag[5]" src="../../../assets/img/badge/gangwondo.png" alt="John" />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -238,16 +200,8 @@
         <vs-card type="5" class="etccard" @click="modalup(6)">
           <template #img>
             <v-avatar size="100">
-              <img
-                v-if="badgesflag[6]"
-                src="../../../assets/img/badge/busan.png"
-                alt="John"
-              />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-if="badgesflag[6]" src="../../../assets/img/badge/busan.png" alt="John" />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -273,16 +227,8 @@
         <vs-card type="5" class="etccard" @click="modalup(7)">
           <template #img>
             <v-avatar size="100">
-              <img
-                v-if="badgesflag[7]"
-                src="../../../assets/img/badge/gyeonggido.png"
-                alt="John"
-              />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-if="badgesflag[7]" src="../../../assets/img/badge/gyeonggido.png" alt="John" />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -308,16 +254,8 @@
         <vs-card type="5" class="etccard" @click="modalup(8)">
           <template #img>
             <v-avatar size="100">
-              <img
-                v-if="badgesflag[8]"
-                src="../../../assets/img/badge/ulsan.png"
-                alt="John"
-              />
-              <img
-                v-else
-                src="../../../assets/img/badge/lock3.png"
-                alt="John"
-              />
+              <img v-if="badgesflag[8]" src="../../../assets/img/badge/ulsan.png" alt="John" />
+              <img v-else src="../../../assets/img/badge/lock3.png" alt="John" />
             </v-avatar>
           </template>
           <template #title>
@@ -394,17 +332,7 @@ export default {
           this.badges.push(arr[i]);
         }
         var badgedate = new Array(9);
-        this.badgesflag = [
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-        ];
+        this.badgesflag = [false, false, false, false, false, false, false, false, false];
         for (let i = 0; i < this.badges.length; i++) {
           if (this.badges[i].name == 'first_commit') {
             this.badgesflag[0] = true;
@@ -447,8 +375,8 @@ export default {
       mybadge(
         email,
         this.mainbadge,
-        (response) => {
-          console.log(response);
+        () => {
+          this.$emit('update-badge');
         },
         (error) => {
           console.log(error);

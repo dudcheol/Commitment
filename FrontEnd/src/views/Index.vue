@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <Header></Header>
-    <v-main class="blue-grey lighten-5">
+    <v-main class="blue-grey lighten-5 pb-16">
       <router-view :openWriteDialog="openWriteDialog" @add-commit="commit"></router-view>
     </v-main>
     <v-btn
@@ -97,7 +97,6 @@ export default {
   watch: {
     totalTime(val) {
       if (val == 0) {
-        console.log('%cIndex.vue line:96 stop timer!!', 'color: #007acc;');
         this.STOP_TIMER();
       }
     },
@@ -143,21 +142,16 @@ export default {
         this.latlng.lng,
         READ_PERMISSION_OK,
         (response) => {
-          console.log('%cIndex.vue line:115 response', 'color: #007acc;', response.data);
           if (response.data) {
             badgeCheck(
               this.user.email,
               (response) => {
                 this.badgeIndex = 0;
                 this.badgearr = response.data;
-                if (this.badgearr[0].result != 'yes') {
-                  console.log(this.badgearr[0].result);
-                } else {
-                  console.log(this.badgearr);
+                if (this.badgearr[0].result == 'yes') {
                   this.badgemsg = this.badgearr[0].msg;
                   this.badgename = this.badgearr[0].badge;
                   this.path = require('../assets/img/badge/' + this.badgename + '.png');
-                  console.log(this.path);
                   this.badgeflag = true;
                   this.badgeIndex++;
                 }
@@ -205,8 +199,6 @@ export default {
     },
     confirmOk() {
       this.$store.commit('COMMIT_DIALOG', false);
-      console.log('%cIndex.vue line:158 this.commitId', 'color: #007acc;', this.commitId);
-      console.log('%cIndex.vue line:159 this.commitAddress', 'color: #007acc;', this.commitAddress);
       this.$store.commit('WRITE_DIALOG', {
         state: true,
         id: this.commitId,
@@ -227,7 +219,6 @@ export default {
         this.badgemsg = this.badgearr[this.badgeIndex].msg;
         this.badgename = this.badgearr[this.badgeIndex].badge;
         this.path = require('../assets/img/badge/' + this.badgename + '.png');
-        console.log(this.path);
         this.badgeflag = true;
         this.badgeIndex++;
       }

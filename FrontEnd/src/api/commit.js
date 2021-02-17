@@ -12,7 +12,6 @@ function latlngToAddress(latlng, success, fail) {
 }
 
 function addCommit(email, lat, lng, open, success, fail) {
-  console.log('%ccommit.js line:15 open', 'color: #007acc;', open);
   instance
     .post(`commit/${open}`, { email, lat, lng })
     .then(success)

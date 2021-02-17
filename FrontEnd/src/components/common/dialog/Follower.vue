@@ -15,7 +15,7 @@
             <vs-tr :key="tr" v-for="tr in followers" :data="tr">
               <vs-td>
                 <v-avatar size="50" v-if="tr.profile != null">
-                  <img :src="tr.profile.filePath" alt="pic" @click="goToMyPage(tr.nickname)"/>
+                  <img :src="tr.profile.filePath" alt="pic" @click="goToMyPage(tr.nickname)" />
                 </v-avatar>
                 <v-avatar
                   v-else
@@ -125,7 +125,6 @@ export default {
         to, //상대
         () => {
           this.GET_FOLLOWING_LIST(this.user.email);
-          console.log(this.user.email, '가', to, '팔로우 완료');
 
           searchFollowers(
             this.email,
@@ -158,7 +157,6 @@ export default {
         to, //상대
         () => {
           this.GET_FOLLOWING_LIST(this.user.email);
-          console.log(this.user.email, '가', to, '팔로우 완료');
 
           searchFollowers(
             this.email,
@@ -192,21 +190,16 @@ export default {
     },
 
     isThere(para) {
-      // console.log(para+"가 "+this.user.email+"의 팔로잉리스트에 있나?");
       for (let i = 0; i < this.following.length; i++) {
-        // console.log(para+"=="+this.following[i].email);
         if (this.following[i].email == para) {
           return true;
         }
       }
     },
     isClose() {
-      console.log('닫기');
-      // location.reload();
       this.$emit('close');
     },
     goToMyPage(data) {
-      console.log(data,"의 마이페이지로 이동");
       this.$store.commit('SELECTED_USER_ID', data);
       this.$router.push({ name: 'MyPage' });
       location.reload();

@@ -74,4 +74,10 @@ export default {
   SELECTED_USER_ID(state, payload) {
     state.selectedUserId = payload;
   },
+  UPDATE_USERINFO(state, payload) {
+    state.userInfo = payload;
+  },
+  GET_REALTIME_COMMIT_LIST(state, payload) {
+    state.realtimeCommitList = payload;
+  },
 };

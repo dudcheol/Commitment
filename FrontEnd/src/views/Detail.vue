@@ -55,8 +55,6 @@ export default {
       document.head.appendChild(script);
     },
     back() {
-      // this.$router.back();
-      console.log('window.history', 'color: #007acc;', window.history);
       this.$router.go(-1);
     },
   },

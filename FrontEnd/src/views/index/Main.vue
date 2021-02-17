@@ -3,7 +3,7 @@
     <v-col class="mt-4" :class="dynamicPosition" cols="12" md="3" lg="3" xl="2">
       <v-row>
         <v-col>
-          <ProfileSummary />
+          <ProfileSummary :key="3" />
         </v-col>
       </v-row>
       <v-row>
@@ -13,7 +13,13 @@
       </v-row>
     </v-col>
 
-    <v-col cols="12" md="3" :class="dynamicPosition" style="right:0" class="mt-md-4 pa-0">
+    <v-col
+      cols="12"
+      md="3"
+      :class="dynamicPosition"
+      style="right:0;"
+      class="mt-md-4 pa-0 commit-now"
+    >
       <CommitNow />
     </v-col>
 
@@ -96,5 +102,11 @@ export default {
 }
 .overflow-sm-style {
   overflow: hidden;
+}
+.commit-now {
+  -ms-overflow-style: none;
+}
+.commit-now::-webkit-scrollbar {
+  display: none;
 }
 </style>

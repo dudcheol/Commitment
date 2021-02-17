@@ -214,7 +214,6 @@ export default {
       );
     },
     clickFollow() {
-      console.log('%cMainCard.vue line:171 follow', 'color: #007acc;');
       follow(
         this.user.email,
         this.data.user.email,
@@ -225,10 +224,7 @@ export default {
             (response) => {
               this.badgeIndex = 0;
               this.badgearr = response.data;
-              if (this.badgearr[0].result != 'yes') {
-                console.log(this.badgearr[0].result);
-              } else {
-                console.log(this.badgearr);
+              if (this.badgearr[0].result == 'yes') {
                 this.badgemsg = this.badgearr[0].msg;
                 this.badgename = this.badgearr[0].badge;
                 this.path = require('../../../assets/img/badge/' + this.badgename + '.png');
@@ -280,6 +276,7 @@ export default {
         (response) => {
           console.log('%cMainCard.vue line:220 response', 'color: #007acc;', response);
           this.$store.commit('BOARD_REFRESH');
+          this.$emit('removed');
         },
         (error) => {
           console.log(

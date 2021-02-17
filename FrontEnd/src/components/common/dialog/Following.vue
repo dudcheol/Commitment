@@ -16,7 +16,7 @@
             <vs-tr :key="tr" v-for="tr in followers" :data="tr">
               <vs-td>
                 <v-avatar size="50" v-if="tr.profile != null">
-                  <img :src="tr.profile.filePath" alt="pic" @click="goToMyPage(tr.nickname)"/>
+                  <img :src="tr.profile.filePath" alt="pic" @click="goToMyPage(tr.nickname)" />
                 </v-avatar>
                 <v-avatar
                   v-else
@@ -168,11 +168,9 @@ export default {
       return true; //팔로우 안된사람이면 팔로우 할수있음을
     },
     isClose() {
-      // console.log('닫기');
       this.$emit('close');
     },
     goToMyPage(data) {
-      console.log(data,"의 마이페이지로 이동");
       this.$store.commit('SELECTED_USER_ID', data);
       this.$router.push({ name: 'MyPage' });
       location.reload();

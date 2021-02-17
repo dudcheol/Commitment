@@ -1,118 +1,67 @@
 <template>
   <div>
-    <div id="videoBd">
-      <video
-        id="videoBG"
-        poster="../assets/img/login/poster.jpg"
-        autoplay
-        muted
-        loop
-      >
-        <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4" />
-      </video>
-    </div>
+    <div id="videoBd" class="blue-grey lighten-5"></div>
     <div class="login_form">
-      <vs-card class="card">
+      <vs-card class="card" type="3">
         <template #title>
-          <h3 class="not-margin d-flex justify-center">
-            <b>Commmitment</b> 회원가입
-          </h3>
+          <h1 class="not-margin d-flex justify-center font-weight-black text-h2">회원가입</h1>
         </template>
         <!-- 이메일 지역 닉네임 비밀번호 전화번호 나이 성별 이메일 인증여부-->
         <template #text>
-          <div class="con-form">
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                📧
-                <div class="signup_text">이메일</div>
-              </div>
+          <div class="con-form px-2 py-3">
+            <div class="d-flex mb-4 justify-space-between">
               <vs-input v-model="email" placeholder="이메일">
                 <template #icon>
                   @
                 </template>
               </vs-input>
               <div class="d-flex align-center mr-1">
-                <vs-button block @click="idcheck()">
-                  check
+                <vs-button @click="idcheck()" icon flat>
+                  <i class="bx bx-check"></i>
                 </vs-button>
               </div>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🔒
-                <div class="signup_text">비밀번호</div>
-              </div>
-              <vs-input
-                type="password"
-                v-model="password"
-                placeholder="비밀번호"
-              >
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input type="password" v-model="password" placeholder="비밀번호">
                 <template #icon>
                   <i class="bx bx-lock-open-alt"></i>
                 </template>
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🔒
-                <div class="signup_text">비밀번호 확인</div>
-              </div>
-              <vs-input
-                type="password"
-                v-model="passwordConfirm"
-                placeholder="비밀번호 확인"
-              >
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input type="password" v-model="passwordConfirm" placeholder="비밀번호 확인">
                 <template #icon>
                   <i class="bx bx-lock-open-alt"></i>
                 </template>
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                😀
-                <div class="signup_text">닉네임</div>
-              </div>
+            <div class="d-flex mb-4 justify-space-between">
               <div>
-                <vs-input
-                  v-model="nickname"
-                  placeholder="3글자이상 작성해주세요"
-                >
+                <vs-input v-model="nickname" placeholder="3글자이상 작성해주세요">
                   <template #icon>
                     <i class="bx bx-user"></i>
                   </template>
                 </vs-input>
               </div>
               <div class="d-flex align-center mr-1">
-                <vs-button block @click="nick()">
-                  check
+                <vs-button @click="nick()" icon flat>
+                  <i class="bx bx-check"></i>
                 </vs-button>
               </div>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🏷️
-                <div class="signup_text">한줄소개</div>
-              </div>
-              <vs-input
-                v-model="mystory"
-                maxlength
-                placeholder="나만의 한줄 소개 !"
-              >
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input v-model="mystory" maxlength placeholder="나만의 한줄 소개 !">
                 <template #icon>
                   <i class="bx bx-comment-detail"></i>
                 </template>
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                📞
-                <div class="signup_text">전화번호</div>
-              </div>
+            <div class="d-flex mb-4 justify-space-between">
               <vs-input v-model="tel" maxlength="11" placeholder="전화번호">
                 <template #icon>
                   <i class="bx bx-phone"></i>
@@ -120,13 +69,13 @@
               </vs-input>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🧑‍🤝‍🧑
-                <div class="signup_text">성별</div>
-              </div>
+            <div class="d-flex mb-4 justify-space-between">
               <div class="d-flex justify-center">
-                <vs-select placeholder="당신의 성별은?" v-model="gender">
+                <vs-select
+                  placeholder="당신의 성별은?"
+                  v-model="gender"
+                  style="width:200px; height:35px"
+                >
                   <vs-option label="Man" value="m">
                     Man
                   </vs-option>
@@ -137,28 +86,24 @@
               </div>
             </div>
 
-            <div class="d-flex mb-4">
-              <div class="d-flex align-center mr-3">
-                🍂
-                <div class="signup_text">나이</div>
-              </div>
-              <vs-input type="number" v-model="age" />
+            <div class="d-flex mb-4 justify-space-between">
+              <vs-input type="number" v-model="age" placeholder="나이">
+                <template #icon>
+                  <i class="bx bx-id-card"></i>
+                </template>
+              </vs-input>
             </div>
           </div>
           <!-- <input v-model="isTerm" type="checkbox" id="term" />
           <span>약관에 동의합니다</span> -->
           <div class="footer-dialog">
             <vs-button block @click="submit">
-              회원가입
+              가입하기
             </vs-button>
           </div>
         </template>
       </vs-card>
-      <EmailDialog
-        @yes="close()"
-        :content="dialog.content"
-        :dialog="dialog.activation"
-      >
+      <EmailDialog @yes="close()" :content="dialog.content" :dialog="dialog.activation">
       </EmailDialog>
     </div>
   </div>
@@ -206,12 +151,7 @@ export default {
       let passRule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
       let telRule = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
       this.resultsignup = false;
-      if (
-        this.email &&
-        this.nickname &&
-        this.password &&
-        this.passwordConfirm
-      ) {
+      if (this.email && this.nickname && this.password && this.passwordConfirm) {
         if (
           this.email.trim().length == 0 ||
           this.password.trim().length == 0 ||
@@ -481,8 +421,7 @@ export default {
     display: none;
   }
   #videoBd {
-    background: url('../assets/img/login/poster.jpg') no-repeat center center
-      fixed;
+    background: url('../assets/img/login/poster.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
