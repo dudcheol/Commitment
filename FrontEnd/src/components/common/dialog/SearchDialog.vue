@@ -71,7 +71,6 @@ export default {
       searchNickname(
         this.searchValue,
         (response) => {
-          console.log(response.data.content);
           this.users = response.data.content;
         },
         (error) => {
