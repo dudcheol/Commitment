@@ -375,8 +375,7 @@ export default {
       mybadge(
         email,
         this.mainbadge,
-        (response) => {
-          console.log(response);
+        () => {
           this.$emit('update-badge');
         },
         (error) => {

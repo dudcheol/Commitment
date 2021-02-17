@@ -98,7 +98,6 @@
           multiple
           solo
           flat
-          :append-icon="false"
           small-chips
           class="ma-0 pa-0"
           dense
@@ -181,25 +180,15 @@ export default {
       }
       this.board.tag = tmp;
       this.board.commitId = this.commitId;
-      console.log('%cWriteDialog.vue line:169 this.board', 'color: #007acc;', this.board);
       writeBoard(
         this.board,
         (response) => {
-          console.log(response);
-
           this.images.file = this.files;
-          console.log(this.images.file);
           var frm = new FormData();
           for (var i = 0; i < this.images.file.length; i++) {
-            console.log(this.images.file[i]);
             frm.append('file', this.images.file[i].file);
           }
 
-          for (var pair of frm.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-          }
-
-          console.log(this.mystory);
           imageUpload(
             frm,
             response.data,
@@ -239,11 +228,8 @@ export default {
         this.start++;
       }
       this.uploadImageIndex = this.start; //이미지 index의 마지막 값 + 1 저장
-
-      console.log(this.files); // 콘솔에 배열 찍기
     },
     fileDeleteButton(e) {
-      console.log(e.target.getAttribute('name'));
       const name = e.target.getAttribute('name');
       this.files = this.files.filter((data) => data.number !== Number(name));
     },

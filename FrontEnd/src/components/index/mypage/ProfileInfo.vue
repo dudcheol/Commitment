@@ -31,7 +31,7 @@
               <div class="text-h2 font-weight-black">{{ this.userId }}</div>
             </div>
             <div class="pl-10">
-              <div class="badge" v-if="badge != null">
+              <div class="badge" v-if="badge">
                 <v-list-item-avatar size="70">
                   <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
                 </v-list-item-avatar>
@@ -51,14 +51,7 @@
             <Follower @close="followingKey++" />
             <Following :key="followingKey" @close="followingKey++" />
             <div v-if="userId != user.nickname">
-              <v-btn
-                text
-                rounded
-                color="primary"
-                flat
-                @click="clickFollow"
-                class="font-weight-black"
-              >
+              <v-btn text rounded color="primary" @click="clickFollow" class="font-weight-black">
                 {{ alreadyFollow ? '팔로우 취소' : '팔로우' }}
               </v-btn>
             </div>
@@ -100,7 +93,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import Follower from '../../common/dialog/Follower';
 import Following from '../../common/dialog/Following';
-import ProfileEdit from '../../common/dialog/ProfileEdit';
+// import ProfileEdit from '../../common/dialog/ProfileEdit';
 import { searchUserByNickname } from '../../../api/account';
 import { userCommitCount } from '../../../api/commit';
 import { editProfileImg } from '../../../api/img';
@@ -109,7 +102,7 @@ export default {
   components: {
     Follower,
     Following,
-    ProfileEdit,
+    // ProfileEdit,
   },
   data: () => ({
     active: false,
@@ -146,11 +139,10 @@ export default {
           return '150';
       }
     },
-
-    watch: {
-      following(val) {
-        this.alreadyFollow = this.checkFollowing(val);
-      },
+  },
+  watch: {
+    following(val) {
+      this.alreadyFollow = this.checkFollowing(val);
     },
   },
   methods: {
@@ -170,14 +162,12 @@ export default {
       this.image = evt.target.result;
     },
     upload() {
-      // console.log(this.file+"이랑"+this.email);
       const form = new FormData();
       form.append('file', this.file);
       form.append('email', this.email);
       editProfileImg(
         form,
-        (response) => {
-          console.log('성공' + response);
+        () => {
           this.active = false;
         },
         (error) => {
@@ -186,15 +176,10 @@ export default {
       );
     },
     clickFollow() {
-      // console.log("this.user.email",this.user.email);
-      // console.log("this.userId",this.email);
       follow(
         this.user.email, //나
         this.email, //상대
-        () => {
-          // this.GET_FOLLOWING_LIST(this.user.email);//여기
-          // console.log(this.user.email, '가', this.userId, '팔로우 완료');
-        },
+        () => {},
         (error) => {
           console.log('follow에러', error);
         }
@@ -202,15 +187,11 @@ export default {
     },
     checkFollowing(followinglist) {
       const compare = this.email; //this.email(지금 보고있는 마이페이지의 이메일)
-      console.log('얘', this.email);
       for (let i = 0; i < followinglist.length; i++) {
-        console.log(followinglist[i].email, '?');
         if (followinglist[i].email == compare) {
-          // console.log("이미 팔로우중");
           return true; //이미 팔로우중이면 true
         }
       }
-      // console.log("팔로우안한상태");
       return false; //팔로우중이 아니면 false
     },
   },

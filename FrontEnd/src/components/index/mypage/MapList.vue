@@ -166,7 +166,6 @@ export default {
         this.userId,
         this.getRegion(val),
         (response) => {
-          console.log('%cMapList.vue line:161 response.data', 'color: #26bfa5;', response.data);
           this.datas = response.data;
         },
         (error) => {
@@ -191,7 +190,6 @@ export default {
         val.y,
         val.x,
         (response) => {
-          console.log('%cMapList.vue line:115 response', 'color: #007acc;', response);
           this.items = response.data;
         },
         (error) => {
@@ -240,7 +238,6 @@ export default {
       }
     },
     setMyCommitMap() {
-      console.log('%cMapList.vue line:235 this.user', 'color: #007acc;', this.user);
       setMyCommitMap(
         this.user.email,
         this.getRegion(this.picked),

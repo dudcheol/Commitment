@@ -13,7 +13,7 @@
         <template #title>
           <div class="d-flex flex-column justify-center align-center pt-2">
             <span class="text-caption">Commit Your Moment</span>
-            <sapn class="text-h2 font-weight-black">Commitment</sapn>
+            <span class="text-h2 font-weight-black">Commitment</span>
           </div>
         </template>
 
@@ -151,7 +151,6 @@ export default {
     async GoogleLoginSuccess(googleUser) {
       this.loading = true;
       const profile = googleUser.getBasicProfile();
-      console.log('google login start');
       const result = await this.GOOGLE_LOGIN({
         email: googleUser.getBasicProfile().getEmail(),
         pass: null,
@@ -160,7 +159,6 @@ export default {
         name: profile.getName(),
       });
       this.loading = false;
-      console.log(result);
       if (!result) {
         this.title = '오류';
         this.content = '로그인에 실패했습니다';

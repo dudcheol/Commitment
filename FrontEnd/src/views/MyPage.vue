@@ -51,9 +51,6 @@ export default {
   }),
   computed: {
     ...mapGetters({ userId: ['getSelectedUserId'] }),
-    items() {
-      return Array.from({ length: this.length }, (k, v) => v + 1);
-    },
     length() {
       return 7000;
     },
@@ -74,16 +71,11 @@ export default {
     },
   },
   methods: {
-    mapClick(val) {
-      console.log('%cMyPage.vue line:142 info', 'color: #007acc;', val);
-      console.log('%cMyPage.vue line:143 type', 'color: #007acc;', this.picked);
-    },
     back() {
       this.$router.go(-1);
     },
   },
   activated() {
-    console.log('%cMyPage.vue line:96 ', 'color: #007acc;', this.userId);
     window.scrollTo(0, 0);
   },
 };

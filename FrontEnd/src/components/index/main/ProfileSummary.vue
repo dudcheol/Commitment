@@ -83,7 +83,6 @@ export default {
       userCommitMap(
         this.user.email,
         (response) => {
-          console.log('%cProfileSummary.vue line:75 response', 'color: #007acc;', response);
           this.datas.push(...response.data.commitXY);
         },
         (error) => {
@@ -103,11 +102,9 @@ export default {
     },
   },
   mounted() {
-    console.log('%cProfileSummary.vue line:78 mounted', 'color: #007acc;', this.user.region_name);
     userCommitMap(
       this.user.email,
       (response) => {
-        console.log('%cProfileSummary.vue line:75 response', 'color: #007acc;', response);
         this.datas.push(...response.data.commitXY);
       },
       (error) => {

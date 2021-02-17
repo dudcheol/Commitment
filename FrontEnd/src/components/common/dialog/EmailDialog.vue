@@ -1,28 +1,26 @@
 <template>
   <vs-dialog width="300px" v-model="dialog" not-center>
-        <template #header>
-          <h4 class="not-margin">
-            {{ content.title }}
-          </h4>
-        </template>
+    <template #header>
+      <h4 class="not-margin">
+        {{ content.title }}
+      </h4>
+    </template>
 
+    <div class="con-content">
+      {{ content.text }}
+    </div>
 
-        <div class="con-content">
-          {{ content.text }}
-        </div>
-
-        <template #footer>
-          <div class="con-footer">
-            <vs-button @click="yes" transparent>
-              넵 !
-            </vs-button>
-          </div>
-        </template>
-    </vs-dialog>  
+    <template #footer>
+      <div class="con-footer">
+        <vs-button @click="yes" transparent>
+          넵 !
+        </vs-button>
+      </div>
+    </template>
+  </vs-dialog>
 </template>
 
 <script>
-
 export default {
   name: 'EmailDialog',
   components: {},
@@ -35,7 +33,7 @@ export default {
       this.$emit('yes');
     },
   },
-  data: function () {
+  data: function() {
     return {};
   },
 };

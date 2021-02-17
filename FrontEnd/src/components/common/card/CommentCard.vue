@@ -62,9 +62,6 @@ export default {
       this.$router.push({ name: 'MyPage' });
     },
   },
-  created() {
-    console.log('%ccommentCard.vue line:46 this.data', 'color: #007acc;', this.data);
-  },
 };
 </script>
 

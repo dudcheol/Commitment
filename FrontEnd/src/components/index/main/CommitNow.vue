@@ -20,10 +20,9 @@
             :address="item.address"
             :img="item.img"
             class="mb-2"
-            @click="goToProfile(item)"
           ></commit-card>
           <v-btn block :ripple="false" rounded height="52px" color="blue-grey darken-4" text
-            ><strong>최근 15개만 볼 수 있어요</strong></v-btn
+            ><strong>최근 커밋만 볼 수 있어요</strong></v-btn
           >
         </v-expansion-panel-content>
       </v-expansion-panel>

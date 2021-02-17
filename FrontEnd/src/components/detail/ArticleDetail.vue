@@ -230,7 +230,6 @@ export default {
       );
     },
     clickFollow() {
-      console.log('%cMainCard.vue line:171 follow', 'color: #007acc;');
       follow(
         this.user.email,
         this.data.user.email,

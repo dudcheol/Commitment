@@ -273,7 +273,6 @@ export default {
       return '';
     },
     pageName() {
-      console.log('%cHeader.vue line:272 this.tab', 'color: #007acc;', this.tab);
       switch (this.tab) {
         case '/':
           return 'Commitment';
@@ -322,9 +321,7 @@ export default {
       clickNoti(
         noti.id,
         this.user.nickname,
-        () => {
-          console.log('%cHeader.vue line:273 알림삭제', 'color: #007acc;');
-        },
+        () => {},
         (error) => {
           console.log(
             '%cerror Header.vue line:282 ',
@@ -339,12 +336,10 @@ export default {
       this.$router.push({ name: 'MyPage' });
     },
     goToMain() {
-      console.log('%cHeader.vue line:32', 'color: #007acc;');
       this.$router.replace({ name: 'Main' });
     },
     search() {
       this.word = '';
-      console.log(this.searchvalue);
 
       searchNickname(
         this.searchvalue,

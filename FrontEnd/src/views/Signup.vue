@@ -149,7 +149,7 @@ export default {
     check() {
       let emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       let passRule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
-      let telRule = /^(010[1-9][0-9]{7})$/;
+      let telRule = /^((01[1|6|7|8|9])[1-9]+[0-9]{6,7})|(010[1-9][0-9]{7})$/;
       this.resultsignup = false;
       if (this.email && this.nickname && this.password && this.passwordConfirm) {
         if (
@@ -205,7 +205,7 @@ export default {
         this.nickname,
         (response) => {
           this.nickcheckflag = true;
-          if (this.email.trim().length < 3) {
+          if (this.nickname.trim().length < 3) {
             this.nickflag = true;
             this.showDialog('닉네임을 3글자 이상 작성해주세요');
           } else if (response.data.data == 'success') {
