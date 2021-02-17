@@ -11,6 +11,8 @@ import { emptyCommit, latlngToAddress } from '../api/commit';
 import { boardDetail } from '../api/board';
 import router from '../router';
 import { getFollowingList } from '../api/follow';
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 export default {
   async LOGIN(context, user) {
@@ -43,6 +45,7 @@ export default {
         user.followerCnt = response.data.followerCnt;
         context.dispatch('GET_FOLLOWING_LIST', user.email);
         context.dispatch('GET_EMPCOMMIT_LIST', user.email);
+        context.dispatch('GET_REALTIME_COMMIT_LIST');
         context.commit('GET_MEMBER_INFO', { token, user });
       },
       (error) => {
@@ -228,5 +231,25 @@ export default {
   },
   UPDATE_USERINFO(store, payload) {
     store.commit('UPDATE_USERINFO', payload);
+  },
+  GET_REALTIME_COMMIT_LIST(store) {
+    firebase
+      .database()
+      .ref('noti/all')
+      .limitToLast(15)
+      .on('value', (snap) => {
+        let res = snap.val();
+        const tmp = [];
+        for (const idx in res) {
+          res[idx].id = idx;
+          tmp.unshift({
+            username: res[idx].from,
+            address: res[idx].dataId,
+            img: res[idx].profile,
+            email: res[idx].userEmail,
+          });
+        }
+        store.commit('GET_REALTIME_COMMIT_LIST', tmp);
+      });
   },
 };

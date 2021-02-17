@@ -2,7 +2,6 @@
   <div>
     <div>
       <Logo id="logo"></Logo>
-
       <div id="videoBd">
         <video id="videoBG" poster="../assets/img/login/poster.jpg" autoplay muted loop>
           <source src="../assets/img/login/nightviewseoul.mp4" type="video/mp4" />

@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/database';
 import CommitCard from '../../common/card/CommitCard.vue';
 import { mapGetters } from 'vuex';
 
@@ -46,7 +44,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ user: ['getUserInfo'], following: ['getFollowingList'] }),
+    ...mapGetters({
+      user: ['getUserInfo'],
+      following: ['getFollowingList'],
+      realtime: ['getRealtimeCommitList'],
+    }),
     panel() {
       switch (this.$vuetify.breakpoint.name) {
         case 'md':
@@ -72,6 +74,16 @@ export default {
       }
     },
   },
+  watch: {
+    realtime: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        this.nowCommits = val;
+        if (this.checkFollowing(val[0].username)) this.openNotification(4000);
+      },
+    },
+  },
   methods: {
     goToProfile(user) {
       this.$store.commit('SELECTED_USER_ID', user.username);
@@ -85,7 +97,7 @@ export default {
         flat: true,
         progress: 'auto',
         title: '알림',
-        text: `${this.nowCommits[0].username}님이 새로운 커밋을 작성했어요!`,
+        text: `${this.nowCommits[0].username}님이 최근에 커밋을 작성했어요!`,
       });
     },
     checkFollowing(nickname) {
@@ -94,26 +106,6 @@ export default {
       }
       return false;
     },
-  },
-  created() {
-    firebase
-      .database()
-      .ref('noti/all')
-      .limitToLast(15)
-      .on('value', (snap) => {
-        let res = snap.val();
-        this.nowCommits = [];
-        for (const idx in res) {
-          res[idx].id = idx;
-          this.nowCommits.unshift({
-            username: res[idx].from,
-            address: res[idx].dataId,
-            img: res[idx].profile,
-            email: res[idx].userEmail,
-          });
-        }
-        if (this.checkFollowing(this.nowCommits[0].username)) this.openNotification(4000);
-      });
   },
 };
 </script>

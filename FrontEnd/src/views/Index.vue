@@ -132,6 +132,7 @@ export default {
       'START_TIMER',
       'STOP_TIMER',
       'GET_EMPCOMMIT_LIST',
+      'GET_REALTIME_COMMIT_LIST',
     ]),
     commit() {
       if (this.totalTime != 0) return;
@@ -235,6 +236,7 @@ export default {
   },
   created() {
     this.CURRENT_LATLNG();
+    this.GET_REALTIME_COMMIT_LIST();
     if (this.totalTime != 0) this.FIRST_START_TIMER();
   },
 };

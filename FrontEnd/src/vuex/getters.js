@@ -50,4 +50,7 @@ export default {
   getSelectedUserId(state) {
     return state.selectedUserId;
   },
+  getRealtimeCommitList(state) {
+    return state.realtimeCommitList;
+  },
 };

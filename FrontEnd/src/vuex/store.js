@@ -30,6 +30,7 @@ const state = {
   commitAddress: '',
   selectedBoardId: '',
   selectedUserId: '',
+  realtimeCommitList: [],
 };
 
 export default new Vuex.Store({
