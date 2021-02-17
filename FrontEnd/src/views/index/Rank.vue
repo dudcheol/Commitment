@@ -14,7 +14,7 @@
                 <div class="profiles justify-center">
                   <div class="second">
                     
-                    <v-avatar size="100" v-if="imgSrc2!=null">
+                    <v-avatar size="100" v-if="imgSrc2!=null" @click="goToMyPage(nickname2)">
                       <img :src="imgSrc2" alt="John" />
                     </v-avatar>
                     <v-avatar
@@ -43,7 +43,7 @@
                     </div>
                   </div>
                   <div class="first">
-                    <v-avatar size="100" v-if="imgSrc2!=null">
+                    <v-avatar size="100" v-if="imgSrc1!=null" @click="goToMyPage(nickname1)" >
                       <img :src="imgSrc1" alt="John" />
                     </v-avatar>
                     <v-avatar
@@ -71,7 +71,7 @@
                     </div>
                   </div>
                   <div class="third">
-                    <v-avatar size="100" v-if="imgSrc2!=null">
+                    <v-avatar size="100" v-if="imgSrc3!=null" @click="goToMyPage(nickname3)">
                       <img :src="imgSrc3" alt="John" />
                     </v-avatar>
                     <v-avatar
@@ -119,6 +119,7 @@
                           <v-avatar
                           size="50"  
                           v-if="tr.profile!=null"
+                          @click="goToMyPage(tr.nickname)"
                           >
                             <img
                               :src="tr.profile.filePath"
@@ -131,11 +132,12 @@
                             size="50"
                             color="blue-grey"
                             class="font-weight-medium display-2"
+                            @click="goToMyPage(tr.nickname)"
                           >
                             <v-icon color="white">mdi-emoticon-happy</v-icon>
                           </v-avatar>
                         </vs-td>
-                        <vs-td>
+                        <vs-td @click="goToMyPage(tr.nickname)">
                         {{ tr.nickname }}
                         </vs-td>
                         <vs-td class="percentageSmall">
@@ -290,14 +292,24 @@ export default {
     onSelectArea(areaValue){
       this.users=[];
       this.area = areaValue;
+      // this.imgSrc1='';
+      // this.imgSrc2='';
+      // this.imgSrc3='';
+      // this.email1='';
+      // this.email2='';
+      // this.email3='';
+      // this.cnt1='';
+      // this.cnt2='';
+      // this.cnt3='';
+      // this.nickname1='';
+      // this.nickname2='';
+      // this.nickname3='';
       areaList(
         areaValue,
         (response)=>{
           const res = response.data;
           const temp1 = res[0];
-          if(temp1.nickname1!=null){
-            this.nickname1=temp1.nickname;
-          }
+          this.nickname1=temp1.nickname;
           if(temp1.profile!=null){
             this.imgSrc1 = temp1.profile.filePath;
           }
@@ -305,9 +317,7 @@ export default {
           this.cnt1 = temp1.cnt;
 
           const temp2 = res[1];
-          if(temp2.nickname2!=null){
-            this.nickname2=temp2.nickname;
-          }
+          this.nickname2=temp2.nickname;
           if(temp2.profile!=null){
             this.imgSrc2 = temp2.profile.filePath;
           }
@@ -315,15 +325,14 @@ export default {
           this.cnt2 = temp2.cnt;
 
           const temp3 = res[2];
-          if(temp3.nickname3!=null){
             this.nickname3=temp3.nickname;
-          }
           if(temp3.profile!=null){
             this.imgSrc3 = temp3.profile.filePath;
           }
           this.email3 = temp3.email;
           this.cnt3 = temp3.cnt;
-          // console.log("길이",res.length);
+
+          // console.log(areaValue,"닉네임",temp1.nickname,temp2.nickname,temp3.nickname);
           for(let i=3;i<res.length;i++){
             const item = res[i];
             this.users.push(item);
@@ -343,7 +352,13 @@ export default {
           return true;
         }
       }
-    }
+    },
+    goToMyPage(data) {
+      console.log(data,"의 마이페이지로 이동");
+      this.$store.commit('SELECTED_USER_ID', data);
+      this.$router.push({ name: 'MyPage' });
+      location.reload();
+    },
   },
   created(){
     console.log("로그인계정"+this.user.nickname);
