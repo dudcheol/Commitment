@@ -4,7 +4,8 @@
     class="pa-5 mx-auto text-center"
     rounded="xl"
     color="rgb(224,229,231)"
-    style="max-width:680px"
+    height="400"
+    style="max-width:680px;"
   >
     <div class="font-weight-medium">
       <v-icon large class="blue-grey--text text--lighten-3"
@@ -21,4 +22,9 @@ export default {
 };
 </script>
 
-<style lang="" scoped></style>
+<style  scoped>
+.font-weight-medium{
+  margin:30%;
+}
+
+</style>

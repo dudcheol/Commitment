@@ -1,5 +1,11 @@
 <template>
-  <v-app-bar app color="white" flat :hide-on-scroll="hideOnScroll" style="z-index:10">
+  <v-app-bar
+    app
+    color="white"
+    flat
+    :hide-on-scroll="hideOnScroll"
+    style="z-index:10"
+  >
     <v-btn elevation="" fab x-small class="ml-3 d-none d-sm-flex" color="white">
       <v-avatar size="35">
         <img src="../../assets/img/main/commitment_logo.jpg" alt="logo" />
@@ -21,16 +27,38 @@
     </v-tabs>
 
     <div class="d-none d-sm-flex ml-auto">
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+      >
         <v-avatar v-if="user.profile" circle size="40">
           <img :src="user.profile.filePath" />
         </v-avatar>
-        <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
+        <v-avatar
+          v-else
+          circle
+          size="40"
+          color="blue-grey"
+          class="font-weight-medium display-2"
+        >
           <v-icon color="white">mdi-emoticon-happy</v-icon>
         </v-avatar>
       </v-btn>
-
-      <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
+      <v-btn icon @click="alert = true">
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+      <v-badge
+        :value="noti.length"
+        overlap
+        offset-x="30"
+        offset-y="20"
+        color="error"
+      >
         <template v-slot:badge>
           {{ noti.length }}
         </template>
@@ -54,7 +82,11 @@
             <h2 class="px-2">알림</h2>
             <v-list class="pa-0" dense nav>
               <v-list-item-group>
-                <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
+                <div
+                  v-if="!noti.length"
+                  class="pa-2 grey--text"
+                  :ripple="false"
+                >
                   알림이 없습니다
                 </div>
                 <v-list-item
@@ -81,7 +113,15 @@
         </v-menu>
       </v-badge>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+      >
         <v-icon>{{ right_items[2].icon }}</v-icon>
       </v-btn>
 
@@ -116,16 +156,36 @@
         </v-btn>
       </template>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+      >
         <v-avatar v-if="user.profile" circle size="40">
           <img :src="user.profile.filePath" />
         </v-avatar>
-        <v-avatar v-else circle size="40" color="blue-grey" class="font-weight-medium display-2">
+        <v-avatar
+          v-else
+          circle
+          size="40"
+          color="blue-grey"
+          class="font-weight-medium display-2"
+        >
           <v-icon color="white">mdi-emoticon-happy</v-icon>
         </v-avatar>
       </v-btn>
 
-      <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
+      <v-badge
+        :value="noti.length"
+        overlap
+        offset-x="30"
+        offset-y="20"
+        color="error"
+      >
         <template v-slot:badge>
           {{ noti.length }}
         </template>
@@ -149,7 +209,11 @@
             <h2 class="px-2">알림</h2>
             <v-list class="pa-0" dense nav>
               <v-list-item-group color="primary">
-                <div v-if="!noti.length" class="pa-2 grey--text" :ripple="false">
+                <div
+                  v-if="!noti.length"
+                  class="pa-2 grey--text"
+                  :ripple="false"
+                >
                   알림이 없습니다
                 </div>
                 <v-list-item
@@ -176,7 +240,15 @@
         </v-menu>
       </v-badge>
 
-      <v-btn fab elevation="0" small text :ripple="false" color="primary" class="mr-3">
+      <v-btn
+        fab
+        elevation="0"
+        small
+        text
+        :ripple="false"
+        color="primary"
+        class="mr-3"
+      >
         <v-icon>{{ right_items[2].icon }}</v-icon>
       </v-btn>
 
@@ -192,90 +264,88 @@
       >
         <v-icon>{{ right_items[3].icon }}</v-icon>
       </v-btn>
+      <v-btn icon @click="alert = true">
+        <v-icon color="#1976d2">mdi-magnify</v-icon>
+      </v-btn>
     </v-speed-dial>
-
-    <div class="search-box">
-      <div>
-        <input type="text" name="" class="search-txt" placeholder="Search" />
-        <a class="search-btn" href="#">
-          <v-icon color="white">mdi-magnify</v-icon>
-        </a>
-      </div>
-      <div class="result-box">
-        <div class="result-list">
-          <li>hello</li>
-          <li>it's me</li>
-          <li>I've</li>
-          <li>been</li>
-          <li>wandering</li>
-        </div>
-      </div>
-    </div>
+    <SearchDailog :alert="alert" @close="alert = false"></SearchDailog>
   </v-app-bar>
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/database';
-import { mapActions, mapGetters } from 'vuex';
-import { clickNoti } from '../../api/noti';
+import firebase from "firebase/app";
+import "firebase/database";
+import { mapActions, mapGetters } from "vuex";
+import { clickNoti } from "../../api/noti";
+import { searchNickname } from "../../api/search";
+import SearchDailog from "../../components/common/dialog/SearchDialog.vue";
+
 export default {
+  components: { SearchDailog },
   data() {
     return {
       fab: false,
+      word: "",
+      users: "",
+      searchvalue: "",
+      alert: false,
       items: [
-        { icon: 'mdi-home', route: '/' },
-        { icon: 'mdi-map-marker', route: '/sns' },
-        { icon: 'mdi-medal', route: '/rank' },
-        { icon: 'mdi-heart', route: 'likes' },
+        { icon: "mdi-home", route: "/" },
+        { icon: "mdi-map-marker", route: "/sns" },
+        { icon: "mdi-medal", route: "/rank" },
+        { icon: "mdi-heart", route: "likes" },
       ],
       right_items: [
-        { icon: 'mdi-emoticon-happy' },
-        { icon: 'mdi-bell' },
-        { icon: 'mdi-cog' },
-        { icon: 'mdi-logout' },
+        { icon: "mdi-emoticon-happy" },
+        { icon: "mdi-bell" },
+        { icon: "mdi-cog" },
+        { icon: "mdi-logout" },
       ],
       noti: [],
       notiMsg: {
         follow: {
-          icon: 'mdi-account',
-          content: '님이 회원님을 팔로우하셨습니다',
-          color: 'primary',
+          icon: "mdi-account",
+          content: "님이 회원님을 팔로우하셨습니다",
+          color: "primary",
         },
-        like: { icon: 'mdi-heart', content: '님이 게시글에 좋아요를 남겼습니다', color: 'error' },
+        like: {
+          icon: "mdi-heart",
+          content: "님이 게시글에 좋아요를 남겼습니다",
+          color: "error",
+        },
         comment: {
-          icon: 'mdi-comment',
-          content: '님이 게시글에 댓글을 남겼습니다',
-          color: 'blue-grey',
+          icon: "mdi-comment",
+          content: "님이 게시글에 댓글을 남겼습니다",
+          color: "blue-grey",
         },
       },
     };
   },
   computed: {
-    ...mapGetters({ user: ['getUserInfo'] }),
+    ...mapGetters({ user: ["getUserInfo"] }),
     hideOnScroll() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
+        case "xs":
           return true;
-        case 'sm':
+        case "sm":
           return true;
-        case 'md':
+        case "md":
           return false;
-        case 'lg':
+        case "lg":
           return false;
-        case 'xl':
+        case "xl":
           return false;
       }
-      return '';
+      return "";
     },
   },
   methods: {
-    ...mapActions(['LOGOUT']),
+    ...mapActions(["LOGOUT"]),
     watchNoti() {
       firebase
         .database()
         .ref(`noti/${this.user.nickname}`)
-        .on('value', (snap) => {
+        .on("value", (snap) => {
           let res = snap.val();
           this.noti = [];
           for (const idx in res) {
@@ -286,28 +356,44 @@ export default {
     },
     clickNoti(noti) {
       switch (noti.type) {
-        case 'follow':
-          this.$router.push({ name: 'MyPage', params: { id: noti.dataId } });
+        case "follow":
+          this.$router.push({ name: "MyPage", params: { id: noti.dataId } });
           break;
-        case 'like':
-          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+        case "like":
+          this.$router.push({ name: "Detail", params: { id: noti.dataId } });
           break;
-        case 'comment':
-          this.$router.push({ name: 'Detail', params: { id: noti.dataId } });
+        case "comment":
+          this.$router.push({ name: "Detail", params: { id: noti.dataId } });
           break;
       }
       clickNoti(
         noti.id,
         this.user.nickname,
         () => {
-          console.log('%cHeader.vue line:273 알림삭제', 'color: #007acc;');
+          console.log("%cHeader.vue line:273 알림삭제", "color: #007acc;");
         },
         (error) => {
           console.log(
-            '%cerror Header.vue line:282 ',
-            'color: red; display: block; width: 100%;',
+            "%cerror Header.vue line:282 ",
+            "color: red; display: block; width: 100%;",
             error
           );
+        }
+      );
+    },
+    search() {
+      this.word = "";
+      console.log(this.searchvalue);
+
+      searchNickname(
+        this.searchvalue,
+        (response) => {
+          console.log(response.data.content);
+          this.users = response.data.content;
+          this.alert = true;
+        },
+        (error) => {
+          console.log(error);
         }
       );
     },
