@@ -3,7 +3,7 @@
       <vs-button size="l" circle icon flat @click="active=!active">
           <i class="bx bxs-group"></i>{{this.followingCnt}}
       </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active">
+      <vs-dialog blur scroll overflow-hidden not-close v-model="active" v-on:close="isClose">
         <template #header>
           <h3>
             팔로잉
@@ -181,6 +181,10 @@ import { follow } from '../../../api/follow';
         }
         return true;//팔로우 안된사람이면 팔로우 할수있음을
       },
+      isClose(){
+        console.log("닫기");
+        location.reload();
+      }
     }
   }
 </script>

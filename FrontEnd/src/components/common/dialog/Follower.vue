@@ -4,7 +4,7 @@
       <vs-button size="l" circle icon color="danger" flat @click="active=!active">
           <i class="bx bxs-heart"></i>{{ this.followerCnt }}
       </vs-button>
-      <vs-dialog blur scroll overflow-hidden not-close v-model="active">
+      <vs-dialog blur scroll overflow-hidden not-close v-model="active" v-on:close="isClose">
         <template #header>
           <h3>
             팔로워
@@ -209,10 +209,13 @@ import { follow } from '../../../api/follow';
         for (let i = 0; i < this.following.length; i++) {
           // console.log(para+"=="+this.following[i].email);
           if(this.following[i].email == para){
-            console.log("same");
             return true;
           }
         }
+      },
+      isClose(){
+        console.log("닫기");
+        location.reload();
       }
     }
   }
