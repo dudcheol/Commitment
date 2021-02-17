@@ -226,7 +226,8 @@ export default {
       items: [
         { icon: 'mdi-home', route: '/' },
         { icon: 'mdi-map-marker', route: '/sns' },
-        { icon: 'mdi-medal', route: '/rank' },
+        { icon: 'mdi-trophy', route: '/rank' },
+        { icon: 'mdi-medal', route: '/badge' },
         { icon: 'mdi-heart', route: '/likes' },
       ],
       right_items: [
@@ -278,11 +279,13 @@ export default {
         case '/':
           return 'Commitment';
         case '/sns':
-          return 'Commit Place';
+          return 'Near';
         case '/rank':
           return 'Ranking';
         case '/likes':
           return 'Likes';
+        case '/badge':
+          return 'Badge';
       }
       return '';
     },
