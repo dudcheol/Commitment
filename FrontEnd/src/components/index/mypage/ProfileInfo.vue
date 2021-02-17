@@ -3,7 +3,14 @@
     <!-- top -->
     <div class="top" :justify="dynamicJustify">
       <div>
-        <vs-dialog blur scroll overflow-hidden not-close v-model="active" width="400px">
+        <vs-dialog
+          blur
+          scroll
+          overflow-hidden
+          not-close
+          v-model="active"
+          width="400px"
+        >
           <template #header>
             <h3>
               프로필 사진 변경
@@ -23,9 +30,7 @@
             </div>
           </div>
         </vs-dialog>
-
-        
-        <div class="profileImg " v-if="imgSrc!=null">
+        <div class="profileImg ">
           <v-list-item-avatar size="150">
             <img :src="imgSrc" alt="picture" @click="showModal()" />
           </v-list-item-avatar>
@@ -66,7 +71,7 @@
 
         <v-card-actions>
           <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
           </v-btn>
         </v-card-actions>
 
@@ -79,7 +84,7 @@
         </v-expand-transition>
       </v-card>
       <div>
-        <div class="badge" v-if="badge!=null">
+        <div class="badge" v-if="badge != null">
           <v-list-item-avatar size="70">
             <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
           </v-list-item-avatar>
@@ -94,13 +99,13 @@
   </div>
 </template>
 <script scoped>
-import { mapGetters } from 'vuex';
-import Follower from '../../common/dialog/Follower';
-import Following from '../../common/dialog/Following';
-import ProfileEdit from '../../common/dialog/ProfileEdit';
-import { searchUserByNickname } from '../../../api/account';
-import { userCommitCount } from '../../../api/commit';
-import { editProfileImg } from '../../../api/img';
+import { mapGetters } from "vuex";
+import Follower from "../../common/dialog/Follower";
+import Following from "../../common/dialog/Following";
+import ProfileEdit from "../../common/dialog/ProfileEdit";
+import { searchUserByNickname } from "../../../api/account";
+import { userCommitCount } from "../../../api/commit";
+import { editProfileImg } from "../../../api/img";
 export default {
   components: {
     Follower,
@@ -110,37 +115,38 @@ export default {
   data: () => ({
     active: false,
     show: false,
+    id: "dudcheol", //this.$route.params.id로 받은 현재 유저의 닉네임
     //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
-    email: '',
-    gender: '',
-    badge: '',
-    age: '',
-    imgSrc: '',
-    mystory: '',
+    email: "",
+    gender: "",
+    badge: "badge0",
+    age: "",
+    imgSrc: "",
+    mystory: "",
     //email로 /commit/total에서 가져온 커밋수
     cnt: 0,
-    image: '',
+    image: "",
     file: null,
     followingKey: 0,
   }),
   computed: {
     ...mapGetters({
-      user: ['getUserInfo'],
-      userId: ['getSelectedUserId'],
+      user: ["getUserInfo"],
+      userId: ["getSelectedUserId"],
     }),
 
     width() {
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return '200px';
-        case 'sm':
-          return '200px';
-        case 'md':
-          return '500px';
-        case 'lg':
-          return '600px';
-        case 'xl':
-          return '900px';
+        case "xs":
+          return "200px";
+        case "sm":
+          return "200px";
+        case "md":
+          return "500px";
+        case "lg":
+          return "600px";
+        case "xl":
+          return "900px";
       }
       return 700;
     },
@@ -155,7 +161,7 @@ export default {
       this.file = evt.target.files.item(0);
       // console.log("파일"+this.file);
       const reader = new FileReader();
-      reader.addEventListener('load', this.imageLoaded);
+      reader.addEventListener("load", this.imageLoaded);
       reader.readAsDataURL(this.file);
     },
     imageLoaded(evt) {
@@ -164,8 +170,8 @@ export default {
     upload() {
       // console.log(this.file+"이랑"+this.email);
       const form = new FormData();
-      form.append('file', this.file);
-      form.append('email', this.email);
+      form.append("file", this.file);
+      form.append("email", this.email);
       editProfileImg(
         form,
         (response) => {
@@ -173,7 +179,7 @@ export default {
           this.active = false;
         },
         (error) => {
-          console.log('에러' + error);
+          console.log("에러" + error);
         }
       );
       
@@ -202,7 +208,7 @@ export default {
             this.cnt = response.data;
           },
           (error) => {
-            console.log('cnt에러' + error);
+            console.log("cnt에러" + error);
           }
         );
       },
