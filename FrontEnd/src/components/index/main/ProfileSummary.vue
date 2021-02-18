@@ -102,6 +102,7 @@ export default {
     },
   },
   mounted() {
+    this.datas = [];
     userCommitMap(
       this.user.email,
       (response) => {

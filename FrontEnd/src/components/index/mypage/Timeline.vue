@@ -1,6 +1,15 @@
 <template>
-  <div class="external">
-    <div class="horizontal-scroll-wrapper">
+  <!-- <div class="external"> -->
+  <div :class="boardList.length ? 'external' : 'mt-12'">
+    <div v-if="loading" style="height:55vh" class="d-flex justify-center align-center">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        color="blue-grey lighten-4"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <div class="horizontal-scroll-wrapper" v-if="boardList.length">
       <div v-for="(item, index) in boardList" :key="index">
         <div v-if="index % 2 == 0">
           <div class="img-wrapper slower ">
@@ -64,6 +73,9 @@
         </div>
       </div>
     </div>
+    <!-- <div v-else style="height:55vh" class="d-flex justify-center align-center">
+      <no-data-card :text="'게시한 사진이 없어 타임라인을 만들지 못했어요'"></no-data-card>
+    </div> -->
   </div>
 </template>
 
@@ -71,17 +83,21 @@
 import { getUserInfoByNickname } from '../../../api/account';
 import { timelineInfo } from '../../../api/timeline';
 import { mapGetters } from 'vuex';
+// import NoDataCard from '../../common/card/NoDataCard.vue';
 export default {
+  // components: { NoDataCard },
   props: ['nickname', 'intro', 'img'],
   data() {
     return {
       boardList: [],
       //이 아래로는 id를 가지고 searchUserByNickname해서 가져온것
       email: '',
+      loading: false,
     };
   },
   activated() {
     this.boardList = [];
+    this.loading = true;
     getUserInfoByNickname(
       this.userId,
       (response) => {
@@ -90,6 +106,7 @@ export default {
         timelineInfo(
           this.email,
           (response) => {
+            this.loading = false;
             const res = response.data;
             for (let i = 0; i < res.length; i++) {
               const item = res[i];
@@ -100,11 +117,13 @@ export default {
             }
           },
           (error) => {
+            this.loading = false;
             console.log('timeline에러' + error);
           }
         );
       },
       (error) => {
+        this.loading = false;
         console.log('ct에러' + error);
       }
     );
@@ -144,7 +163,7 @@ export default {
 }
 .external {
   overflow: hidden;
-  height: 100vh;
+  height: 60vh;
 }
 
 .horizontal-scroll-wrapper {
@@ -168,7 +187,7 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 40vh;
-  transform-origin: 50% 50%;
+  transform-origin: 100% 50%;
   transform: rotate(90deg) translateZ(0.1px) scale(0.9) translateX(0px) translateY(-3vh);
   transition: 1s;
 }
@@ -178,31 +197,31 @@ export default {
 }
 
 .slower {
-  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%) translateY(-10vh);
+  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(50%) translateY(-15vh);
 }
 .slower1 {
-  transform: rotate(90deg) translateZ(-0.25px) scale(1.05) translateX(0%) translateY(8vh);
+  transform: rotate(90deg) translateZ(-0.25px) scale(1.05) translateX(0%) translateY(3vh);
 }
 .slower2 {
-  transform: rotate(90deg) translateZ(-0.3px) scale(1.3) translateX(0%) translateY(2vh);
+  transform: rotate(90deg) translateZ(-0.3px) scale(1.3) translateX(0%) translateY(-3vh);
 }
 .slower-down {
-  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%) translateY(16vh);
+  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%) translateY(0vh);
 }
 .faster {
-  transform: rotate(90deg) translateZ(0.15px) scale(0.8) translateX(0%) translateY(14vh);
+  transform: rotate(90deg) translateZ(0.15px) scale(0.8) translateX(0%) translateY(9vh);
 }
 .faster1 {
-  transform: rotate(90deg) translateZ(0.05px) scale(0.8) translateX(0%) translateY(10vh);
+  transform: rotate(90deg) translateZ(0.05px) scale(0.8) translateX(0%) translateY(5vh);
 }
 .fastest {
-  transform: rotate(90deg) translateZ(0.22px) scale(0.7) translateX(-10vh) translateY(-15vh);
+  transform: rotate(90deg) translateZ(0.22px) scale(0.7) translateX(-10vh) translateY(-20vh);
 }
 .vertical {
   transform: rotate(90deg) translateZ(-0.15px) scale(1.15) translateX(0%) translateY(0%);
 }
 .last {
-  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(25vh) translateY(-8vh);
+  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(25vh) translateY(-13vh);
 }
 .scroll-info,
 header {
@@ -231,10 +250,11 @@ h1 {
   padding: 1vh;
   background: #ffffff;
   box-shadow: 0 10px 50px #53515082;
+  border-radius: 10px;
 }
 img {
-  max-width: 45vh;
-  max-height: 50vh;
+  max-width: 35vh;
+  max-height: 35vh;
   transition: 0.5s;
   vertical-align: top;
   /* filter: saturate(40%) sepia(30%) hue-rotate(5deg); */
@@ -261,7 +281,7 @@ p {
 .areaFontStyle {
   font-family: 'BBTreeCL';
   font-size: 30px;
-  color:gray;
+  color: gray;
 }
 @font-face {
   font-family: 'LAB디지털';
@@ -278,9 +298,10 @@ p {
   font-style: normal;
 }
 @font-face {
-    font-family: 'BBTreeCL';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeCL.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'BBTreeCL';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeCL.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 </style>

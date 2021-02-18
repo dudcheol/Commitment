@@ -10,9 +10,9 @@
               class="mx-1"
             />
             <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
-            <v-tooltip left>
+            <v-tooltip left color="blue-grey" transition="slide-x-transition">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-4"
+                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3"
                   >mdi-information</v-icon
                 >
               </template>
@@ -90,6 +90,7 @@ export default {
       deep: true,
       immediate: true,
       handler(val) {
+        console.log('%cCommitNow.vue line:93 val', 'color: #007acc;', val);
         this.nowCommits = val;
         if (this.checkFollowing(val[0].username)) this.openNotification(4000);
       },

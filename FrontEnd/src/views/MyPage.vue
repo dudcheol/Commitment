@@ -1,18 +1,27 @@
 <template>
-  <v-container class="white" fluid>
+  <v-container class="blue-grey lighten-5 pa-0" fluid>
     <div class="back_button">
       <v-btn @click="back" color="white" :ripple="false" fab elevation="3" fixed>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
     </div>
-    <v-container class="pa-0 py-16 mt-8">
+
+    <v-tooltip bottom color="transparent" transition="slide-y-transition">
+      <template v-slot:activator="{ on, attrs }">
+        <div v-bind="attrs" v-on="on" class="bottom2" id="mobileHidden">
+          <Timeline />
+        </div>
+      </template>
+      <span class="blue-grey--text">오른쪽으로 스크롤하면 더 많은 사진을 볼 수 있어요</span>
+    </v-tooltip>
+    <v-container class="py-8 px-0 white rounded-t-xl mt-12 mt-md-0">
       <v-row no-gutters>
         <v-col>
           <ProfileInfo />
         </v-col>
       </v-row>
 
-      <v-row no-gutters class="py-4">
+      <v-row no-gutters class="py-4 pr-md-4">
         <map-list></map-list>
       </v-row>
 
@@ -20,9 +29,6 @@
         <MyImagesMobile />
       </div>
     </v-container>
-    <div class="bottom2" id="mobileHidden">
-      <Timeline />
-    </div>
   </v-container>
 </template>
 
