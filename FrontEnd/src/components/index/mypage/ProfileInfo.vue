@@ -235,11 +235,6 @@ export default {
           this.badge = content.user.badge;
           this.mystory = content.user.mystory;
           this.alreadyFollow = this.checkFollowing(this.following); //내가 팔로우중인 사람들 리스트 넣어서 체크
-          console.log(
-            '%cProfileInfo.vue line:224 this.alreadyFollow',
-            'color: #007acc;',
-            this.alreadyFollow
-          );
           searchFollowings(
             this.email,
             (response) => {

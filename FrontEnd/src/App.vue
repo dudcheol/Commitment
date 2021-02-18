@@ -50,6 +50,9 @@ body {
 .v-slider__track-background {
   border-radius: 6px;
 }
+.v-slider__track-fill {
+  border-radius: 6px 0 0 6px;
+}
 /* Commit Map Style */
 .line {
   white-space: nowrap;

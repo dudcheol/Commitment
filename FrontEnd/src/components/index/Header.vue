@@ -93,7 +93,7 @@
                   :key="'noti' + index"
                   class="px-2"
                   :ripple="false"
-                  @click="clickNoti(item)"
+                  @click="clickNotiItem(item)"
                 >
                   <v-list-item-icon>
                     <v-icon
@@ -298,15 +298,30 @@ export default {
           let res = snap.val();
           this.noti = [];
           for (const idx in res) {
+            if (this.user.nickname == res[idx].from) {
+              clickNoti(
+                res[idx].id,
+                this.user.nickname,
+                () => {},
+                (error) => {
+                  console.log(
+                    '%cerror Header.vue line:282 ',
+                    'color: red; display: block; width: 100%;',
+                    error
+                  );
+                }
+              );
+              continue;
+            }
             res[idx].id = idx;
             this.noti.unshift(res[idx]);
           }
         });
     },
-    clickNoti(noti) {
+    clickNotiItem(noti) {
       switch (noti.type) {
         case 'follow':
-          this.$store.commit('SELECTED_USER_ID', noti.dataId);
+          this.$store.commit('SELECTED_USER_ID', noti.from);
           this.$router.push({ name: 'MyPage' });
           break;
         case 'like':

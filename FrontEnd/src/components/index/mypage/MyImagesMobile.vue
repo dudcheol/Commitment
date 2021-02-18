@@ -1,6 +1,11 @@
 <template>
   <v-row>
-    <v-col v-for="item in boardList" :key="item" class="d-flex child-flex" cols="4">
+    <v-col
+      v-for="(item, index) in boardList"
+      :key="'mbimg' + index"
+      class="d-flex child-flex"
+      cols="4"
+    >
       <v-img
         :src="item.image[0].filePath"
         :lazy-src="item.image[0].filePath"
