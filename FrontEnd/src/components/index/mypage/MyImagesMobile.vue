@@ -29,8 +29,7 @@ export default {
       email: '',
     };
   },
-  activated() {
-    this.boardList = [];
+  created() {
     getUserInfoByNickname(
       this.userId,
       (response) => {
@@ -57,9 +56,6 @@ export default {
         console.log('timeMobile에러' + error);
       }
     );
-  },
-  deactivated() {
-    this.boardList = [];
   },
   methods: {
     moveToDetail(data) {

@@ -10,9 +10,9 @@
               class="mx-1"
             />
             <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
-            <v-tooltip left color="blue-grey" transition="slide-x-transition">
+            <v-tooltip left>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3"
+                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-4"
                   >mdi-information</v-icon
                 >
               </template>

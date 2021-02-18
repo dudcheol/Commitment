@@ -69,7 +69,7 @@
             </div>
           </template>
           <template #text>
-            <p v-if="!badgesflag[1]">지금까지 {{ commitper }}% 달성!</p>
+            <p v-if="!badgesflag[1]">획득까지 {{ 100 - commitper }}% 남았어요!</p>
             <p v-else>{{ badgesDate[1] }} 획득!</p>
           </template>
         </vs-card>

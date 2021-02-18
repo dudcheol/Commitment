@@ -2,7 +2,11 @@
   <v-tooltip bottom color="transparent" transition="slide-y-transition">
     <template v-slot:activator="{ on, attrs }">
       <div :class="boardList.length ? 'external' : 'mt-12'">
-        <div v-if="loading" style="height:55vh" class="d-flex justify-center align-center">
+        <div
+          v-if="loading"
+          style="height:55vh"
+          class="d-flex justify-center align-center"
+        >
           <v-progress-circular
             :size="70"
             :width="7"
@@ -11,7 +15,12 @@
           ></v-progress-circular>
         </div>
 
-        <div class="horizontal-scroll-wrapper" v-if="boardList.length" v-bind="attrs" v-on="on">
+        <div
+          class="horizontal-scroll-wrapper"
+          v-if="boardList.length"
+          v-bind="attrs"
+          v-on="on"
+        >
           <div v-for="(item, index) in boardList" :key="index">
             <div v-if="index % 2 == 0">
               <div class="img-wrapper slower ">
@@ -77,7 +86,9 @@
         </div>
       </div>
     </template>
-    <span class="blue-grey--text">오른쪽으로 스크롤하면 더 많은 사진을 볼 수 있어요</span>
+    <span class="blue-grey--text"
+      >오른쪽으로 스크롤하면 더 많은 사진을 볼 수 있어요</span
+    >
   </v-tooltip>
 </template>
 
@@ -190,7 +201,8 @@ export default {
   justify-content: center;
   min-height: 40vh;
   transform-origin: 100% 50%;
-  transform: rotate(90deg) translateZ(0.1px) scale(0.9) translateX(0px) translateY(-3vh);
+  transform: rotate(90deg) translateZ(0.1px) scale(0.9) translateX(0px)
+    translateY(-3vh);
   transition: 1s;
 }
 
@@ -199,31 +211,40 @@ export default {
 }
 
 .slower {
-  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(50%) translateY(-15vh);
+  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(50%)
+    translateY(-15vh);
 }
 .slower1 {
-  transform: rotate(90deg) translateZ(-0.25px) scale(1.05) translateX(0%) translateY(3vh);
+  transform: rotate(90deg) translateZ(-0.25px) scale(1.05) translateX(0%)
+    translateY(3vh);
 }
 .slower2 {
-  transform: rotate(90deg) translateZ(-0.3px) scale(1.3) translateX(0%) translateY(-3vh);
+  transform: rotate(90deg) translateZ(-0.3px) scale(1.3) translateX(0%)
+    translateY(-3vh);
 }
 .slower-down {
-  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%) translateY(0vh);
+  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(0%)
+    translateY(0vh);
 }
 .faster {
-  transform: rotate(90deg) translateZ(0.15px) scale(0.8) translateX(0%) translateY(9vh);
+  transform: rotate(90deg) translateZ(0.15px) scale(0.8) translateX(0%)
+    translateY(9vh);
 }
 .faster1 {
-  transform: rotate(90deg) translateZ(0.05px) scale(0.8) translateX(0%) translateY(5vh);
+  transform: rotate(90deg) translateZ(0.05px) scale(0.8) translateX(0%)
+    translateY(5vh);
 }
 .fastest {
-  transform: rotate(90deg) translateZ(0.22px) scale(0.7) translateX(-10vh) translateY(-20vh);
+  transform: rotate(90deg) translateZ(0.22px) scale(0.7) translateX(-10vh)
+    translateY(-20vh);
 }
 .vertical {
-  transform: rotate(90deg) translateZ(-0.15px) scale(1.15) translateX(0%) translateY(0%);
+  transform: rotate(90deg) translateZ(-0.15px) scale(1.15) translateX(0%)
+    translateY(0%);
 }
 .last {
-  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(25vh) translateY(-13vh);
+  transform: rotate(90deg) translateZ(-0.2px) scale(1.1) translateX(25vh)
+    translateY(-13vh);
 }
 .scroll-info,
 header {
