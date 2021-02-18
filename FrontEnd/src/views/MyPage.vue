@@ -5,7 +5,8 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
     </div>
-    <div class="bottom2" id="mobileHidden">
+
+    <div v-bind="attrs" v-on="on" class="bottom2" id="mobileHidden">
       <Timeline />
     </div>
     <v-container class="py-8 px-0 white rounded-t-xl mt-12 mt-md-0">
