@@ -11,27 +11,25 @@
     <div class="article" v-if="data">
       <ArticleDetail />
     </div>
-    <Dialog
-      :alert="errorDialog"
-      :alertTitle="'❗️ 알림'"
-      :alertContent="'이미 삭제된 게시글입니다'"
-      @close="
-        $router.go(-1);
-        errorDialog = !errorDialog;
-      "
-    ></Dialog>
+    <div v-else class="pa-4">
+      <no-data-card
+        :icon="'alert-circle'"
+        :text="'게시글이 존재하지 않아요'"
+        style="height:200px"
+      ></no-data-card>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import Dialog from '../components/common/dialog/Dialog.vue';
+import NoDataCard from '../components/common/card/NoDataCard.vue';
 import ArticleDetail from './../components/detail/ArticleDetail';
 
 export default {
   components: {
     ArticleDetail,
-    Dialog,
+    NoDataCard,
   },
   data() {
     return {
@@ -70,10 +68,6 @@ export default {
     },
   },
   activated() {
-    if (!this.data) {
-      this.errorDialog = true;
-      return;
-    }
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {

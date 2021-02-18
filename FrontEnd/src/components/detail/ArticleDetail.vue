@@ -205,8 +205,11 @@ export default {
     following(val) {
       this.hasFollowed = this.checkFollowing(val);
     },
-    data() {
-      this.loading = false;
+    data: {
+      immediate: true,
+      handler() {
+        this.loading = false;
+      },
     },
   },
   methods: {
