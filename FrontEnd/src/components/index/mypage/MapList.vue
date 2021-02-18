@@ -10,13 +10,14 @@
             borderless
             mandatory
             rounded
+            dense
           >
             <v-btn
               :ripple="false"
               v-for="(item, index) in mapList"
               :key="'mapList' + index"
               class="text-caption"
-              small
+              x-small
             >
               {{ item }}
             </v-btn>
@@ -25,7 +26,7 @@
             v-if="this.user.nickname == this.userId"
             outlined
             rounded
-            small
+            x-small
             color="primary"
             elevation="0"
             text
@@ -33,8 +34,18 @@
             @click="mapSettingDialog = !mapSettingDialog"
             class="font-weight-black"
           >
-            대표지도 설정
+            대표지도
           </v-btn>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-4">mdi-information</v-icon>
+            </template>
+            <span>보고싶은 지역을 클릭하면 <strong>지역별 커밋지도</strong>를 볼 수 있어요</span>
+            <span v-if="this.user.nickname == this.userId"
+              ><br /><strong>대표지도</strong>를 설정해서 가장 먼저 보여주고 싶은 내 커밋지도를
+              선택해보세요</span
+            >
+          </v-tooltip>
         </div>
         <div
           class="d-flex justify-center align-center"

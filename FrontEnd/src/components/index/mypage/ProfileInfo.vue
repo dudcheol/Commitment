@@ -4,10 +4,20 @@
     <v-row no-gutters>
       <v-col class="d-flex justify-center align-center">
         <div class="pl-8">
-          <div class="profileImg " v-if="imgSrc != null">
-            <v-list-item-avatar :size="width">
-              <img :src="imgSrc" alt="picture" @click="showModal()" />
-            </v-list-item-avatar>
+          <div v-if="imgSrc != null">
+            <div class="profileImg" style="position:relative">
+              <v-list-item-avatar :size="width">
+                <img :src="imgSrc" alt="picture" @click="showModal()" />
+              </v-list-item-avatar>
+            </div>
+            <div class="d-flex justify-end" style="position:relative; top:-50px; right:15px">
+              <span
+                class="rounded-circle lighten-1 pa-1"
+                style="border:3px solid white; background-color:#1e90ff"
+              >
+                <v-icon color="white">mdi-plus</v-icon>
+              </span>
+            </div>
           </div>
           <div class="profileImg mr-4" v-else>
             <v-avatar
