@@ -2,7 +2,7 @@
   <v-container class="pt-7">
     <v-row>
       <v-col cols="12" sm="2">
-        <v-sheet rounded="xl" height="200" class="d-flex justify-center align-center">
+        <v-sheet rounded="xl" height="200">
           <BadgeTotalProcess />
         </v-sheet>
       </v-col>

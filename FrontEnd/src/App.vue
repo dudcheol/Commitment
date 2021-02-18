@@ -57,4 +57,36 @@ body {
 .line {
   white-space: nowrap;
 }
+
+.body,
+div,
+span {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.app-name {
+  font-family: 'S-CoreDream-8Heavy';
+}
+
+.text-custom-bold {
+  font-family: 'Cafe24Ohsquare';
+}
+
+@font-face {
+  font-family: 'Cafe24Ohsquare';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+@font-face {
+  font-family: 'S-CoreDream-8Heavy';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 </style>

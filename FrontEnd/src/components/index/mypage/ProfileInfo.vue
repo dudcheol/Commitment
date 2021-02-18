@@ -30,7 +30,7 @@
           >
             <span
               class="rounded-circle lighten-1 pa-1"
-              style="border:3px solid white; background-color:#1e90ff"
+              style="border:3px solid white; background-color:#1e90ff;"
             >
               <v-icon color="white">mdi-plus</v-icon>
             </span>
@@ -39,10 +39,15 @@
 
         <div class="d-flex flex-column align-center justify-center">
           <div class="d-flex">
-            <div>
-              <h1 class="font-weight-black">{{ this.userId }}</h1>
+            <div class="d-flex justify-center align-center">
+              <div
+                class="font-weight-black text-h3 text-lg-h1 text-md-h2 text-sm-h4"
+                style="min-width:150px"
+              >
+                {{ userId }}
+              </div>
             </div>
-            <div class="pl-10">
+            <div>
               <div class="badge" v-if="badge">
                 <v-list-item-avatar size="70">
                   <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
@@ -52,11 +57,13 @@
           </div>
 
           <div class="d-flex">
-            <vs-button size="l" circle icon color="success" flat>
-              <i class="bx bxs-check-square"></i>{{ this.cnt }}
-            </vs-button>
-            <Follower @close="followingKey++" />
-            <Following :key="followingKey" @close="followingKey++" />
+            <div class="d-flex">
+              <vs-button size="l" circle icon color="success" flat>
+                <i class="bx bxs-check-square"></i>{{ this.cnt }}
+              </vs-button>
+              <Follower @close="followingKey++" />
+              <Following :key="followingKey" @close="followingKey++" />
+            </div>
             <div v-if="userId != user.nickname">
               <v-btn
                 text
@@ -65,13 +72,10 @@
                 @click="clickFollow"
                 class="font-weight-black"
                 :ripple="false"
+                min-width="101"
               >
                 {{ alreadyFollow ? '팔로우 취소' : '팔로우' }}
               </v-btn>
-            </div>
-
-            <div class="badge" v-if="this.user.email == this.email">
-              <ProfileEdit />
             </div>
           </div>
         </div>
@@ -107,7 +111,6 @@
 import { mapGetters, mapActions } from 'vuex';
 import Follower from '../../common/dialog/Follower';
 import Following from '../../common/dialog/Following';
-// import ProfileEdit from '../../common/dialog/ProfileEdit';
 import { getUserInfoByNickname } from '../../../api/account';
 import { userCommitCount } from '../../../api/commit';
 import { editProfileImg } from '../../../api/img';
@@ -116,7 +119,6 @@ export default {
   components: {
     Follower,
     Following,
-    // ProfileEdit,
   },
   data: () => ({
     active: false,
@@ -227,7 +229,6 @@ export default {
             this.imgSrc = content.user.profile.filePath;
           } else {
             this.imgSrc = null;
-            console.log('이미지 없음');
           }
           this.badge = content.user.badge;
           this.mystory = content.user.mystory;

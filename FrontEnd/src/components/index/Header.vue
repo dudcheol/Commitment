@@ -13,7 +13,10 @@
     >
       <v-img src="../../assets/img/main/commitment_logo.jpg" alt="logo" height="35" width="35" />
     </v-btn>
-    <div class="text-h2 font-weight-black blue-grey--text text--darken-3">
+    <!-- <div class="text-h2 font-weight-black blue-grey--text text--darken-3">
+      {{ pageName }}
+    </div> -->
+    <div class="app-name blue-grey--text text--darken-3" style="font-size:30px">
       {{ pageName }}
     </div>
 
@@ -200,7 +203,7 @@
                   :key="'noti' + index"
                   class="px-2"
                   :ripple="false"
-                  @click="clickNoti(item)"
+                  @click="clickNotiItem(item)"
                 >
                   <v-list-item-icon>
                     <v-icon
@@ -275,7 +278,7 @@ export default {
           color: 'blue-grey',
         },
       },
-      notiVisible: true,
+      notiVisible: false,
     };
   },
   computed: {
@@ -384,7 +387,6 @@ export default {
       searchNickname(
         this.searchvalue,
         (response) => {
-          console.log(response.data.content);
           this.users = response.data.content;
           this.alert = true;
         },

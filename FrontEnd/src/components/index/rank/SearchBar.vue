@@ -1,50 +1,40 @@
 <template id="app-template">
   <div class="app">
-    <br>
-    <input type="text" class="search" 
-    placeholder=''
-    @input="onInput"
-    >
+    <br />
+    <input type="text" class="search" placeholder="닉네임으로 검색" @input="onInput" />
   </div>
 </template>
 
 <script>
-
-  export default {
-    data:()=>({
-      message: "",
-    }),
-    methods:{
-      onInput(e){
-        this.message = e.target.value;
-        this.$emit('keyword',this.message);//e.target.valut는 부모의 inputValue
-      }
-    }
+export default {
+  data: () => ({
+    message: '',
+  }),
+  methods: {
+    onInput(e) {
+      this.message = e.target.value;
+      this.$emit('keyword', this.message); //e.target.valut는 부모의 inputValue
+    },
+  },
 };
-
 </script>
 
 <style scoped>
-* {
-  font-size:10.5%;
-}
-
 .app {
   width: 100%;
-  margin: 50px auto;
 }
 
 .search {
   height: 3rem;
-  margin: 0 auto 50px;
+  margin: 0 auto;
   width: 90%;
   display: block;
   border-radius: 10rem;
-  border: 2px solid #4e9fd4;
-  font-size: 1.8rem;
+  border: 2px solid rgb(161, 175, 187);
+  font-size: 15px;
   padding: 0 2rem;
   outline: none;
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 .search::-webkit-input-placeholder {
@@ -52,14 +42,13 @@
 }
 
 .search:focus {
-  background: #a9d8f6;
+  background: rgb(161, 175, 187);
   color: white;
 }
 
 .search:focus::-webkit-input-placeholder {
   color: rgb(161, 175, 187);
 }
-
 
 .list {
   padding: 0;
@@ -84,10 +73,10 @@
 }
 
 .title {
-  color: #2574A9;
+  color: #2574;
   font-size: 2.1rem;
   margin-bottom: 1rem;
-  letter-spacing: .05rem;
+  letter-spacing: 0.05rem;
 }
 
 .date {
@@ -98,24 +87,23 @@
 
 .button {
   background: transparent;
-  border: 2px solid #2574A9;
-  padding: .8rem 0;
+  border: 2px solid #2574a9;
+  padding: 0.8rem 0;
   width: 10rem;
   display: inline-block;
   text-align: center;
-  color: #2574A9;
+  color: #2574a9;
   text-decoration: none;
   font-size: 1.3rem;
   font-family: 'Questrial';
   border-radius: 5rem;
   margin-left: 1.5rem;
   letter-spacing: 0.1rem;
-  transition: all .2s;
-  float: right;
+  transition: all 0.2s;
 }
 
 .button:hover {
-  background: #2574A9;
+  background: #2574a9;
   color: white;
 }
 
@@ -130,5 +118,4 @@
   letter-spacing: 0.08rem;
   text-align: center;
 }
-
 </style>

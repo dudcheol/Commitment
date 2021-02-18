@@ -216,7 +216,6 @@ export default {
     getUserInfoByNickname(
       payload,
       (response) => {
-        console.log('%cactions.js line:219 response.data', 'color: #007acc;', response.data);
         let user = response.data.user;
         user.badgeCnt = response.data.badgeCnt;
         user.commitCnt = response.data.commitCnt;

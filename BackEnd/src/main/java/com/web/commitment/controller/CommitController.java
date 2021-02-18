@@ -382,8 +382,8 @@ public class CommitController {
 				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=legalcode&request=coordsToaddr&coords="
 						+ lng + "," + lat);
 
-		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
-		getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY", "");
 
 		try {
 			HttpResponse response = client.execute(getRequest);
@@ -421,8 +421,8 @@ public class CommitController {
 				"https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?output=json&orders=admcode&request=coordsToaddr&coords="
 						+ lng + "," + lat);
 
-		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "t6fd643dic");
-		getRequest.setHeader("X-NCP-APIGW-API-KEY", "tNqHk0pfH4E9IR0cLqPmijdaFkCdtKt6782DUIkF");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY-ID", "");
+		getRequest.setHeader("X-NCP-APIGW-API-KEY", "");
 
 		try {
 			HttpResponse response = client.execute(getRequest);

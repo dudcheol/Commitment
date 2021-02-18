@@ -32,7 +32,7 @@
             text
             :ripple="false"
             @click="mapSettingDialog = !mapSettingDialog"
-            class="font-weight-black"
+            class="font-weight-black mx-1"
           >
             대표지도
           </v-btn>
@@ -104,7 +104,7 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="12" sm="4" class="pt-4 pt-sm-0">
+      <v-col cols="12" sm="4" class="mt-4 mt-sm-0">
         <div v-if="!items.length">
           <no-data-card
             :icon="'emoticon-excited-outline'"

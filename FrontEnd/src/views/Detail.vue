@@ -8,24 +8,33 @@
       </div>
       <div id="map" class="kakao_map"></div>
     </div>
-
-    <div class="article">
+    <div class="article" v-if="data">
       <ArticleDetail />
+    </div>
+    <div v-else class="pa-4">
+      <no-data-card
+        :icon="'alert-circle'"
+        :text="'게시글이 존재하지 않아요'"
+        style="height:200px"
+      ></no-data-card>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import NoDataCard from '../components/common/card/NoDataCard.vue';
 import ArticleDetail from './../components/detail/ArticleDetail';
 
 export default {
   components: {
     ArticleDetail,
+    NoDataCard,
   },
   data() {
     return {
       map: null,
+      errorDialog: false,
     };
   },
   computed: {

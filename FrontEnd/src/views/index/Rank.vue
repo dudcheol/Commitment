@@ -148,7 +148,7 @@
               </div>
             </div>
             <div class="whitebox">
-              <SearchBar @keyword="onInputChange" />
+              <SearchBar @keyword="onInputChange" class="pt-16 pb-3" />
               <div class="frame">
                 <div class="tables">
                   <vs-table class="w-auto text-center">
@@ -210,6 +210,9 @@
                         </vs-td>
                       </vs-tr>
                     </template>
+                    <template #notFound>
+                      <no-data-card :icon="'magnify'" :text="'검색 결과가 없습니다'"></no-data-card>
+                    </template>
                   </vs-table>
                 </div>
               </div>
@@ -228,12 +231,14 @@ import SearchBar from '../../components/index/rank/SearchBar';
 import { areaList, totalList, userFindList } from '../../api/rank';
 import { mapActions, mapGetters } from 'vuex';
 import { follow, searchFollowers } from '../../api/follow';
+import NoDataCard from '../../components/common/card/NoDataCard.vue';
 export default {
   name: 'Rank',
 
   components: {
     SelectZone,
     SearchBar,
+    NoDataCard,
   },
 
   data: () => ({
@@ -450,6 +455,12 @@ export default {
 </script>
 
 <style scoped>
+.v-avatar {
+  cursor: pointer;
+}
+.vs-table__tr {
+  cursor: pointer;
+}
 .heartIcon {
   margin-top: -80%;
   margin-left: 65%;
