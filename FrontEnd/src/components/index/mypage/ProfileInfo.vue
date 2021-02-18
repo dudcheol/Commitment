@@ -94,7 +94,7 @@ import { mapGetters, mapActions } from 'vuex';
 import Follower from '../../common/dialog/Follower';
 import Following from '../../common/dialog/Following';
 // import ProfileEdit from '../../common/dialog/ProfileEdit';
-import { searchUserByNickname } from '../../../api/account';
+import { getUserInfoByNickname } from '../../../api/account';
 import { userCommitCount } from '../../../api/commit';
 import { editProfileImg } from '../../../api/img';
 import { follow, searchFollowings } from '../../../api/follow';
@@ -196,20 +196,21 @@ export default {
     },
   },
   activated() {
-    searchUserByNickname(
-      { keyword: this.userId },
+    getUserInfoByNickname(
+      this.userId,
       (response) => {
         const content = response.data;
-        this.email = content.content[0].email;
-        this.gender = content.content[0].gender;
-        this.age = content.content[0].age;
-        if (content.content[0].profile != null) {
-          this.imgSrc = content.content[0].profile.filePath;
+        this.email = content.user.email;
+        this.gender = content.user.gender;
+        this.age = content.user.age;
+        if (content.user.profile != null) {
+          this.imgSrc = content.user.profile.filePath;
         } else {
           this.imgSrc = null;
+          console.log("이미지 없음");
         }
-        this.badge = content.content[0].badge;
-        this.mystory = content.content[0].mystory;
+        this.badge = content.user.badge;
+        this.mystory = content.user.mystory;
         this.alreadyFollow = this.checkFollowing(this.following); //내가 팔로우중인 사람들 리스트 넣어서 체크
         searchFollowings(
           this.email,
