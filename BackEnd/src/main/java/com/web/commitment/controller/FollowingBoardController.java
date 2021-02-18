@@ -61,9 +61,7 @@ public class FollowingBoardController {
 			BoardDto target = new BoardDto();
 			//같은 속성 복사. 다른속성이 있을경우에는 따로 set해줘야함
 			BeanUtils.copyProperties(origin, target);
-			
-			System.out.println(origin.getImage());
-			
+
 			//commit내역제외한 user 저장
 			UserDto userDto = new UserDto();
 			BeanUtils.copyProperties(origin.getUser(), userDto);

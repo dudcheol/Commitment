@@ -175,9 +175,7 @@ public class BoardController {
 		} else {
 			boards = boardDao.radiusCommitId(lat, lng, radius, pageable);
 		}
-		
-		System.out.println("asdfasf" + boards.getContent());
-		System.out.println(boards.getTotalElements());
+
 		List<BoardDto> result = followingBoardController.clean(boards);
 		return new PageImpl<BoardDto>(result, pageable, boards.getTotalElements());
 	}
