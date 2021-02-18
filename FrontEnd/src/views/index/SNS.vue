@@ -241,6 +241,7 @@ export default {
         5,
         this.commitRange == 30 ? 'createdAt,desc' : 'created_at,desc',
         (response) => {
+          console.log(response);
           const res = response.data.content;
           if (res.length) {
             this.feedDatas.push(...res);

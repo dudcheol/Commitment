@@ -3,15 +3,7 @@
     <vs-button size="l" circle icon flat @click="active = !active">
       <i class="bx bxs-group"></i>{{ this.followingCnt }}
     </vs-button>
-    <vs-dialog
-      blur
-      scroll
-      overflow-hidden
-      not-close
-      auto-width
-      v-model="active"
-      v-on:close="isClose"
-    >
+    <vs-dialog blur scroll overflow-hidden not-close v-model="active" v-on:close="isClose">
       <template #header>
         <h3>
           팔로잉
@@ -19,7 +11,7 @@
       </template>
       <div class="con-content">
         <!-- <vs-table class="w-auto"> -->
-        <vs-table style="max-height:600px">
+        <vs-table>
           <template #tbody>
             <vs-tr :key="tr" v-for="tr in followers" :data="tr">
               <vs-td>

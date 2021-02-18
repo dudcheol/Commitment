@@ -104,7 +104,7 @@
           </div>
         </div>
       </v-col>
-      <v-col cols="12" sm="4" class="pt-4 pt-sm-0">
+      <v-col cols="12" sm="4">
         <div v-if="!items.length">
           <no-data-card
             :icon="'emoticon-excited-outline'"

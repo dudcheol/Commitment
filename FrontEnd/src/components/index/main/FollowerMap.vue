@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="mx-auto" max-width="700" color="transparent">
+  <v-sheet class="mx-auto" max-width="800" color="transparent">
     <no-data-card
       v-if="empFollower"
       :icon="'heart-circle-outline'"
