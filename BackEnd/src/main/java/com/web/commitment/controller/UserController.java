@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.commitment.dao.UserBadgeDao;
 import com.web.commitment.dao.UserDao;
 import com.web.commitment.dto.Badge;
 import com.web.commitment.dto.BasicResponse;
@@ -58,6 +59,8 @@ public class UserController {
 	CommitController commitController;
 	@Autowired
 	BadgeController badgeController;
+	@Autowired
+	UserBadgeDao userBadgeDao;
 	@Autowired
 	private JwtService jwtService;
 
@@ -321,6 +324,9 @@ public class UserController {
 		if (option.isPresent()) {
 			BeanUtils.copyProperties(option.get(), userdto);
 			hm.put("user", userdto);
+			hm.put("commitCnt", commitController.totalCommitNum(userdto.getEmail()));
+			hm.put("followerCnt", followController.followCnt(userdto.getEmail()));
+			hm.put("badgeCnt", badgeController.badgeCnt(userdto.getEmail()));
 			hm.put("data", "success");
 		} else
 			hm.put("data", "fail");
