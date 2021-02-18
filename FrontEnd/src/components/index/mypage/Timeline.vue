@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { searchUserByNickname } from '../../../api/account';
+import { getUserInfoByNickname } from '../../../api/account';
 import { timelineInfo } from '../../../api/timeline';
 import { mapGetters } from 'vuex';
 export default {
@@ -82,11 +82,11 @@ export default {
   },
   activated() {
     this.boardList = [];
-    searchUserByNickname(
-      { keyword: this.userId },
+    getUserInfoByNickname(
+      this.userId,
       (response) => {
         const content = response.data;
-        this.email = content.content[0].email;
+        this.email = content.user.email;
         timelineInfo(
           this.email,
           (response) => {
@@ -259,8 +259,9 @@ p {
   font-size: 20px;
 }
 .areaFontStyle {
-  font-family: 'Cafe24Shiningstar';
+  font-family: 'BBTreeCL';
   font-size: 30px;
+  color:gray;
 }
 @font-face {
   font-family: 'LAB디지털';
@@ -275,5 +276,11 @@ p {
     format('woff');
   font-weight: normal;
   font-style: normal;
+}
+@font-face {
+    font-family: 'BBTreeCL';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeCL.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 </style>
