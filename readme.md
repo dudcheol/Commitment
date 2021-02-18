@@ -120,7 +120,7 @@
 
 ### Database Modeling :link:
 
-   ![210125_DB 설계](/uploads/a2710092abf421045fc2d252bf8208bd/210125_DB.png)
+   ![210125_DB 설계](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/ERD.PNG)
 
 <br>
 
