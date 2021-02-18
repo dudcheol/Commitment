@@ -10,14 +10,6 @@
                 <img :src="imgSrc" alt="picture" @click="showModal()" />
               </v-list-item-avatar>
             </div>
-            <div class="d-flex justify-end" style="position:relative; top:-50px; right:15px">
-              <span
-                class="rounded-circle lighten-1 pa-1"
-                style="border:3px solid white; background-color:#1e90ff"
-              >
-                <v-icon color="white">mdi-plus</v-icon>
-              </span>
-            </div>
           </div>
           <div class="profileImg mr-4" v-else>
             <v-avatar
@@ -29,6 +21,18 @@
             >
               <v-icon color="white" :size="width / 2">mdi-emoticon-happy</v-icon>
             </v-avatar>
+          </div>
+          <div
+            class="d-flex justify-end"
+            style="position:relative; top:-50px; right:15px"
+            @click="showModal()"
+          >
+            <span
+              class="rounded-circle lighten-1 pa-1"
+              style="border:3px solid white; background-color:#1e90ff"
+            >
+              <v-icon color="white">mdi-plus</v-icon>
+            </span>
           </div>
         </div>
 
@@ -183,6 +187,8 @@ export default {
         form,
         () => {
           this.active = false;
+          this.UPDATE_USERINFO_BY_NICKNAME(this.user.nickname);
+          this.getUserInfo();
         },
         (error) => {
           console.log('에러' + error);
@@ -203,7 +209,6 @@ export default {
       );
     },
     checkFollowing(followinglist) {
-      console.log('%cProfileInfo.vue line:203 followingList', 'color: #007acc;', followinglist);
       const compare = this.userId; //this.email(지금 보고있는 마이페이지의 이메일)
       for (let i = 0; i < followinglist.length; i++) {
         if (followinglist[i].nickname == compare) {
@@ -212,56 +217,59 @@ export default {
       }
       return false; //팔로우중이 아니면 false
     },
+    getUserInfo() {
+      getUserInfoByNickname(
+        this.userId,
+        (response) => {
+          const content = response.data;
+          this.email = content.user.email;
+          this.gender = content.user.gender;
+          this.age = content.user.age;
+          if (content.user.profile != null) {
+            this.imgSrc = content.user.profile.filePath;
+          } else {
+            this.imgSrc = null;
+            console.log('이미지 없음');
+          }
+          this.badge = content.user.badge;
+          this.mystory = content.user.mystory;
+          this.alreadyFollow = this.checkFollowing(this.following); //내가 팔로우중인 사람들 리스트 넣어서 체크
+          console.log(
+            '%cProfileInfo.vue line:224 this.alreadyFollow',
+            'color: #007acc;',
+            this.alreadyFollow
+          );
+          searchFollowings(
+            this.email,
+            (response) => {
+              const res = response.data;
+              for (let i = 0; i < res.length; i++) {
+                const item = res[i];
+                this.followers.push(item);
+              }
+            },
+            (error) => {
+              console.log('follower에러' + error);
+            }
+          );
+          userCommitCount(
+            this.email,
+            (response) => {
+              this.cnt = response.data;
+            },
+            (error) => {
+              console.log('cnt에러' + error);
+            }
+          );
+        },
+        (error) => {
+          console.log('profileinfo-img에러' + error);
+        }
+      );
+    },
   },
   activated() {
-    getUserInfoByNickname(
-      this.userId,
-      (response) => {
-        const content = response.data;
-        this.email = content.user.email;
-        this.gender = content.user.gender;
-        this.age = content.user.age;
-        if (content.user.profile != null) {
-          this.imgSrc = content.user.profile.filePath;
-        } else {
-          this.imgSrc = null;
-          console.log('이미지 없음');
-        }
-        this.badge = content.user.badge;
-        this.mystory = content.user.mystory;
-        this.alreadyFollow = this.checkFollowing(this.following); //내가 팔로우중인 사람들 리스트 넣어서 체크
-        console.log(
-          '%cProfileInfo.vue line:224 this.alreadyFollow',
-          'color: #007acc;',
-          this.alreadyFollow
-        );
-        searchFollowings(
-          this.email,
-          (response) => {
-            const res = response.data;
-            for (let i = 0; i < res.length; i++) {
-              const item = res[i];
-              this.followers.push(item);
-            }
-          },
-          (error) => {
-            console.log('follower에러' + error);
-          }
-        );
-        userCommitCount(
-          this.email,
-          (response) => {
-            this.cnt = response.data;
-          },
-          (error) => {
-            console.log('cnt에러' + error);
-          }
-        );
-      },
-      (error) => {
-        console.log('profileinfo-img에러' + error);
-      }
-    );
+    this.getUserInfo();
   },
 };
 </script>
