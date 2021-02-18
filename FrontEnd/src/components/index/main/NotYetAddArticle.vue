@@ -5,7 +5,7 @@
         <v-expansion-panel-header>
           <div class="d-flex align-center">
             <v-icon color="primary" class="pr-1">mdi-pencil-circle-outline</v-icon>
-            <h2 class="ml-1 font-weight-black">완료되지 않은 커밋</h2>
+            <h2 class="ml-1 font-weight-black text-custom-bold">완료되지 않은 커밋</h2>
             <v-tooltip right color="blue-grey" transition="scroll-x-reverse-transition">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3"

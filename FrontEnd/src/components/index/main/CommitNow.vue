@@ -9,7 +9,7 @@
               style="max-width:18px;"
               class="mx-1"
             />
-            <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
+            <h2 class="ml-1 font-weight-black text-custom-bold">실시간 커밋</h2>
             <v-tooltip left color="blue-grey" transition="slide-x-reverse-transition">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3"
