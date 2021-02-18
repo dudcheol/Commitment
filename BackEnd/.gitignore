@@ -7,6 +7,8 @@ target/
 ## backend ##
 src/main/java/com/web/commitment/config/S3Config.java
 WebContent/
+src/main/resources/keystore.p12
+src/main/resources/serviceAccountKey.json
 
 ### STS ###
 .apt_generated
