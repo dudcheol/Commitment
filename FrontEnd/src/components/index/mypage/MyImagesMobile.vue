@@ -20,7 +20,7 @@
 
 <script scoped>
 import { mapGetters } from 'vuex';
-import { searchUserByNickname } from '../../../api/account';
+import { getUserInfoByNickname } from '../../../api/account';
 import { timelineInfo } from '../../../api/timeline';
 export default {
   data() {
@@ -30,11 +30,11 @@ export default {
     };
   },
   created() {
-    searchUserByNickname(
-      { keyword: this.userId },
+    getUserInfoByNickname(
+      this.userId,
       (response) => {
         const content = response.data;
-        this.email = content.content[0].email;
+        this.email = content.user.email;
         timelineInfo(
           this.email,
           (response) => {
