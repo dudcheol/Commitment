@@ -39,7 +39,7 @@
         <div class="d-flex flex-column align-center justify-center">
           <div class="d-flex">
             <div>
-              <h1 class="font-weight-black">{{ this.userId }}</h1>
+              <div class="font-weight-black text-h3 text-lg-h1 text-md-h2">{{ userId }}</div>
             </div>
             <div class="pl-10">
               <div class="badge" v-if="badge">
