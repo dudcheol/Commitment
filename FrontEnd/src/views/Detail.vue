@@ -8,24 +8,35 @@
       </div>
       <div id="map" class="kakao_map"></div>
     </div>
-
-    <div class="article">
+    <div class="article" v-if="data">
       <ArticleDetail />
     </div>
+    <Dialog
+      :alert="errorDialog"
+      :alertTitle="'❗️ 알림'"
+      :alertContent="'이미 삭제된 게시글입니다'"
+      @close="
+        $router.go(-1);
+        errorDialog = !errorDialog;
+      "
+    ></Dialog>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import Dialog from '../components/common/dialog/Dialog.vue';
 import ArticleDetail from './../components/detail/ArticleDetail';
 
 export default {
   components: {
     ArticleDetail,
+    Dialog,
   },
   data() {
     return {
       map: null,
+      errorDialog: false,
     };
   },
   computed: {
@@ -59,6 +70,11 @@ export default {
     },
   },
   activated() {
+    if (!this.data) {
+      this.errorDialog = true;
+      console.log('%cDetail.vue line:63 data is null!', 'color: #007acc;');
+      return;
+    }
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {

@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto" elevation="0" rounded="xl">
-    <v-row>
+    <v-row v-if="data">
       <v-col cols="12" md="8" lg="6" xl="4" class="mx-auto mb-10">
         <div v-if="loading" style="height:65vh" class="d-flex justify-center align-center">
           <v-progress-circular
@@ -191,6 +191,7 @@ export default {
       commentText: '',
       commentable: false,
       loading: true,
+      errorDialog: false,
     };
   },
   computed: {

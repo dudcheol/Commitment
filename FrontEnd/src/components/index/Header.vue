@@ -387,7 +387,6 @@ export default {
       searchNickname(
         this.searchvalue,
         (response) => {
-          console.log(response.data.content);
           this.users = response.data.content;
           this.alert = true;
         },
