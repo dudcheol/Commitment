@@ -229,7 +229,6 @@ export default {
             this.imgSrc = content.user.profile.filePath;
           } else {
             this.imgSrc = null;
-            console.log('이미지 없음');
           }
           this.badge = content.user.badge;
           this.mystory = content.user.mystory;

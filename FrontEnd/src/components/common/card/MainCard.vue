@@ -273,8 +273,7 @@ export default {
     remove() {
       removeBoard(
         this.data.id,
-        (response) => {
-          console.log('%cMainCard.vue line:220 response', 'color: #007acc;', response);
+        () => {
           this.$store.commit('BOARD_REFRESH');
           this.$emit('removed');
         },

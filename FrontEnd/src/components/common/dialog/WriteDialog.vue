@@ -192,8 +192,7 @@ export default {
           imageUpload(
             frm,
             response.data,
-            (response) => {
-              console.log(response);
+            () => {
               this.$store.commit('BOARD_REFRESH');
               this.close();
               this.uploading = false;

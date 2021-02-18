@@ -72,7 +72,6 @@ export default {
   activated() {
     if (!this.data) {
       this.errorDialog = true;
-      console.log('%cDetail.vue line:63 data is null!', 'color: #007acc;');
       return;
     }
     if (window.kakao && window.kakao.maps) {
