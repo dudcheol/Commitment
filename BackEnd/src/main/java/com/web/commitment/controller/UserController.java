@@ -214,8 +214,8 @@ public class UserController {
 		// 먼저 아이디로 회원정보를 받아오고 가져온 데이터에서 email값을 비교하여 존재하지 않으면 인증메일 보내지 못함
 		// mail server 설정
 		String host = "smtp.naver.com";
-		String id = "1693013"; // 자신의 네이버 계정
-		String password = "best81264";// 자신의 네이버 패스워드
+		String id = ""; // 자신의 네이버 계정
+		String password = "";// 자신의 네이버 패스워드
 
 		// 메일 받을 주소
 		String to_email = email;
