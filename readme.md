@@ -164,7 +164,7 @@
 ![메인페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG)
 
 ### 실시간 알림
-![실시간 알림](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%95%8C%EB%A6%BC.PNG)
+![실시간 알림](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%8B%A4%EC%8B%9C%EA%B0%84%EC%95%8C%EB%A6%BC.PNG)
 
 ### 커밋 클릭시
 ![커밋 클릭시](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B.PNG)
