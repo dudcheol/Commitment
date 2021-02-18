@@ -198,7 +198,7 @@
         <a href="Document/Tech_Log/Video/Video_Proposal.md"><li>영상기획안</li></a>
     </ul>
     <ul>
-        <a href="Document/Tech_Log/Video/Video_Proposal.md"><li>PPT</li></a>
+        <a href="Document/PPT/3반_8조_공통프로젝트_최종발표.pdf"><li>PPT</li></a>
     </ul>
 </details>
 
