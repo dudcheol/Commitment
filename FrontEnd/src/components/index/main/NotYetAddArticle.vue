@@ -3,13 +3,29 @@
     <v-expansion-panels accordion flat multiple v-model="panel" class="rounded-lg">
       <v-expansion-panel style="background-color:transparent">
         <v-expansion-panel-header>
-          <div>
-            <h2 class="font-weight-black d-flex align-center">
-              <v-icon color="primary" class="pr-1">mdi-pencil-circle-outline</v-icon>비어있는 커밋
-              <span class="rounded-lg pa-1 blue-grey lighten-4 ml-1 primary--text">{{
-                empCommits.length
-              }}</span>
-            </h2>
+          <div class="d-flex align-center">
+            <v-icon color="primary" class="pr-1">mdi-pencil-circle-outline</v-icon>
+            <h2 class="ml-1 font-weight-black">빈 커밋</h2>
+            <v-tooltip right>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-4"
+                  >mdi-information</v-icon
+                >
+              </template>
+              <span
+                >커밋만 하고 글은 작성하지 않으면 <strong><i>빈 커밋</i></strong
+                >이 돼요<br />
+                여행할 땐 커밋만 하고, 나중에 글을 채워넣어보세요!<br />
+                빈 커밋은 언제든지 이곳에서 확인할 수 있어요</span
+              >
+            </v-tooltip>
+            <span class="ml-auto">
+              <span
+                v-if="empCommits.length"
+                class="rounded-lg pa-1 blue-grey lighten-4 ml-1 blue-grey--text"
+                >{{ empCommits.length }}</span
+              >
+            </span>
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>

@@ -14,6 +14,8 @@
         dense
         flat
         rounded
+        autofocus
+        placeholder="닉네임으로 검색"
       ></v-text-field>
     </template>
     <template v-if="!users || users.length == 0 || searchValue.length == 0">

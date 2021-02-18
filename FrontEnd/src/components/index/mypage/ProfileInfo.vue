@@ -28,17 +28,12 @@
               <h4>
                 {{ `${this.age ? this.age + ' / ' : ''} ${this.gender == 'm' ? '남성' : '여성'}` }}
               </h4>
-              <div class="text-h2 font-weight-black">{{ this.userId }}</div>
+              <h1 class="font-weight-black">{{ this.userId }}</h1>
             </div>
             <div class="pl-10">
               <div class="badge" v-if="badge">
                 <v-list-item-avatar size="70">
                   <img :src="require(`@/assets/img/badge/${badge}.png`)" alt="" />
-                </v-list-item-avatar>
-              </div>
-              <div class="badge" v-else>
-                <v-list-item-avatar size="70">
-                  <img :src="require(`@/assets/img/badge/badge0.png`)" alt="" />
                 </v-list-item-avatar>
               </div>
             </div>
@@ -51,7 +46,14 @@
             <Follower @close="followingKey++" />
             <Following :key="followingKey" @close="followingKey++" />
             <div v-if="userId != user.nickname">
-              <v-btn text rounded color="primary" @click="clickFollow" class="font-weight-black">
+              <v-btn
+                text
+                rounded
+                color="primary"
+                @click="clickFollow"
+                class="font-weight-black"
+                :ripple="false"
+              >
                 {{ alreadyFollow ? '팔로우 취소' : '팔로우' }}
               </v-btn>
             </div>
@@ -141,12 +143,14 @@ export default {
     },
   },
   watch: {
-    following(val) {
-      this.alreadyFollow = this.checkFollowing(val);
+    following: {
+      handler(val) {
+        this.alreadyFollow = this.checkFollowing(val);
+      },
     },
   },
   methods: {
-    ...mapActions(['GET_FOLLOWING_LIST']),
+    ...mapActions(['GET_FOLLOWING_LIST', 'UPDATE_USERINFO_BY_NICKNAME']),
     showModal() {
       if (this.user.email == this.email) {
         this.active = true;
@@ -179,16 +183,20 @@ export default {
       follow(
         this.user.email, //나
         this.email, //상대
-        () => {},
+        () => {
+          this.GET_FOLLOWING_LIST(this.user.email);
+          this.UPDATE_USERINFO_BY_NICKNAME(this.user.nickname);
+        },
         (error) => {
           console.log('follow에러', error);
         }
       );
     },
     checkFollowing(followinglist) {
-      const compare = this.email; //this.email(지금 보고있는 마이페이지의 이메일)
+      console.log('%cProfileInfo.vue line:203 followingList', 'color: #007acc;', followinglist);
+      const compare = this.userId; //this.email(지금 보고있는 마이페이지의 이메일)
       for (let i = 0; i < followinglist.length; i++) {
-        if (followinglist[i].email == compare) {
+        if (followinglist[i].nickname == compare) {
           return true; //이미 팔로우중이면 true
         }
       }
@@ -207,11 +215,16 @@ export default {
           this.imgSrc = content.user.profile.filePath;
         } else {
           this.imgSrc = null;
-          console.log("이미지 없음");
+          console.log('이미지 없음');
         }
         this.badge = content.user.badge;
         this.mystory = content.user.mystory;
         this.alreadyFollow = this.checkFollowing(this.following); //내가 팔로우중인 사람들 리스트 넣어서 체크
+        console.log(
+          '%cProfileInfo.vue line:224 this.alreadyFollow',
+          'color: #007acc;',
+          this.alreadyFollow
+        );
         searchFollowings(
           this.email,
           (response) => {

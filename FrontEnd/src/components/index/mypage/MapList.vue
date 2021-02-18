@@ -2,7 +2,7 @@
   <v-container fluid class="pa-0 ma-0">
     <v-row no-gutters class="pa-0 ma-0">
       <v-col cols="12" sm="8" class="pa-0 ma-0">
-        <div class="d-flex justify-center align-center flex-column">
+        <div class="d-flex justify-center align-center">
           <v-btn-toggle
             v-model="picked"
             :ripple="false"
@@ -31,10 +31,9 @@
             text
             :ripple="false"
             @click="mapSettingDialog = !mapSettingDialog"
-            style="position:absolute;z-index:9;"
-            class="mt-16"
+            class="font-weight-black"
           >
-            대표지도로 설정
+            대표지도 설정
           </v-btn>
         </div>
         <div
@@ -96,11 +95,11 @@
           <no-data-card
             :icon="'emoticon-excited-outline'"
             :text="'커밋지도에서 색칠된 부분을 클릭하면 커밋기록을 볼 수 있어요'"
-            style="max-height:628px"
+            style="height:628px"
           ></no-data-card>
         </div>
         <div v-else class="rounded-xl blue-grey lighten-5 pa-4">
-          <div class="rounded-lg" style="max-height:600px; overflow:auto;">
+          <div class="rounded-lg" style="height:600px; overflow:auto;">
             <commit-list-item
               v-for="(item, index) in items"
               :key="'mypageCommitList' + index"
@@ -182,7 +181,7 @@ export default {
     ...mapGetters({ user: ['getUserInfo'], userId: ['getSelectedUserId'] }),
   },
   methods: {
-    ...mapActions(['GET_MEMBER_INFO', 'UPDATE_USERINFO']),
+    ...mapActions(['GET_MEMBER_INFO', 'UPDATE_USERINFO_BY_NICKNAME']),
     mapClick(val) {
       getMapCoordCommits(
         this.userId,
@@ -244,19 +243,7 @@ export default {
         (response) => {
           if (response.data === 'success') {
             this.openNotification(4000);
-            getUserInfoByNickname(
-              this.user.nickname,
-              (response) => {
-                this.UPDATE_USERINFO(response.data.user);
-              },
-              (error) => {
-                console.log(
-                  '%cerror MapList.vue line:222 ',
-                  'color: red; display: block; width: 100%;',
-                  error
-                );
-              }
-            );
+            this.UPDATE_USERINFO_BY_NICKNAME(this.user.nickname);
           }
         },
         () => {}
@@ -276,6 +263,7 @@ export default {
   },
   activated() {
     this.datas = [];
+    this.items = [];
     getUserInfoByNickname(
       this.userId,
       (response) => {
@@ -306,6 +294,7 @@ export default {
   },
   deactivated() {
     this.datas = [];
+    this.items = [];
   },
 };
 </script>

@@ -101,6 +101,15 @@ export default {
   computed: {
     ...mapGetters({ user: ['getUserInfo'] }),
   },
+  watch: {
+    user: {
+      immediate: true,
+      handler() {
+        this.commitMpas = [];
+        this.getFollowCommitMap();
+      },
+    },
+  },
   methods: {
     regionKr(region) {
       switch (region) {
@@ -134,28 +143,31 @@ export default {
       this.$store.commit('SELECTED_USER_ID', item.user.nickname);
       this.$router.push({ name: 'MyPage' });
     },
+    getFollowCommitMap() {
+      followCommitMap(
+        this.user.email,
+        (response) => {
+          if (response.data.length == 0) {
+            this.empFollower = true;
+          } else {
+            this.commitMpas.push(...response.data);
+            for (let i = 0; i < 5 - response.data.length; i++) {
+              this.commitMpas.push({});
+            }
+          }
+        },
+        (error) => {
+          console.log(
+            '%cerror FollowerMap.vue line:103 ',
+            'color: red; display: block; width: 100%;',
+            error
+          );
+        }
+      );
+    },
   },
   mounted() {
-    followCommitMap(
-      this.user.email,
-      (response) => {
-        if (response.data.length == 0) {
-          this.empFollower = true;
-        } else {
-          this.commitMpas.push(...response.data);
-          for (let i = 0; i < 5 - response.data.length; i++) {
-            this.commitMpas.push({});
-          }
-        }
-      },
-      (error) => {
-        console.log(
-          '%cerror FollowerMap.vue line:103 ',
-          'color: red; display: block; width: 100%;',
-          error
-        );
-      }
-    );
+    // this.getFollowCommitMap();
   },
   filters: {
     truncate: function(text, length, suffix) {

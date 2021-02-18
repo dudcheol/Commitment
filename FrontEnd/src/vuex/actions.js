@@ -6,6 +6,7 @@ import {
   signup,
   smtp,
   googleLogin,
+  getUserInfoByNickname,
 } from '../api/account';
 import { emptyCommit, latlngToAddress } from '../api/commit';
 import { boardDetail } from '../api/board';
@@ -211,8 +212,25 @@ export default {
       }
     );
   },
-  UPDATE_USERINFO(store, payload) {
-    store.commit('UPDATE_USERINFO', payload);
+  UPDATE_USERINFO_BY_NICKNAME(store, payload) {
+    getUserInfoByNickname(
+      payload,
+      (response) => {
+        console.log('%cactions.js line:219 response.data', 'color: #007acc;', response.data);
+        let user = response.data.user;
+        user.badgeCnt = response.data.badgeCnt;
+        user.commitCnt = response.data.commitCnt;
+        user.followerCnt = response.data.followerCnt;
+        store.commit('UPDATE_USERINFO', user);
+      },
+      (error) => {
+        console.log(
+          '%cerror MapList.vue line:222 ',
+          'color: red; display: block; width: 100%;',
+          error
+        );
+      }
+    );
   },
   GET_REALTIME_COMMIT_LIST(store) {
     firebase

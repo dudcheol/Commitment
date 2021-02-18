@@ -10,6 +10,17 @@
               class="mx-1"
             />
             <h2 class="ml-1 font-weight-black">실시간 커밋</h2>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-4"
+                  >mdi-information</v-icon
+                >
+              </template>
+              <span
+                >실시간으로 모든 유저의 커밋을 확인할 수 있어요<br />내가 팔로우한 사람이 커밋을
+                했다면 실시간 알림으로 알려드릴게요</span
+              >
+            </v-tooltip>
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
