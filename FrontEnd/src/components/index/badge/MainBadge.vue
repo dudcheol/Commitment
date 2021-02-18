@@ -50,7 +50,7 @@ export default {
           this.name = '첫 커밋';
         } else if (this.badge == 'total_commit') {
           this.name = '전국 커밋';
-        } else if (this.badge == 'fisrt_following') {
+        } else if (this.badge == 'first_following') {
           this.name = '첫 팔로잉';
         } else if (this.badge == 'dokdo') {
           this.name = '독도 홀릭';
