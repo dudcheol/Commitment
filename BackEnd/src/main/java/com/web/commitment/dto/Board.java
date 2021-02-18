@@ -38,7 +38,7 @@ import lombok.ToString;
 @Setter
 @Table(name = "sns")
 @NoArgsConstructor
-//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @AllArgsConstructor
 public class Board {
 	
