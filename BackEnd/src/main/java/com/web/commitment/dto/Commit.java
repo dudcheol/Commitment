@@ -30,7 +30,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Commit {
 	
 	@Id
