@@ -2,7 +2,15 @@
   <v-card class="mx-auto" elevation="0" rounded="xl">
     <v-row>
       <v-col cols="12" md="8" lg="6" xl="4" class="mx-auto mb-10">
-        <div class="px-4 pt-4">
+        <div v-if="loading" style="height:65vh" class="d-flex justify-center align-center">
+          <v-progress-circular
+            :size="70"
+            :width="7"
+            color="blue-grey lighten-4"
+            indeterminate
+          ></v-progress-circular>
+        </div>
+        <div v-else class="px-4 pt-4">
           <div class="d-flex flex-row">
             <div class="flex-grow-0 cursor-pointer" @click="clickProfile" style="cursor:pointer">
               <v-avatar v-if="data.user.profile" circle size="80">
@@ -182,6 +190,7 @@ export default {
       input: null,
       commentText: '',
       commentable: false,
+      loading: true,
     };
   },
   computed: {
@@ -194,6 +203,9 @@ export default {
   watch: {
     following(val) {
       this.hasFollowed = this.checkFollowing(val);
+    },
+    data() {
+      this.loading = false;
     },
   },
   methods: {
@@ -334,6 +346,7 @@ export default {
     },
   },
   activated() {
+    this.loading = true;
     this.likeActive = this.checkLike();
     this.hasFollowed = this.checkFollowing(this.following);
   },

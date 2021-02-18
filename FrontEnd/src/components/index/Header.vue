@@ -61,7 +61,13 @@
       >
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
+      <v-badge
+        :value="noti.length && notiVisible"
+        overlap
+        offset-x="30"
+        offset-y="20"
+        color="error"
+      >
         <template v-slot:badge>
           {{ noti.length }}
         </template>
@@ -77,6 +83,7 @@
               class="mr-2"
               v-bind="attrs"
               v-on="on"
+              @click="notiVisible = false"
             >
               <v-icon>{{ right_items[1].icon }}</v-icon>
             </v-btn>
@@ -93,7 +100,7 @@
                   :key="'noti' + index"
                   class="px-2"
                   :ripple="false"
-                  @click="clickNoti(item)"
+                  @click="clickNotiItem(item)"
                 >
                   <v-list-item-icon>
                     <v-icon
@@ -156,13 +163,28 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-badge :value="noti.length" overlap offset-x="30" offset-y="20" color="error">
+      <v-badge
+        :value="noti.length && notiVisible"
+        overlap
+        offset-x="30"
+        offset-y="20"
+        color="error"
+      >
         <template v-slot:badge>
           {{ noti.length }}
         </template>
         <v-menu offset-y rounded="lg">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn fab elevation="0" small :ripple="false" color="primary" v-bind="attrs" v-on="on">
+            <v-btn
+              fab
+              elevation="0"
+              small
+              :ripple="false"
+              color="primary"
+              v-bind="attrs"
+              v-on="on"
+              @click="notiVisible = false"
+            >
               <v-icon>{{ right_items[1].icon }}</v-icon>
             </v-btn>
           </template>
@@ -253,6 +275,7 @@ export default {
           color: 'blue-grey',
         },
       },
+      notiVisible: true,
     };
   },
   computed: {
@@ -298,15 +321,32 @@ export default {
           let res = snap.val();
           this.noti = [];
           for (const idx in res) {
+            if (this.user.nickname == res[idx].from) {
+              clickNoti(
+                res[idx].id,
+                this.user.nickname,
+                () => {
+                  this.notiVisible = true;
+                },
+                (error) => {
+                  console.log(
+                    '%cerror Header.vue line:282 ',
+                    'color: red; display: block; width: 100%;',
+                    error
+                  );
+                }
+              );
+              continue;
+            }
             res[idx].id = idx;
             this.noti.unshift(res[idx]);
           }
         });
     },
-    clickNoti(noti) {
+    clickNotiItem(noti) {
       switch (noti.type) {
         case 'follow':
-          this.$store.commit('SELECTED_USER_ID', noti.dataId);
+          this.$store.commit('SELECTED_USER_ID', noti.from);
           this.$router.push({ name: 'MyPage' });
           break;
         case 'like':

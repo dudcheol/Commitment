@@ -6,7 +6,7 @@
           <template #img>
             <v-avatar size="130">
               <img v-if="!user.badge" src="../../../assets/img/badge/badge0.png" />
-              <img v-else :src="path" />
+              <img v-else :src="require(`../../../assets/img/badge/${user.badge}.png`)" />
             </v-avatar>
           </template>
           <template #title>
@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { mainbadge } from '../../../api/badge';
 export default {
   name: 'MainBadge',
@@ -39,12 +39,15 @@ export default {
   computed: {
     ...mapGetters({ user: ['getUserInfo'] }),
   },
-
+  methods: {
+    ...mapActions(['UPDATE_USERINFO_BY_NICKNAME']),
+  },
   created() {
     this.badge = this.user.badge;
     mainbadge(
       this.user.email,
       (response) => {
+        this.UPDATE_USERINFO_BY_NICKNAME(this.user.nickname);
         this.badge = response.data;
         if (this.badge == 'first_commit') {
           this.name = '첫 커밋';
@@ -70,14 +73,6 @@ export default {
         console.log(error);
       }
     );
-  },
-  mounted() {
-    if (this.badge) this.path = require('../../../assets/img/badge/' + this.badge + '.png');
-  },
-  watch: {
-    badge() {
-      if (this.badge) this.path = require('../../../assets/img/badge/' + this.badge + '.png');
-    },
   },
 };
 </script>

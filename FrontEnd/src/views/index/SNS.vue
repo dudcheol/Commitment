@@ -6,54 +6,45 @@
       cols="12"
       md="3"
     >
-      <v-sheet
-        rounded="xl"
-        class="mb-4 px-4 pt-3"
-        style="width:100%; max-width:680px"
-      >
-        <div class="d-flex align-center">
-          <div class="font-weight-black mr-2 display-1">
-            {{
-              commitRange[0] == 0.5 && commitRange[1] == 30
-                ? '모든 커밋'
-                : address
-            }}
-          </div>
-          <div
-            class="blue-grey darken-1 px-1 rounded-lg white--text font-weight-bold"
-            rounded="lg"
-          >
-            <span
-              v-if="
-                commitRange[0] == commitMinRange &&
-                  commitRange[1] == commitMinRange
-              "
-              >{{ commitMinRange }} km 이내</span
+      <v-sheet rounded="xl" class="mb-4 px-4 pt-3" style="width:100%; max-width:680px">
+        <div class="d-flex justify-space-between">
+          <div class="d-flex align-center">
+            <div class="font-weight-black mr-2 display-1">
+              {{ commitRange == 30 ? '모든 커밋' : address }}
+            </div>
+            <div
+              class="blue-grey darken-1 px-1 rounded-lg white--text font-weight-bold"
+              rounded="lg"
             >
-            <span
-              v-else-if="
-                commitRange[0] > commitMinRange ||
-                  commitRange[1] < commitMaxRange
-              "
-            >
-              {{ commitRange[0] }} ~ {{ commitRange[1] }} km
-            </span>
-            <span v-else>
-              전체
-            </span>
+              <span v-if="commitRange < 30 && commitRange >= 0.5">{{ commitRange }} km</span>
+              <span v-else>
+                전체
+              </span>
+            </div>
           </div>
+          <v-tooltip right color="blue-grey" transition="slide-x-transition">
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3">mdi-information</v-icon>
+            </template>
+            <span
+              >나의 현재 위치를 기준으로 반경을 설정해요<br />반경 안에서 작성된 커밋 게시글을 볼 수
+              있어요<br />아래 지도를 통해 대략적인 범위를 확인할 수 있어요</span
+            >
+          </v-tooltip>
         </div>
-        <v-range-slider
+        <div class="text-caption">슬라이더를 이용하여 반경 조절</div>
+        <v-slider
+          hint="Im a hint"
           v-model="commitRange"
           step="0.5"
           :min="commitMinRange"
           :max="commitMaxRange"
-          dense
-          color="blue-grey lighten-3"
-          thumb-color="blue-grey lighten-1"
-          track-color="blue-grey lighten-5"
           @mouseup="changeRange"
-        ></v-range-slider>
+          color="blue-grey lighten-3"
+          track-color="blue-grey lighten-5"
+          thumb-color="blue-grey lighten-2"
+          dense
+        ></v-slider>
       </v-sheet>
       <GmapMap
         ref="map"
@@ -73,10 +64,10 @@
         />
         <GmapCircle
           :center="{ lat: pos.lat, lng: pos.lng }"
-          :radius="commitRange[1] == 30 ? 0 : commitRange[1] * 1000"
+          :radius="commitRange == 30 ? 0 : commitRange * 1000"
           :visible="true"
           :options="{
-            fillColor: 'blue',
+            fillColor: '#3b5998',
             fillOpacity: '0.3',
             strokeOpacity: '0',
           }"
@@ -92,11 +83,7 @@
 
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
-        <div
-          class="mt-4"
-          v-for="(data, index) in feedDatas"
-          :key="'snsFeedData' + index"
-        >
+        <div class="mt-4" v-for="(data, index) in feedDatas" :key="'snsFeedData' + index">
           <main-card :data="data" @removed="changeRange"></main-card>
         </div>
         <infinite-loading
@@ -106,10 +93,7 @@
           spinner="circles"
         >
           <div slot="no-more" class="mt-4">
-            <NoDataCard
-              :icon="'emoticon-wink-outline'"
-              :text="'모두 보셨습니다'"
-            ></NoDataCard>
+            <NoDataCard :icon="'emoticon-wink-outline'" :text="'모두 보셨습니다'"></NoDataCard>
           </div>
           <!-- <div slot="spinner"></div> -->
           <div slot="no-results" class="mt-4">
@@ -158,7 +142,8 @@ export default {
     return {
       feedDatas: [],
       options: '1',
-      commitRange: [0, 30],
+      // commitRange: [0, 30],
+      commitRange: 30,
       commitMinRange: 0.5,
       commitMaxRange: 30,
       mapOptions: {
@@ -177,6 +162,14 @@ export default {
       infiniteId: +new Date(),
     };
   },
+  // watch: {
+  //   commitRange: {
+  //     deep: true,
+  //     handler(val) {
+  //       this.commitRange = [0, val[1]];
+  //     },
+  //   },
+  // },
   computed: {
     ...mapGetters({
       user: ['getUserInfo'],
@@ -214,22 +207,22 @@ export default {
       return '';
     },
     mapZoom() {
-      if (this.commitRange[1] == 30) {
+      if (this.commitRange == 30) {
         return 6;
       }
-      if (this.commitRange[1] >= 18) {
+      if (this.commitRange >= 18) {
         return 9;
-      } else if (this.commitRange[1] >= 9) {
+      } else if (this.commitRange >= 9) {
         return 10;
-      } else if (this.commitRange[1] >= 5) {
+      } else if (this.commitRange >= 5) {
         return 11;
-      } else if (this.commitRange[1] >= 2.5) {
+      } else if (this.commitRange >= 2.5) {
         return 12;
-      } else if (this.commitRange[1] >= 1.5) {
+      } else if (this.commitRange >= 1.5) {
         return 13;
-      } else if (this.commitRange[1] >= 1) {
+      } else if (this.commitRange >= 1) {
         return 14;
-      } else if (this.commitRange[1] >= 0.5) {
+      } else if (this.commitRange >= 0.5) {
         return 15;
       } else return 9;
     },
@@ -243,10 +236,10 @@ export default {
       totalRadiusBoardList(
         this.pos.lat,
         this.pos.lng,
-        this.commitRange[1] == 30 ? 0 : this.commitRange[1],
+        this.commitRange == 30 ? 0 : this.commitRange,
         this.pageNumber,
         5,
-        this.commitRange[1] == 30 ? 'createdAt,desc' : 'created_at,desc',
+        this.commitRange == 30 ? 'createdAt,desc' : 'created_at,desc',
         (response) => {
           console.log(response);
           const res = response.data.content;

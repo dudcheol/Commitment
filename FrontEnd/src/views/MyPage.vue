@@ -6,14 +6,9 @@
       </v-btn>
     </div>
 
-    <v-tooltip bottom color="transparent" transition="slide-y-transition">
-      <template v-slot:activator="{ on, attrs }">
-        <div v-bind="attrs" v-on="on" class="bottom2" id="mobileHidden">
-          <Timeline />
-        </div>
-      </template>
-      <span class="blue-grey--text">오른쪽으로 스크롤하면 더 많은 사진을 볼 수 있어요</span>
-    </v-tooltip>
+    <div v-bind="attrs" v-on="on" class="bottom2" id="mobileHidden">
+      <Timeline />
+    </div>
     <v-container class="py-8 px-0 white rounded-t-xl mt-12 mt-md-0">
       <v-row no-gutters>
         <v-col>

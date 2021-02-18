@@ -36,11 +36,14 @@
           >
             대표지도
           </v-btn>
-          <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
+          <v-tooltip right color="blue-grey" transition="scroll-x-reverse-transition">
+            <template v-slot:activator="{ on, attrs }" color="">
               <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-4">mdi-information</v-icon>
             </template>
-            <span>보고싶은 지역을 클릭하면 <strong>지역별 커밋지도</strong>를 볼 수 있어요</span>
+            <span
+              >보고싶은 지역을 클릭하면<br />
+              <strong>지역별 커밋지도</strong>를 볼 수 있어요</span
+            >
             <span v-if="this.user.nickname == this.userId"
               ><br /><strong>대표지도</strong>를 설정해서 가장 먼저 보여주고 싶은 내 커밋지도를
               선택해보세요</span

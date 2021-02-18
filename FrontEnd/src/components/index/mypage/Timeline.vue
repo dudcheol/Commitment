@@ -1,82 +1,84 @@
 <template>
-  <!-- <div class="external"> -->
-  <div :class="boardList.length ? 'external' : 'mt-12'">
-    <div v-if="loading" style="height:55vh" class="d-flex justify-center align-center">
-      <v-progress-circular
-        :size="70"
-        :width="7"
-        color="blue-grey lighten-4"
-        indeterminate
-      ></v-progress-circular>
-    </div>
-    <div class="horizontal-scroll-wrapper" v-if="boardList.length">
-      <div v-for="(item, index) in boardList" :key="index">
-        <div v-if="index % 2 == 0">
-          <div class="img-wrapper slower ">
-            <a target="_blank" rel="noopener">
-              <img
-                :src="item.image[0].filePath"
-                alt=""
-                class="pola"
-                @click="moveToDetail(item.id)"
-              />
-              <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
-              <v-spacer></v-spacer>
-              <p class="areaFontStyle">{{ item.commit.address }}</p>
-            </a>
-          </div>
+  <v-tooltip bottom color="transparent" transition="slide-y-transition">
+    <template v-slot:activator="{ on, attrs }">
+      <div :class="boardList.length ? 'external' : 'mt-12'">
+        <div v-if="loading" style="height:55vh" class="d-flex justify-center align-center">
+          <v-progress-circular
+            :size="70"
+            :width="7"
+            color="blue-grey lighten-4"
+            indeterminate
+          ></v-progress-circular>
         </div>
-        <div v-else-if="index % 3 == 0">
-          <div class="img-wrapper faster slower-down">
-            <a target="_blank" rel="noopener">
-              <img
-                :src="item.image[0].filePath"
-                alt=""
-                class="pola"
-                @click="moveToDetail(item.id)"
-              />
-              <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
-              <v-spacer></v-spacer>
-              <p class="areaFontStyle">{{ item.commit.address }}</p>
-            </a>
-          </div>
-        </div>
-        <div v-else-if="index % 5 == 0">
-          <div class="img-wrapper faster">
-            <a target="_blank" rel="noopener">
-              <img
-                :src="item.image[0].filePath"
-                alt=""
-                class="pola"
-                @click="moveToDetail(item.id)"
-              />
-              <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
-              <v-spacer></v-spacer>
-              <p class="areaFontStyle">{{ item.commit.address }}</p>
-            </a>
-          </div>
-        </div>
-        <div v-else>
-          <div class="img-wrapper slower-down">
-            <a target="_blank" rel="noopener">
-              <img
-                :src="item.image[0].filePath"
-                alt=""
-                class="pola"
-                @click="moveToDetail(item.id)"
-              />
-              <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
-              <v-spacer></v-spacer>
-              <p class="areaFontStyle">{{ item.commit.address }}</p>
-            </a>
+
+        <div class="horizontal-scroll-wrapper" v-if="boardList.length" v-bind="attrs" v-on="on">
+          <div v-for="(item, index) in boardList" :key="index">
+            <div v-if="index % 2 == 0">
+              <div class="img-wrapper slower ">
+                <a target="_blank" rel="noopener">
+                  <img
+                    :src="item.image[0].filePath"
+                    alt=""
+                    class="pola"
+                    @click="moveToDetail(item.id)"
+                  />
+                  <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
+                  <v-spacer></v-spacer>
+                  <p class="areaFontStyle">{{ item.commit.address }}</p>
+                </a>
+              </div>
+            </div>
+            <div v-else-if="index % 3 == 0">
+              <div class="img-wrapper faster slower-down">
+                <a target="_blank" rel="noopener">
+                  <img
+                    :src="item.image[0].filePath"
+                    alt=""
+                    class="pola"
+                    @click="moveToDetail(item.id)"
+                  />
+                  <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
+                  <v-spacer></v-spacer>
+                  <p class="areaFontStyle">{{ item.commit.address }}</p>
+                </a>
+              </div>
+            </div>
+            <div v-else-if="index % 5 == 0">
+              <div class="img-wrapper faster">
+                <a target="_blank" rel="noopener">
+                  <img
+                    :src="item.image[0].filePath"
+                    alt=""
+                    class="pola"
+                    @click="moveToDetail(item.id)"
+                  />
+                  <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
+                  <v-spacer></v-spacer>
+                  <p class="areaFontStyle">{{ item.commit.address }}</p>
+                </a>
+              </div>
+            </div>
+            <div v-else>
+              <div class="img-wrapper slower-down">
+                <a target="_blank" rel="noopener">
+                  <img
+                    :src="item.image[0].filePath"
+                    alt=""
+                    class="pola"
+                    @click="moveToDetail(item.id)"
+                  />
+                  <p class="dateFontStyle">{{ item.commit.createdAt }}</p>
+                  <v-spacer></v-spacer>
+                  <p class="areaFontStyle">{{ item.commit.address }}</p>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- <div v-else style="height:55vh" class="d-flex justify-center align-center">
-      <no-data-card :text="'게시한 사진이 없어 타임라인을 만들지 못했어요'"></no-data-card>
-    </div> -->
-  </div>
+    </template>
+    <span class="blue-grey--text">오른쪽으로 스크롤하면 더 많은 사진을 볼 수 있어요</span>
+  </v-tooltip>
 </template>
 
 <script>
