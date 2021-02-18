@@ -1,5 +1,13 @@
 <template>
   <v-container fluid class="blue-grey lighten-5">
+    <div style="position:fixed" class="d-none d-md-block">
+      <v-tooltip right color="blue-grey" transition="slide-x-reverse-transition">
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3">mdi-information</v-icon>
+        </template>
+        <span><strong>좋아요</strong>한 게시글을 모아볼 수 있어요</span>
+      </v-tooltip>
+    </div>
     <v-row :justify="dynamicJustify">
       <v-col class="mainslot" cols="12" md="6">
         <div class="mt-4" v-for="(data, index) in feedDatas" :key="'likesFeedData' + index">

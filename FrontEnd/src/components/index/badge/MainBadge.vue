@@ -11,12 +11,12 @@
           </template>
           <template #title>
             <center>
-              <h3>대표 뱃지</h3>
+              <h1>{{ name }}</h1>
             </center>
           </template>
           <template #text>
             <p class="badgeDescription">
-              {{ name }}
+              대표 뱃지
             </p>
           </template>
         </vs-card>
