@@ -10,7 +10,7 @@
         <v-sheet min-height="70vh" rounded="xl">
           <div class="mainpage">
             <br />
-            <MainBadge :key="'MainBadge' + mainBadgeKey" />
+            <MainBadge :key="new Date() + mainBadgeKey" />
             <EtcBadge @update-badge="mainBadgeKey++" />
             <br />
           </div>

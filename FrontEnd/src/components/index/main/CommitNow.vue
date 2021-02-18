@@ -90,7 +90,6 @@ export default {
       deep: true,
       immediate: true,
       handler(val) {
-        console.log('%cCommitNow.vue line:93 val', 'color: #007acc;', val);
         this.nowCommits = val;
         if (this.checkFollowing(val[0].username)) this.openNotification(4000);
       },

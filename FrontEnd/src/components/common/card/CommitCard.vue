@@ -9,9 +9,12 @@
     block
     @click="clicked"
   >
-    <div class="mr-2" v-if="!onlyAddress">
-      <v-avatar circle size="36" v-if="img">
-        <img :src="img" />
+    <div class="mr-2">
+      <v-avatar v-if="onlyAddress" size="36">
+        <v-icon color="blue-grey">mdi-{{ img }}</v-icon>
+      </v-avatar>
+      <v-avatar circle size="36" v-else-if="img">
+        <v-img :src="img" />
       </v-avatar>
       <v-avatar v-else circle size="36" color="blue-grey" class="font-weight-medium display-2"
         ><v-icon color="white">mdi-emoticon-happy</v-icon></v-avatar
@@ -28,7 +31,7 @@
 
 <script>
 export default {
-  props: ['username', 'address', 'img', 'only-address'],
+  props: ['username', 'address', 'img', 'onlyAddress'],
   methods: {
     clicked() {
       this.$emit('click');
