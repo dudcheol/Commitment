@@ -87,7 +87,6 @@ export default {
   },
   watch: {
     realtime: {
-      deep: true,
       immediate: true,
       handler(val) {
         this.nowCommits = val;

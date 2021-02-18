@@ -200,7 +200,7 @@
                   :key="'noti' + index"
                   class="px-2"
                   :ripple="false"
-                  @click="clickNoti(item)"
+                  @click="clickNotiItem(item)"
                 >
                   <v-list-item-icon>
                     <v-icon
@@ -275,7 +275,7 @@ export default {
           color: 'blue-grey',
         },
       },
-      notiVisible: true,
+      notiVisible: false,
     };
   },
   computed: {
