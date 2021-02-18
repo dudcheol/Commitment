@@ -2,8 +2,23 @@
   <div>
     <vs-card>
       <template #title>
-        <h3 class="text">지역</h3>
-        <p class="text" color="green">선택하세요</p>
+        <div>
+          <div class="d-flex justify-space-between align-center">
+            <h1 class="text">지역</h1>
+            <v-tooltip right color="blue-grey" transition="slide-x-reverse-transition">
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" color="blue-grey lighten-3"
+                  >mdi-information</v-icon
+                >
+              </template>
+              <span
+                >지역별 커밋 랭킹에 도전해보세요<br />순위마다 <strong>프로필</strong>과
+                <strong>커밋 수</strong>, <strong>닉네임</strong>을 알 수 있어요</span
+              >
+            </v-tooltip>
+          </div>
+          <p class="text" color="green">선택하세요</p>
+        </div>
       </template>
 
       <template #text>
