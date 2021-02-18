@@ -161,13 +161,16 @@
 ![로그인](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A1%9C%EA%B7%B8%EC%9D%B8.PNG)
 
 ### 메인페이지
-![마이페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4.PNG)
+![메인페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG)
 
 ### 실시간 알림
 ![실시간 알림](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%95%8C%EB%A6%BC.PNG)
 
 ### 커밋 클릭시
 ![커밋 클릭시](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B.PNG)
+
+### 커밋 후
+![커밋 후](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B%ED%9B%84.PNG)
 
 ### 마이페이지 - 타임라인
 ![마이페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%ED%83%80%EC%9E%84%EB%9D%BC%EC%9D%B8.PNG)
@@ -176,9 +179,9 @@
 ![마이페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.PNG)
 
 ### 위치반경 SNS
-![위치 반경](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%9C%84%EC%B9%98%EB%B0%98%EA%B2%BDsns.PNG)
+![위치 반경](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%9C%84%EC%B9%98%EB%B0%98%EA%B2%BD+SNS.PNG)
 
-###게시글 상세
+### 게시글 상세
 ![게시글 상세](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EA%B2%8C%EC%8B%9C%EA%B8%80+%EC%83%81%EC%84%B81.PNG)
 ![게시글 상세](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EA%B2%8C%EC%8B%9C%EA%B8%80+%EC%83%81%EC%84%B82.PNG)
 
@@ -187,7 +190,7 @@
 
 ### 찜목록
 ![찜목록](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%B0%9C%EB%AA%A9%EB%A1%9D.PNG)
-[Pages in Detail ](Document/Page_Details/Page_Details.md)
+<!-->>[Pages in Detail ](Document/Page_Details/Page_Details.md)-->
 
 <br>
 
