@@ -26,7 +26,7 @@
     <v-row :justify="dynamicJustify" class="px-3 px-lg-16 px-md-8 px-xl-16">
       <v-col class="mainslot" cols="12" md="6">
         <div class="mainpage">
-          <FollowerMap class="mb-4 my-lg-6" />
+          <FollowerMap class="mb-4 my-md-6" />
           <MyState @add-commit="addCommit" />
           <AllArticle class="my-4" :key="'mainArticle' + boardRefresh" />
         </div>

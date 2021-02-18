@@ -23,6 +23,7 @@
             </v-avatar>
           </div>
           <div
+            v-if="userId == user.nickname"
             class="d-flex justify-end"
             style="position:relative; top:-50px; right:15px"
             @click="showModal()"
