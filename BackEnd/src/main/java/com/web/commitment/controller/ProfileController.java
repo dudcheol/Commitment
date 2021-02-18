@@ -45,6 +45,8 @@ public class ProfileController {
 	@Transactional
 	public Map<String, String> uploadFile(@RequestParam(value = "file", required = true) MultipartFile files,
 			@RequestParam(value = "email", required = true) String email) throws IOException {
+		
+		System.out.println(files.getSize());
 		String originalFilename = files.getOriginalFilename();
 		String saveFileName = UUID.randomUUID().toString()
 				+ originalFilename.substring(originalFilename.lastIndexOf('.'));
