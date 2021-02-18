@@ -5,7 +5,7 @@
       <v-col class="d-flex justify-center align-center">
         <div class="pl-8">
           <div v-if="imgSrc != null">
-            <div class="profileImg" style="position:relative">
+            <div class="profileImg" style="position:relative;">
               <v-list-item-avatar :size="width">
                 <img :src="imgSrc" alt="picture" @click="showModal()" />
               </v-list-item-avatar>
@@ -24,7 +24,7 @@
           </div>
           <div
             class="d-flex justify-end"
-            style="position:relative; top:-50px; right:15px"
+            style="position:relative; top:-50px; right:15px; cursor: pointer;"
             @click="showModal()"
           >
             <span
@@ -37,11 +37,8 @@
         </div>
 
         <div class="d-flex flex-column align-center justify-center">
-          <div class="d-flex align-end">
+          <div class="d-flex">
             <div>
-              <h4>
-                {{ `${this.age ? this.age + ' / ' : ''} ${this.gender == 'm' ? '남성' : '여성'}` }}
-              </h4>
               <h1 class="font-weight-black">{{ this.userId }}</h1>
             </div>
             <div class="pl-10">
@@ -87,7 +84,7 @@
             </template>
             <div class="con-content">
               <span>10MB 미만의 파일만 업로드 할 수 있습니다.</span>
-              <div id="mobileHidden">
+              <div>
                 <input type="file" @change="fileSelected" />
                 <img v-if="image" :src="image" width="300" />
               </div>
@@ -282,9 +279,11 @@ export default {
   /* position:absolute; */
   opacity: 1;
   transition: opacity 0.5s;
+  cursor: pointer;
 }
 .profileImg:hover {
   opacity: 0.5;
+  cursor: pointer;
 }
 .detail {
   display: flex;
