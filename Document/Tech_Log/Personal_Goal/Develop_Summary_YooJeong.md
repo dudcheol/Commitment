@@ -33,6 +33,7 @@ server{
 	
 ```
 
+```
 routes로 명시된 주소로 이동했을때 404에러뜰경우에는 try_files를 다음과 같이 수정한다.
 
 server {
@@ -44,18 +45,23 @@ server {
         }
     }
 
+```
+
 mariadb export 명령어
 
 mysqldump -uroot -proot ssafy > dump.sql
+
+---
 
 props로 img src전달할떄는 require를 사용해야한다.
 
 require(path)
 
+```
 서버 로그 확인
 
 tail -f nohup.out
-
+```
 jwt 토큰은 매번 새로발급하자...
 
 jpa 쿼리 from에는 해당 dto 부터 쓰자.....
