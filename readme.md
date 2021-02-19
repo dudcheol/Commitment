@@ -161,7 +161,8 @@
 ![로그인](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A1%9C%EA%B7%B8%EC%9D%B8.PNG)
 
 ### 메인페이지
-![메인페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.PNG)
+![메인페이지1](https://user-images.githubusercontent.com/43662673/108456760-6212a180-72b4-11eb-9f10-bf0515bb302e.png)
+![메인페이지2](https://user-images.githubusercontent.com/43662673/108456763-6343ce80-72b4-11eb-98a9-bd0582c9ce98.png)
 
 ### 실시간 알림
 ![실시간 알림](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%8B%A4%EC%8B%9C%EA%B0%84%EC%95%8C%EB%A6%BC.PNG)
@@ -179,14 +180,16 @@
 ![마이페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.PNG)
 
 ### 위치반경 SNS
-![위치 반경](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%9C%84%EC%B9%98%EB%B0%98%EA%B2%BD+SNS.PNG)
+![위치 반경1](https://user-images.githubusercontent.com/43662673/108456783-7060bd80-72b4-11eb-80e4-939e73e49fd1.png)
+![위치 반경2](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%9C%84%EC%B9%98%EB%B0%98%EA%B2%BD+SNS.PNG)
+
 
 ### 게시글 상세
 ![게시글 상세](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EA%B2%8C%EC%8B%9C%EA%B8%80+%EC%83%81%EC%84%B81.PNG)
 ![게시글 상세](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EA%B2%8C%EC%8B%9C%EA%B8%80+%EC%83%81%EC%84%B82.PNG)
 
 ### 랭킹페이지
-![랭킹페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%9E%AD%ED%82%B9.PNG)
+![랭킹페이지](https://user-images.githubusercontent.com/43662673/108456769-65a62880-72b4-11eb-975e-7ec888624a5b.png)
 
 ### 찜목록
 ![찜목록](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%B0%9C%EB%AA%A9%EB%A1%9D.PNG)
