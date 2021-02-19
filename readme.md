@@ -169,7 +169,7 @@
 ### 커밋 클릭시
 ![커밋 클릭시](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B.PNG)
 
-### 커밋 후
+### 커밋 후(연속커밋 방지를 위해 1분 시간제한)
 ![커밋 후](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B%ED%9B%84.PNG)
 
 ### 마이페이지 - 타임라인
