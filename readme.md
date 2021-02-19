@@ -43,10 +43,9 @@
 - Results
 
   - [PPT](Document/PPT/3반_8조_공통프로젝트_최종발표.pdf)
-  - [시연영상]()
-  - [UCC]()
-  - [최종발표]()
-
+  - [시연영상](https://www.youtube.com/watch?v=t04WiXnqpVA)
+  - [UCC](https://www.youtube.com/watch?v=eecCNU4JMsI)
+  
 <br>
 
 ## Project Info :pushpin:
