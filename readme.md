@@ -192,23 +192,11 @@
 
 ### 찜목록
 ![찜목록](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%B0%9C%EB%AA%A9%EB%A1%9D.PNG)
-<!-->>[Pages in Detail ](Document/Page_Details/Page_Details.md)-->
 
 <br>
 
 ### Tech log :bookmark:
 
-<details>
-<summary>Personal Goal and Summary</summary>
-    <ul>
-        <a href="Document/Tech_Log/Personal_Goal/Personal_Goal.md"><li>개인목표정리</li></a>
-        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_YoungChul.md"><li>박영철 개발일지</li></a>
-        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_HaeSung.md"><li>강해성 개발일지</li></a>
-        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_SoHyun.md"><li>박소현 개발일지</li></a>
-        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_ChungHwa.md"><li>김청화 개발일지</li></a>
-        <a href="Document/Tech_Log/Personal_Goal/Develop_Summary_YooJeong.md"><li>박유정 개발일지</li></a>
-    </ul>
-</details>
 <details>
 <summary>Scrum</summary>
     <ul>
