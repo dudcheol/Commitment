@@ -1,6 +1,7 @@
 # Commitment
 
 > Welcome to [Commit your moment](http://i4a308.p.ssafy.io/) :globe_with_meridians:
+
 ![image](https://user-images.githubusercontent.com/40655666/114405911-13152880-9be2-11eb-8614-a2976f74f83e.png)
 
 <br>
