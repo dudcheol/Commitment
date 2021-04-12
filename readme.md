@@ -1,6 +1,7 @@
 # Commitment
 
 > Welcome to [Commit your moment](http://i4a308.p.ssafy.io/) :globe_with_meridians:
+![image](https://user-images.githubusercontent.com/40655666/114405911-13152880-9be2-11eb-8614-a2976f74f83e.png)
 
 <br>
 
@@ -162,12 +163,16 @@
 ### 메인페이지
 ![메인페이지1](https://user-images.githubusercontent.com/43662673/108456760-6212a180-72b4-11eb-9f10-bf0515bb302e.png)
 ![메인페이지2](https://user-images.githubusercontent.com/43662673/108456763-6343ce80-72b4-11eb-98a9-bd0582c9ce98.png)
+![스크린샷 2021-02-22 오후 7 06 42](https://user-images.githubusercontent.com/40655666/114405812-fe389500-9be1-11eb-830e-e41984af143d.png)
+
 
 ### 실시간 알림
 ![실시간 알림](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%8B%A4%EC%8B%9C%EA%B0%84%EC%95%8C%EB%A6%BC.PNG)
 
 ### 커밋 클릭시
 ![커밋 클릭시](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B.PNG)
+![image](https://user-images.githubusercontent.com/40655666/114405645-db0de580-9be1-11eb-8347-891d719a59c9.png)
+
 
 ### 커밋 후(연속커밋 방지를 위해 1분 시간제한)
 ![커밋 후](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%BB%A4%EB%B0%8B%ED%9B%84.PNG)
@@ -177,21 +182,38 @@
 
 ### 마이페이지 - 커밋지도
 ![마이페이지](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.PNG)
+![스크린샷 2021-02-22 오후 7 09 57](https://user-images.githubusercontent.com/40655666/114406291-625b5900-9be2-11eb-8c90-2b4b9d7ca609.png)
+
 
 ### 위치반경 SNS
 ![위치 반경1](https://user-images.githubusercontent.com/43662673/108456783-7060bd80-72b4-11eb-80e4-939e73e49fd1.png)
 ![위치 반경2](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%9C%84%EC%B9%98%EB%B0%98%EA%B2%BD+SNS.PNG)
+![스크린샷 2021-02-22 오후 7 10 31](https://user-images.githubusercontent.com/40655666/114406475-89198f80-9be2-11eb-8cbf-d524b2d16c16.png)
+![스크린샷 2021-02-22 오후 7 10 41](https://user-images.githubusercontent.com/40655666/114406489-8c148000-9be2-11eb-9f47-db67f0cd625f.png)
 
 
 ### 게시글 상세
 ![게시글 상세](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EA%B2%8C%EC%8B%9C%EA%B8%80+%EC%83%81%EC%84%B81.PNG)
 ![게시글 상세](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EA%B2%8C%EC%8B%9C%EA%B8%80+%EC%83%81%EC%84%B82.PNG)
+![image](https://user-images.githubusercontent.com/40655666/114405312-88ccc480-9be1-11eb-80ed-c8829b21673b.png)
+![image](https://user-images.githubusercontent.com/40655666/114405214-6cc92300-9be1-11eb-9513-052528e64e77.png)
+
 
 ### 랭킹페이지
 ![랭킹페이지](https://user-images.githubusercontent.com/43662673/108456769-65a62880-72b4-11eb-975e-7ec888624a5b.png)
 
 ### 찜목록
 ![찜목록](https://commitmentbucket.s3.ap-northeast-2.amazonaws.com/%ED%99%94%EB%A9%B4%EC%BA%A1%EC%B2%98/%EC%B0%9C%EB%AA%A9%EB%A1%9D.PNG)
+
+### 지역별 커밋지도
+![스크린샷 2021-03-09 오후 8 55 50](https://user-images.githubusercontent.com/40655666/114405445-a8fc8380-9be1-11eb-8335-8447f34e2e44.png)
+![스크린샷 2021-03-09 오후 8 55 54](https://user-images.githubusercontent.com/40655666/114405448-aa2db080-9be1-11eb-9ec2-bbcc91ea16e9.png)
+![스크린샷 2021-03-09 오후 8 55 57](https://user-images.githubusercontent.com/40655666/114405452-aac64700-9be1-11eb-8790-a3911432c7a8.png)
+![스크린샷 2021-03-09 오후 8 56 06](https://user-images.githubusercontent.com/40655666/114405455-aac64700-9be1-11eb-8dda-52f7916ca13b.png)
+![스크린샷 2021-03-09 오후 8 56 09](https://user-images.githubusercontent.com/40655666/114405456-ab5edd80-9be1-11eb-9419-67cc2ccd9176.png)
+![스크린샷 2021-03-09 오후 8 56 17](https://user-images.githubusercontent.com/40655666/114405458-abf77400-9be1-11eb-9c89-ac74a5a2b675.png)
+![스크린샷 2021-03-09 오후 8 56 24](https://user-images.githubusercontent.com/40655666/114405464-ac900a80-9be1-11eb-93cc-2153ff36429a.png)
+
 
 <br>
 
